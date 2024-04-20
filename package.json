@@ -1,0 +1,18 @@
+{
+  "name": "new-times-garden",
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "apps/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitalii-zavhorodnii/new-times-garden.git"
+  },
+  "author": "vitalii-zavhorodnii",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vitalii-zavhorodnii/new-times-garden/issues"
+  },
+  "homepage": "https://github.com/vitalii-zavhorodnii/new-times-garden#readme"
+}
