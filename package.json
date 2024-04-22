@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "workspaces": [
-    "apps/*"
+    "apps/client",
+    "apps/server"
   ],
   "repository": {
     "type": "git",
