@@ -57,9 +57,9 @@ export class Game extends Scene {
         const plant = new Plant(this, x, y, texture);
 
         plant.activate();
-        plant.on('pointerdown', () =>
-          this.plantHandler(rowIndex, plantIndex, plant, x, y)
-        );
+        plant.on('pointerdown', () => {
+          this.plantHandler(rowIndex, plantIndex, plant, x, y);
+        });
 
         return plant;
       });
@@ -79,26 +79,20 @@ export class Game extends Scene {
   ) {
     if (this.clickedSeed) {
       this.plants[rowIndex][plantIndex] = Object.create(this.clickedSeed.plant);
-      this.plants[rowIndex][plantIndex].x = x;
-      this.plants[rowIndex][plantIndex].y = y;
 
-      this.plants[rowIndex][plantIndex].on('pointerdown', () =>
-        this.plantHandler(
-          rowIndex,
-          plantIndex,
-          this.plants[rowIndex][plantIndex],
-          x,
-          y
-        )
-      );
+      const newPlant = this.plants[rowIndex][plantIndex];
 
-      this.gamefieldContainer[rowIndex].addAt(
-        this.plants[rowIndex][plantIndex],
-        plantIndex
-      );
+      newPlant.x = x;
+      newPlant.y = y;
+      newPlant.activate();
+      newPlant.on('pointerdown', () => {
+        this.plantHandler(rowIndex, plantIndex, newPlant, x, y);
+      });
+
+      this.gamefieldContainer[rowIndex].addAt(newPlant, plantIndex);
 
       // this.clickedSeed = null;
-      plant.destroy();
+      plant.destroy()
     }
   }
 
