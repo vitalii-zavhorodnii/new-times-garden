@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "workspaces": [
-    "apps/client",
-    "apps/server"
+    "apps/*"
   ],
+  "scripts": {
+    "dev:c": "npm run dev --workspace=client",
+    "dev:a": "npm run dev --workspace=api"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vitalii-zavhorodnii/new-times-garden.git"

@@ -19,7 +19,9 @@
       "*": ["./*"],
       "@scenes/*": ["./src/scenes/*"],
       "@components/*": ["./src/components/*"],
-      "@constants/*": ["./src/constants/*"]
+      "@constants/*": ["./src/constants/*"],
+      "@services/*": ["./src/services/*"],
+      "@mappers/*": ["./src/mappers/*"]
     }
   }
   //   "include": ["src"],

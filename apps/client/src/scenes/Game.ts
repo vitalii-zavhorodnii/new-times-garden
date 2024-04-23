@@ -1,21 +1,27 @@
 import { Scene } from 'phaser';
 
+import { getUserGarden } from '@services/getUserGarden';
+
 import Plant from '@components/Plant';
 import Seed from '@components/Seed';
 
-import { PLANT_COORDS } from '@constants/plant-coords';
 import { SEEDS } from '@constants/seeds';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
   background: Phaser.GameObjects.Image;
   msg_text: Phaser.GameObjects.Text;
-  gamefieldContainer: Phaser.GameObjects.Container[];
+  gamefieldContainer: Array<Phaser.GameObjects.Container>;
+  plants: Array<Plant[]>;
+
   bottomMenuContainer: Phaser.GameObjects.Container;
   clickedSeed: Seed;
 
   constructor() {
     super('Game');
+
+    this.gamefieldContainer = [];
+    this.plants = [];
   }
 
   public preload() {
@@ -37,28 +43,23 @@ export class Game extends Scene {
     // this.cameras.main.setZoom(1);
     // this.camera.setBackgroundColor("#87CEEB");
 
-    this.generateGardenField();
+    // fetch user field
+    this.fetchUserData();
     this.renderBottomMenu();
   }
 
-  private generateGardenField() {
-    const { height, width, worldView } = this.cameras.main;
-    const centerX = worldView.x + width / 2;
-    const centerY = worldView.y + height / 2;
+  private async fetchUserData() {
+    // get mapped user field
+    const field = await getUserGarden();
 
-    const gardenField = PLANT_COORDS.map((row, rowIndex) => {
-      const plantedRow = row.map(({ x, y, texture }, plantIndex) => {
+    this.plants = field.map((row, rowIndex: number) => {
+      const plantedRow = row.map(({ x, y, texture }, plantIndex: number) => {
         const plant = new Plant(this, x, y, texture);
 
         plant.activate();
-        plant.on('pointerdown', () => {
-          if (this.clickedSeed) {
-            this.gamefieldContainer[rowIndex][plantIndex] = this.clickedSeed.plant;
-
-            this.clickedSeed = null;
-            plant.destroy();
-          }
-        });
+        plant.on('pointerdown', () =>
+          this.plantHandler(rowIndex, plantIndex, plant, x, y)
+        );
 
         return plant;
       });
@@ -66,15 +67,55 @@ export class Game extends Scene {
       return plantedRow;
     });
 
+    this.generateGardenField();
+  }
+
+  private plantHandler(
+    rowIndex: number,
+    plantIndex: number,
+    plant: Plant,
+    x: number,
+    y: number
+  ) {
+    if (this.clickedSeed) {
+      this.plants[rowIndex][plantIndex] = Object.create(this.clickedSeed.plant);
+      this.plants[rowIndex][plantIndex].x = x;
+      this.plants[rowIndex][plantIndex].y = y;
+
+      this.plants[rowIndex][plantIndex].on('pointerdown', () =>
+        this.plantHandler(
+          rowIndex,
+          plantIndex,
+          this.plants[rowIndex][plantIndex],
+          x,
+          y
+        )
+      );
+
+      this.gamefieldContainer[rowIndex].addAt(
+        this.plants[rowIndex][plantIndex],
+        plantIndex
+      );
+
+      // this.clickedSeed = null;
+      plant.destroy();
+    }
+  }
+
+  private generateGardenField() {
+    const { height, width, worldView } = this.cameras.main;
+    const centerX = worldView.x + width / 2;
+    const centerY = worldView.y + height / 2;
+
     // added rows to container
-    gardenField.forEach((row, index) => {
+    this.plants.forEach((row, index) => {
       const container = this.add.container(
         centerX + (index - 3) * -18,
         centerY + (index - 3) * 10
       );
-      this.gamefieldContainer.push(container);
 
-      this.gamefieldContainer.add(row);
+      this.gamefieldContainer.push(container);
+      this.gamefieldContainer[index].add(row);
     });
   }
 
@@ -97,14 +138,14 @@ export class Game extends Scene {
 
       seed.activate();
       seed.on('pointerdown', () => {
-        this.clickedSeed = seed;
+        this.clickedSeed = Object.create(seed);
         console.log('Seed clicked: ' + seed.title);
       });
 
       return seed;
     });
 
-    this.bottomMenuContainer = this.add.container(10, height - 60);
+    this.bottomMenuContainer = this.add.container(10, height - 160);
     this.bottomMenuContainer.add(graphics);
     this.bottomMenuContainer.add(bottomMenu);
   }

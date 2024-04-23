@@ -1,5 +1,5 @@
 {
-  "name": "template-esbuild-ts",
+  "name": "client",
   "description": "A Phaser 3 TypeScript template using esbuild.",
   "version": "1.1.1",
   "main": "index.js",
@@ -18,17 +18,19 @@
   "homepage": "https://github.com/phaserjs/template-esbuild-ts#readme",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.6.8",
     "phaser": "^3.80.1"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@jgoz/esbuild-plugin-livereload": "^2.0.4",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "@types/axios": "^0.14.0",
     "esbuild": "^0.20.1",
-    "prettier": "^2.3.2",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-inline-image": "^0.0.9",
     "esbuild-serve": "^1.0.1",
+    "prettier": "^2.3.2",
     "typescript": "^5.3.3"
   }
 }
