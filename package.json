@@ -19,5 +19,13 @@
   "bugs": {
     "url": "https://github.com/vitalii-zavhorodnii/new-times-garden/issues"
   },
-  "homepage": "https://github.com/vitalii-zavhorodnii/new-times-garden#readme"
+  "homepage": "https://github.com/vitalii-zavhorodnii/new-times-garden#readme",
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "prettier": "^2.3.2"
+  }
 }

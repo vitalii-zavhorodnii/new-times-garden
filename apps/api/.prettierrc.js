@@ -5,13 +5,13 @@ module.exports = {
   singleQuote: true,
   semi: true,
   importOrder: [
-    '(^phaser/.*?$)|(^axios\\w*)',
+    '(^@nestjs/.*?$)|(\\w*\\.decorator|express|mongoose\\w*)',
     '<THIRD_PARTY_MODULES>',
-    '^@services\\w*',
-    '^@scenes\\w*',
-    '^@components\\w*',
-    '^@entities\\w*',
-    '^@constants\\w*'
+    '\\w*\\.module|\\.controller|\\.service\\w*',
+    '\\w*\\.schema\\w*',
+    '\\w*\\.helper|\\.filter|\\.guard\\w*',
+    '\\w*\\.dto\\w*',
+    '\\w*\\.constants\\w*'
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,

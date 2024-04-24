@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 
-import { getUserGarden } from '@services/getUserGarden';
 import { getSeedsList } from '@services/getSeedsList';
+import { getUserGarden } from '@services/getUserGarden';
 
 import MenuSeeds from '@components/menus/MenuSeeds';
 
@@ -14,8 +14,8 @@ export class Game extends Scene {
   private balance: number;
   private pickedSeed: Seed;
 
-  private plantsCollection: Array<Plant>
-  private seedsCollection: Array<Seed>
+  private plantsCollection: Array<Plant>;
+  private seedsCollection: Array<Seed>;
 
   private plants: Array<Plant[]>;
   private gardenContainer: Phaser.GameObjects.Container[];
@@ -85,11 +85,11 @@ export class Game extends Scene {
   private async fetchUserGarden() {
     const fieldItems = await getUserGarden();
 
-    this.renderGardenField(fieldItems)
+    this.renderGardenField(fieldItems);
   }
   // Handle picking seed to plant
   private handleSeedPick(seed: any) {
-    console.log({ seed })
+    console.log({ seed });
   }
   // Handle to start growing new Plant
   private handleNewPlant(
@@ -123,7 +123,9 @@ export class Game extends Scene {
   */
   // Render seeds list
   private renderSeedsList(seeds) {
-    this.menuSeeds = new MenuSeeds(seeds, (index: number) => this.handleSeedPick(index))
+    this.menuSeeds = new MenuSeeds(seeds, (index: number) =>
+      this.handleSeedPick(index)
+    );
   }
   // Render garden field
   private renderGardenField(fieldItems: any[]) {
@@ -162,11 +164,11 @@ export class Game extends Scene {
       Handle button click: Shop
   */
   private handleShopBtn() {
-    console.log("handleShopBtn");
+    console.log('handleShopBtn');
   }
   // Handle button click: Decorattions
   private handleDecorateBtn() {
-    console.log("handleDecorateBtn");
+    console.log('handleDecorateBtn');
   }
   // Handle button click: Seeds
   private handleSeedsBtn() {
@@ -174,10 +176,10 @@ export class Game extends Scene {
   }
   // Handle button click: Fertilizer
   private handleFertilizerBtn() {
-    console.log("handleFertilizerBtn");
+    console.log('handleFertilizerBtn');
   }
   // Handle button click: Settings
   private handleSettingsBtn() {
-    console.log("handleSettingsBtn");
+    console.log('handleSettingsBtn');
   }
 }
