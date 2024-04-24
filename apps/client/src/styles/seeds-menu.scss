@@ -4,8 +4,7 @@
 .seeds-menu {
   z-index: 10;
   position: absolute;
-  // left: -100vw;
-  left: 0;
+  left: -100vw;
   top: 0;
   display: flex;
   justify-content: center;
@@ -14,7 +13,6 @@
   height: calc(100% - #{$bot-menu-margin} - #{$bot-menu-height} - #{$bot-menu-indent});
   padding: 10px;
   padding-bottom: 0;
-
   transition: left 200ms $menu-animation;
 
   &__list {
@@ -24,6 +22,10 @@
     background: #fff;
     padding: 15px;
     overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__item {

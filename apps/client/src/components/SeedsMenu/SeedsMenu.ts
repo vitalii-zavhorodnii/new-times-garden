@@ -28,6 +28,16 @@ export default class SeedsMenu {
     this.container.style.left = '-100vw';
   }
 
+  public toggle() {
+    if (this.isOpen) {
+      console.log('open', this.isOpen)
+      this.close()
+    } else if (!this.isOpen) {
+      console.log('close', this.isOpen)
+      this.open()
+    }
+  }
+
   private createMarkup(seeds: any[]) {
     const list = seeds.map((seed, index) => {
       const itemHTML = document.createElement("li");
