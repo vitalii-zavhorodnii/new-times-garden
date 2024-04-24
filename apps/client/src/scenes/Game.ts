@@ -1,11 +1,9 @@
 import { Scene } from 'phaser';
 
 import { getUserGarden } from '@services/getUserGarden';
-import { getSeedsList } from 'src/services/getSeedsList';
+import { getSeedsList } from '@services/getSeedsList';
 
-import SideMenu from '@components/SideMenu';
-import BottomMenu from '@components/BottomMenu';
-import SeedsMenu from '@components/SeedsMenu';
+import MenuSeeds from '@components/menus/MenuSeeds';
 
 import Plant from '@entities/Plant';
 import Seed from '@entities/Seed';
@@ -13,27 +11,31 @@ import Seed from '@entities/Seed';
 export class Game extends Scene {
   public camera: Phaser.Cameras.Scene2D.Camera;
 
-  private gamefieldContainer: Array<Phaser.GameObjects.Container>;
+  private balance: number;
+  private pickedSeed: Seed;
 
-  private seeds: Array<Seed>;
+  private plantsCollection: Array<Plant>
+  private seedsCollection: Array<Seed>
+
   private plants: Array<Plant[]>;
-  private clickedSeed: Seed;
+  private gardenContainer: Phaser.GameObjects.Container[];
 
-  private sideMenu: SideMenu;
-  private bottomMenu: BottomMenu;
-  private seedsMenu: SeedsMenu;
+  // private menuShop: any;
+  // private menuDecoration: any;
+  private menuSeeds: MenuSeeds;
+  // private menuFfertilizer: any;
+  // private menuSettings: any;
 
-  // private bottomMenuBtns: Array<HTMLElement>;
-  private btnDecorate: HTMLElement;
-  private btnFertilizer: HTMLElement;
-  private btnSeeds: HTMLElement;
   private btnShop: HTMLElement;
+  private btnDecorate: HTMLElement;
+  private btnSeeds: HTMLElement;
+  private btnFertilizer: HTMLElement;
   private btnSettings: HTMLElement;
 
   constructor() {
     super('Game');
 
-    this.gamefieldContainer = [];
+    this.gardenContainer = [];
     this.plants = [];
   }
 
@@ -49,62 +51,47 @@ export class Game extends Scene {
     this.load.image('sunflower', 'assets/seeds/sunflower.png');
     this.load.image('tulip', 'assets/seeds/tulip.png');
   }
-
+  // Create scene method
   public create() {
-    this.sideMenu = new SideMenu();
-    this.bottomMenu = new BottomMenu();
     this.camera = this.cameras.main;
-
+    // Find all buttons
     this.btnShop = document.getElementById('shop');
     this.btnDecorate = document.getElementById('decorate');
     this.btnSeeds = document.getElementById('seeds');
     this.btnFertilizer = document.getElementById('fertilizer');
     this.btnSettings = document.getElementById('settings');
-
+    // Add event listeners to bottom menu buttons
     this.btnShop.addEventListener('click', () => this.handleShopBtn());
     this.btnDecorate.addEventListener('click', () => this.handleDecorateBtn());
     this.btnSeeds.addEventListener('click', () => this.handleSeedsBtn());
     this.btnFertilizer.addEventListener('click', () => this.handleFertilizerBtn());
     this.btnSettings.addEventListener('click', () => this.handleSettingsBtn());
-
-    this.fetchUserData();
-    this.renderSeedsMenu();
+    // Run fetch data methods
+    this.fetchSeedsList();
+    this.fetchUserGarden();
+    // Run render methods
   }
 
-  private handleDecorateBtn() {
-    console.log("handleDecorateBtn");
-  }
-
-  private handleFertilizerBtn() {
-    console.log("handleFertilizerBtn");
-  }
-
-  private handleSeedsBtn() {
-    this.seedsMenu.toggle();
-  }
-
-  private handleShopBtn() {
-    console.log("handleShopBtn");
-  }
-
-  private handleSettingsBtn() {
-    console.log("handleSettingsBtn");
-  }
-
-  private handleSeedClick(data: any) {
-    console.log({ data, seedsMenu: this.seedsMenu })
-    this.seedsMenu.close();
-  }
-
-
-
-  private async renderSeedsMenu() {
+  /*
+      Fetch data methods
+  */
+  // Get all seeds
+  private async fetchSeedsList() {
     const seeds = await getSeedsList();
 
-    this.seedsMenu = new SeedsMenu(seeds, (index: number) => this.handleSeedClick(index))
-    console.log({ menu: this.seedsMenu })
+    this.renderSeedsList(seeds);
   }
+  // Get user's garden
+  private async fetchUserGarden() {
+    const fieldItems = await getUserGarden();
 
+    this.renderGardenField(fieldItems)
+  }
+  // Handle picking seed to plant
+  private handleSeedPick(seed: any) {
+    console.log({ seed })
+  }
+  // Handle to start growing new Plant
   private handleNewPlant(
     rowIndex: number,
     plantIndex: number,
@@ -112,8 +99,8 @@ export class Game extends Scene {
     x: number,
     y: number
   ) {
-    if (this.clickedSeed) {
-      this.plants[rowIndex][plantIndex] = Object.create(this.clickedSeed.plant);
+    if (this.pickedSeed) {
+      this.plants[rowIndex][plantIndex] = Object.create(this.pickedSeed.plant);
 
       const newPlant = this.plants[rowIndex][plantIndex];
 
@@ -124,35 +111,27 @@ export class Game extends Scene {
         this.handleNewPlant(rowIndex, plantIndex, newPlant, x, y);
       });
 
-      this.gamefieldContainer[rowIndex].addAt(newPlant, plantIndex);
+      this.gardenContainer[rowIndex].addAt(newPlant, plantIndex);
 
-      // this.clickedSeed = null;
+      // this.pickedSeed = null;
       plant.destroy();
     }
   }
-
-  private renderGardenField() {
+  /*
+      Render methods
+      Render garden field
+  */
+  // Render seeds list
+  private renderSeedsList(seeds) {
+    this.menuSeeds = new MenuSeeds(seeds, (index: number) => this.handleSeedPick(index))
+  }
+  // Render garden field
+  private renderGardenField(fieldItems: any[]) {
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2;
 
-    // added rows to container
-    this.plants.forEach((row, index) => {
-      const container = this.add.container(
-        centerX + (index - 3) * -18,
-        centerY + (index - 3) * 10
-      );
-
-      this.gamefieldContainer.push(container);
-      this.gamefieldContainer[index].add(row);
-    });
-  }
-
-  private async fetchUserData() {
-    // get mapped user field
-    const field = await getUserGarden();
-
-    this.plants = field.map((row: any[], rowIndex: number) => {
+    this.plants = fieldItems.map((row: any[], rowIndex: number) => {
       const plantedRow = row.map(({ x, y, texture }, plantIndex: number) => {
         const plant = new Plant(this, x, y, texture);
 
@@ -167,6 +146,38 @@ export class Game extends Scene {
       return plantedRow;
     });
 
-    this.renderGardenField();
+    // added rows to container
+    this.plants.forEach((row, index) => {
+      const container = this.add.container(
+        centerX + (index - 3) * -18,
+        centerY + (index - 3) * 10
+      );
+
+      this.gardenContainer.push(container);
+      this.gardenContainer[index].add(row);
+    });
+  }
+  /*
+      Bottom menu handlers
+      Handle button click: Shop
+  */
+  private handleShopBtn() {
+    console.log("handleShopBtn");
+  }
+  // Handle button click: Decorattions
+  private handleDecorateBtn() {
+    console.log("handleDecorateBtn");
+  }
+  // Handle button click: Seeds
+  private handleSeedsBtn() {
+    this.menuSeeds.toggle();
+  }
+  // Handle button click: Fertilizer
+  private handleFertilizerBtn() {
+    console.log("handleFertilizerBtn");
+  }
+  // Handle button click: Settings
+  private handleSettingsBtn() {
+    console.log("handleSettingsBtn");
   }
 }

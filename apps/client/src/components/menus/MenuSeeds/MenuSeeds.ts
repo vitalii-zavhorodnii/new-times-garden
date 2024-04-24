@@ -1,6 +1,6 @@
 import type { ISeedsList } from '@interfaces/ISeedsMenu';
 
-export default class SeedsMenu {
+export default class MenuSeeds {
   public isOpen: boolean;
   public list: ISeedsList;
   public callback: Function;
@@ -95,14 +95,16 @@ export default class SeedsMenu {
       itemHTML.appendChild(iconHTML)
       itemHTML.appendChild(cardHTML)
 
+      itemHTML.addEventListener('click', () => {
+        this.callback(seed)
+        this.close();
+      })
+
       return itemHTML;
     })
 
-    list.forEach((item, index) => {
+    list.forEach((item) => {
       this.listContainer.appendChild(item)
-      item.addEventListener('click', () => {
-        this.callback(index)
-      })
     })
   }
 }

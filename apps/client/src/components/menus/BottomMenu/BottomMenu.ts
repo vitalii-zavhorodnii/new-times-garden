@@ -1,5 +1,11 @@
 export default class BottomMenu {
   public isShown: boolean;
+  
+  private btnDecorate: HTMLElement;
+  private btnFertilizer: HTMLElement;
+  private btnSeeds: HTMLElement;
+  private btnShop: HTMLElement;
+  private btnSettings: HTMLElement;
 
   private container: HTMLElement;
 
