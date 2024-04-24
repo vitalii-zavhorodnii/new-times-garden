@@ -52,7 +52,7 @@ export class Game extends Scene {
 
     // fetch user field
     this.fetchUserData();
-    this.renderBottomMenu();
+    // this.renderBottomMenu();
   }
 
   private async fetchUserData() {
