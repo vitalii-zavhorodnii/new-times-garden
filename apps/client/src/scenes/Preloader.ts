@@ -1,8 +1,8 @@
-import { Scene } from "phaser";
+import { Scene } from 'phaser';
 
 export class Preloader extends Scene {
   constructor() {
-    super("Preloader");
+    super('Preloader');
   }
 
   init() {
@@ -19,7 +19,7 @@ export class Preloader extends Scene {
     const bar = this.add.rectangle(centerX - 230, 384, 4, 28, 0xffffff);
 
     //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
-    this.load.on("progress", (progress: number) => {
+    this.load.on('progress', (progress: number) => {
       //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
       bar.width = 4 + 460 * progress;
     });
@@ -27,9 +27,7 @@ export class Preloader extends Scene {
 
   preload() {
     //  Load the assets for the game - Replace with your own assets
-    this.load.setPath("assets");
-
-    this.load.image("logo", "logo.png");
+    this.load.setPath('assets');
   }
 
   create() {
@@ -37,6 +35,6 @@ export class Preloader extends Scene {
     //  For example, you can define global animations here, so we can use them in other scenes.
 
     //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-    this.scene.start("Game");
+    this.scene.start('Game');
   }
 }
