@@ -1,0 +1,33 @@
+@import './fonts.scss';
+@import './variables.scss';
+
+.side-menu {
+  z-index: 10;
+  position: absolute;
+  left: -100vw;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  transition: left 200ms $menu-animation;
+
+  &__btn-open {
+    z-index: 1;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    background: #fff;
+  }
+
+  &__btn-close {
+    display: flex;
+  }
+}

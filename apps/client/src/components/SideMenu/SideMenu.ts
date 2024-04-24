@@ -12,13 +12,13 @@ export default class SideMenu {
     this.openButton = document.querySelector('.side-menu__btn-open');
     this.closeButton = document.querySelector('.side-menu__btn-close');
 
-    this.openButton.addEventListener('click', () => {
-      this.open();
-    });
+    // this.openButton.addEventListener('click', () => {
+    //   this.open();
+    // });
 
-    this.closeButton.addEventListener('click', () => {
-      this.close();
-    });
+    // this.closeButton.addEventListener('click', () => {
+    //   this.close();
+    // });
   }
 
   public open() {

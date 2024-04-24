@@ -17,12 +17,14 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "*": ["./*"],
+      "@assets/*": ["./public/assets/*"],
       "@scenes/*": ["./src/scenes/*"],
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
       "@services/*": ["./src/services/*"],
       "@mappers/*": ["./src/mappers/*"],
-      "@entities/*": ["./src/entities/*"]
+      "@entities/*": ["./src/entities/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
     }
   }
   //   "include": ["src"],

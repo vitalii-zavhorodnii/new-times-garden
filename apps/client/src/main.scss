@@ -1,22 +1,25 @@
-:root {
-  --menu-animation: cubic-bezier(0.42, 0, 0.58, 1);
-  --bg-color: #31363f;
-  --text-color: rgba(255, 255, 255, 0.87);
-  --bot-menu-height: 50px;
-  --bot-menu-indent: 10px;
+@import './styles/fonts.scss';
+@import './styles/variables.scss';
+@import './styles/bottom-menu';
+@import './styles/seeds-menu';
+@import './styles/side-menu.scss';
+
+* {
+  box-sizing: border-box
 }
 
 body {
   margin: 0;
   padding: 0;
-  color: var(--text-color);
-  background-color: var(--bg-color);
+  color: $text-color;
+  background-color: $bg-color;
+  overflow: hidden;
 }
 
 #app {
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,56 +28,4 @@ body {
 #game-container {
   width: 100vw;
   height: 100vh;
-}
-
-.side-menu {
-  z-index: 10;
-  position: absolute;
-  left: -100vw;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background: #fff;
-  transition: left 200ms var(--menu-animation);
-
-  &__btn-open {
-    z-index: 1;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45px;
-    height: 45px;
-    background: #fff;
-  }
-
-  &__btn-close {
-    display: flex;
-  }
-}
-
-.bottom-menu {
-  z-index: 1;
-  position: absolute;
-  left: 0;
-  bottom: var(--bot-menu-indent);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: var(--bot-menu-height);
-  transition: bottom 200ms var(--menu-animation);
-
-  &__container {
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    border-radius: 10px;
-    margin: 10px;
-  }
 }

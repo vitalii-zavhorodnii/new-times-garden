@@ -1,4 +1,4 @@
-import { PLANT_COORDS } from 'src/constants/plant-coords';
+import { PLANT_COORDS } from '@constants/plant-coords';
 
 export const userGardenMapper = (field) => {
   const data = field.map((item, rowIndex) => {

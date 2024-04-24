@@ -18,9 +18,15 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "*": ["./*"],
+      "*": ["./src/*"],
+      "@server/*": ["./*"],
       "@domain/*": ["./src/domain/*"],
-      "@constants/*": ["./src/constants/*"]
+      "@shared/*": ["./src/shared/*"],
+      "@filters/*": ["./src/filters/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@decorators/*": ["./src/decorators/*"],
+      "@config/*": ["./src/config/*"],
     }
   }
 }

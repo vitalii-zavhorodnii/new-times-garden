@@ -1,9 +1,11 @@
 import { Scene } from 'phaser';
 
 import { getUserGarden } from '@services/getUserGarden';
+import { getSeedsList } from 'src/services/getSeedsList';
 
 import SideMenu from '@components/SideMenu';
 import BottomMenu from '@components/BottomMenu';
+import SeedsMenu from '@components/SeedsMenu';
 
 import Plant from '@entities/Plant';
 import Seed from '@entities/Seed';
@@ -11,15 +13,18 @@ import Seed from '@entities/Seed';
 import { SEEDS } from '@constants/seeds';
 
 export class Game extends Scene {
-  camera: Phaser.Cameras.Scene2D.Camera;
-  background: Phaser.GameObjects.Image;
-  msg_text: Phaser.GameObjects.Text;
-  gamefieldContainer: Array<Phaser.GameObjects.Container>;
-  plants: Array<Plant[]>;
-  sideMenu: SideMenu;
-  bottomMenu: BottomMenu;
-  bottomMenuContainer: Phaser.GameObjects.Container;
-  clickedSeed: Seed;
+  private camera: Phaser.Cameras.Scene2D.Camera;
+  private background: Phaser.GameObjects.Image;
+  private msg_text: Phaser.GameObjects.Text;
+  private gamefieldContainer: Array<Phaser.GameObjects.Container>;
+
+  private seeds: Array<Seed>;
+  private plants: Array<Plant[]>;
+  private clickedSeed: Seed;
+
+  private sideMenu: SideMenu;
+  private bottomMenu: BottomMenu;
+  private seedsMenu: SeedsMenu;
 
   constructor() {
     super('Game');
@@ -52,6 +57,7 @@ export class Game extends Scene {
 
     // fetch user field
     this.fetchUserData();
+    this.createSeedsMenu();
     // this.renderBottomMenu();
   }
 
@@ -59,7 +65,7 @@ export class Game extends Scene {
     // get mapped user field
     const field = await getUserGarden();
 
-    this.plants = field.map((row, rowIndex: number) => {
+    this.plants = field.map((row: any[], rowIndex: number) => {
       const plantedRow = row.map(({ x, y, texture }, plantIndex: number) => {
         const plant = new Plant(this, x, y, texture);
 
@@ -75,6 +81,19 @@ export class Game extends Scene {
     });
 
     this.generateGardenField();
+  }
+
+  private async createSeedsMenu() {
+    const seeds = await getSeedsList();
+
+    this.seedsMenu = new SeedsMenu(seeds, (index: number) => this.handleSeedClick(index))
+    console.log({ menu: this.seedsMenu })
+  }
+
+  private handleSeedClick(data: any) {
+    console.log({ data, seedsMenu: this.seedsMenu })
+    this.seedsMenu.close();
+
   }
 
   private plantHandler(
@@ -146,8 +165,5 @@ export class Game extends Scene {
       return seed;
     });
 
-    this.bottomMenuContainer = this.add.container(10, height - 160);
-    this.bottomMenuContainer.add(graphics);
-    this.bottomMenuContainer.add(bottomMenu);
   }
 }

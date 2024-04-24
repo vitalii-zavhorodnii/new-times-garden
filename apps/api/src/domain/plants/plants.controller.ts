@@ -1,7 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 
-@Controller()
-export class AppController {
+import { ROUTES } from '@constants/routes.constants'
+
+@Controller(ROUTES.plants)
+export class PlantsController {
   @Get('')
   getPlants(): Array<any> {
     const plants = [

@@ -18,4 +18,8 @@ export default class BottomMenu {
       this.container.style.left = '0';
     }
   }
+
+  private renderMenu() {
+
+  }
 }

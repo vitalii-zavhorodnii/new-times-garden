@@ -1,10 +1,13 @@
 import { Game, Types } from 'phaser';
+import axios from 'axios';
 
 import { Boot } from '@scenes/Boot';
 import { Game as MainGame } from '@scenes/Game';
 import { GameOver } from '@scenes/GameOver';
 import { MainMenu } from '@scenes/MainMenu';
 import { Preloader } from '@scenes/Preloader';
+
+axios.defaults.baseURL = 'http://192.168.2.110:3000';
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),

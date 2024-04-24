@@ -1,25 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/main.css" />
-    <title>New Times Garden | Game</title>
-  </head>
 
-  <body>
-    <div class="side-menu__btn-open">open</div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/normalize.css">
+  <link rel="stylesheet" href="/main.css" />
+  <title>New Times Garden | Game</title>
+</head>
+
+<body>
+  <div id="app">
     <div class="side-menu">
       <button class="side-menu__btn-close">close</button>
     </div>
+
     <div class="bottom-menu">
-      <ul class="bottom-menu__container"></ul>
-    </div>
-    <div id="app">
-      <div id="game-container"></div>
+      <ul class="bottom-menu__container">
+        <li class="bottom-menu__item">
+          <img class="bottom-menu__icon" src="./assets/menu/settings.svg" alt="">
+        </li>
+        <li class="bottom-menu__item">
+          <img class="bottom-menu__icon" src="./assets/menu/paint.svg" alt="">
+        </li>
+        <li class="bottom-menu__item">
+          <img class="bottom-menu__icon" src="./assets/menu/fertilizer.svg" alt="">
+        </li>
+        <li class="bottom-menu__item">
+          <img class="bottom-menu__icon" src="./assets/menu/shovel.svg" alt="">
+        </li>
+      </ul>
     </div>
 
-    <script type="module" src="./bundle.min.js"></script>
-  </body>
+    <div class="seeds-menu">
+      <ul class="seeds-menu__list">
+
+      </ul>
+    </div>
+
+    <div id="game-container"></div>
+  </div>
+
+  <script type="module" src="./bundle.min.js"></script>
+</body>
+
 </html>
+
+<!-- <li class="seeds-menu__item">
+          <img class="seeds-menu__icon" src="./assets/seeds/blueflower.png" alt="bluewflower">
+          <div class="seeds-menu__card">
+            <h4 class="seeds-menu__title">Blueflower</h4>
+            <div class="seeds-menu__info">
+              <span class="seeds-menu__value">
+                <img class="seeds-menu__stat-icon" src="./assets/coin.png" alt="coin">
+                13000
+              </span>
+              <span class="seeds-menu__value">
+                <img class="seeds-menu__stat-icon" src="./assets/timer.png" alt="timer">
+                7h
+              </span>
+            </div>
+          </div>
+        </li> -->
