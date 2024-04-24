@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 
-import Seed from '@components/Seed';
+import Seed from 'src/entities/Seed';
 
 export default class Plant extends Phaser.GameObjects.Sprite {
   public clicked: number = 0;

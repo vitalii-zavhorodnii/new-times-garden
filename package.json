@@ -6,8 +6,9 @@
     "apps/*"
   ],
   "scripts": {
-    "dev:c": "npm run dev --workspace=client",
-    "dev:a": "npm run dev --workspace=api"
+    "client": "npm run dev --workspace=client",
+    "sass": "npm run sass --workspace=client",
+    "api": "npm run dev --workspace=api"
   },
   "repository": {
     "type": "git",

@@ -24,7 +24,7 @@ const config: Types.Core.GameConfig = {
   },
 
   title: 'New Times Garden',
-  url: 'newtimesgarden.online',
+  url: 'https://newtimesgarden.online/',
   version: '1.0',
   banner: false,
   backgroundColor: '#2d2d2d',

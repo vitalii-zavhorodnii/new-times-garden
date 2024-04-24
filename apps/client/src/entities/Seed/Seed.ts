@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 
-import Plant from '@components/Plant';
+import Plant from 'src/entities/Plant';
 
 export default class Seed extends Phaser.GameObjects.Sprite {
   public title: string;

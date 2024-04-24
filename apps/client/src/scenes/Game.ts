@@ -2,8 +2,11 @@ import { Scene } from 'phaser';
 
 import { getUserGarden } from '@services/getUserGarden';
 
-import Plant from '@components/Plant';
-import Seed from '@components/Seed';
+import SideMenu from '@components/SideMenu';
+import BottomMenu from '@components/BottomMenu';
+
+import Plant from '@entities/Plant';
+import Seed from '@entities/Seed';
 
 import { SEEDS } from '@constants/seeds';
 
@@ -13,7 +16,8 @@ export class Game extends Scene {
   msg_text: Phaser.GameObjects.Text;
   gamefieldContainer: Array<Phaser.GameObjects.Container>;
   plants: Array<Plant[]>;
-
+  sideMenu: SideMenu;
+  bottomMenu: BottomMenu;
   bottomMenuContainer: Phaser.GameObjects.Container;
   clickedSeed: Seed;
 
@@ -38,6 +42,9 @@ export class Game extends Scene {
   }
 
   public create() {
+    this.sideMenu = new SideMenu();
+    this.bottomMenu = new BottomMenu();
+    // this.sideMenu.open();
     // create camera
     this.camera = this.cameras.main;
     // this.cameras.main.setZoom(1);
@@ -92,7 +99,7 @@ export class Game extends Scene {
       this.gamefieldContainer[rowIndex].addAt(newPlant, plantIndex);
 
       // this.clickedSeed = null;
-      plant.destroy()
+      plant.destroy();
     }
   }
 

@@ -21,7 +21,8 @@
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
       "@services/*": ["./src/services/*"],
-      "@mappers/*": ["./src/mappers/*"]
+      "@mappers/*": ["./src/mappers/*"],
+      "@entities/*": ["./src/entities/*"]
     }
   }
   //   "include": ["src"],
