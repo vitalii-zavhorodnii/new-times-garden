@@ -1,75 +1,67 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { ROUTES } from '@constants/routes.constants'
+import { ROUTES } from '@constants/routes.constants';
 
 @Controller(ROUTES.plants)
 export class PlantsController {
   @Get('')
   getPlants(): Array<any> {
     const plants = [
+      [null, null, null, null, null],
       [
-        { texture: 'grass' },
-        { texture: 'soil' },
-        { texture: 'plant' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
+        { texture: 'bush' },
+        { texture: 'bush' },
+        { texture: 'bush' },
+        { texture: 'bush' },
+        { texture: 'bush' }
+        // { texture: 'bush' },
+        // { texture: 'bush' }
       ],
       [
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
+        { texture: 'bush' },
+        { texture: 'bush' },
+        { texture: 'bush' },
+        { texture: 'bush' },
+        { texture: 'bush' }
+        // { texture: 'bush' },
+        // { texture: 'bush' }
       ],
       [
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
+        { texture: 'bush' },
+        null,
+        null,
+        { texture: 'bush' },
+        null
+        // { texture: 'bush' },
+        // { texture: 'bush' }
       ],
       [
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-      ],
-      [
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-      ],
-      [
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-      ],
-      [
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-        { texture: 'soil' },
-      ],
+        { texture: 'bush' },
+        null,
+        null,
+        { texture: 'bush' },
+        { texture: 'bush' }
+        // { texture: 'bush' },
+        // { texture: 'bush' }
+      ]
+      // [
+      //   { texture: 'bush' },
+      //   null,
+      //   null,
+      //   null,
+      //   { texture: 'bush' },
+      //   // { texture: 'bush' },
+      //   // { texture: 'bush' }
+      // ],
+      // [
+      //   { texture: 'bush' },
+      //   null,
+      //   null,
+      //   { texture: 'bush' },
+      //   { texture: 'bush' },
+      //   { texture: 'bush' },
+      //   { texture: 'bush' }
+      // ]
     ];
 
     return plants;

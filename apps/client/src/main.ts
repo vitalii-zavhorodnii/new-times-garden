@@ -1,5 +1,6 @@
-import { Game, Types } from 'phaser';
 import axios from 'axios';
+
+import { Game, Types } from 'phaser';
 
 import { Boot } from '@scenes/Boot';
 import { Game as MainGame } from '@scenes/Game';
@@ -7,7 +8,7 @@ import { GameOver } from '@scenes/GameOver';
 import { MainMenu } from '@scenes/MainMenu';
 import { Preloader } from '@scenes/Preloader';
 
-axios.defaults.baseURL = 'http://192.168.2.110:3000';
+axios.defaults.baseURL = 'http://192.168.2.49:4000/api';
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
@@ -24,6 +25,12 @@ const config: Types.Core.GameConfig = {
     height: '100%',
     mode: Phaser.Scale.MAX_ZOOM,
     autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+  },
+
+  physics: {
+    arcade: {
+      debug: true
+    }
   },
 
   title: 'New Times Garden',

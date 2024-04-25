@@ -27,5 +27,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "prettier": "^2.3.2"
+  },
+  "dependencies": {
+    "generate-password": "^1.7.1"
   }
 }

@@ -11,6 +11,7 @@ module.exports = {
     '^@scenes\\w*',
     '^@components\\w*',
     '^@entities\\w*',
+    '^@mappers\\w*',
     '^@constants\\w*'
   ],
   importOrderSeparation: true,
