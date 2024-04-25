@@ -52,6 +52,8 @@ export class Game extends Scene {
   }
 
   public preload() {
+    // decor
+    this.load.image('background', 'assets/background.jpg');
     // field tiles
     this.load.image('dummy', 'assets/dummy.png');
     this.load.image('soil', 'assets/plants/soil.png');
@@ -69,19 +71,33 @@ export class Game extends Scene {
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
-
+    // center canvas variables
+    const { height, width, worldView } = this.cameras.main;
+    const centerX = worldView.x + width / 2;
+    const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
     // Find all buttons
     this.btnShop = document.getElementById('shop');
     this.btnDecorate = document.getElementById('decorate');
     this.btnSeeds = document.getElementById('seeds');
     this.btnFertilizer = document.getElementById('fertilizer');
     this.btnSettings = document.getElementById('settings');
+    /*
+      Opacity for ont completed buttons
+    */
+    this.btnShop.style.opacity = '0.5';
+    this.btnDecorate.style.opacity = '0.5';
+    this.btnFertilizer.style.opacity = '0.5';
+    this.btnSettings.style.opacity = '0.5';
     // Add event listeners to bottom menu buttons
     this.btnShop.addEventListener('click', () => this.handleShopBtn());
     this.btnDecorate.addEventListener('click', () => this.handleDecorateBtn());
     this.btnSeeds.addEventListener('click', () => this.handleSeedsBtn());
     this.btnFertilizer.addEventListener('click', () => this.handleFertilizerBtn());
     this.btnSettings.addEventListener('click', () => this.handleSettingsBtn());
+    // Background
+    const backgroundImage = this.add.image(centerX, centerY, 'background');
+    backgroundImage.x = backgroundImage.x - 250;
+    // backgroundImage.setDisplaySize(backgroundImage.width, height);
     // Run fetch data methods
     this.fetchSeedsList();
     this.fetchUserGarden();
