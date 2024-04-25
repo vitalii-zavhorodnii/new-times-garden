@@ -118,7 +118,9 @@ export class Game extends Scene {
       const { scrollX } = this.camera;
       const { left, right } = CAMERA_BOUNDRIES;
 
-      const distance = (p.x - p.prevPosition.x) / this.camera.zoom;
+      const distance = p.x - p.prevPosition.x + 3 / this.camera.zoom;
+      // sensitivity refactor
+      // console.log({ distance: p.x - p.prevPosition.x });
 
       this.camera.scrollX -= distance;
 
