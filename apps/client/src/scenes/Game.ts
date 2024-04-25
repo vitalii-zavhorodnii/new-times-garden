@@ -12,6 +12,8 @@ import Soil from '@entities/Soil';
 
 import { mapFieldRows } from '@mappers/mapFieldRows';
 
+import { randomNumberHelper } from '@helpers/random-number';
+
 import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
@@ -52,11 +54,19 @@ export class Game extends Scene {
   }
 
   public preload() {
-    // decor
+    // background
     this.load.image('background', 'assets/background.jpg');
-    // field tiles
+    // decor
     this.load.image('dummy', 'assets/dummy.png');
-    this.load.image('soil', 'assets/plants/soil.png');
+    // field tiles
+    this.load.image('planted', 'assets/soil/planted.png');
+    this.load.image('soil-01', 'assets/soil/soil-01.png');
+    this.load.image('soil-02', 'assets/soil/soil-02.png');
+    this.load.image('soil-03', 'assets/soil/soil-03.png');
+    this.load.image('soil-04', 'assets/soil/soil-04.png');
+    this.load.image('soil-05', 'assets/soil/soil-05.png');
+    this.load.image('soil-06', 'assets/soil/soil-06.png');
+    // plants
     this.load.image('flat', 'assets/plants/flat.png');
     this.load.image('bush', 'assets/plants/bush.png');
     // this.load.image('grass', 'assets/plants/grass.png');
@@ -223,7 +233,9 @@ export class Game extends Scene {
 
     this.soil = mapFieldRows(ROW_MAP).map((row: any[], rowIndex: number) => {
       const soilRow = row.map(({ x, y }, soilIndex: number) => {
-        const soil = new Soil(this, x, y);
+        const i = randomNumberHelper(1, 6);
+
+        const soil = new Soil(this, x, y, `soil-0${i}`);
         soil.setInteractive();
 
         const plant = plants[rowIndex][soilIndex];

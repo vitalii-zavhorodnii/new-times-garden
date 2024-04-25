@@ -7,8 +7,8 @@ export const ROW_MAP = [
 ];
 
 export const ROWS_GAP = {
-  x: -50,
-  y: 30
+  x: -48,
+  y: 28
 };
 
 export const PLANTS_MARGIN = 15;

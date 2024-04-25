@@ -10,58 +10,14 @@ export class PlantsController {
       [null, null, null, null, null],
       [
         { texture: 'bush' },
-        { texture: 'bush' },
+        null,
         { texture: 'bush' },
         { texture: 'bush' },
         { texture: 'bush' }
-        // { texture: 'bush' },
-        // { texture: 'bush' }
       ],
-      [
-        { texture: 'bush' },
-        { texture: 'bush' },
-        { texture: 'bush' },
-        { texture: 'bush' },
-        { texture: 'bush' }
-        // { texture: 'bush' },
-        // { texture: 'bush' }
-      ],
-      [
-        { texture: 'bush' },
-        null,
-        null,
-        { texture: 'bush' },
-        null
-        // { texture: 'bush' },
-        // { texture: 'bush' }
-      ],
-      [
-        { texture: 'bush' },
-        null,
-        null,
-        { texture: 'bush' },
-        { texture: 'bush' }
-        // { texture: 'bush' },
-        // { texture: 'bush' }
-      ]
-      // [
-      //   { texture: 'bush' },
-      //   null,
-      //   null,
-      //   null,
-      //   { texture: 'bush' },
-      //   // { texture: 'bush' },
-      //   // { texture: 'bush' }
-      // ],
-      // [
-      //   { texture: 'bush' },
-      //   null,
-      //   null,
-      //   { texture: 'bush' },
-      //   { texture: 'bush' },
-      //   { texture: 'bush' },
-      //   { texture: 'bush' }
-      // ]
+      [{ texture: 'bush' }, { texture: 'bush' }, null, null, { texture: 'bush' }],
+      [{ texture: 'bush' }, null, null, { texture: 'bush' }, null],
+      [null, null, null, null, null]
     ];
 
     return plants;
