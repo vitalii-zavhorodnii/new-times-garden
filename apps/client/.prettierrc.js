@@ -12,6 +12,7 @@ module.exports = {
     '^@components\\w*',
     '^@entities\\w*',
     '^@mappers\\w*',
+    '^@helpers\\w*',
     '^@constants\\w*'
   ],
   importOrderSeparation: true,

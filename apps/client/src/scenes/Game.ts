@@ -12,18 +12,18 @@ import Soil from '@entities/Soil';
 
 import { mapFieldRows } from '@mappers/mapFieldRows';
 
+import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 export class Game extends Scene {
   public camera: Phaser.Cameras.Scene2D.Camera;
-  public cameraDummy: Dummy;
 
-  private balance: number;
+  // private balance: number;
   private pickedSeed: Seed;
 
-  private plantsCollection: Array<Plant>;
-  private seedsCollection: Array<Seed>;
+  // private plantsCollection: Array<Plant>;
+  // private seedsCollection: Array<Seed>;
   private plants: Array<Plant | Dummy>[];
   private soil: Array<Soil[]>;
 
@@ -69,6 +69,7 @@ export class Game extends Scene {
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
+
     // Find all buttons
     this.btnShop = document.getElementById('shop');
     this.btnDecorate = document.getElementById('decorate');
@@ -85,6 +86,26 @@ export class Game extends Scene {
     this.fetchSeedsList();
     this.fetchUserGarden();
     // Run render methods
+    this.input.on('pointermove', (p) => {
+      if (!p.isDown) return;
+
+      const { scrollX } = this.camera;
+      const { left, right } = CAMERA_BOUNDRIES;
+
+      const distance = (p.x - p.prevPosition.x) / this.camera.zoom;
+
+      this.camera.scrollX -= distance;
+
+      if (scrollX <= left) {
+        this.camera.scrollX = left + 5;
+      }
+
+      if (scrollX >= right) {
+        this.camera.scrollX = right - 5;
+      }
+
+      // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
+    });
   }
 
   /*
@@ -231,6 +252,7 @@ export class Game extends Scene {
       Handle button click: Shop
   */
   private handleShopBtn() {
+    // this.camera.scrollY += 100;
     console.log('handleShopBtn');
   }
   // Handle button click: Decorattions
