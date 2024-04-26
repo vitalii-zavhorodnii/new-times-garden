@@ -13,7 +13,7 @@ import {
   ValidateNested
 } from 'class-validator';
 
-export class CreateSeedDto {
+export class UpdatePlantDto {
   @ApiProperty({
     example: 'diagnostic',
     description: 'Issue URL'
@@ -28,25 +28,14 @@ export class CreateSeedDto {
     example: 'Diagnostic',
     description: 'Issue title'
   })
+  @IsOptional()
   @IsDefined()
   @IsNotEmpty()
   @IsString()
   @Length(1, 60, {
     message: 'title required to be 1-60 symbols length'
   })
-  readonly title: string;
-
-  @ApiProperty({
-    example: 'від 200 грн',
-    description: 'Issue fix price'
-  })
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 30, {
-    message: 'title required to be 1-30 symbols length'
-  })
-  readonly price: string;
+  readonly title?: string;
 
   @ApiProperty({
     example: 'Diagnostic...',
@@ -56,17 +45,7 @@ export class CreateSeedDto {
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  readonly info: string;
-
-  @ApiProperty({
-    example: 'Diagnostic...',
-    description: 'Issue description'
-  })
-  @IsOptional()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  readonly description: string;
+  readonly description?: string;
 
   @ApiProperty({
     example: false,
@@ -74,7 +53,30 @@ export class CreateSeedDto {
   })
   @IsOptional()
   @IsBoolean({ message: 'field must be a boolean' })
-  readonly isActive: boolean;
+  readonly isActive?: boolean;
+
+  @ApiProperty({
+    example: 'від 200 грн',
+    description: 'Issue fix price'
+  })
+  @IsOptional()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @Length(1, 30, {
+    message: 'title required to be 1-30 symbols length'
+  })
+  readonly price?: string;
+
+//   @ApiProperty({
+//     example: 'Diagnostic...',
+//     description: 'Issue description'
+//   })
+//   @IsOptional()
+//   @IsDefined()
+//   @IsNotEmpty()
+//   @IsString()
+//   readonly info?: string;
 
 //   @ApiProperty({
 //     type: MetadataDto

@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-import { userGardenMapper } from 'src/mappers/mapUserGarden';
+import { userGardenMapper } from '@mappers/mapUserGarden';
 
-export const getUserGarden = async () => {
-  const { data } = await axios.get('/plants');
+import { IPlantData } from '@interfaces/IPlantData';
+
+export const getUserGarden = async (): Promise<IPlantData[][]> => {
+  const { data } = await axios.get('/gardens');
 
   return userGardenMapper(data);
 };

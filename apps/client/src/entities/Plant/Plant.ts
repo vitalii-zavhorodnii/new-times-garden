@@ -1,32 +1,31 @@
 import { Scene } from 'phaser';
 
-import Seed from '@entities/Seed';
-
 export default class Plant extends Phaser.GameObjects.Sprite {
+  public icon: string;
+  public description: string;
+
   public growTime: number;
-  public cost: number;
-  public tokenCost: number;
-  public clicked: number = 0;
+  public plantedAt: number;
+
   public dummy: boolean;
 
-  constructor(scene: Scene, x: number, y: number, texture: string) {
-    super(scene, x, y, texture);
-  }
+  constructor(
+    scene: Scene,
+    x: number,
+    y: number,
+    texture: string,
+    title: string,
+    plantedAt: number,
+    growTime: number
+  ) {
+    super(scene, x, y, texture, title);
 
-  public activate() {
-    // this.setInteractive();
-  }
-
-  public interract() {
-    this.clicked++;
+    this.plantedAt = plantedAt;
+    this.growTime = growTime;
   }
 
   public preDestroy() {
     this.anims.destroy();
     this.anims = undefined;
-  }
-
-  public changePlant(seed: Seed) {
-    this.texture = seed.plant.texture;
   }
 }

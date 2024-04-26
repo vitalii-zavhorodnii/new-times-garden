@@ -13,7 +13,8 @@ module.exports = {
     '^@entities\\w*',
     '^@mappers\\w*',
     '^@helpers\\w*',
-    '^@constants\\w*'
+    '^@constants\\w*',
+    '^@interfaces\\w*'
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,

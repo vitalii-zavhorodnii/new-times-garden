@@ -1,11 +1,12 @@
 @import './styles/fonts.scss';
 @import './styles/variables.scss';
 @import './styles/bottom-menu';
-@import './styles/seeds-menu';
+@import './styles/plants-menu';
 @import './styles/side-menu.scss';
+@import './styles/seed-picked.scss';
 
 * {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 body {

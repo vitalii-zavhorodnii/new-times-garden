@@ -2,12 +2,15 @@ import { mapFieldRows } from './mapFieldRows';
 
 import { ROW_MAP } from '@constants/rows.constants';
 
-export const userGardenMapper = (field) => {
+import { IGardenCellSprite } from 'src/interfaces/IPlantData';
+import { IGardenFetched } from '@interfaces/IGardenFetched';
+
+export const userGardenMapper = (field: IGardenFetched): IGardenCellSprite[][] => {
   const data = field.map((item, rowIndex: number) => {
-    const mapFieldCoords = mapFieldRows(ROW_MAP);
+    const concatCoordsFetched = mapFieldRows(ROW_MAP);
 
     return item.map((plant, plantIndex: number) => {
-      const cell = { ...plant, ...mapFieldCoords[rowIndex][plantIndex] };
+      const cell = { ...plant, ...concatCoordsFetched[rowIndex][plantIndex] };
 
       return cell;
     });

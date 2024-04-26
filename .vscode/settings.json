@@ -1,0 +1,5 @@
+{
+  "editor.tabSize": 2,
+  "explorer.fileNesting.enabled": false,
+  "prettier.prettierPath": "./node_modules/prettier"
+}

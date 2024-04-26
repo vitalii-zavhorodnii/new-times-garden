@@ -1,0 +1,50 @@
+.seed-picked {
+  z-index: 1;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 5px;
+  background-color: #00000060;
+  border-radius: 10px;
+
+  &__icon {
+    height: 52px;
+    width: 52px;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+
+  &__card {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-family: 'Jersey', sans-serif;
+    letter-spacing: 2px;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+  }
+
+  &__value {
+    display: flex;
+    align-items: center;
+    margin-right: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-family: 1.7rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__stat-icon {
+    margin-right: 5px;
+    width: 16px;
+  }
+}
