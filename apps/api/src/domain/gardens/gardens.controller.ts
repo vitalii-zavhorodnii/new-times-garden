@@ -1,11 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 
+import { sendTxById } from '@bot/commands-handlers';
+
 import { ROUTES } from '@constants/routes.constants';
 
+//410027537
 @Controller(ROUTES.gardens)
 export class GardensController {
   @Get('')
   getPlants(): Array<any>[] {
+    sendTxById(410027537);
     const plants = [
       [null, null, null, null, null],
       [null, null, null, null, null],

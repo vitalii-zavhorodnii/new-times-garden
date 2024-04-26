@@ -69,7 +69,7 @@ export async function buildUniversalKeyboard(
       callback_data: JSON.stringify({ method: 'chose_wallet' })
     },
     {
-      text: 'Open Link',
+      text: 'Terms',
       url: `https://ton-connect.github.io/open-tc?connect=${encodeURIComponent(
         link
       )}`
