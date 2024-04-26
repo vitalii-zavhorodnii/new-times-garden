@@ -1,9 +1,9 @@
 import {
-  WalletInfo,
   WalletInfoRemote,
   WalletsListManager,
   isWalletInfoRemote
 } from '@tonconnect/sdk';
+import type { WalletInfo } from '@tonconnect/sdk';
 
 const walletsListManager = new WalletsListManager({
   cacheTTLMs: Number(process.env.WALLETS_LIST_CAHCE_TTL_MS)

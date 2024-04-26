@@ -5,13 +5,15 @@ module.exports = {
   singleQuote: true,
   semi: true,
   importOrder: [
-    '(^@nestjs/.*?$)|(\\w*\\.decorator|express|mongoose\\w*)|(^@tonconnect.*?$)|(^node-telegram\\w*)',
+    '(^@nestjs/.*?$)|(\\w*\\.decorator|express|mongoose\\w*)|(^@tonconnect.*?$)|(^dotenv.*?$)|(^node-telegram\\w*)',
     '<THIRD_PARTY_MODULES>',
+    '(^@bot.*?$)|(\\w*\\/bot.\\w*)',
     '\\w*\\.module|\\.controller|\\.service\\w*',
     '\\w*\\.schema\\w*',
     '\\w*\\.helper|\\.filter|\\.guard\\w*',
     '\\w*\\.dto\\w*',
-    '\\w*\\.constants\\w*'
+    '\\w*\\.constants\\w*',
+    '^@bot/bot.connect-wallet-menu.*?$'
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,

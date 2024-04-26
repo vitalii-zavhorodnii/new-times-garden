@@ -1,11 +1,9 @@
-import { isTelegramUrl } from '@tonconnect/sdk';
 import { CallbackQuery } from 'node-telegram-bot-api';
 import type TelegramBot from 'node-telegram-bot-api';
 
-import { getConnector } from './bot.connector';
-import { addTGReturnStrategy } from './bot.utils';
-import { getWalletInfo, getWallets } from './bot.wallets';
-import { bot } from './index';
+import { bot } from './bot';
+import { getConnector } from './ton-connect/connector';
+import { getWallets,getWalletInfo } from './ton-connect/wallets';
 import * as fs from 'fs';
 import * as QRCode from 'qrcode';
 
@@ -69,14 +67,11 @@ async function onChooseWalletClick(query: CallbackQuery, _: string): Promise<voi
   );
 }
 
-export async function editQR(
-  message: TelegramBot.Message,
-  link: string
-): Promise<void> {
+async function editQR(message: TelegramBot.Message, link: string): Promise<void> {
   const fileName = 'QR-code-' + Math.round(Math.random() * 10000000000);
 
   await QRCode.toFile(`./${fileName}`, link);
-  fs;
+
   await bot.editMessageMedia(
     {
       type: 'photo',
@@ -99,6 +94,12 @@ async function onOpenUniversalQRClick(
   const wallets = await getWallets();
 
   const connector = getConnector(chatId);
+
+  connector.onStatusChange((wallet) => {
+    if (wallet) {
+      bot.sendMessage(chatId, `${wallet.device.appName} wallet connected!`);
+    }
+  });
 
   const link = connector.connect(wallets);
 
@@ -132,45 +133,42 @@ async function onWalletClick(query: CallbackQuery, data: string): Promise<void> 
   const chatId = query.message!.chat.id;
   const connector = getConnector(chatId);
 
-  const selectedWallet: any = await getWalletInfo(data);
-  if (!selectedWallet) {
-    return;
-  }
-
-  console.log({ selectedWallet });
-
-  let buttonLink = connector.connect({
-    bridgeUrl: selectedWallet.bridgeUrl,
-    universalLink: selectedWallet.universalLink
+  connector.onStatusChange(wallet => {
+      if (wallet) {
+          bot.sendMessage(chatId, `${wallet.device.appName} wallet connected!`);
+      }
   });
 
-  let qrLink = buttonLink;
-
-  if (isTelegramUrl(selectedWallet.universalLink)) {
-    buttonLink = addTGReturnStrategy(buttonLink, process.env.TELEGRAM_BOT_LINK!);
-    qrLink = addTGReturnStrategy(qrLink, 'none');
+  const selectedWallet:any = await getWalletInfo(data);
+  if (!selectedWallet) {
+      return;
   }
 
-  await editQR(query.message!, qrLink);
+  const link = connector.connect({
+      bridgeUrl: selectedWallet.bridgeUrl,
+      universalLink: selectedWallet.universalLink
+  });
+
+  await editQR(query.message!, link);
 
   await bot.editMessageReplyMarkup(
-    {
-      inline_keyboard: [
-        [
-          {
-            text: '« Back',
-            callback_data: JSON.stringify({ method: 'chose_wallet' })
-          },
-          {
-            text: `Open ${selectedWallet.name}`,
-            url: buttonLink
-          }
-        ]
-      ]
-    },
-    {
-      message_id: query.message?.message_id,
-      chat_id: chatId
-    }
+      {
+          inline_keyboard: [
+              [
+                  {
+                      text: '« Back',
+                      callback_data: JSON.stringify({ method: 'chose_wallet' })
+                  },
+                  {
+                      text: `Open ${selectedWallet.name}`,
+                      url: link
+                  }
+              ]
+          ]
+      },
+      {
+          message_id: query.message?.message_id,
+          chat_id: chatId
+      }
   );
 }

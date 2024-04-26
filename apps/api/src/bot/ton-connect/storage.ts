@@ -1,3 +1,4 @@
+// src/ton-connect/storage.ts
 import { IStorage } from '@tonconnect/sdk';
 
 const storage = new Map<string, string>(); // temporary storage implementation. We will replace it with the redis later

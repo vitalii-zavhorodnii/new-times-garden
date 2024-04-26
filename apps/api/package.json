@@ -57,7 +57,7 @@
     "@types/generate-password": "^1.5.1",
     "@types/jest": "29.5.0",
     "@types/node": "18.15.11",
-    "@types/node-telegram-bot-api": "^0.61.4",
+    "@types/node-telegram-bot-api": "^0.61.11",
     "@types/qrcode": "^1.5.0",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
