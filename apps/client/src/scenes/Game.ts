@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import type { IPlantData, IPlantFieldData } from 'src/interfaces/IPlantData';
+import type { IPlantFieldData } from 'src/interfaces/IPlantData';
 
 import { getPlantsList } from '@services/getPlantsList';
 import { getUserGarden } from '@services/getUserGarden';
