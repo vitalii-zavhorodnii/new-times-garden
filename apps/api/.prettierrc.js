@@ -5,7 +5,7 @@ module.exports = {
   singleQuote: true,
   semi: true,
   importOrder: [
-    '(^@nestjs/.*?$)|(\\w*\\.decorator|express|mongoose\\w*)',
+    '(^@nestjs/.*?$)|(\\w*\\.decorator|express|mongoose\\w*)|(^@tonconnect.*?$)|(^node-telegram\\w*)',
     '<THIRD_PARTY_MODULES>',
     '\\w*\\.module|\\.controller|\\.service\\w*',
     '\\w*\\.schema\\w*',

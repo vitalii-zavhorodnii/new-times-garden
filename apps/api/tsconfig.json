@@ -27,6 +27,7 @@
       "@constants/*": ["./src/constants/*"],
       "@decorators/*": ["./src/decorators/*"],
       "@config/*": ["./src/config/*"],
+      "@bot/*": ["./src/bot/*"],
     }
   }
 }

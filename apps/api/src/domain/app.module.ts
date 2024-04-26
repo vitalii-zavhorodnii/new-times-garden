@@ -5,8 +5,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 
 import configuration from '@config/configuration';
 
-import { GardensModule } from './gardens/gardens.module';
+import { GardensModule } from '@domain/gardens/gardens.module';
 import { PlantsModule } from '@domain/plants/plants.module';
+// import { TelegramModule } from '@domain/telegram/telegram.module';
 
 import { STATIC_FOLDER } from '@constants/routes.constants';
 
@@ -29,7 +30,8 @@ import { STATIC_FOLDER } from '@constants/routes.constants';
       })
     }),
     PlantsModule,
-    GardensModule
+    GardensModule,
+    // TelegramModule
   ],
   controllers: [],
   providers: []
