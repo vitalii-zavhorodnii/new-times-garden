@@ -16,7 +16,7 @@ import {
 } from './bot.utils';
 import { getWalletInfo, getWallets } from './bot.wallets';
 import { bot } from './index';
-import QRCode from 'qrcode';
+import * as QRCode from 'qrcode';
 
 const newConnectRequestListenersMap = new Map<number, () => void>();
 
@@ -202,7 +202,10 @@ export async function handleSendTXCommand(msg: TelegramBot.Message): Promise<voi
     .finally(() => connector.pauseConnection());
 
   let deeplink = '';
-  const walletInfo = await getWalletInfo(connector.wallet!.device.appName);
+  const walletInfo: any = await getWalletInfo(connector.wallet!.device.appName);
+
+  console.log({ walletInfo });
+
   if (walletInfo) {
     deeplink = walletInfo.universalLink;
   }

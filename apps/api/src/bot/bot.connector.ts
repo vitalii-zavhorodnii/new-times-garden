@@ -1,6 +1,7 @@
 // src/ton-connect/connector.ts
-import { TonConnectStorage } from './bot.storage';
 import TonConnect from '@tonconnect/sdk';
+
+import { TonConnectStorage } from '@bot/bot.storage';
 import * as process from 'process';
 
 type StoredConnectorData = {

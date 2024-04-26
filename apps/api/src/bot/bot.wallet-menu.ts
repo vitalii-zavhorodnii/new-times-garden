@@ -132,10 +132,12 @@ async function onWalletClick(query: CallbackQuery, data: string): Promise<void> 
   const chatId = query.message!.chat.id;
   const connector = getConnector(chatId);
 
-  const selectedWallet = await getWalletInfo(data);
+  const selectedWallet: any = await getWalletInfo(data);
   if (!selectedWallet) {
     return;
   }
+
+  console.log({ selectedWallet });
 
   let buttonLink = connector.connect({
     bridgeUrl: selectedWallet.bridgeUrl,
