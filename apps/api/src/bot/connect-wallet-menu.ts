@@ -1,9 +1,12 @@
+import { isTelegramUrl } from '@tonconnect/sdk';
 import { CallbackQuery } from 'node-telegram-bot-api';
 import type TelegramBot from 'node-telegram-bot-api';
 
 import { bot } from './bot';
 import { getConnector } from './ton-connect/connector';
-import { getWallets,getWalletInfo } from './ton-connect/wallets';
+import { getWalletInfo, getWallets } from './ton-connect/wallets';
+import { addTGReturnStrategy } from './utils';
+import { buildUniversalKeyboard } from './utils';
 import * as fs from 'fs';
 import * as QRCode from 'qrcode';
 
@@ -71,32 +74,15 @@ async function onOpenUniversalQRClick(
 
   const connector = getConnector(chatId);
 
-  connector.onStatusChange((wallet) => {
-    if (wallet) {
-      bot.sendMessage(chatId, `${wallet.device.appName} wallet connected!`);
-    }
-  });
-
   const link = connector.connect(wallets);
 
   await editQR(query.message!, link);
 
+  const keyboard = await buildUniversalKeyboard(link, wallets);
+
   await bot.editMessageReplyMarkup(
     {
-      inline_keyboard: [
-        [
-          {
-            text: 'Choose a Wallet',
-            callback_data: JSON.stringify({ method: 'chose_wallet' })
-          },
-          {
-            text: 'Open Link',
-            url: `https://ton-connect.github.io/open-tc?connect=${encodeURIComponent(
-              link
-            )}`
-          }
-        ]
-      ]
+      inline_keyboard: [keyboard]
     },
     {
       message_id: query.message?.message_id,
@@ -109,42 +95,83 @@ async function onWalletClick(query: CallbackQuery, data: string): Promise<void> 
   const chatId = query.message!.chat.id;
   const connector = getConnector(chatId);
 
-  connector.onStatusChange(wallet => {
-      if (wallet) {
-          bot.sendMessage(chatId, `${wallet.device.appName} wallet connected!`);
-      }
-  });
-
-  const selectedWallet:any = await getWalletInfo(data);
+  const selectedWallet: any = await getWalletInfo(data);
   if (!selectedWallet) {
-      return;
+    return;
   }
 
-  const link = connector.connect({
-      bridgeUrl: selectedWallet.bridgeUrl,
-      universalLink: selectedWallet.universalLink
+  let buttonLink = connector.connect({
+    bridgeUrl: selectedWallet.bridgeUrl,
+    universalLink: selectedWallet.universalLink
   });
 
-  await editQR(query.message!, link);
+  let qrLink = buttonLink;
+
+  if (isTelegramUrl(selectedWallet.universalLink)) {
+    buttonLink = addTGReturnStrategy(buttonLink, process.env.TELEGRAM_BOT_LINK!);
+    qrLink = addTGReturnStrategy(qrLink, 'none');
+  }
+
+  await editQR(query.message!, qrLink);
 
   await bot.editMessageReplyMarkup(
-      {
-          inline_keyboard: [
-              [
-                  {
-                      text: '« Back',
-                      callback_data: JSON.stringify({ method: 'chose_wallet' })
-                  },
-                  {
-                      text: `Open ${selectedWallet.name}`,
-                      url: link
-                  }
-              ]
-          ]
-      },
-      {
-          message_id: query.message?.message_id,
-          chat_id: chatId
-      }
+    {
+      inline_keyboard: [
+        [
+          {
+            text: '« Back',
+            callback_data: JSON.stringify({ method: 'chose_wallet' })
+          },
+          {
+            text: `Open ${selectedWallet.name}`,
+            url: buttonLink
+          }
+        ]
+      ]
+    },
+    {
+      message_id: query.message?.message_id,
+      chat_id: chatId
+    }
   );
 }
+
+// async function onWalletClick(query: CallbackQuery, data: string): Promise<void> {
+//   const chatId = query.message!.chat.id;
+//   const connector = getConnector(chatId);
+
+//   const wallets = await getWallets();
+
+//   const selectedWallet = wallets.find((wallet) => wallet.name === data);
+//   if (!selectedWallet) {
+//     return;
+//   }
+
+//   const link = connector.connect({
+//     bridgeUrl: selectedWallet.bridgeUrl,
+//     universalLink: selectedWallet.universalLink
+//   });
+
+//   await editQR(query.message!, link);
+
+//   await bot.editMessageReplyMarkup(
+//     {
+//       inline_keyboard: [
+//         [
+//           {
+//             text: '« Back',
+//             callback_data: JSON.stringify({ method: 'chose_wallet' })
+//           },
+//           {
+//             text: `Open ${data}`,
+//             url: link
+//           }
+//         ]
+//       ]
+//     },
+//     {
+//       message_id: query.message?.message_id,
+//       chat_id: chatId
+//     }
+//   );
+// }

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
 import * as TelegramBot from 'node-telegram-bot-api';
 
 @Injectable()
@@ -14,8 +13,6 @@ export class TelegramService {
 
   public init(): void {
     this.bot = new TelegramBot(this.token, { polling: true });
-
-    console.log({ bot: this.bot, token: this.token });
 
     this.bot.on('message', (msg) => {
       const chatId = msg.chat.id;
