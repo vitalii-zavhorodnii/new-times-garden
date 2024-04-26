@@ -13,30 +13,6 @@ export const walletMenuCallbacks = {
   universal_qr: onOpenUniversalQRClick
 };
 
-bot.on('callback_query', (query) => {
-  // Parse callback data and execute corresponing function
-  if (!query.data) {
-    return;
-  }
-
-  let request: { method: string; data: string };
-
-  try {
-    request = JSON.parse(query.data);
-  } catch {
-    return;
-  }
-
-  if (!walletMenuCallbacks[request.method as keyof typeof walletMenuCallbacks]) {
-    return;
-  }
-
-  walletMenuCallbacks[request.method as keyof typeof walletMenuCallbacks](
-    query,
-    request.data
-  );
-});
-
 async function onChooseWalletClick(query: CallbackQuery, _: string): Promise<void> {
   const wallets = await getWallets();
 

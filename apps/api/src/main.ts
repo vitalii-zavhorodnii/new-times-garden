@@ -4,7 +4,10 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { useContainer } from 'class-validator';
 
+import { bot } from '@bot/bot';
 
+import { walletMenuCallbacks } from '@bot/connect-wallet-menu';
+import { handleConnectCommand,handleSendTXCommand } from '@bot/commands-handlers';
 
 import { AppModule } from '@domain/app.module';
 
@@ -13,51 +16,35 @@ import { SwaggerHelper } from '@helpers/swagger.helper';
 
 import { PREFIX, PUBLIC_FOLDER } from '@constants/routes.constants';
 
-import TonConnect from '@tonconnect/sdk';
-import { bot } from '@bot/bot';
-import { getWallets,getWalletInfo } from '@bot/ton-connect/wallets';
-import { TonConnectStorage } from '@bot/ton-connect/storage';
-import { getConnector } from '@bot/ton-connect/connector';
-import * as QRCode from 'qrcode';
 import '@bot/connect-wallet-menu';
 
+export const callbacks = {
+  ...walletMenuCallbacks
+};
 
-bot.onText(/\/connect/, async msg => {
-  const chatId = msg.chat.id;
-  const wallets = await getWallets();
+bot.on('callback_query', (query) => {
+  // Parse callback data and execute corresponing function
+  if (!query.data) {
+    return;
+  }
 
-  const connector = getConnector(chatId);
+  let request: { method: string; data: string };
 
-  connector.onStatusChange(async wallet => {
-      if (wallet) {
-          const walletName =
-              (await getWalletInfo(wallet.device.appName))?.name || wallet.device.appName;
-          bot.sendMessage(chatId, `${walletName} wallet connected!`);
-      }
-  });
+  try {
+    request = JSON.parse(query.data);
+  } catch {
+    return;
+  }
 
-  const link = connector.connect(wallets);
-  const image = await QRCode.toBuffer(link);
+  if (!callbacks[request.method as keyof typeof callbacks]) {
+    return;
+  }
 
-  await bot.sendPhoto(chatId, image, {
-      reply_markup: {
-          inline_keyboard: [
-              [
-                  {
-                      text: 'Choose a Wallet',
-                      callback_data: JSON.stringify({ method: 'chose_wallet' })
-                  },
-                  {
-                      text: 'Open Link',
-                      url: `https://ton-connect.github.io/open-tc?connect=${encodeURIComponent(
-                          link
-                      )}`
-                  }
-              ]
-          ]
-      }
-  });
+  callbacks[request.method as keyof typeof callbacks](query, request.data);
 });
+
+bot.onText(/\/connect/, handleConnectCommand);
+bot.onText(/\/send_tx/, handleSendTXCommand);
 
 (async (): Promise<void> => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
