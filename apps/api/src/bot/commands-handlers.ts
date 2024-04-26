@@ -1,5 +1,5 @@
 // src/commands-handlers.ts
-import { UserRejectsError } from '@tonconnect/sdk';
+import { UserRejectsError, CHAIN,toUserFriendlyAddress } from '@tonconnect/sdk';
 import TelegramBot from 'node-telegram-bot-api';
 
 import { bot } from './bot';
@@ -100,5 +100,46 @@ export async function handleSendTXCommand(msg: TelegramBot.Message): Promise<voi
         ]
       }
     }
+  );
+}
+
+export async function handleDisconnectCommand(msg: TelegramBot.Message): Promise<void> {
+  const chatId = msg.chat.id;
+
+  const connector = getConnector(chatId);
+
+  await connector.restoreConnection();
+  if (!connector.connected) {
+      await bot.sendMessage(chatId, "You didn't connect a wallet");
+      return;
+  }
+
+  await connector.disconnect();
+
+  await bot.sendMessage(chatId, 'Wallet has been disconnected');
+}
+
+export async function handleShowMyWalletCommand(msg: TelegramBot.Message): Promise<void> {
+  const chatId = msg.chat.id;
+
+  const connector = getConnector(chatId);
+
+  await connector.restoreConnection();
+  if (!connector.connected) {
+      await bot.sendMessage(chatId, "You didn't connect a wallet");
+      return;
+  }
+
+  const walletName =
+      (await getWalletInfo(connector.wallet!.device.appName))?.name ||
+      connector.wallet!.device.appName;
+
+
+  await bot.sendMessage(
+      chatId,
+      `Connected wallet: ${walletName}\nYour address: ${toUserFriendlyAddress(
+          connector.wallet!.account.address,
+          connector.wallet!.account.chain === CHAIN.TESTNET
+      )}`
   );
 }

@@ -5,9 +5,14 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { useContainer } from 'class-validator';
 
 import { bot } from '@bot/bot';
-
+import {
+  handleConnectCommand,
+  handleDisconnectCommand,
+  handleSendTXCommand,
+  handleShowMyWalletCommand
+} from '@bot/commands-handlers';
 import { walletMenuCallbacks } from '@bot/connect-wallet-menu';
-import { handleConnectCommand,handleSendTXCommand } from '@bot/commands-handlers';
+import '@bot/connect-wallet-menu';
 
 import { AppModule } from '@domain/app.module';
 
@@ -15,8 +20,6 @@ import { MongoErrorsFilter } from '@filters/mongo-errors.filter';
 import { SwaggerHelper } from '@helpers/swagger.helper';
 
 import { PREFIX, PUBLIC_FOLDER } from '@constants/routes.constants';
-
-import '@bot/connect-wallet-menu';
 
 export const callbacks = {
   ...walletMenuCallbacks
@@ -45,6 +48,8 @@ bot.on('callback_query', (query) => {
 
 bot.onText(/\/connect/, handleConnectCommand);
 bot.onText(/\/send_tx/, handleSendTXCommand);
+bot.onText(/\/disconnect/, handleDisconnectCommand);
+bot.onText(/\/my_wallet/, handleShowMyWalletCommand);
 
 (async (): Promise<void> => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
