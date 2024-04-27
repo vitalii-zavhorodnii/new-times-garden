@@ -9,7 +9,6 @@ import { ROUTES } from '@constants/routes.constants';
 export class GardensController {
   @Get('')
   getPlants(): Array<any>[] {
-    sendTxById(410027537);
     const plants = [
       [null, null, null, null, null],
       [null, null, null, null, null],
