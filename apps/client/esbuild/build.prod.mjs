@@ -22,7 +22,10 @@ const builder = async () => {
     outfile: '/projects/new-times-garden/apps/api/static/bundle.min.js',
     plugins: [
       clean({
-        patterns: ['/projects/new-times-garden/apps/api/static/*', './public/bundle.min.js']
+        patterns: [
+          '/projects/new-times-garden/apps/api/static/*',
+          './public/bundle.min.js'
+        ]
       }),
       inlineImage({
         namespace: 'assets'
@@ -30,7 +33,12 @@ const builder = async () => {
       copy({
         assets: [
           { from: './public/index.html', to: './' },
-          { from: './public/style.css', to: './' },
+          { from: './public/main.css', to: './' },
+          { from: './public/normalize.css', to: './' },
+
+          { from: './public/nunito-extralight.ttf', to: './' },
+          { from: './public/jersey.ttf', to: './' },
+
           { from: './public/favicon.ico', to: './' },
           { from: './public/favicon.png', to: './' },
           { from: './public/assets/**/*', to: './assets/' }
