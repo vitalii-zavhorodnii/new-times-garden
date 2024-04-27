@@ -19,13 +19,10 @@ const builder = async () => {
     minify: true,
     sourcemap: false,
     target: ['chrome58', 'safari11'],
-    outfile: '/projects/new-times-garden/apps/api/static/bundle.min.js',
+    outfile: './dist/bundle.min.js',
     plugins: [
       clean({
-        patterns: [
-          '/projects/new-times-garden/apps/api/static/*',
-          './public/bundle.min.js'
-        ]
+        patterns: ['./dist/*', './public/bundle.min.js']
       }),
       inlineImage({
         namespace: 'assets'
