@@ -8,8 +8,10 @@ import { bot } from '@bot/bot';
 import {
   handleConnectCommand,
   handleDisconnectCommand,
+  handlePlayGameCommand,
   handleSendTXCommand,
-  handleShowMyWalletCommand
+  handleShowMyWalletCommand,
+  handleStartBotCommand
 } from '@bot/commands-handlers';
 import { walletMenuCallbacks } from '@bot/connect-wallet-menu';
 import '@bot/connect-wallet-menu';
@@ -26,6 +28,13 @@ export const callbacks = {
 };
 
 bot.on('callback_query', (query) => {
+  const webViewLink = `https://newtimesgarden.online?id=${query.from.id}`;
+  if (query.game_short_name) {
+    bot.answerCallbackQuery(query.id, {
+      text: 'New Times Garden',
+      url: webViewLink
+    });
+  }
   // Parse callback data and execute corresponing function
   if (!query.data) {
     return;
@@ -46,6 +55,8 @@ bot.on('callback_query', (query) => {
   callbacks[request.method as keyof typeof callbacks](query, request.data);
 });
 
+bot.onText(/\/start/, handleStartBotCommand);
+bot.onText(/\/play/, handlePlayGameCommand);
 bot.onText(/\/connect/, handleConnectCommand);
 bot.onText(/\/send_tx/, handleSendTXCommand);
 bot.onText(/\/disconnect/, handleDisconnectCommand);

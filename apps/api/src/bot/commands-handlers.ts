@@ -277,3 +277,29 @@ export async function handleShowMyWalletCommand(
     )}`
   );
 }
+
+export async function handlePlayGameCommand(msg: TelegramBot.Message) {
+  const chatId = msg.chat.id;
+
+  const gameLink = 'ntg';
+  // bot.answerCallbackQuery(String(chatId), { url: gameLink });
+
+  bot.sendGame(chatId, gameLink);
+}
+
+export async function handleStartBotCommand(msg: TelegramBot.Message) {
+  console.log('/start');
+  const chatId = msg.chat.id;
+
+  // const webViewLink = `https://newtimesgarden.online?id=${chatId}`;
+  // const gameLink = 'ntg';
+
+  // bot.setChatMenuButton({
+  //   chat_id: chatId,
+  //   menu_button: {
+  //     type: 'web_app',
+  //     text: 'Play',
+  //     web_app: { url: `https://newtimesgarden.online?id=${chatId}` }
+  //   }
+  // });
+}
