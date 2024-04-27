@@ -62,7 +62,7 @@ export class Game extends Scene {
 
   public preload() {
     // background
-    this.load.image('background', 'assets/background.jpg');
+    this.load.image('background', 'assets/background.JPG');
     // decor
     this.load.image('dummy', 'assets/dummy.png');
     // field tiles
