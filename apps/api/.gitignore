@@ -2,6 +2,7 @@
 /dist
 /node_modules
 /qr-codes/*
+/static/*
 #.env
 # Logs
 logs
