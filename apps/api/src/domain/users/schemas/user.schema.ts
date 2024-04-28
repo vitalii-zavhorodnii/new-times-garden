@@ -17,15 +17,15 @@ class User extends Document {
   @Prop({ type: Boolean, default: true })
   readonly isActive: boolean;
 
-  @ApiProperty({ example: true })
-  @Prop({ type: Number, required: true })
-  readonly telegramId: number;
+  @ApiProperty({ example: 'telegramId' })
+  @Prop({ type: String, required: true, unique: true })
+  readonly telegramId: string;
 
-  @ApiProperty({ example: true })
+  @ApiProperty({ example: 'name' })
   @Prop({ type: String })
   readonly name: string;
 
-  @ApiProperty({ example: true })
+  @ApiProperty({ example: 'avatar' })
   @Prop({ type: String })
   readonly avatar: string;
 
