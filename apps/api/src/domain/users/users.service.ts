@@ -16,12 +16,13 @@ export class UsersService {
   ) {}
 
   public async create(dto: CreateUserDto): Promise<User> {
+    console.log({ createUser: dto });
     const garden = await this.gardendsService.create();
 
     const newUser = await new this.userModel({ ...dto, garden: garden._id }).save();
 
     const user = await this.userModel.findById(newUser._id).populate('garden');
-
+    console.log({ createUserReturn: user });
     return user;
   }
 
