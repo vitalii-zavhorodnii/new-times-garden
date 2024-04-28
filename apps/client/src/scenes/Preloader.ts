@@ -38,8 +38,8 @@ export class Preloader extends Scene {
     //  For example, you can define global animations here, so we can use them in other scenes.
     //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
 
-    const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-
+    // const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+    const userId = 410027537;
     if (userId) {
       this.fetchUserGarden(userId);
     }

@@ -10,6 +10,7 @@ import { PlantsModule } from '@domain/plants/plants.module';
 // import { TelegramModule } from '@domain/telegram/telegram.module';
 
 import { STATIC_FOLDER } from '@constants/routes.constants';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { STATIC_FOLDER } from '@constants/routes.constants';
     }),
     PlantsModule,
     GardensModule,
+    UsersModule,
     // TelegramModule
   ],
   controllers: [],

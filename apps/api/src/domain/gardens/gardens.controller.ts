@@ -1,16 +1,58 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Public } from '@decorators/public.decorator';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Response as Res
+} from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 import { sendTxById } from '@bot/commands-handlers';
+
+import { GardensService } from './gardens.service';
+
+import { Garden } from './schemas/garden.schema';
+
+import { UpdateGardenDto } from './dto/update-garden.dto';
 
 import { ROUTES } from '@constants/routes.constants';
 
 //410027537
+@ApiTags(ROUTES.gardens)
 @Controller(ROUTES.gardens)
 export class GardensController {
+  constructor(private readonly gardensService: GardensService) {}
 
-  
+  @ApiOperation({ summary: 'Get garden data by user ID' })
+  @ApiResponse({ status: 200, type: Garden })
+  @ApiResponse({ status: 404, description: 'Garden was not found' })
+  @Get('/:id')
+  public async findGardenById(@Param('id') id: string): Promise<Garden> {
+    return await this.gardensService.findOneById(id);
+  }
 
-  @Get('')
+  @ApiOperation({ summary: 'update existing issue by ID' })
+  @ApiResponse({ status: 200, type: Garden })
+  @ApiResponse({
+    status: 404,
+    description: 'Issue was not found'
+  })
+  @Put('/:id')
+  public async updateIssue(
+    @Param('id') id: string,
+    @Body()
+    dto: UpdateGardenDto
+  ): Promise<Garden> {
+    return await this.gardensService.update(id, dto);
+  }
+
+  @Get('/test')
   getPlants(): Array<any>[] {
     const plants = [
       [null, null, null, null, null],
@@ -32,10 +74,5 @@ export class GardensController {
     ];
 
     return plants;
-  }
-
-  @Post('')
-  postPlant(data: any) {
-    console.log(data);
   }
 }
