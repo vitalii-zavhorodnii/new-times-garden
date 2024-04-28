@@ -140,7 +140,7 @@ export class Game extends Scene {
     const text = window.Telegram.WebApp;
     // const chatId = window.Telegram.WebApp.initDataUnsafe.chat.id;
     // const
-    loginUser(text);
+    loginUser({ webapp: text });
     this.add.text(15, 15, [`'WebApp'`, String(text)]);
   }
   /*
