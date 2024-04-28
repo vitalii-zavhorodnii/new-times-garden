@@ -31,6 +31,7 @@ export class UsersService {
     const user = await this.userModel.findOne({ telegramId });
 
     if (!user) {
+      console.log('!user', { user });
       return null;
     }
 

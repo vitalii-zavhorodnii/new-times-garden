@@ -28,6 +28,8 @@ export class UsersController {
   @Get('/:id')
   public async findUserByTelegramId(@Param('id') id: string): Promise<User | null> {
     console.log({ findUserByTelegramId: id });
-    return await this.usersService.findOneByTelegramId(id);
+    const result = await this.usersService.findOneByTelegramId(id);
+    console.log({ result });
+    return result;
   }
 }
