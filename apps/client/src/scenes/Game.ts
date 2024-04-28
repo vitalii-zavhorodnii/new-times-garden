@@ -65,6 +65,7 @@ export class Game extends Scene {
   }
 
   public init(data) {
+    console.log({ init: data });
     this.userData = data.user;
     this.plantsData = data.plants;
   }

@@ -53,7 +53,7 @@ export class Preloader extends Scene {
 
     const plants = await getPlantsList();
 
-    console.log({ user, userData });
+    console.log({ user, userData, plants });
     this.scene.start('Game', { user, plants });
   }
 }
