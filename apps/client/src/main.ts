@@ -16,6 +16,8 @@ axios.defaults.baseURL = 'https://newtimesgarden.online/api';
 // window.Telegram.WebApp.viewportHeight - высота вьюпорта телеги
 // const text = window.Telegram.WebApp.initDataUnsafe.user.first_name;
 window.Telegram.WebApp.expand();
+
+
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
   y: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)

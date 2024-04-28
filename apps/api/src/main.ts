@@ -29,7 +29,7 @@ export const callbacks = {
 
 bot.on('callback_query', (query) => {
   console.log({ query });
-  const webViewLink = `https://newtimesgarden.online?id=${query.from.id}`;
+  const webViewLink = `https://newtimesgarden.online/?id=${query.from.id}&name=${query.from.first_name}&username=${query.from.username}`;
   if (query.game_short_name) {
     bot.answerCallbackQuery(query.id, {
       callback_query_id: query.id,
