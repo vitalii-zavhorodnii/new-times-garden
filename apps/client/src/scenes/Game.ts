@@ -145,11 +145,6 @@ export class Game extends Scene {
 
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
     });
-
-    const text = window.Telegram.WebApp.initDataUnsafe.user.id;
-    // const chatId = window.Telegram.WebApp.initDataUnsafe.chat.id;
-    // const
-    this.add.text(15, 15, [`'WebApp'`, String(text)]);
   }
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
@@ -201,7 +196,7 @@ export class Game extends Scene {
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
     console.log({ garden: this.userData.garden });
-    this.plants = this.userData.garden.map((gardenRow) => {
+    this.plants = this.userData.garden.field.map((gardenRow) => {
       const plantedRow = gardenRow.map((item) => {
         if (!item.texture) {
           return new Dummy(this);
