@@ -42,9 +42,9 @@ export class Preloader extends Scene {
   private async fetchUserData(userData: any) {
     let user = await getUserData(userData.id);
 
-    // if (!user) {
-    //   user = await createUser(userData);
-    // }
+    if (!user) {
+      user = await createUser(userData);
+    }
 
     const plants = await getPlantsList();
 
