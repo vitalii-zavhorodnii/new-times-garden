@@ -40,7 +40,7 @@ export class Preloader extends Scene {
   }
 
   private async fetchUserData(userData: any) {
-    let user = await getUserData(userData.id);
+    let user = await getUserData(userData.telegramId);
 
     if (!user) {
       user = await createUser(userData);
