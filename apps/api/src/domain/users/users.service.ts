@@ -34,6 +34,7 @@ export class UsersService {
       return null;
     }
 
+    console.log('return service', { user });
     return user;
   }
 }
