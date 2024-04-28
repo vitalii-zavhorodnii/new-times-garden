@@ -16,8 +16,8 @@ export class CreateUserDto {
   })
   @IsDefined()
   @IsNotEmpty()
-  @IsNumber()
-  readonly telegramId: number;
+  @IsString()
+  readonly telegramId: string;
 
   @ApiProperty({
     example: 'User',
