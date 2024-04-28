@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 
 import { sendTxById } from '@bot/commands-handlers';
 
@@ -29,5 +29,10 @@ export class GardensController {
     ];
 
     return plants;
+  }
+
+  @Post('')
+  postPlant(data: any) {
+    console.log(data);
   }
 }

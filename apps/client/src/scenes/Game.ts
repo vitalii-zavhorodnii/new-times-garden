@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import type { IPlantFieldData } from 'src/interfaces/IPlantData';
+import { loginUser } from 'src/services/loginUser';
 
 import { getPlantsList } from '@services/getPlantsList';
 import { getUserGarden } from '@services/getUserGarden';
@@ -135,6 +136,13 @@ export class Game extends Scene {
 
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
     });
+
+    const text = window.Telegram.WebApp.initData;
+    // const chatId = window.Telegram.WebApp.initDataUnsafe.chat.id;
+    // const
+    console.log({ text });
+    loginUser(text);
+    this.add.text(15, 15, [`'WebApp'`, text]);
   }
   /*
       Fetch data methods

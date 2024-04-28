@@ -1,0 +1,74 @@
+
+name: Deploy on development VPS
+
+on:
+  pull_request:
+    branches: ['main']
+    types: ['closed']
+  push:
+    branches: ['main']
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Lint and deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ESLint
+        run: |
+          npm install eslint@latest
+          npm install @microsoft/eslint-formatter-sarif@latest
+
+      - name: Run lint
+        run: npx eslint .
+          --config .eslintrc.js
+          --ext .ts,.js
+          --format @microsoft/eslint-formatter-sarif
+          --output-file eslint-results.sarif
+        continue-on-error: false
+
+      - name: Install NodeJS 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create build API
+        run: npm run build:api
+        
+      - name: Create build Client
+        run: npm run build:client
+
+      - name: Deploying using SSH
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          port: 22
+          script: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+            export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm install latest
+            cd /projects/new-times-garden/
+            git status
+            git checkout main
+            git pull origin main
+            npm install
+            npm run build:api
+            npm run client:client
+            mv apps/client/dist/* apps/api/static
+            pm2 restart dist/main.js --name=api
