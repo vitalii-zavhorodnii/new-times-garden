@@ -16,15 +16,6 @@ export class GardensService {
 
   public async create(): Promise<Garden> {
     console.log({ createGardenService: 'go' });
-    try {
-      console.log({ createGardenService: 'try' });
-      const newGarden = await new this.gardenModel({
-        isActive: true,
-        field: DEFAULT_GARDEN
-      }).save();
-    } catch (error) {
-      console.log({ error });
-    }
     const newGarden = await new this.gardenModel({
       isActive: true,
       field: DEFAULT_GARDEN
