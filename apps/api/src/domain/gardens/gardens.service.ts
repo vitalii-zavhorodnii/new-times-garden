@@ -19,7 +19,7 @@ export class GardensService {
     const newGarden = await new this.gardenModel(DEFAULT_GARDEN).save();
 
     const garden = await this.findOneById(newGarden._id);
-
+    console.log({ garden });
     return garden;
   }
 
