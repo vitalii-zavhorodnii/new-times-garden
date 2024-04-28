@@ -281,9 +281,8 @@ export async function handleShowMyWalletCommand(
 export async function handlePlayGameCommand(msg: TelegramBot.Message) {
   const chatId = msg.chat.id;
 
-  const gameLink = 'ntg';
   const link = 'https://newtimesgarden.online/';
-  // bot.answerCallbackQuery(String(chatId), { url: gameLink });
+
   bot.sendMessage(chatId, 'play game', {
     reply_markup: {
       inline_keyboard: [
@@ -296,8 +295,6 @@ export async function handlePlayGameCommand(msg: TelegramBot.Message) {
       ]
     }
   });
-
-  // bot.sendGame(chatId, gameLink);
 }
 
 export async function handleStartBotCommand(msg: TelegramBot.Message) {

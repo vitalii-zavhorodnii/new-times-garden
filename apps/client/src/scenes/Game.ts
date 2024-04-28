@@ -137,7 +137,7 @@ export class Game extends Scene {
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
     });
 
-    const text = window.Telegram.WebApp;
+    const text = window.Telegram.WebApp.initDataUnsafe.user.id;
     // const chatId = window.Telegram.WebApp.initDataUnsafe.chat.id;
     // const
     loginUser({ webapp: text });
