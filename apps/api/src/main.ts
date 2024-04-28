@@ -69,7 +69,7 @@ bot.onText(/\/my_wallet/, handleShowMyWalletCommand);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
-    origin: '*'
+    origin: '*',
     // methods: 'GET, PUT, POST, PATCH, DELETE, OPTIONS',
     // credentials: true,
     // allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Range'],
