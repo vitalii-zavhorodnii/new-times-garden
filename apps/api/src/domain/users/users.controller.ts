@@ -29,6 +29,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'Garden was not found' })
   @Get('/:id')
   public async findUserByTelegramId(@Param('id') id: string): Promise<User | null> {
+    console.log({ findUserByTelegramId: id });
     const result = await this.usersService.findOneByTelegramId(id);
 
     return result;
