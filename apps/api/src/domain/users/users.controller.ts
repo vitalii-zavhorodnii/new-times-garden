@@ -18,6 +18,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Post('')
   public async createUser(@Body() dto: CreateUserDto): Promise<User> {
+    console.log({ createUser: dto });
     const result = await this.usersService.create(dto);
 
     return result;
