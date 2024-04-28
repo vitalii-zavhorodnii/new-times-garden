@@ -26,12 +26,12 @@ export class UsersService {
     return user;
   }
 
-  public async findOneByTelegramId(telegramId: string): Promise<User> {
+  public async findOneByTelegramId(telegramId: string): Promise<User | null> {
     console.log({ findOneByTelegramId: telegramId });
     const user = await this.userModel.findOne({ telegramId });
 
     if (!user) {
-      throw new NotFoundException(`User with ID "${telegramId}" was not found`);
+      return null;
     }
 
     return user;
