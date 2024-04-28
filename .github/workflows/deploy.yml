@@ -69,6 +69,6 @@ jobs:
             git pull origin main
             npm install
             npm run build:api
-            npm run client:client
+            npm run build:client
             mv apps/client/dist/* apps/api/static
             pm2 restart dist/main.js --name=api
