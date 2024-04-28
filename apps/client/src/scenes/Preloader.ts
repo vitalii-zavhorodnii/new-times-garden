@@ -28,7 +28,7 @@ export class Preloader extends Scene {
   create() {
     if (window?.Telegram) {
       const user = {
-        telegramId: window?.Telegram?.WebApp?.initDataUnsafe?.user?.id,
+        telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
         name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username,
         avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
       };
