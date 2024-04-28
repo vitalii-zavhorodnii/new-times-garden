@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 import type { IPlantFieldData } from 'src/interfaces/IPlantData';
-import { loginUser } from 'src/services/loginUser';
 
 import { getPlantsList } from '@services/getPlantsList';
+import { getUserData } from '@services/getUserData';
 import { getUserGarden } from '@services/getUserGarden';
 
 import PickedSeedMenu from '@components/menus/PickedSeedMenu';
@@ -31,6 +31,9 @@ export class Game extends Scene {
 
   // private plantsCollection: Array<Plant>;
   // private plantsCollection: Array<Seed>;
+  private userData: any;
+  private plantsData: IPlantListItem[];
+
   private plants: Array<Plant | Dummy>[];
   private soil: Array<Soil[]>;
 
@@ -59,6 +62,11 @@ export class Game extends Scene {
     this.plants = [];
     this.soil = [];
     this.isBlocked = false;
+  }
+
+  public init(data) {
+    this.userData = data.user;
+    this.plantsData = data.plants;
   }
 
   public preload() {
@@ -110,8 +118,8 @@ export class Game extends Scene {
     backgroundImage.x = backgroundImage.x - 250;
     // backgroundImage.setDisplaySize(backgroundImage.width, height);
     // Run fetch data methods
-    this.fetchPlantsList();
-    this.fetchUserGarden();
+    this.renderPlantsList();
+    this.renderGardenField();
     // Create picked seed data
     this.pickedSeedInfo = new PickedSeedMenu();
     this.input.on('pointermove', (p) => {
@@ -140,23 +148,7 @@ export class Game extends Scene {
     const text = window.Telegram.WebApp.initDataUnsafe.user.id;
     // const chatId = window.Telegram.WebApp.initDataUnsafe.chat.id;
     // const
-    loginUser({ webapp: text });
     this.add.text(15, 15, [`'WebApp'`, String(text)]);
-  }
-  /*
-      Fetch data methods
-  */
-  // Get all plants
-  private async fetchPlantsList() {
-    const plants = await getPlantsList();
-
-    this.renderPlantsList(plants);
-  }
-  // Get user's garden
-  private async fetchUserGarden() {
-    const usersGardenSchema = await getUserGarden(410027537);
-
-    this.renderGardenField(usersGardenSchema);
   }
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
@@ -203,12 +195,12 @@ export class Game extends Scene {
       Render garden field
   */
   // Render garden field
-  private renderGardenField(gardenPlants: IPlantFieldData) {
+  private renderGardenField() {
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
 
-    this.plants = gardenPlants.map((gardenRow) => {
+    this.plants = this.userData.garden.map((gardenRow) => {
       const plantedRow = gardenRow.map((item) => {
         if (!item.texture) {
           return new Dummy(this);
@@ -280,8 +272,8 @@ export class Game extends Scene {
     });
   }
   // Render plants list
-  private renderPlantsList(plants: IPlantListItem[]) {
-    this.menuPlants = new PlantsMenu(plants, (plant: IPlantListItem) => {
+  private renderPlantsList() {
+    this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
       this.pickedPlant = plant;
       this.pickedSeedInfo.show(this.pickedPlant);
       this.isBlocked = false;

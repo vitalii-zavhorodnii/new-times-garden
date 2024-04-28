@@ -2,7 +2,8 @@ export const ROUTES = {
     files: 'public',
     images: 'images',
     plants: 'plants',
-    gardens: 'gardens'
+    gardens: 'gardens',
+    users: 'users',
   };
   
   export const PUBLIC_FOLDER = 'public';

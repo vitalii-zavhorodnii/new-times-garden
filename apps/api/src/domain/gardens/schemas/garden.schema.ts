@@ -10,19 +10,19 @@ export type GardenCellDocument = HydratedDocument<GardenCell>;
 class GardenCell extends Document {
   @ApiProperty({ example: 'Potato' })
   @Prop({ type: String, required: true })
-  title: string;
+  readonly title: string;
 
   @ApiProperty({ example: 'potato' })
   @Prop({ type: String, required: true })
-  texture: string;
+  readonly texture: string;
 
   @ApiProperty({ example: 90 })
   @Prop({ type: Number, required: true })
-  growTime: number;
+  readonly growTime: number;
 
   @ApiProperty({ example: 90 })
   @Prop({ type: Number, required: true })
-  plantedAt: number;
+  readonly plantedAt: number;
 }
 
 const GardenCellSchema = SchemaFactory.createForClass(GardenCell);
@@ -45,13 +45,11 @@ class Garden extends Document {
   })
   readonly field: Array<GardenCell | null>[];
 
-  readonly owner: string;
-
   @Prop({ default: now() })
-  createdAt: Date;
+  readonly createdAt: Date;
 
   @Prop({ set: () => now(), default: now() })
-  updatedAt: Date;
+  readonly updatedAt: Date;
 }
 
 const GardenSchema = SchemaFactory.createForClass(Garden);

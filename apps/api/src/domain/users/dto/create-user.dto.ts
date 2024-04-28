@@ -3,23 +3,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsDefined,
-  IsEmail,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString,
-  Length
+  IsString
 } from 'class-validator';
 
 export class CreateUserDto {
-  @ApiProperty({
-    example: false,
-    description: 'If false, will be disabled and unable to login'
-  })
-  @IsOptional()
-  @IsBoolean()
-  readonly isActive?: boolean;
-
   @ApiProperty({
     example: 'Admin',
     description: 'Unique telegramId identifier'
@@ -30,15 +20,6 @@ export class CreateUserDto {
   readonly telegramId: number;
 
   @ApiProperty({
-    example: 'avatar.jpg',
-    description: 'User avata'
-  })
-  @IsDefined()
-  @IsNotEmpty()
-  @IsEmail()
-  readonly avatar: string;
-
-  @ApiProperty({
     example: 'User',
     description: 'User name'
   })
@@ -47,8 +28,24 @@ export class CreateUserDto {
   @IsString()
   readonly name: string;
 
+  @ApiProperty({
+    example: false,
+    description: 'If false, will be disabled and unable to login'
+  })
+  @IsOptional()
+  @IsBoolean()
+  readonly isActive?: boolean;
+
+  @ApiProperty({
+    example: 'avatar.jpg',
+    description: 'User avata'
+  })
+  @IsOptional()
+  @IsString()
+  readonly avatar?: string;
+
   @ApiProperty({ example: '64ef4383e46e72721c03090e' })
   @IsOptional()
   @IsString()
-  readonly garden: string;
+  readonly garden?: string;
 }
