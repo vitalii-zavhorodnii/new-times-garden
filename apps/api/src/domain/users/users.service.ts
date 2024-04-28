@@ -21,14 +21,14 @@ export class UsersService {
 
     const newUser = await new this.userModel({ ...dto, garden: garden._id }).save();
 
-    const user = await this.userModel.findById(newUser._id);
+    const user = await this.userModel.findById(newUser._id).populate('garden');
 
     return user;
   }
 
   public async findOneByTelegramId(telegramId: string): Promise<User | null> {
     console.log({ findOneByTelegramId: telegramId });
-    const user = await this.userModel.findOne({ telegramId });
+    const user = await this.userModel.findOne({ telegramId }).populate('garden');
 
     if (!user) {
       console.log('!user', { user });

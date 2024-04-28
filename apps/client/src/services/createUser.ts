@@ -8,6 +8,7 @@ interface IUserData {
 }
 
 export const createUser = async (user: IUserData): Promise<void> => {
+  console.log({ createUser: user });
   const { data } = await axios.post('/users', user);
 
   return data;
