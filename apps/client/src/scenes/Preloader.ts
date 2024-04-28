@@ -30,7 +30,7 @@ export class Preloader extends Scene {
       const user = {
         telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
         name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username,
-        avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
+        // avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
       };
       // const user = {
       //   telegramId: 410027537,
@@ -38,7 +38,7 @@ export class Preloader extends Scene {
       //   avatar: 'url'
       // };
       const d = document.querySelector('.seed-picked');
-      d.innerHTML = `${String(user.telegramId)} ${user.name} ${user.avatar}`;
+      d.innerHTML = `${String(user.telegramId)} ${user.name} `;
 
       if (user.telegramId) {
         this.fetchUserData(user);
