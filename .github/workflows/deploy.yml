@@ -54,9 +54,9 @@ jobs:
       - name: Deploying using SSH
         uses: appleboy/ssh-action@master
         with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
