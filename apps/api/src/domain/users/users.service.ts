@@ -16,7 +16,7 @@ export class UsersService {
   ) {}
 
   public async create(dto: CreateUserDto): Promise<User> {
-    console.log({ dto });
+    console.log({ create: dto });
     const garden = await this.gardendsService.create();
 
     const newUser = await new this.userModel({ ...dto, garden: garden._id }).save();
@@ -27,7 +27,7 @@ export class UsersService {
   }
 
   public async findOneByTelegramId(telegramId: string): Promise<User> {
-    console.log({ telegramId });
+    console.log({ findOneByTelegramId: telegramId });
     const user = await this.userModel.findOne({ telegramId });
 
     if (!user) {

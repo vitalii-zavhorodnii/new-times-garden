@@ -15,6 +15,7 @@ export class GardensService {
   ) {}
 
   public async create(): Promise<Garden> {
+    console.log({ createGarden: DEFAULT_GARDEN });
     const newGarden = await new this.gardenModel(DEFAULT_GARDEN).save();
 
     const garden = await this.findOneById(newGarden._id);
