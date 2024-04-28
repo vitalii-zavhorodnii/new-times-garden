@@ -16,7 +16,6 @@ export class UsersService {
   ) {}
 
   public async create(dto: CreateUserDto): Promise<User> {
-    console.log({ create: dto });
     const garden = await this.gardendsService.create();
 
     const newUser = await new this.userModel({ ...dto, garden: garden._id }).save();
@@ -27,15 +26,12 @@ export class UsersService {
   }
 
   public async findOneByTelegramId(telegramId: string): Promise<User | null> {
-    console.log({ findOneByTelegramId: telegramId });
     const user = await this.userModel.findOne({ telegramId }).populate('garden');
 
     if (!user) {
-      console.log('!user', { user });
       return null;
     }
 
-    console.log('return service', { user });
     return user;
   }
 }

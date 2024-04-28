@@ -18,8 +18,9 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Post('')
   public async createUser(@Body() dto: CreateUserDto): Promise<User> {
-    console.log({ createUser: dto });
-    return await this.usersService.create(dto);
+    const result = await this.usersService.create(dto);
+
+    return result;
   }
 
   @ApiOperation({ summary: 'Find User by Telegram ID' })
@@ -27,9 +28,8 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'Garden was not found' })
   @Get('/:id')
   public async findUserByTelegramId(@Param('id') id: string): Promise<User | null> {
-    console.log({ findUserByTelegramId: id });
     const result = await this.usersService.findOneByTelegramId(id);
-    console.log({ result });
+
     return result;
   }
 }
