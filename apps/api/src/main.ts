@@ -28,10 +28,11 @@ export const callbacks = {
 };
 
 bot.on('callback_query', (query) => {
+  console.log({query})
   const webViewLink = `https://newtimesgarden.online?id=${query.from.id}`;
   if (query.game_short_name) {
     bot.answerCallbackQuery(query.id, {
-      text: 'New Times Garden',
+      text: 'Garden',
       url: webViewLink
     });
   }
