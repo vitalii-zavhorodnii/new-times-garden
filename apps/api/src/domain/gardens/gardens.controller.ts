@@ -7,6 +7,9 @@ import { ROUTES } from '@constants/routes.constants';
 //410027537
 @Controller(ROUTES.gardens)
 export class GardensController {
+
+  
+
   @Get('')
   getPlants(): Array<any>[] {
     const plants = [

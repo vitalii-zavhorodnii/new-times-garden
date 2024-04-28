@@ -4,8 +4,8 @@ import { userGardenMapper } from '@mappers/mapUserGarden';
 
 import { IPlantData } from '@interfaces/IPlantData';
 
-export const getUserGarden = async (): Promise<IPlantData[][]> => {
-  const { data } = await axios.get('/gardens');
+export const getUserGarden = async (id: number): Promise<IPlantData[][]> => {
+  const { data } = await axios.get(`/gardens/${id}`);
 
   return userGardenMapper(data);
 };

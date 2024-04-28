@@ -154,7 +154,7 @@ export class Game extends Scene {
   }
   // Get user's garden
   private async fetchUserGarden() {
-    const usersGardenSchema = await getUserGarden();
+    const usersGardenSchema = await getUserGarden(410027537);
 
     this.renderGardenField(usersGardenSchema);
   }
