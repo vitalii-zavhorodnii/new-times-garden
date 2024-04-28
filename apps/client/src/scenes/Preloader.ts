@@ -37,6 +37,8 @@ export class Preloader extends Scene {
       //   name: 'user',
       //   avatar: 'url'
       // };
+      const d = document.querySelector('.seed-picked');
+      d.innerHTML = `${String(user.telegramId)} ${user.name} ${user.avatar}`;
 
       if (user.telegramId) {
         this.fetchUserData(user);
