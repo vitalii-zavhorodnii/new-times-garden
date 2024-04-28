@@ -9,7 +9,7 @@ export const getUserData = async (telegramId: number): Promise<any> => {
     return null;
   }
   console.log({ data });
-  data.garden = userGardenMapper(data.garden);
+  data.garden.field = userGardenMapper(data.garden.field);
 
   return data;
 };
