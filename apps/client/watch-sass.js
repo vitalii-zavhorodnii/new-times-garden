@@ -15,7 +15,7 @@ const compileSass = () => {
         if (!error) {
             fs.writeFile('public/css/main.css', result.css, function(err){
                 if(!err){
-                    console.log('Sass compiled successfully!');
+                    console.log('🚀 Sass compiled successfully!');
                 }
             });
         } else {
