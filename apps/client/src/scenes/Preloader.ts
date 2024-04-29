@@ -29,16 +29,16 @@ export class Preloader extends Scene {
   // 410027537
   create() {
     if (window?.Telegram) {
-      // const user = {
-      //   telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
-      //   name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username,
-      //   // avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
-      // };
       const user = {
-        telegramId: '410027537',
-        name: 'user',
-        avatar: 'url'
+        telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
+        name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username,
+        // avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
       };
+      // const user = {
+      //   telegramId: '410027537',
+      //   name: 'user',
+      //   avatar: 'url'
+      // };
       const d = document.querySelector('.seed-picked');
       d.innerHTML = `${String(user.telegramId)} ${user.name} `;
 
