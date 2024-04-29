@@ -92,6 +92,11 @@ export async function handleSendTXCommand(msg: TelegramBot.Message): Promise<voi
     return;
   }
 
+  // address: "0:1c7c35ed634e8fa796e02bbbe8a2605df0e2ab59d7ccb24ca42b1d5205c735ca",
+  //     amount: "69000000",
+  //     payload: "te6ccsEBAQEAHQAAADYAAAAAVE9OIENvbm5lY3QgMiB0dXRvcmlhbCFdy+mw",
+  //     stateInit: "te6ccsEBBAEAUwAABRJJAgE0AQMBFP8A9KQT9LzyyAsCAGrTMAGCCGlJILmRMODQ0wMx+kAwi0ZG9nZYcCCAGMjLBVAEzxaARfoCE8tqEssfAc8WyXP7AAAQAAABhltsPJ+MirEd"
+
   pTimeout(
     connector.sendTransaction({
       validUntil: Math.round(
@@ -137,25 +142,25 @@ export async function handleSendTXCommand(msg: TelegramBot.Message): Promise<voi
     deeplink = addTGReturnStrategy(url.toString(), process.env.TELEGRAM_BOT_LINK!);
   }
 
-  // await bot.sendMessage(
-  //   chatId,
-  //   `Open ${
-  //     walletInfo?.name || connector.wallet!.device.appName
-  //   } and confirm transaction`,
-  //   {
-  //     reply_markup: {
-  //       inline_keyboard: [
-  //         [
-  //           {
-  //             text: `Open ${walletInfo?.name || connector.wallet!.device.appName}`,
-  //             url: deeplink
-  //           }
-  //         ]
-  //       ]
-  //     }
-  //   }
-  // );
-  await bot.sendMessage(chatId, deeplink);
+  await bot.sendMessage(
+    chatId,
+    `Open ${
+      walletInfo?.name || connector.wallet!.device.appName
+    } and confirm transaction`,
+    {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: `Open ${walletInfo?.name || connector.wallet!.device.appName}`,
+              url: deeplink
+            }
+          ]
+        ]
+      }
+    }
+  );
+  // await bot.send(chatId, deeplink);
 }
 
 export async function sendTxById(id: number): Promise<void> {
