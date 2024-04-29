@@ -6,6 +6,8 @@ import { getUserData } from '@services/getUserData';
 
 import { userGardenMapper } from '@mappers/mapUserGarden';
 
+import { SHOP_COINS } from '@constants/shop-coins';
+
 export class Preloader extends Scene {
   constructor() {
     super('Preloader');
@@ -31,7 +33,7 @@ export class Preloader extends Scene {
     if (window?.Telegram) {
       const user = {
         telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
-        name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username,
+        name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username
         // avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
       };
       // const user = {
@@ -59,6 +61,6 @@ export class Preloader extends Scene {
 
     const plants = await getPlantsList();
 
-    this.scene.start('Game', { user, plants });
+    this.scene.start('Game', { user, plants, shopList: SHOP_COINS });
   }
 }

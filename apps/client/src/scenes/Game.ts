@@ -19,6 +19,7 @@ import { CONTAINERS_DEPTH } from '@constants/containers-depth';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
+import type { IShopItem } from '@interfaces/IShopItem';
 
 export class Game extends Scene {
   public camera: Phaser.Cameras.Scene2D.Camera;
@@ -31,6 +32,7 @@ export class Game extends Scene {
   // private plantsCollection: Array<Seed>;
   private userData: any;
   private plantsData: IPlantListItem[];
+  private shopList: IShopItem[]
 
   private plants: Array<Plant | Dummy>[];
   private soil: Array<Soil[]>;
@@ -68,11 +70,12 @@ export class Game extends Scene {
   public init(data: any) {
     this.userData = data.user;
     this.plantsData = data.plants;
+    this.shopList = data.shopList;
   }
 
   public preload() {
     // background
-    this.load.image('background', 'assets/utils/background.JPG');
+    this.load.image('background', 'assets/utils/background.jpg');
     // decor
     this.load.image('dummy', 'assets/utils/dummy.png');
     // field tiles
@@ -109,7 +112,7 @@ export class Game extends Scene {
     this.balanceMenu.show();
     this.bottomMenu = new BottomMenu();
     this.bottomMenu.show();
-    this.shopMenu = new ShopMenu();
+    this.shopMenu = new ShopMenu(this.shopList);
     /*
       Opacity for ont completed buttons
     */
