@@ -284,7 +284,7 @@ export class Game extends Scene {
     console.log('handleShopBtn');
     const url =
       'https://t.me/wallet?attach=wallet&startattach=tonconnect-ret__https--3A--2F--2Ft--2Eme--2FNewTimesGardenBot';
-    window.open(url, '_blank').focus();
+    window.open(url).focus();
   }
   // Handle button click: Decorattions
   private handleDecorateBtn() {
