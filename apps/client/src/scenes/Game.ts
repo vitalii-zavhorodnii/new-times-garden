@@ -20,7 +20,7 @@ import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
-import type { IPlantListItem } from '@interfaces/IPlantsMenu';
+import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
 export class Game extends Scene {
   public camera: Phaser.Cameras.Scene2D.Camera;

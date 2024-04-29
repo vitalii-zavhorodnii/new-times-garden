@@ -137,24 +137,25 @@ export async function handleSendTXCommand(msg: TelegramBot.Message): Promise<voi
     deeplink = addTGReturnStrategy(url.toString(), process.env.TELEGRAM_BOT_LINK!);
   }
 
-  await bot.sendMessage(
-    chatId,
-    `Open ${
-      walletInfo?.name || connector.wallet!.device.appName
-    } and confirm transaction`,
-    {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: `Open ${walletInfo?.name || connector.wallet!.device.appName}`,
-              url: deeplink
-            }
-          ]
-        ]
-      }
-    }
-  );
+  // await bot.sendMessage(
+  //   chatId,
+  //   `Open ${
+  //     walletInfo?.name || connector.wallet!.device.appName
+  //   } and confirm transaction`,
+  //   {
+  //     reply_markup: {
+  //       inline_keyboard: [
+  //         [
+  //           {
+  //             text: `Open ${walletInfo?.name || connector.wallet!.device.appName}`,
+  //             url: deeplink
+  //           }
+  //         ]
+  //       ]
+  //     }
+  //   }
+  // );
+  await bot.sendMessage(chatId, deeplink);
 }
 
 export async function sendTxById(id: number): Promise<void> {
