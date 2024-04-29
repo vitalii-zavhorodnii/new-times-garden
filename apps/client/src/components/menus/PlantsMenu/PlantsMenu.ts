@@ -1,4 +1,4 @@
-import type { IPlantListItem } from '@interfaces/IPlantsMenu';
+import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
 export default class PlantsMenu {
   public isOpen: boolean;
@@ -61,7 +61,7 @@ export default class PlantsMenu {
 
       const priceIconMarkup = document.createElement('img');
       priceIconMarkup.classList.add('plants-menu__stat-icon');
-      priceIconMarkup.src = './assets/coin.png';
+      priceIconMarkup.src = './assets/utils/coin.png';
       priceIconMarkup.alt = plant.title;
 
       const timerMarkup = document.createElement('span');
@@ -69,7 +69,7 @@ export default class PlantsMenu {
 
       const timerIconMarkup = document.createElement('img');
       timerIconMarkup.classList.add('plants-menu__stat-icon');
-      timerIconMarkup.src = './assets/timer.png';
+      timerIconMarkup.src = './assets/utils/timer.png';
       timerIconMarkup.alt = plant.title;
 
       const titleText = document.createTextNode(plant.title);

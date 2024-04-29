@@ -1,0 +1,80 @@
+@import './fonts.scss';
+@import './variables.scss';
+
+.shop-menu {
+  z-index: 10;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: #222831;
+  transition: left 200ms $menu-animation;
+
+  &__btn-open {
+    z-index: 1;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    background: #fff;
+  }
+
+  &__btn-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    width: 32px;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    border-radius: 10px;
+    background-color: #3D3B40;
+  }
+
+  &__image {
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  &__text {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__value {
+    font-size: 1.1rem;
+  }
+
+  &__cost {
+    font-size: 1rem;
+  }
+
+  &__sale {
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    color: red;
+  }
+
+  &.hidden {
+    left: -100vw;
+  }
+}

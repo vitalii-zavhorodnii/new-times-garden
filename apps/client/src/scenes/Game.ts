@@ -1,14 +1,10 @@
 import { Scene } from 'phaser';
-import type { IPlantFieldData } from 'src/interfaces/IPlantData';
-
-import { getPlantsList } from '@services/getPlantsList';
-import { getUserData } from '@services/getUserData';
-import { getUserGarden } from '@services/getUserGarden';
 
 import BalanceMenu from '@components/menus/BalanceMenu';
 import BottomMenu from '@components/menus/BottomMenu';
 import PickedSeedMenu from '@components/menus/PickedSeedMenu';
 import PlantsMenu from '@components/menus/PlantsMenu';
+import ShopMenu from '@components/menus/ShopMenu';
 
 import Dummy from '@entities/Dummy';
 import Plant from '@entities/Plant';
@@ -45,12 +41,13 @@ export class Game extends Scene {
   private pickedSeedInfo: PickedSeedMenu;
   private bottomMenu: BottomMenu;
   private balanceMenu: BalanceMenu;
-  // private menuShop: any;
+  private shopMenu: ShopMenu;
   // private menuDecoration: any;
   private menuPlants: PlantsMenu;
   // private menuFfertilizer: any;
   // private menuSettings: any;
 
+  private btnAddCurrency: HTMLElement;
   private btnShop: HTMLElement;
   private btnDecorate: HTMLElement;
   private btnPlants: HTMLElement;
@@ -75,9 +72,9 @@ export class Game extends Scene {
 
   public preload() {
     // background
-    this.load.image('background', 'assets/background.JPG');
+    this.load.image('background', 'assets/utils/background.JPG');
     // decor
-    this.load.image('dummy', 'assets/dummy.png');
+    this.load.image('dummy', 'assets/utils/dummy.png');
     // field tiles
     this.load.image('planted', 'assets/soil/planted.png');
     this.load.image('soil-01', 'assets/soil/soil-01.png');
@@ -104,6 +101,7 @@ export class Game extends Scene {
     this.btnPlants = document.getElementById('plants');
     this.btnFertilizer = document.getElementById('fertilizer');
     this.btnSettings = document.getElementById('settings');
+    this.btnAddCurrency = document.getElementById('shop-button');
     // Menus
     this.balanceMenu = new BalanceMenu();
     this.balanceMenu.setCoins(this.userData.balanceCoins);
@@ -111,6 +109,7 @@ export class Game extends Scene {
     this.balanceMenu.show();
     this.bottomMenu = new BottomMenu();
     this.bottomMenu.show();
+    this.shopMenu = new ShopMenu();
     /*
       Opacity for ont completed buttons
     */
@@ -154,6 +153,10 @@ export class Game extends Scene {
       }
 
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
+    });
+
+    this.btnAddCurrency.addEventListener('click', () => {
+      this.handleAddButton();
     });
   }
   // Handle clicks on soil
@@ -288,6 +291,9 @@ export class Game extends Scene {
       Bottom menu handlers
       Handle button click: Shop
   */
+  private handleAddButton() {
+    this.shopMenu.open();
+  }
   private handleShopBtn() {
     // this.camera.scrollY += 100;
     console.log('handleShopBtn');

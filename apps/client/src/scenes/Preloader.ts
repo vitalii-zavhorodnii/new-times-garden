@@ -39,11 +39,11 @@ export class Preloader extends Scene {
       //   name: 'user',
       //   avatar: 'url'
       // };
-      const d = document.querySelector('.seed-picked');
-      d.innerHTML = `${String(user.telegramId)} ${user.name} `;
 
-      if (user.telegramId) {
+      if (user?.telegramId) {
         this.fetchUserData(user);
+      } else {
+        this.scene.start('GameOver');
       }
     }
   }

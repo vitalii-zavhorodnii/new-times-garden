@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/normalize.css" />
-    <link rel="stylesheet" href="/main.css" />
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <title>New Times Garden | Game</title>
   </head>
 
@@ -13,17 +13,98 @@
     <div id="app">
       <div class="balance-data hidden">
         <div class="balance-data__cell">
-          <img class="balance-data__icon" src="./assets/coin.png" alt="coin" />
+          <img class="balance-data__icon" src="./assets/utils/coin.png" alt="coin" />
           <span class="balance-data__value" id="coin-balance">0</span>
         </div>
         <div class="balance-data__cell">
-          <img class="balance-data__icon" src="./assets/coin.png" alt="coin" />
+          <img class="balance-data__icon" src="./assets/utils/coin.png" alt="coin" />
           <span class="balance-data__value" id="token-balance">0</span>
+        </div>
+        <div class="balance-data__cell" id="shop-button">
+          <img class="balance-data__icon" src="./assets/utils/add.png" alt="add" />
         </div>
       </div>
 
-      <div class="side-menu">
-        <button class="side-menu__btn-close">close</button>
+      <div class="shop-menu">
+        <img
+          class="shop-menu__btn-close"
+          src="./assets/utils/close.png"
+          alt="close"
+        />
+        <ul class="shop-menu__list">
+          <li class="shop-menu__item">
+            <img
+              class="shop-menu__image"
+              src="./assets/shop/coins-buy.png"
+              alt="coins-img"
+            />
+            <span class="shop-menu__value">3 tokens</span>
+            <p class="shop-menu__text">
+              <span class="shop-menu__cost">1.99$</span>
+              <span class="shop-menu__sale"></span>
+            </p>
+          </li>
+          <li class="shop-menu__item">
+            <img
+              class="shop-menu__image"
+              src="./assets/shop/coins-buy.png"
+              alt="coins-img"
+            />
+            <span class="shop-menu__value">3 tokens</span>
+            <p class="shop-menu__text">
+              <span class="shop-menu__cost">4.99$</span>
+              <span class="shop-menu__sale"></span>
+            </p>
+          </li>
+          <li class="shop-menu__item">
+            <img
+              class="shop-menu__image"
+              src="./assets/shop/coins-buy.png"
+              alt="coins-img"
+            />
+            <span class="shop-menu__value">3 tokens</span>
+            <p class="shop-menu__text">
+              <span class="shop-menu__cost">8.99$</span>
+              <span class="shop-menu__sale"></span>
+            </p>
+          </li>
+          <li class="shop-menu__item">
+            <img
+              class="shop-menu__image"
+              src="./assets/shop/coins-buy.png"
+              alt="coins-img"
+            />
+            <span class="shop-menu__value">3 tokens</span>
+            <p class="shop-menu__text">
+              <span class="shop-menu__cost">11.99$</span>
+              <span class="shop-menu__sale">14.99$</span>
+            </p>
+          </li>
+          <li class="shop-menu__item">
+            <img
+              class="shop-menu__image"
+              src="./assets/shop/coins-buy.png"
+              alt="coins-img"
+            />
+            <span class="shop-menu__value">3 tokens</span>
+            <p class="shop-menu__text">
+              <span class="shop-menu__cost">24.99$</span>
+              <span class="shop-menu__sale"></span>
+            </p>
+          </li>
+          <li class="shop-menu__item">
+            <img
+              class="shop-menu__image"
+              src="./assets/shop/coins-buy.png"
+              alt="coins-img"
+            />
+            <span class="shop-menu__value">3 tokens</span>
+            <p class="shop-menu__text">
+              <span class="shop-menu__cost">39.99$</span>
+              <span class="shop-menu__sale"></span>
+            </p>
+          </li>
+        </ul>
       </div>
 
       <div class="bottom-menu hidden">

@@ -8,12 +8,12 @@ const watcher = chokidar.watch('src/**/*.scss'); // Отслеживание в�
 const compileSass = () => {
     sass.render({
         file: 'src/main.scss',
-        outFile: 'public/main.css',
+        outFile: 'public/css/main.css',
         sourceMap: true,
         outputStyle: 'compressed'
     }, function(error, result) {
         if (!error) {
-            fs.writeFile('public/main.css', result.css, function(err){
+            fs.writeFile('public/css/main.css', result.css, function(err){
                 if(!err){
                     console.log('Sass compiled successfully!');
                 }

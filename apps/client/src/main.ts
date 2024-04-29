@@ -8,16 +8,15 @@ import { GameOver } from '@scenes/GameOver';
 import { MainMenu } from '@scenes/MainMenu';
 import { Preloader } from '@scenes/Preloader';
 
-axios.defaults.baseURL = 'https://newtimesgarden.online/api';
 // axios.defaults.baseURL = 'http://192.168.2.110:4000/api'
 // axios.defaults.baseURL = 'http://172.20.0.1:4000/api'
+axios.defaults.baseURL = 'https://newtimesgarden.online/api';
 
 // telegram
 // window.Telegram.WebApp.isExpanded; - открыта ли телега на фул скринн
 // window.Telegram.WebApp.viewportHeight - высота вьюпорта телеги
 // const text = window.Telegram.WebApp.initDataUnsafe.user.first_name;
 window.Telegram.WebApp.expand();
-
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),

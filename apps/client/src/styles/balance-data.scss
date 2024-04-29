@@ -9,7 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 32px;
   transition: top 500ms $start-animation;
 
   &__cell {
@@ -23,7 +23,12 @@
   }
 
   &__icon {
+    width: 24px;
     margin-right: 6px;
+  }
+
+  &__value {
+    font-family: 'Nunito', sans-serif;
   }
 
   &.hidden {
