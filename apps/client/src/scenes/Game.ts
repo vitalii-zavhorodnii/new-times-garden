@@ -5,6 +5,8 @@ import { getPlantsList } from '@services/getPlantsList';
 import { getUserData } from '@services/getUserData';
 import { getUserGarden } from '@services/getUserGarden';
 
+import BalanceMenu from '@components/menus/BalanceMenu';
+import BottomMenu from '@components/menus/BottomMenu';
 import PickedSeedMenu from '@components/menus/PickedSeedMenu';
 import PlantsMenu from '@components/menus/PlantsMenu';
 
@@ -41,6 +43,8 @@ export class Game extends Scene {
   private soilContainer: Phaser.GameObjects.Container[];
 
   private pickedSeedInfo: PickedSeedMenu;
+  private bottomMenu: BottomMenu;
+  private balanceMenu: BalanceMenu;
   // private menuShop: any;
   // private menuDecoration: any;
   private menuPlants: PlantsMenu;
@@ -64,8 +68,7 @@ export class Game extends Scene {
     this.isBlocked = false;
   }
 
-  public init(data) {
-    console.log({ init: data });
+  public init(data: any) {
     this.userData = data.user;
     this.plantsData = data.plants;
   }
@@ -101,6 +104,13 @@ export class Game extends Scene {
     this.btnPlants = document.getElementById('plants');
     this.btnFertilizer = document.getElementById('fertilizer');
     this.btnSettings = document.getElementById('settings');
+    // Menus
+    this.balanceMenu = new BalanceMenu();
+    this.balanceMenu.setCoins(this.userData.balanceCoins);
+    this.balanceMenu.setTokens(this.userData.balanceTokens);
+    this.balanceMenu.show();
+    this.bottomMenu = new BottomMenu();
+    this.bottomMenu.show();
     /*
       Opacity for ont completed buttons
     */
@@ -165,7 +175,6 @@ export class Game extends Scene {
     rowIndex: number,
     plantIndex: number
   ) {
-    console.log({ plantNewSeed: this.pickedPlant });
     const { texture, title, growTime } = plant;
     const { x, y } = soil;
     const plantedAt = Date.now();
@@ -195,7 +204,7 @@ export class Game extends Scene {
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
-    console.log({ garden: this.userData.garden });
+
     this.plants = this.userData.garden.field.map((gardenRow) => {
       const plantedRow = gardenRow.map((item) => {
         if (!item.texture) {
@@ -284,7 +293,7 @@ export class Game extends Scene {
     console.log('handleShopBtn');
     const url =
       'https://t.me/wallet?attach=wallet&startattach=tonconnect-ret__https--3A--2F--2Ft--2Eme--2FNewTimesGardenBot';
-    window.open(url).focus();
+    window.open(url);
   }
   // Handle button click: Decorattions
   private handleDecorateBtn() {
@@ -292,24 +301,18 @@ export class Game extends Scene {
   }
   // Handle button click: Plants
   private handlePlantsBtn() {
-    if (!this.pickedPlant) {
-      this.isBlocked = true;
-      this.menuPlants.open();
-
-      return;
-    }
-
-    if (this.pickedPlant && !this.menuPlants.isOpen) {
+    if (this.menuPlants.isOpen || this.pickedPlant) {
       this.pickedPlant = null;
+      this.isBlocked = false;
       this.menuPlants.close();
       this.pickedSeedInfo.hide();
 
       return;
     }
 
-    console.log('end of');
     this.pickedPlant = null;
-    this.menuPlants.close();
+    this.isBlocked = true;
+    this.menuPlants.open();
     this.pickedSeedInfo.hide();
   }
   // Handle button click: Fertilizer

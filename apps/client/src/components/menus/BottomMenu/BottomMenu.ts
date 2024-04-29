@@ -1,11 +1,5 @@
 export default class BottomMenu {
   public isShown: boolean;
-  
-  private btnDecorate: HTMLElement;
-  private btnFertilizer: HTMLElement;
-  private btnSeeds: HTMLElement;
-  private btnShop: HTMLElement;
-  private btnSettings: HTMLElement;
 
   private container: HTMLElement;
 
@@ -13,19 +7,17 @@ export default class BottomMenu {
     this.container = document.querySelector('.bottom-menu');
   }
 
+  public show() {
+    if (!this.isShown) {
+      this.container.classList.remove('hidden');
+      this.isShown = true;
+    }
+  }
+
   public hide() {
     if (this.isShown) {
-      this.container.style.left = '-100vw';
+      this.container.classList.add('hidden');
+      this.isShown = false;
     }
-  }
-
-  public open() {
-    if (!this.isShown) {
-      this.container.style.left = '0';
-    }
-  }
-
-  private renderMenu() {
-
   }
 }

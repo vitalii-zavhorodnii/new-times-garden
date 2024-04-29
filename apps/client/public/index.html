@@ -11,11 +11,22 @@
 
   <body>
     <div id="app">
+      <div class="balance-data hidden">
+        <div class="balance-data__cell">
+          <img class="balance-data__icon" src="./assets/coin.png" alt="coin" />
+          <span class="balance-data__value" id="coin-balance">0</span>
+        </div>
+        <div class="balance-data__cell">
+          <img class="balance-data__icon" src="./assets/coin.png" alt="coin" />
+          <span class="balance-data__value" id="token-balance">0</span>
+        </div>
+      </div>
+
       <div class="side-menu">
         <button class="side-menu__btn-close">close</button>
       </div>
 
-      <div class="bottom-menu">
+      <div class="bottom-menu hidden">
         <ul class="bottom-menu__container">
           <li class="bottom-menu__item" id="shop">
             <img class="bottom-menu__icon" src="./assets/menu/shop.svg" alt="" />

@@ -8,6 +8,8 @@ import { User } from './schemas/user.schema';
 
 import { CreateUserDto } from './dto/create-user.dto';
 
+import { INIT_CURRENCY } from '@constants/users.constants';
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -18,7 +20,12 @@ export class UsersService {
   public async create(dto: CreateUserDto): Promise<User> {
     const garden = await this.gardendsService.create();
 
-    const newUser = await new this.userModel({ ...dto, garden: garden._id }).save();
+    const newUser = await new this.userModel({
+      ...dto,
+      balanceCoins: INIT_CURRENCY.coins,
+      balanceTokens: INIT_CURRENCY.tokens,
+      garden: garden._id
+    }).save();
 
     const user = await this.userModel.findById(newUser._id).populate('garden');
 
