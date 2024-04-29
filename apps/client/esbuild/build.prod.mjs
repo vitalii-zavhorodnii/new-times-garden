@@ -30,11 +30,11 @@ const builder = async () => {
       copy({
         assets: [
           { from: './public/index.html', to: './' },
-          { from: './public/main.css', to: './' },
-          { from: './public/normalize.css', to: './' },
+          { from: './public/css/main.css', to: './' },
+          { from: './public/css/normalize.css', to: './' },
 
-          { from: './public/nunito-extralight.ttf', to: './' },
-          { from: './public/jersey.ttf', to: './' },
+          { from: './public/fonts/nunito-extralight.ttf', to: './' },
+          { from: './public/fonts/jersey.ttf', to: './' },
 
           { from: './public/favicon.ico', to: './' },
           { from: './public/favicon.png', to: './' },
