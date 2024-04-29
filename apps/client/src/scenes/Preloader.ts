@@ -1,8 +1,10 @@
 import { Scene } from 'phaser';
-import { getPlantsList } from 'src/services/getPlantsList';
 
 import { createUser } from '@services/createUser';
+import { getPlantsList } from '@services/getPlantsList';
 import { getUserData } from '@services/getUserData';
+
+import { userGardenMapper } from '@mappers/mapUserGarden';
 
 export class Preloader extends Scene {
   constructor() {
@@ -27,16 +29,16 @@ export class Preloader extends Scene {
   // 410027537
   create() {
     if (window?.Telegram) {
-      const user = {
-        telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
-        name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username,
-        // avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
-      };
       // const user = {
-      //   telegramId: '410027537',
-      //   name: 'user',
-      //   avatar: 'url'
+      //   telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
+      //   name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username,
+      //   // avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
       // };
+      const user = {
+        telegramId: '410027537',
+        name: 'user',
+        avatar: 'url'
+      };
       const d = document.querySelector('.seed-picked');
       d.innerHTML = `${String(user.telegramId)} ${user.name} `;
 
@@ -53,9 +55,10 @@ export class Preloader extends Scene {
       user = await createUser(userData);
     }
 
+    user.garden.field = userGardenMapper(user.garden.field);
+
     const plants = await getPlantsList();
 
-    console.log({ user, userData, plants });
     this.scene.start('Game', { user, plants });
   }
 }
