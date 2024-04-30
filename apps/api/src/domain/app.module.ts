@@ -6,11 +6,13 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import configuration from '@config/configuration';
 
 import { GardensModule } from '@domain/gardens/gardens.module';
+import { PaymentsModule } from '@domain/payments/payments.module';
 import { PlantsModule } from '@domain/plants/plants.module';
-// import { TelegramModule } from '@domain/telegram/telegram.module';
+import { ProductsModule } from '@domain/products/products.module';
+import { UsersModule } from '@domain/users/users.module';
 
+// import { TelegramModule } from '@domain/telegram/telegram.module';
 import { STATIC_FOLDER } from '@constants/routes.constants';
-import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -33,7 +35,8 @@ import { UsersModule } from './users/users.module';
     PlantsModule,
     GardensModule,
     UsersModule,
-    // TelegramModule
+    PaymentsModule,
+    ProductsModule
   ],
   controllers: [],
   providers: []

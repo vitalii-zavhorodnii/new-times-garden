@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 
 import { createUser } from '@services/createUser';
 import { getPlantsList } from '@services/getPlantsList';
+import { getShopItems } from '@services/getShopItems';
 import { getUserData } from '@services/getUserData';
 
 import { userGardenMapper } from '@mappers/mapUserGarden';
@@ -9,7 +10,6 @@ import { userGardenMapper } from '@mappers/mapUserGarden';
 import { randomNumberHelper } from '@helpers/random-number';
 
 import { LOADING_TEXTS } from '@constants/loading-texts';
-import { SHOP_COINS } from '@constants/shop-coins';
 
 export class Preloader extends Scene {
   private timer: ReturnType<typeof setInterval>;
@@ -32,12 +32,10 @@ export class Preloader extends Scene {
     this.load.image('dummy', 'assets/utils/dummy.png');
     // field tiles
     this.load.image('planted', 'assets/soil/planted.png');
-    this.load.image('soil-01', 'assets/soil/soil-01.png');
-    this.load.image('soil-02', 'assets/soil/soil-02.png');
-    this.load.image('soil-03', 'assets/soil/soil-03.png');
-    this.load.image('soil-04', 'assets/soil/soil-04.png');
-    this.load.image('soil-05', 'assets/soil/soil-05.png');
-    this.load.image('soil-06', 'assets/soil/soil-06.png');
+    this.load.spritesheet('soil', 'assets/soil/soil-spritesheet.png', {
+      frameWidth: 96,
+      frameHeight: 96
+    });
     // Sprites for plants
     this.load.image('potato', 'assets/plants/potato.png');
     this.load.image('corn', 'assets/plants/corn.png');
@@ -58,7 +56,7 @@ export class Preloader extends Scene {
       const rndNumber = randomNumberHelper(0, LOADING_TEXTS.length - 1);
 
       this.text.setText(LOADING_TEXTS[rndNumber]);
-    }, 1000);
+    }, 1200);
 
     this.anims.create({
       key: 'loading',
@@ -99,8 +97,9 @@ export class Preloader extends Scene {
     user.garden.field = userGardenMapper(user.garden.field);
 
     const plants = await getPlantsList();
+    const shopList = await getShopItems();
 
     clearInterval(this.timer);
-    this.scene.start('Game', { user, plants, shopList: SHOP_COINS });
+    this.scene.start('Game', { user, plants, shopList });
   }
 }

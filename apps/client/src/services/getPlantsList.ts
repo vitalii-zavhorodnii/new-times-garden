@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { IPlantListItem } from '@interfaces/IPlantListItem';
+import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
 export const getPlantsList = async (): Promise<IPlantListItem[]> => {
   const { data } = await axios.get('/plants/all');

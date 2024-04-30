@@ -72,7 +72,7 @@ export class Game extends Scene {
     this.plantsData = data.plants;
     this.shopList = data.shopList;
   }
-  
+
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
@@ -94,7 +94,7 @@ export class Game extends Scene {
     this.balanceMenu.show();
     this.bottomMenu = new BottomMenu();
     this.bottomMenu.show();
-    this.shopMenu = new ShopMenu(this.shopList);
+    this.shopMenu = new ShopMenu(this.shopList, this.handleShopItemClick);
     /*
       Opacity for ont completed buttons
     */
@@ -225,16 +225,17 @@ export class Game extends Scene {
     this.renderSoil(this.plants);
   }
   // Rener soil
-  private renderSoil(plants: Array<Plant | Dummy>[]) {
+  private renderSoil(plants: (Plant | Dummy)[][]) {
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2;
 
     this.soil = mapFieldRows(ROW_MAP).map((row, rowIndex: number) => {
       const soilRow = row.map(({ x, y }, soilIndex: number) => {
-        const i = randomNumberHelper(1, 6);
+        const i = randomNumberHelper(0, 5);
 
-        const soil = new Soil(this, x, y, `soil-0${i}`);
+        const soil = new Soil(this, x, y, 'soil');
+        soil.setFrame(i);
         soil.setInteractive(this.input.makePixelPerfect());
 
         const plant = plants[rowIndex][soilIndex];
@@ -282,9 +283,13 @@ export class Game extends Scene {
   private handleShopBtn() {
     // this.camera.scrollY += 100;
     console.log('handleShopBtn');
-    const url =
-      'https://t.me/wallet?attach=wallet&startattach=tonconnect-ret__https--3A--2F--2Ft--2Eme--2FNewTimesGardenBot';
-    window.open(url);
+    // const url =
+    //   'https://t.me/wallet?attach=wallet&startattach=tonconnect-ret__https--3A--2F--2Ft--2Eme--2FNewTimesGardenBot';
+    // window.open(url);
+  }
+  // Handle shops items
+  private handleShopItemClick(item: IShopItem) {
+    console.log({ clicked: item });
   }
   // Handle button click: Decorattions
   private handleDecorateBtn() {

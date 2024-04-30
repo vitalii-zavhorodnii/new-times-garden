@@ -8,13 +8,11 @@ import { GameOver } from '@scenes/GameOver';
 import { MainMenu } from '@scenes/MainMenu';
 import { Preloader } from '@scenes/Preloader';
 
-// axios.defaults.baseURL = 'http://192.168.2.110:4000/api'
+// axios.defaults.baseURL = 'http://192.168.2.110:4000/api';
 // axios.defaults.baseURL = 'http://172.20.0.1:4000/api'
 axios.defaults.baseURL = 'https://newtimesgarden.online/api';
 
-if (window?.Telegram?.WebApp?.expand) {
-  window.Telegram.WebApp.expand();
-}
+window?.Telegram?.WebApp?.expand();
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),

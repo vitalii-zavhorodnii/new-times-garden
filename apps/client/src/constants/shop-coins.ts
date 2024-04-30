@@ -2,37 +2,50 @@ export const SHOP_COINS = [
   {
     _id: '1',
     value: 10,
-    cost: '2.90 $',
-    sale: null
+    price: 2.9,
+    oldPrice: null,
+    tonPrice: 1,
+    img: './assets/shop/coins-buy.png'
   },
   {
     _id: '2',
     value: 30,
-    cost: '11.99 $',
-    sale: null
+    price: 11.9,
+    oldPrice: null,
+    tonPrice: 2,
+    img: './assets/shop/coins-buy.png'
   },
   {
     _id: '3',
     value: 60,
-    cost: '19.90 $',
-    sale: null
+    price: 19.9,
+    oldPrice: null,
+    tonPrice: 3,
+    img: './assets/shop/coins-buy.png'
   },
   {
     _id: '4',
     value: 90,
-    cost: '24.90 $',
-    sale: '29.90 $'
+    price: 24.9,
+    oldPrice: 29.9,
+    tonPrice: 4,
+    img: './assets/shop/coins-buy.png'
   },
   {
     _id: '5',
     value: 150,
-    cost: '34.90 $',
-    sale: null
+    price: 34.9,
+    oldPrice: null,
+    tonPrice: 5,
+    img: './assets/shop/coins-buy.png'
   },
   {
     _id: '6',
     value: 300,
-    cost: '49.90 $',
-    sale: null
-  }
+    price: 49.9,
+    oldPrice: null,
+    tonPrice: 0,
+    img: './assets/shop/coins-buy.png'
+  },
+  
 ];

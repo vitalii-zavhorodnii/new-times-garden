@@ -7,8 +7,9 @@ export default class ShopMenu {
   private container: HTMLElement;
   private closeButton: HTMLElement;
   private listContainer: HTMLElement;
+  private callbackItemClick: Function;
 
-  constructor(list: IShopItem[]) {
+  constructor(list: IShopItem[], callback: Function) {
     this.isOpen = false;
 
     this.container = document.querySelector('.shop-menu');
@@ -16,6 +17,7 @@ export default class ShopMenu {
     this.closeButton = document.querySelector('.shop-menu__btn-close');
 
     this.shopList = list;
+    this.callbackItemClick = callback;
 
     this.closeButton.addEventListener('click', () => {
       this.close();
@@ -35,6 +37,52 @@ export default class ShopMenu {
   }
 
   private createMarkup() {
-    console.log({ i: this.listContainer });
+    this.shopList.forEach((menuItem) => {
+      const itemHTML = document.createElement('li');
+      itemHTML.classList.add('shop-menu__item');
+
+      const imgHTML = document.createElement('img');
+      imgHTML.classList.add('shop-menu__image');
+      imgHTML.setAttribute('src', menuItem.img);
+      imgHTML.setAttribute('alt', 'menu-item');
+
+      const valueHTML = document.createElement('span');
+      valueHTML.classList.add('shop-menu__value');
+      const valueTextNode =  document.createTextNode(String(menuItem.value));
+
+      const iconHTML = document.createElement('img');
+      iconHTML.classList.add('shop-menu__icon');
+      iconHTML.setAttribute('src', './assets/utils/token.png');
+      iconHTML.setAttribute('alt', 'icon');
+
+      const textHTML = document.createElement('p');
+      textHTML.classList.add('shop-menu__text');
+
+      const costHTML = document.createElement('span');
+      costHTML.classList.add('shop-menu__cost');
+      costHTML.innerHTML = `$${String(menuItem.price)}0`;
+
+      const saleHTML = document.createElement('span');
+      saleHTML.classList.add('shop-menu__sale');
+      saleHTML.innerHTML = String(menuItem.oldPrice);
+
+      textHTML.appendChild(costHTML);
+      if (menuItem?.oldPrice) {
+        textHTML.appendChild(saleHTML);
+      }
+
+      valueHTML.appendChild(iconHTML)
+      valueHTML.appendChild(valueTextNode)
+
+      itemHTML.appendChild(imgHTML);
+      itemHTML.appendChild(valueHTML);
+      itemHTML.appendChild(textHTML);
+
+      this.listContainer.appendChild(itemHTML);
+
+      itemHTML.addEventListener('click', () => {
+        this.callbackItemClick(menuItem);
+      });
+    });
   }
 }

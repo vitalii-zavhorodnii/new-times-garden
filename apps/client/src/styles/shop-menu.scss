@@ -13,6 +13,11 @@
   height: 100vh;
   background: #222831;
   transition: left 200ms $menu-animation;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
 
   &__btn-open {
     z-index: 1;
@@ -47,7 +52,7 @@
     align-items: center;
     width: 30%;
     border-radius: 10px;
-    background-color: #3D3B40;
+    background-color: #3d3b40;
   }
 
   &__image {
@@ -61,7 +66,14 @@
   }
 
   &__value {
+    display: flex;
+    align-items: center;
     font-size: 1.1rem;
+  }
+
+  &__icon {
+    width: 24px;
+    margin-right: 5px;
   }
 
   &__cost {

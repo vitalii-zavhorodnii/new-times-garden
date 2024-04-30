@@ -4,16 +4,12 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Post,
   Put,
   Response as Res
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
-
-import { title } from 'process';
 
 import { PlantsService } from './plants.service';
 
