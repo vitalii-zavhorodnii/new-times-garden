@@ -32,7 +32,7 @@ export class Game extends Scene {
   // private plantsCollection: Array<Seed>;
   private userData: any;
   private plantsData: IPlantListItem[];
-  private shopList: IShopItem[]
+  private shopList: IShopItem[];
 
   private plants: Array<Plant | Dummy>[];
   private soil: Array<Soil[]>;
@@ -72,25 +72,7 @@ export class Game extends Scene {
     this.plantsData = data.plants;
     this.shopList = data.shopList;
   }
-
-  public preload() {
-    // background
-    this.load.image('background', 'assets/utils/background.jpg');
-    // decor
-    this.load.image('dummy', 'assets/utils/dummy.png');
-    // field tiles
-    this.load.image('planted', 'assets/soil/planted.png');
-    this.load.image('soil-01', 'assets/soil/soil-01.png');
-    this.load.image('soil-02', 'assets/soil/soil-02.png');
-    this.load.image('soil-03', 'assets/soil/soil-03.png');
-    this.load.image('soil-04', 'assets/soil/soil-04.png');
-    this.load.image('soil-05', 'assets/soil/soil-05.png');
-    this.load.image('soil-06', 'assets/soil/soil-06.png');
-    // Sprites for plants
-    this.load.image('potato', 'assets/plants/potato.png');
-    this.load.image('corn', 'assets/plants/corn.png');
-    this.load.image('berry', 'assets/plants/berry.png');
-  }
+  
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
