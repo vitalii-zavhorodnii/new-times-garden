@@ -21,16 +21,20 @@
   "dependencies": {
     "@tonconnect/ui": "^2.0.2",
     "axios": "^1.6.8",
+    "dotenv": "^12.0.0",
     "phaser": "^3.80.1"
   },
   "devDependencies": {
     "@jgoz/esbuild-plugin-livereload": "^2.0.4",
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@types/axios": "^0.14.0",
+    "@types/node": "^17.0.8",
     "@types/telegram-web-app": "^7.2.1",
-    "esbuild": "^0.20.1",
+    "esbuild": "^0.20.2",
+    "esbuild-envfile-plugin": "^1.0.6",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
+    "esbuild-plugin-env": "^1.1.1",
     "esbuild-plugin-inline-image": "^0.0.9",
     "esbuild-serve": "^1.0.1",
     "nodemon": "^3.1.0",

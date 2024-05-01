@@ -15,7 +15,7 @@ export const sendTonTransaction = async (amount: number) => {
     messages: [
       {
         amount: y + '1000000',
-        address: 'UQDe7GSuj_tYh0_g6RPnO02nJ1PzoIUNYWTkuPIEFvSsOP8u'
+        address: process.env.TON_ADDRESS
       }
     ]
   };

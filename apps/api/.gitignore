@@ -1,9 +1,13 @@
+# .env
+.env
+.env.*
+
 # compiled output
 /dist
 /node_modules
 /qr-codes/*
 /static/*
-#.env
+
 # Logs
 logs
 *.log

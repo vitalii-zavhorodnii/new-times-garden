@@ -38,7 +38,15 @@ const builder = async () => {
         ]
       }),
       msgPhaser
-    ]
+    ],
+    define: {
+      'process.env.NODE_ENV': '"production"',
+      'process.env.BACKEND_LINK': '"https://newtimesgarden.online/api"',
+      'process.env.TON_ADDRESS':
+        '"UQDe7GSuj_tYh0_g6RPnO02nJ1PzoIUNYWTkuPIEFvSsOP8u"',
+      'process.env.MANIFEST_URL':
+        '"https://newtimesgarden.online/tonconnect-manifest.json"'
+    }
   });
 };
 builder();

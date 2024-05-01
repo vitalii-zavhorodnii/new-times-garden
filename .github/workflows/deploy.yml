@@ -72,4 +72,3 @@ jobs:
             npm run build:client
             rm -rf apps/api/static/*
             mv apps/client/dist/* apps/api/static
-            pm2 restart 0
