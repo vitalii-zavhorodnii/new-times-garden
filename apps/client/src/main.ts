@@ -10,9 +10,9 @@ import { Preloader } from '@scenes/Preloader';
 
 import '@helpers/ton-connect-ui';
 
-axios.defaults.baseURL = 'http://192.168.2.110:4000/api';
+// axios.defaults.baseURL = 'http://192.168.2.110:4000/api';
 // axios.defaults.baseURL = 'http://172.20.0.1:4000/api'
-// axios.defaults.baseURL = 'https://newtimesgarden.online/api';
+axios.defaults.baseURL = 'https://newtimesgarden.online/api';
 
 window?.Telegram?.WebApp?.expand();
 

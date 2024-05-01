@@ -68,16 +68,16 @@ export class Preloader extends Scene {
     this.add.sprite(centerX, centerY, 'loader').play('loading');
 
     if (window?.Telegram) {
-      // const user = {
-      //   telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
-      //   name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username
-      //   // avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
-      // };
       const user = {
-        telegramId: '410027537',
-        name: 'user',
-        avatar: 'url'
+        telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
+        name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username
+        // avatar: window?.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url
       };
+      // const user = {
+      //   telegramId: '410027537',
+      //   name: 'user',
+      //   avatar: 'url'
+      // };
 
       if (user?.telegramId) {
         this.fetchUserData(user);
