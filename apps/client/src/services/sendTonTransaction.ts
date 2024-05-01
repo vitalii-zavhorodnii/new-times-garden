@@ -4,9 +4,11 @@ import { TON_TO_USD } from '@constants/currency.constants';
 
 export const sendTonTransaction = async (amount: number) => {
   const i = amount / TON_TO_USD;
-  const y = Math.floor(i);
-  const x = y * 1000000;
+  const x = i * 1000000;
+  const y = Math.floor(x);
+  console.log({ i });
   console.log({ x });
+  console.log({ y });
 
   const transaction = {
     validUntil: Math.round(Date.now() / 1000) + 120,
