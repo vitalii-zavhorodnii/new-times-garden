@@ -64,7 +64,7 @@ export default class ShopMenu {
 
       const saleHTML = document.createElement('span');
       saleHTML.classList.add('shop-menu__sale');
-      saleHTML.innerHTML = String(menuItem.oldPrice);
+      saleHTML.innerHTML = `$${String(menuItem.oldPrice)}0`;
 
       textHTML.appendChild(costHTML);
       if (menuItem?.oldPrice) {

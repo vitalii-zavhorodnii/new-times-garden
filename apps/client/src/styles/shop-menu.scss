@@ -7,17 +7,13 @@
   left: 0;
   top: 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: #222831;
+  padding: 20px 0;
+  background: #31363f;
   transition: left 200ms $menu-animation;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar-button {
-    display: none;
-  }
 
   &__btn-open {
     z-index: 1;
@@ -40,35 +36,57 @@
     width: 32px;
   }
 
+  &__wallet {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
   &__list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30%;
+    width: 45%;
     border-radius: 10px;
     background-color: #3d3b40;
+    margin-right: 10px;
+    margin-bottom: 10px;
   }
 
   &__image {
     width: 100%;
-    border-radius: 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
 
   &__text {
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 5px;
+    font-family: 'Newspapper', sans-serif;
   }
 
   &__value {
     display: flex;
     align-items: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    margin-top: 5px;
+    font-family: 'Newspapper', sans-serif;
   }
 
   &__icon {
@@ -81,7 +99,8 @@
   }
 
   &__sale {
-    font-size: 0.9rem;
+    margin-left: 8px;
+    font-size: 1rem;
     text-decoration: line-through;
     color: red;
   }

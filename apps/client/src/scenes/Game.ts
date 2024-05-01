@@ -1,8 +1,6 @@
 import { Scene } from 'phaser';
-import { tonConnectUI } from 'src/main';
-import { transaction } from 'src/services/createTonTransaction';
 
-import { createPayment } from '@services/createPayment';
+import { sendTonTransaction } from '@services/sendTonTransaction';
 
 import BalanceMenu from '@components/menus/BalanceMenu';
 import BottomMenu from '@components/menus/BottomMenu';
@@ -20,6 +18,7 @@ import { randomNumberHelper } from '@helpers/random-number';
 
 import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
+import { TON_TO_USD } from '@constants/currency.constants';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
@@ -79,13 +78,6 @@ export class Game extends Scene {
 
   // Create scene method
   public create() {
-    // TON
-    document.getElementById('send-transaction').addEventListener('click', () => {
-      // tonConnectUI
-      transaction();
-    });
-    //
-
     this.camera = this.cameras.main;
     // center canvas variables
     const { height, width, worldView } = this.cameras.main;
@@ -302,12 +294,10 @@ export class Game extends Scene {
   }
   // Handle shops items
   private async handleShopItemClick(item: IShopItem) {
-    console.log({ clicked: this });
-    const data = await createPayment({
-      userId: this.userData.telegramId,
-      productId: item._id
-    });
-    console.log({ data });
+    const amount = item.price / TON_TO_USD;
+    const result = await sendTonTransaction(amount);
+    console.log({ result });
+    // sendTonTransaction();
   }
   // Handle button click: Decorattions
   private handleDecorateBtn() {

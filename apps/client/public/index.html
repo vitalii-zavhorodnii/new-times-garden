@@ -11,8 +11,6 @@
 
   <body>
     <div id="app">
-      <div id="ton-connect"></div>
-      <button id="send-transaction">send</div>
       <div class="balance-data hidden">
         <div class="balance-data__cell">
           <img class="balance-data__icon" src="./assets/utils/coin.png" alt="coin" />
@@ -31,12 +29,13 @@
         </div>
       </div>
 
-      <div class="shop-menu hidden">
+      <div class="shop-menu">
         <img
           class="shop-menu__btn-close"
           src="./assets/utils/close.png"
           alt="close"
         />
+        <div class="shop-menu__wallet" id="ton-connect"></div>
         <ul class="shop-menu__list"></ul>
       </div>
 
