@@ -2,7 +2,7 @@ import { tonConnectUI } from '@helpers/ton-connect-ui';
 
 import { TON_TO_USD } from '@constants/currency.constants';
 
-export const sendTonTransaction = async (amount: number) => {
+export const sendTonTransaction = async (amount: number): Promise<string> => {
   const tonAmount = String(Math.ceil((amount / TON_TO_USD) * 1000000000));
 
   const transaction = {
@@ -16,8 +16,11 @@ export const sendTonTransaction = async (amount: number) => {
   };
 
   try {
-    await tonConnectUI.sendTransaction(transaction);
+    const { boc } = await tonConnectUI.sendTransaction(transaction);
+
+    return boc;
   } catch (error) {
-    console.error(error);
+    console.log({ error });
+    return null;
   }
 };

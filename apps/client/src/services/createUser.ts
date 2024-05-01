@@ -3,7 +3,7 @@ import axios from 'axios';
 interface IUserDataProps {
   telegramId: number;
   name: string;
-  avatar: string;
+  avatar?: string;
   isActive?: boolean;
 }
 

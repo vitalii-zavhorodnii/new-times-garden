@@ -12,12 +12,13 @@ export class PaymentsService {
     @InjectModel(Payment.name) private readonly paymentModel: Model<Payment>
   ) {}
 
-  public async create(product: Product, user: User): Promise<Payment> {
+  public async create(product: Product, user: User, boc: string): Promise<Payment> {
     const payment = await new this.paymentModel({
       product,
-      user
+      user,
+      boc
     }).save();
-    
+
     return payment;
   }
 }

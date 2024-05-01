@@ -13,12 +13,8 @@ class Payment extends Document {
   readonly _id: string;
 
   @ApiProperty({ type: Boolean, required: true })
-  @Prop({ type: Boolean })
-  readonly isClosed: boolean;
-
-  @ApiProperty({ type: Boolean, required: true })
-  @Prop({ type: Boolean })
-  readonly isSuccess: boolean;
+  @Prop({ type: String })
+  readonly boc: string;
 
   @ApiProperty({ type: Product, required: true })
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Product.name })

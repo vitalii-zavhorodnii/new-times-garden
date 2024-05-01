@@ -20,4 +20,13 @@ export class CreatePaymentDto {
   @IsNotEmpty()
   @IsString()
   readonly productId: string;
+
+  @ApiProperty({
+    example: '64ef4383e46e72721c03090e',
+    description: 'boc transction id'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  readonly boc: string;
 }

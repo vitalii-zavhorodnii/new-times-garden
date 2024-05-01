@@ -12,7 +12,7 @@ esbuildServe(
       'process.env.NODE_ENV': '"development"',
       'process.env.BACKEND_LINK': '"http://192.168.2.110:4000/api"',
       'process.env.TON_ADDRESS':
-        '"UQDe7GSuj_tYh0_g6RPnO02nJ1PzoIUNYWTkuPIEFvSsOP8u"',
+        '"UQC0hk5rQ9QAr6rFz6c_gIdwJ4izVHYOfLh9Vb8g6QEQcRiG"',
       'process.env.MANIFEST_URL':
         '"https://newtimesgarden.online/tonconnect-manifest.json"',
       'process.env.DEFAULT_ID': '"410027537"'

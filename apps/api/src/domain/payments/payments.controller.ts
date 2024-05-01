@@ -33,6 +33,7 @@ export class PaymentsController {
     @Body()
     dto: CreatePaymentDto
   ): Promise<Payment> {
+    console.log({ dto });
     const product = await this.productsService.findById(dto.productId);
     const user = await this.usersService.findOneByTelegramId(dto.userId);
 
@@ -42,7 +43,9 @@ export class PaymentsController {
       );
     }
 
-    const payment = await this.paymentsService.create(product, user);
+    const payment = await this.paymentsService.create(product, user, dto.boc);
+    
+    this.usersService.updateUserTokens(user._id, product.value);
 
     return payment;
   }

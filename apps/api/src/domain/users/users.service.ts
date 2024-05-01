@@ -41,4 +41,28 @@ export class UsersService {
 
     return user;
   }
+
+  public async updateUserTokens(userId: string, amount: number): Promise<User> {
+    const user = await this.userModel.findByIdAndUpdate(
+      userId,
+      {
+        balanceTokens: amount
+      },
+      { new: true }
+    );
+
+    return user;
+  }
+
+  public async updateUserCoins(userId: string, amount: number): Promise<User> {
+    const user = await this.userModel.findByIdAndUpdate(
+      userId,
+      {
+        balanceCoins: amount
+      },
+      { new: true }
+    );
+
+    return user;
+  }
 }

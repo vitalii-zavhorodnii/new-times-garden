@@ -11,6 +11,8 @@ import { randomNumberHelper } from '@helpers/random-number';
 
 import { LOADING_TEXTS } from '@constants/loading-texts';
 
+import type { IUserData } from '@interfaces/IUserData';
+
 export class Preloader extends Scene {
   private timer: ReturnType<typeof setInterval>;
   private text: Phaser.GameObjects.Text;
@@ -68,7 +70,7 @@ export class Preloader extends Scene {
     this.add.sprite(centerX, centerY, 'loader').play('loading');
 
     if (window?.Telegram) {
-      let user: { telegramId: string; name: string } = null;
+      let user = null;
 
       if (process.env.NODE_ENV === 'production') {
         user = {
@@ -91,7 +93,7 @@ export class Preloader extends Scene {
     }
   }
 
-  private async fetchUserData(userData: any) {
+  private async fetchUserData(userData: IUserData) {
     let user = await getUserData(userData.telegramId);
 
     if (!user) {

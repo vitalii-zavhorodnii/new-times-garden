@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 interface ICreatePaymentProps {
-  productId: string;
-  userId: string;
+  productId: string,
+  userId: string,
+  boc: string,
 }
 
 export const createPayment = async (

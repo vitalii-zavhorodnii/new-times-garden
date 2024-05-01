@@ -1,8 +1,9 @@
 import { Scene } from 'phaser';
 
+import { createPayment } from '@services/createPayment';
 import { sendTonTransaction } from '@services/sendTonTransaction';
 
-import BalanceMenu from '@components/menus/BalanceMenu';
+import BalanceBar from '@components/menus/BalanceBar';
 import BottomMenu from '@components/menus/BottomMenu';
 import PickedSeedMenu from '@components/menus/PickedSeedMenu';
 import PlantsMenu from '@components/menus/PlantsMenu';
@@ -18,11 +19,11 @@ import { randomNumberHelper } from '@helpers/random-number';
 
 import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
-import { TON_TO_USD } from '@constants/currency.constants';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
 import type { IShopItem } from '@interfaces/IShopItem';
+import type { IUserData } from '@interfaces/IUserData';
 
 export class Game extends Scene {
   public camera: Phaser.Cameras.Scene2D.Camera;
@@ -33,7 +34,7 @@ export class Game extends Scene {
 
   // private plantsCollection: Array<Plant>;
   // private plantsCollection: Array<Seed>;
-  private userData: any;
+  private userData: IUserData;
   private plantsData: IPlantListItem[];
   private shopList: IShopItem[];
 
@@ -45,19 +46,15 @@ export class Game extends Scene {
 
   private pickedSeedInfo: PickedSeedMenu;
   private bottomMenu: BottomMenu;
-  private balanceMenu: BalanceMenu;
+  private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
   // private menuDecoration: any;
   private menuPlants: PlantsMenu;
   // private menuFfertilizer: any;
-  // private menuSettings: any;
 
-  private btnAddCurrency: HTMLElement;
-  private btnShop: HTMLElement;
   private btnDecorate: HTMLElement;
   private btnPlants: HTMLElement;
   private btnFertilizer: HTMLElement;
-  private btnSettings: HTMLElement;
 
   constructor() {
     super('Game');
@@ -84,17 +81,14 @@ export class Game extends Scene {
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
     // Find all buttons
-    this.btnShop = document.getElementById('shop');
     this.btnDecorate = document.getElementById('decorate');
     this.btnPlants = document.getElementById('plants');
     this.btnFertilizer = document.getElementById('fertilizer');
-    this.btnSettings = document.getElementById('settings');
-    this.btnAddCurrency = document.getElementById('shop-button');
     // Menus
-    this.balanceMenu = new BalanceMenu();
-    this.balanceMenu.setCoins(this.userData.balanceCoins);
-    this.balanceMenu.setTokens(this.userData.balanceTokens);
-    this.balanceMenu.show();
+    this.balanceBar = new BalanceBar();
+    this.balanceBar.setCoins(this.userData.balanceCoins);
+    this.balanceBar.setTokens(this.userData.balanceTokens);
+    this.balanceBar.show();
     this.bottomMenu = new BottomMenu();
     this.bottomMenu.show();
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) =>
@@ -103,16 +97,13 @@ export class Game extends Scene {
     /*
       Opacity for ont completed buttons
     */
-    this.btnShop.style.opacity = '0.5';
     this.btnDecorate.style.opacity = '0.5';
     this.btnFertilizer.style.opacity = '0.5';
-    this.btnSettings.style.opacity = '0.5';
     // Add event listeners to bottom menu buttons
-    this.btnShop.addEventListener('click', () => this.handleShopBtn());
+
     this.btnDecorate.addEventListener('click', () => this.handleDecorateBtn());
     this.btnPlants.addEventListener('click', () => this.handlePlantsBtn());
     this.btnFertilizer.addEventListener('click', () => this.handleFertilizerBtn());
-    this.btnSettings.addEventListener('click', () => this.handleSettingsBtn());
     // Background
     const backgroundImage = this.add.image(centerX, centerY, 'background');
     backgroundImage.x = backgroundImage.x - 250;
@@ -143,10 +134,6 @@ export class Game extends Scene {
       }
 
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
-    });
-
-    this.btnAddCurrency.addEventListener('click', () => {
-      this.handleAddButton();
     });
   }
   // Handle clicks on soil
@@ -282,21 +269,20 @@ export class Game extends Scene {
       Bottom menu handlers
       Handle button click: Shop
   */
-  private handleAddButton() {
-    this.shopMenu.open();
-  }
-  private handleShopBtn() {
-    // this.camera.scrollY += 100;
-    console.log('handleShopBtn');
-    // const url =
-    //   'https://t.me/wallet?attach=wallet&startattach=tonconnect-ret__https--3A--2F--2Ft--2Eme--2FNewTimesGardenBot';
-    // window.open(url);
-  }
   // Handle shops items
   private async handleShopItemClick(item: IShopItem) {
-    const result = await sendTonTransaction(item.price);
-    console.log({ result });
-    // sendTonTransaction();
+    const boc = await sendTonTransaction(item.price);
+
+    if (boc) {
+      const updatedValue = this.userData.balanceTokens + item.value;
+      this.balanceBar.setTokens(updatedValue);
+
+      createPayment({
+        productId: item._id,
+        userId: String(this.userData.telegramId),
+        boc
+      });
+    }
   }
   // Handle button click: Decorattions
   private handleDecorateBtn() {
@@ -321,9 +307,5 @@ export class Game extends Scene {
   // Handle button click: Fertilizer
   private handleFertilizerBtn() {
     console.log('handleFertilizerBtn');
-  }
-  // Handle button click: Settings
-  private handleSettingsBtn() {
-    console.log('handleSettingsBtn');
   }
 }
