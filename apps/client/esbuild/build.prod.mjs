@@ -43,7 +43,7 @@ const builder = async () => {
       'process.env.NODE_ENV': '"production"',
       'process.env.BACKEND_LINK': '"https://newtimesgarden.online/api"',
       'process.env.TON_ADDRESS':
-        '"UQDe7GSuj_tYh0_g6RPnO02nJ1PzoIUNYWTkuPIEFvSsOP8u"',
+        '"UQC0hk5rQ9QAr6rFz6c_gIdwJ4izVHYOfLh9Vb8g6QEQcRiG"',
       'process.env.MANIFEST_URL':
         '"https://newtimesgarden.online/tonconnect-manifest.json"'
     }
