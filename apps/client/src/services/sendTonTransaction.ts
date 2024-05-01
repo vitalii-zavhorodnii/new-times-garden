@@ -14,7 +14,7 @@ export const sendTonTransaction = async (amount: number) => {
     validUntil: Math.round(Date.now() / 1000) + 120,
     messages: [
       {
-        amount: String(x),
+        amount: String(y),
         address: 'UQDe7GSuj_tYh0_g6RPnO02nJ1PzoIUNYWTkuPIEFvSsOP8u'
       }
     ]
