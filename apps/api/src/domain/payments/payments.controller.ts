@@ -1,6 +1,16 @@
 import { Public } from '@decorators/public.decorator';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
+import { sendTxById } from '@bot/commands-handlers';
 
 import { PaymentsService } from './payments.service';
 import { ProductsService } from '@domain/products/products.service';
@@ -34,14 +44,17 @@ export class PaymentsController {
     dto: CreatePaymentDto
   ): Promise<Payment> {
     const product = await this.productsService.findById(dto.productId);
-
-    console.log({ product });
-
     const user = await this.usersService.findOneByTelegramId(dto.userId);
 
-    console.log({ user });
+    if (!user) {
+      throw new NotFoundException(
+        `User with ID - ${user.telegramId} was not found!`
+      );
+    }
 
-    const payment = await this.paymentsService.create(dto);
+    const payment = await this.paymentsService.create(product, user);
+
+    sendTxById(Number(user.telegramId));
 
     return payment;
   }

@@ -5,7 +5,7 @@ module.exports = {
   singleQuote: true,
   semi: true,
   importOrder: [
-    '(^phaser/.*?$)|(^axios\\w*)',
+    '(^phaser/.*?$)|(^axios\\w*)|(^@tonconnect/\\w*)',
     '<THIRD_PARTY_MODULES>',
     '^@services\\w*',
     '^@scenes\\w*',

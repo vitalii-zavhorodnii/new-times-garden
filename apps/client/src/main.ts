@@ -1,3 +1,4 @@
+import { TonConnectUI } from '@tonconnect/ui';
 import axios from 'axios';
 
 import { Game, Types } from 'phaser';
@@ -11,6 +12,13 @@ import { Preloader } from '@scenes/Preloader';
 // axios.defaults.baseURL = 'http://192.168.2.110:4000/api';
 // axios.defaults.baseURL = 'http://172.20.0.1:4000/api'
 axios.defaults.baseURL = 'https://newtimesgarden.online/api';
+
+export const tonConnectUI = new TonConnectUI({
+  manifestUrl: 'https://newtimesgarden.online/tonconnect-manifest.json',
+  buttonRootId: 'ton-connect'
+});
+
+
 
 window?.Telegram?.WebApp?.expand();
 

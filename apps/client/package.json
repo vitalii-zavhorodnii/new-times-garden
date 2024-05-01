@@ -19,6 +19,7 @@
   "homepage": "https://github.com/phaserjs/template-esbuild-ts#readme",
   "license": "MIT",
   "dependencies": {
+    "@tonconnect/ui": "^2.0.2",
     "axios": "^1.6.8",
     "phaser": "^3.80.1"
   },

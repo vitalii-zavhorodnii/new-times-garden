@@ -31,3 +31,19 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+#ton-connect {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#send-transaction {
+  padding: 5px;
+  background-color: white;
+  border-radius: 10px;
+  color: black;
+  position: absolute;
+  top: 90px;
+  left: 10px;
+}

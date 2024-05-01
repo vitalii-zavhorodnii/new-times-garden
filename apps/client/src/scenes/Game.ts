@@ -1,4 +1,8 @@
 import { Scene } from 'phaser';
+import { tonConnectUI } from 'src/main';
+import { transaction } from 'src/services/createTonTransaction';
+
+import { createPayment } from '@services/createPayment';
 
 import BalanceMenu from '@components/menus/BalanceMenu';
 import BottomMenu from '@components/menus/BottomMenu';
@@ -75,6 +79,13 @@ export class Game extends Scene {
 
   // Create scene method
   public create() {
+    // TON
+    document.getElementById('send-transaction').addEventListener('click', () => {
+      // tonConnectUI
+      transaction();
+    });
+    //
+
     this.camera = this.cameras.main;
     // center canvas variables
     const { height, width, worldView } = this.cameras.main;
@@ -94,7 +105,9 @@ export class Game extends Scene {
     this.balanceMenu.show();
     this.bottomMenu = new BottomMenu();
     this.bottomMenu.show();
-    this.shopMenu = new ShopMenu(this.shopList, this.handleShopItemClick);
+    this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) =>
+      this.handleShopItemClick(item)
+    );
     /*
       Opacity for ont completed buttons
     */
@@ -288,8 +301,13 @@ export class Game extends Scene {
     // window.open(url);
   }
   // Handle shops items
-  private handleShopItemClick(item: IShopItem) {
-    console.log({ clicked: item });
+  private async handleShopItemClick(item: IShopItem) {
+    console.log({ clicked: this });
+    const data = await createPayment({
+      userId: this.userData.telegramId,
+      productId: item._id
+    });
+    console.log({ data });
   }
   // Handle button click: Decorattions
   private handleDecorateBtn() {

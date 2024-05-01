@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { Payment } from './schemas/payment.schema';
-
-import { CreatePaymentDto } from './dto/create-payment.dto';
+import { Product } from '@domain/products/schemas/product.schema';
+import { User } from '@domain/users/schemas/user.schema';
 
 @Injectable()
 export class PaymentsService {
@@ -12,9 +12,12 @@ export class PaymentsService {
     @InjectModel(Payment.name) private readonly paymentModel: Model<Payment>
   ) {}
 
-  public async create(dto: CreatePaymentDto): Promise<Payment> {
-    const payment = await new this.paymentModel(dto).save();
-
+  public async create(product: Product, user: User): Promise<Payment> {
+    const payment = await new this.paymentModel({
+      product,
+      user
+    }).save();
+    
     return payment;
   }
 }

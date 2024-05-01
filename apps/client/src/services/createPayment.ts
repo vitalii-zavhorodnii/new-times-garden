@@ -5,10 +5,10 @@ interface ICreatePaymentProps {
   userId: string;
 }
 
-export const createUser = async (
+export const createPayment = async (
   paymentData: ICreatePaymentProps
 ): Promise<void> => {
-  const { data } = await axios.post('/users', paymentData);
+  const { data } = await axios.post('/payments', paymentData);
 
   return data;
 };
