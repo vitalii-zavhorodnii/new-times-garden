@@ -30,7 +30,7 @@ const builder = async () => {
       copy({
         assets: [
           { from: './public/index.html', to: './' },
-          { from: './public/favicon.ico', to: './' },
+          { from: './public/tonconnect-manifest.json', to: './' },
           { from: './public/favicon.png', to: './' },
           { from: './public/css/*', to: './css/' },
           { from: './public/fonts/*', to: './fonts/' },
