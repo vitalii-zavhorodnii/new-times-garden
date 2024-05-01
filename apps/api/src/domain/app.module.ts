@@ -11,7 +11,6 @@ import { PlantsModule } from '@domain/plants/plants.module';
 import { ProductsModule } from '@domain/products/products.module';
 import { UsersModule } from '@domain/users/users.module';
 
-// import { TelegramModule } from '@domain/telegram/telegram.module';
 import { STATIC_FOLDER } from '@constants/routes.constants';
 
 @Module({

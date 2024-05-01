@@ -294,8 +294,7 @@ export class Game extends Scene {
   }
   // Handle shops items
   private async handleShopItemClick(item: IShopItem) {
-    const amount = item.price / TON_TO_USD;
-    const result = await sendTonTransaction(amount);
+    const result = await sendTonTransaction(item.price);
     console.log({ result });
     // sendTonTransaction();
   }

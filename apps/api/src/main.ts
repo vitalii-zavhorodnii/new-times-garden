@@ -6,15 +6,9 @@ import { useContainer } from 'class-validator';
 
 import { bot } from '@bot/bot';
 import {
-  handleConnectCommand,
-  handleDisconnectCommand,
   handlePlayGameCommand,
-  handleSendTXCommand,
-  handleShowMyWalletCommand,
   handleStartBotCommand
 } from '@bot/commands-handlers';
-import { walletMenuCallbacks } from '@bot/connect-wallet-menu';
-import '@bot/connect-wallet-menu';
 
 import { AppModule } from '@domain/app.module';
 
@@ -23,53 +17,14 @@ import { SwaggerHelper } from '@helpers/swagger.helper';
 
 import { PREFIX, PUBLIC_FOLDER } from '@constants/routes.constants';
 
-export const callbacks = {
-  ...walletMenuCallbacks
-};
-
-bot.on('callback_query', (query) => {
-  // console.log({ query });
-  // const webViewLink = `https://newtimesgarden.online/?id=${query.from.id}&name=${query.from.first_name}&username=${query.from.username}`;
-  // if (query.game_short_name) {
-  //   bot.answerCallbackQuery(query.id, {
-  //     callback_query_id: query.id,
-  //     show_alert: true,
-  //     text: 'Garden',
-  //     url: webViewLink
-  //   });
-  // }
-  // Parse callback data and execute corresponing function
-  if (!query.data) {
-    return;
-  }
-
-  let request: { method: string; data: string };
-
-  try {
-    request = JSON.parse(query.data);
-  } catch {
-    return;
-  }
-
-  if (!callbacks[request.method as keyof typeof callbacks]) {
-    return;
-  }
-
-  callbacks[request.method as keyof typeof callbacks](query, request.data);
-});
-
 bot.onText(/\/start/, handleStartBotCommand);
 bot.onText(/\/play/, handlePlayGameCommand);
-bot.onText(/\/connect/, handleConnectCommand);
-bot.onText(/\/send_tx/, handleSendTXCommand);
-bot.onText(/\/disconnect/, handleDisconnectCommand);
-bot.onText(/\/my_wallet/, handleShowMyWalletCommand);
 
 (async (): Promise<void> => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
-    origin: '*',
+    origin: '*'
     // methods: 'GET, PUT, POST, PATCH, DELETE, OPTIONS',
     // credentials: true,
     // allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Range'],

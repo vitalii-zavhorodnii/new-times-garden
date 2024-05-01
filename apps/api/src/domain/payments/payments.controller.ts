@@ -1,16 +1,6 @@
 import { Public } from '@decorators/public.decorator';
-import {
-  Body,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-  Put
-} from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-
-import { sendTxById } from '@bot/commands-handlers';
 
 import { PaymentsService } from './payments.service';
 import { ProductsService } from '@domain/products/products.service';
@@ -53,8 +43,6 @@ export class PaymentsController {
     }
 
     const payment = await this.paymentsService.create(product, user);
-
-    sendTxById(Number(user.telegramId));
 
     return payment;
   }

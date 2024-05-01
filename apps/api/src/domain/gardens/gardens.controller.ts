@@ -1,19 +1,6 @@
 import { Public } from '@decorators/public.decorator';
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-  Put,
-  Response as Res
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
-
-import { sendTxById } from '@bot/commands-handlers';
 
 import { GardensService } from './gardens.service';
 
