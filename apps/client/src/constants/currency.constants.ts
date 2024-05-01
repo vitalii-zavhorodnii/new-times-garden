@@ -1,1 +1,1 @@
-export const TON_TO_USD = 4.75;
+export const TON_TO_USD = 4.77;
