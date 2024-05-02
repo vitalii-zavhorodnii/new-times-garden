@@ -12,23 +12,21 @@ export default class PickedPlantBar {
     this.isShown = false;
 
     this.container = document.querySelector('.picked-plant-bar');
-    this.container.style.display = 'none';
   }
 
   public show(plantData: IPlantListItem) {
     this.createMarkup(plantData);
-    this.container.style.display = 'flex';
+    this.container.classList.remove('hidden');
   }
 
   public hide() {
-    this.container.innerHTML = '';
-    this.container.style.display = 'none';
+    this.container.classList.add('hidden');
   }
 
-  private createMarkup(data: IPlantListItem): void {
+  private createMarkup(data: IPlantListItem) {
     const convertedTimer = String(data.growTime);
-
-    const markupHTML = markup(data.coinPrice, data.tokenPrice, convertedTimer);
+    console.log({ data });
+    const markupHTML = markup(data.gamePrice, data.tokenPrice, convertedTimer,data.icon);
 
     this.container.innerHTML = markupHTML;
   }

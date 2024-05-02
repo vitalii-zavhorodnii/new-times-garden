@@ -4,23 +4,14 @@
 .bottom-bar {
   z-index: 1;
   position: absolute;
-  left: 0;
+  right: 10px;
   bottom: $bot-menu-indent;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
+  align-items: flex-end;
   height: $bot-menu-height;
+  margin: $bot-menu-margin;
   transition: bottom 500ms $start-animation;
-
-  &__container {
-    width: 100%;
-    height: 100%;
-    margin: $bot-menu-margin;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
   &__item {
     padding: 10px;
@@ -38,6 +29,10 @@
 
   &__icon {
     width: 32px;
+
+    &.big {
+      width: 45px;
+    }
   }
 
   &.hidden {
