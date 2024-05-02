@@ -3,6 +3,9 @@
 
 .plants-menu {
   z-index: 10;
+  position: absolute;
+  left: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,16 +14,28 @@
   padding: 40px 10px 0 10px;
   background-color: #e2dfd0;
   transition: bottom 200ms ease-in-out;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  overflow-y: scroll;
 
   &.hidden {
     bottom: -100vh;
   }
 
+  &__foreground {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    pointer-events: none;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+  }
+
   &__close-btn {
+    pointer-events: all;
     z-index: 12;
     position: absolute;
     top: 15px;
@@ -29,12 +44,8 @@
   }
 
   &__frame {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, 0);
-    width: 100%;
     pointer-events: none;
+    width: 100%;
   }
 
   &__header {
