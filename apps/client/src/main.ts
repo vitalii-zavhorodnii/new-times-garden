@@ -15,6 +15,29 @@ axios.defaults.baseURL = process.env.BACKEND_LINK;
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
 
+const scrollableEl = document.getElementById('game-container');
+let ts: number | undefined;
+const onTouchStart = (e: TouchEvent) => {
+  ts = e.touches[0].clientY;
+};
+const onTouchMove = (e: TouchEvent) => {
+  if (scrollableEl) {
+    const scroll = scrollableEl.scrollTop;
+    const te = e.changedTouches[0].clientY;
+    if (scroll <= 0 && ts! < te) {
+      e.preventDefault();
+    }
+  } else {
+    e.preventDefault();
+  }
+};
+document.documentElement.addEventListener('touchstart', onTouchStart, {
+  passive: false
+});
+document.documentElement.addEventListener('touchmove', onTouchMove, {
+  passive: false
+});
+
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
   y: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
