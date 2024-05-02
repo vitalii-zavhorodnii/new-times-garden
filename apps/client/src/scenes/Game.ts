@@ -4,7 +4,7 @@ import { createPayment } from '@services/createPayment';
 import { sendTonTransaction } from '@services/sendTonTransaction';
 
 import BalanceBar from '@components/menus/BalanceBar';
-import BottomMenu from '@components/menus/BottomMenu';
+import BottomBar from '@components/menus/BottomBar';
 import PickedSeedMenu from '@components/menus/PickedSeedMenu';
 import PlantsMenu from '@components/menus/PlantsMenu';
 import ShopMenu from '@components/menus/ShopMenu';
@@ -45,13 +45,15 @@ export class Game extends Scene {
   private soilContainer: Phaser.GameObjects.Container[];
 
   private pickedSeedInfo: PickedSeedMenu;
-  private bottomMenu: BottomMenu;
+  private bottomBar: BottomBar;
   private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
   // private menuDecoration: any;
   private menuPlants: PlantsMenu;
   // private menuFfertilizer: any;
 
+  private openShopBtn: HTMLElement;
+  private closeButton: HTMLElement;
   private btnDecorate: HTMLElement;
   private btnPlants: HTMLElement;
   private btnFertilizer: HTMLElement;
@@ -80,27 +82,38 @@ export class Game extends Scene {
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
-    // Find all buttons
-    this.btnDecorate = document.getElementById('decorate');
-    this.btnPlants = document.getElementById('plants');
-    this.btnFertilizer = document.getElementById('fertilizer');
-    // Menus
+    /*
+      UI - elements
+    */
+    // Top right Balance bar
     this.balanceBar = new BalanceBar();
     this.balanceBar.setCoins(this.userData.balanceCoins);
     this.balanceBar.setTokens(this.userData.balanceTokens);
     this.balanceBar.show();
-    this.bottomMenu = new BottomMenu();
-    this.bottomMenu.show();
+    // Bottom buttons bar
+    this.bottomBar = new BottomBar();
+    this.bottomBar.show();
+    /* 
+      Menus
+    */
+    // Shop tokens menu
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) =>
       this.handleShopItemClick(item)
     );
+    this.openShopBtn = document.getElementById('shop-button');
+    this.openShopBtn.addEventListener('click', () => this.handleOpenShop());
+    this.closeButton = document.querySelector('.shop-menu__btn-close');
+    this.closeButton.addEventListener('click', () => this.handleCloseShop());
     /*
       Opacity for ont completed buttons
     */
+    // Find all buttons
+    this.btnDecorate = document.getElementById('decorate');
+    this.btnPlants = document.getElementById('plants');
+    this.btnFertilizer = document.getElementById('fertilizer');
     this.btnDecorate.style.opacity = '0.5';
     this.btnFertilizer.style.opacity = '0.5';
     // Add event listeners to bottom menu buttons
-
     this.btnDecorate.addEventListener('click', () => this.handleDecorateBtn());
     this.btnPlants.addEventListener('click', () => this.handlePlantsBtn());
     this.btnFertilizer.addEventListener('click', () => this.handleFertilizerBtn());
@@ -113,6 +126,9 @@ export class Game extends Scene {
     this.renderGardenField();
     // Create picked seed data
     this.pickedSeedInfo = new PickedSeedMenu();
+    /* 
+      Camera movement
+    */
     this.input.on('pointermove', (p) => {
       if (!p.isDown) return;
 
@@ -136,6 +152,9 @@ export class Game extends Scene {
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
     });
   }
+  /*
+    Methods
+  */
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
@@ -282,11 +301,19 @@ export class Game extends Scene {
         userId: String(this.userData.telegramId),
         boc
       });
+
+      this.shopMenu.close();
+      this.isBlocked = false;
     }
   }
-  // Handle button click: Decorattions
-  private handleDecorateBtn() {
-    console.log('handleDecorateBtn');
+  // Handle button add coins
+  private handleOpenShop() {
+    this.shopMenu.open();
+    this.isBlocked = true;
+  }
+  private handleCloseShop() {
+    this.shopMenu.close();
+    this.isBlocked = false;
   }
   // Handle button click: Plants
   private handlePlantsBtn() {
@@ -307,5 +334,9 @@ export class Game extends Scene {
   // Handle button click: Fertilizer
   private handleFertilizerBtn() {
     console.log('handleFertilizerBtn');
+  }
+  // Handle button click: Decorattions
+  private handleDecorateBtn() {
+    console.log('handleDecorateBtn');
   }
 }

@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Document, HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-
-import { Exclude } from 'class-transformer';
 
 import { Garden } from 'domain/gardens/schemas/garden.schema';
 

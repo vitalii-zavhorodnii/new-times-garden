@@ -14,7 +14,6 @@ export default class ShopMenu {
 
     this.container = document.querySelector('.shop-menu');
     this.listContainer = document.querySelector('.shop-menu__list');
-    this.closeButton = document.querySelector('.shop-menu__btn-close');
 
     this.shopList = list;
     this.callbackItemClick = callback;
@@ -48,7 +47,7 @@ export default class ShopMenu {
 
       const valueHTML = document.createElement('span');
       valueHTML.classList.add('shop-menu__value');
-      const valueTextNode =  document.createTextNode(String(menuItem.value));
+      const valueTextNode = document.createTextNode(String(menuItem.value));
 
       const iconHTML = document.createElement('img');
       iconHTML.classList.add('shop-menu__icon');
@@ -71,8 +70,8 @@ export default class ShopMenu {
         textHTML.appendChild(saleHTML);
       }
 
-      valueHTML.appendChild(iconHTML)
-      valueHTML.appendChild(valueTextNode)
+      valueHTML.appendChild(iconHTML);
+      valueHTML.appendChild(valueTextNode);
 
       itemHTML.appendChild(imgHTML);
       itemHTML.appendChild(valueHTML);
