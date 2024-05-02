@@ -16,7 +16,7 @@
   transition: bottom 200ms ease-in-out;
 
   &.hidden {
-    bottom: -100vh - 200px;
+    bottom: -100vh;
   }
 
   &__close-btn {
