@@ -46,7 +46,7 @@ export default class ShopMenu {
 
       const iconHTML = document.createElement('img');
       iconHTML.classList.add('shop-menu__icon');
-      iconHTML.setAttribute('src', './assets/utils/token.png');
+      iconHTML.setAttribute('src', './assets/utils/token.svg');
       iconHTML.setAttribute('alt', 'icon');
 
       const textHTML = document.createElement('p');
