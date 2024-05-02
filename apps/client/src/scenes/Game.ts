@@ -40,6 +40,7 @@ export class Game extends Scene {
 
   private plants: Array<Plant | Dummy>[];
   private soil: Array<Soil[]>;
+  private growingInterval: ReturnType<typeof setInterval>;
 
   private gardenContainer: Phaser.GameObjects.Container[];
   private soilContainer: Phaser.GameObjects.Container[];
@@ -154,10 +155,18 @@ export class Game extends Scene {
 
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
     });
+
+    this.events.on('destroy', () => {
+      this.growingInterval = null;
+    });
   }
   /*
     Methods
   */
+  // Growing checker
+  private growingChecker() {
+    console.log('growingChecker');
+  }
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
@@ -281,6 +290,8 @@ export class Game extends Scene {
       this.soilContainer.push(container);
       this.soilContainer[index].add(row);
     });
+
+    this.growingInterval = setInterval(() => this.growingChecker(), 2000);
   }
   // Render plants list
   private renderPlantsList() {
