@@ -14,41 +14,7 @@ axios.defaults.baseURL = process.env.BACKEND_LINK;
 
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
-
-// window.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-// window.scrollTo(0, 100);
-// Telegram.WebApp.ready();
-// const overflow = 100;
-// document.body.style.marginTop = `${overflow}px`;
-// document.body.style.height = window.innerHeight + overflow + 'px';
-// document.body.style.paddingBottom = `${overflow}px`;
-// // window.scrollTo(0, overflow);
-// document.getElementById('app').scrollIntoView();
-
-// const scrollableEl = document.getElementById('app');
-
-// let ts: number | undefined;
-// const onTouchStart = (e: TouchEvent) => {
-//   ts = e.touches[0].clientY;
-// };
-// const onTouchMove = (e: TouchEvent) => {
-//   if (scrollableEl) {
-//     const scroll = scrollableEl.scrollTop;
-//     const te = e.changedTouches[0].clientY;
-//     if (scroll <= 0 && ts! < te) {
-//       e.preventDefault();
-//     }
-//   } else {
-//     e.preventDefault();
-//   }
-// };
-
-// document.documentElement.addEventListener('touchstart', onTouchStart, {
-//   passive: false
-// });
-// document.documentElement.addEventListener('touchmove', onTouchMove, {
-//   passive: false
-// });
+Telegram.WebApp.ready();
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
