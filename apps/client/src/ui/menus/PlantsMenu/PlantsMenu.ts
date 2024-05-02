@@ -48,6 +48,8 @@ export default class PlantsMenu {
         plant.title,
         plant.gamePrice,
         plant.tokenPrice,
+        plant.coinsIncome,
+        plant.tokensIncome,
         String(plant.growTime),
         plant.icon
       );

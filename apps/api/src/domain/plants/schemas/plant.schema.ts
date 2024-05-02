@@ -42,6 +42,14 @@ class Plant extends Document {
   @Prop({ type: Number, required: true })
   readonly tokenPrice: number;
 
+  @ApiProperty({ example: 10 })
+  @Prop({ type: Number, required: true })
+  readonly coinsIncome: number;
+
+  @ApiProperty({ example: 20 })
+  @Prop({ type: Number, required: true })
+  readonly tokensIncome: number;
+
   @ApiProperty({ example: 'Pommes for men...' })
   @Prop({ type: String, required: false })
   readonly description: string;

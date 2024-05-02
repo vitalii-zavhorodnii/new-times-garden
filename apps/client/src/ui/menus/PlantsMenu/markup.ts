@@ -2,6 +2,8 @@ export const markup = (
   title: string,
   coins: number,
   tokens: number,
+  coinsIncome: number,
+  tokensIncome: number,
   timer: string,
   icon: string
 ): string => `
@@ -18,7 +20,7 @@ export const markup = (
           ? `<p class="plants-menu__value">
               <img 
                 class="plants-menu__stat-icon" 
-                src="./assets/utils/coin.png" 
+                src="./assets/utils/coin.svg" 
                 alt="coin"
               >
               ${coins}
@@ -37,10 +39,34 @@ export const markup = (
             </p>`
           : ''
       }
+      ${
+        coinsIncome > 0
+          ? `<p class="plants-menu__value">
+              <img 
+                class="plants-menu__stat-icon" 
+                src="./assets/utils/profit-coins.svg" 
+                alt="coin"
+              >
+              ~${coinsIncome}
+            </p>`
+          : ''
+      }
+      ${
+        tokensIncome > 0
+          ? `<p class="plants-menu__value">
+              <img 
+                class="plants-menu__stat-icon" 
+                src="./assets/utils/profit-tokens.svg" 
+                alt="token"
+              >
+              ~${tokensIncome}
+            </p>`
+          : ''
+      }
       <p class="plants-menu__value">
         <img 
           class="plants-menu__stat-icon" 
-          src="./assets/utils/timer.png" 
+          src="./assets/utils/timer.svg" 
           alt="timer"
         >
         ${timer}

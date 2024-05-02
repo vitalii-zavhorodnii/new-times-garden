@@ -83,28 +83,34 @@ export class PlantsController {
         icon: './assets/plants/icons/potato.png',
         title: 'Potato',
         description: 'pommes for men',
+        texture: 'potato',
         growTime: 20,
         gamePrice: 20,
         tokenPrice: 0,
-        texture: 'potato'
+        coinsIncome: 40,
+        tokensIncome: 0
       },
       {
         title: 'Corn',
         description: 'corn is yellow',
         icon: './assets/plants/icons/corn.png',
+        texture: 'corn',
         growTime: 40,
         gamePrice: 20,
         tokenPrice: 0,
-        texture: 'corn'
+        coinsIncome: 35,
+        tokensIncome: 0
       },
       {
         title: 'Berry',
         description: 'tasty berries',
         icon: './assets/plants/icons/berry.png',
+        texture: 'berry',
         growTime: 60,
         gamePrice: 0,
         tokenPrice: 10,
-        texture: 'berry'
+        coinsIncome: 0,
+        tokensIncome: 20
       }
     ];
 

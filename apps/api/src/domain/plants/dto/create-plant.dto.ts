@@ -48,15 +48,10 @@ export class CreatePlantDto {
   })
   readonly price: string;
 
-  @ApiProperty({
-    example: 'Diagnostic...',
-    description: 'Issue description'
-  })
-  @IsOptional()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  readonly info: string;
+  gamePrice;
+  tokenPrice;
+  coinsIncome;
+  tokensIncome;
 
   @ApiProperty({
     example: 'Diagnostic...',
@@ -75,17 +70,6 @@ export class CreatePlantDto {
   @IsOptional()
   @IsBoolean({ message: 'field must be a boolean' })
   readonly isActive: boolean;
-
-//   @ApiProperty({
-//     type: MetadataDto
-//   })
-//   @IsOptional()
-//   @IsDefined()
-//   @IsObject()
-//   @IsNotEmptyObject()
-//   @ValidateNested()
-//   @Type(() => MetadataDto)
-//   readonly metadata?: MetadataDto;
 
   @ApiProperty({ example: '64ef4383e46e72721c03090e' })
   @IsOptional()

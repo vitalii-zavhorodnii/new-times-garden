@@ -6,4 +6,6 @@ export interface IPlantListItem {
   growTime: number;
   gamePrice: number;
   tokenPrice: number;
+  coinsIncome: number;
+  tokensIncome: number;
 }
