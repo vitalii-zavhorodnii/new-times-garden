@@ -15,15 +15,9 @@ axios.defaults.baseURL = process.env.BACKEND_LINK;
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
 
-window.onscroll = function () {
-  var body = document.body; //IE 'quirks'
-  var document = document.documentElement; //IE with doctype
-  document = document.clientHeight ? document : body;
-
-  if (document.scrollTop == 0) {
-    window?.Telegram?.WebApp?.expand();
-  }
-};
+window.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+window.scrollTo(0, 100);
+Telegram.WebApp.ready();
 // const overflow = 100;
 // document.body.style.marginTop = `${overflow}px`;
 // document.body.style.height = window.innerHeight + overflow + 'px';
