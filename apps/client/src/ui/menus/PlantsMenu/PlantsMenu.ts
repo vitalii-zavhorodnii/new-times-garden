@@ -20,12 +20,12 @@ export default class PlantsMenu {
 
   public open() {
     this.isOpen = true;
-    this.container.style.left = '0';
+    this.container.classList.remove('hidden');
   }
 
   public close() {
     this.isOpen = false;
-    this.container.style.left = '-100vw';
+    this.container.classList.add('hidden');
   }
 
   public toggle() {
