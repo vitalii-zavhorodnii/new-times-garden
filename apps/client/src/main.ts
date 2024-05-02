@@ -53,7 +53,7 @@ const screenSize = {
 };
 
 const config: Types.Core.GameConfig = {
-  parent: 'app',
+  parent: 'game-container',
   type: Phaser.CANVAS,
   width: screenSize.x,
   height: screenSize.y,

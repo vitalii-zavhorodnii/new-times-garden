@@ -4,7 +4,7 @@
 .plants-menu {
   z-index: 10;
   position: absolute;
-  bottom: 0;
+  bottom: $app-padding;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@
   transition: bottom 200ms ease-in-out;
 
   &.hidden {
-    bottom: -100vh;
+    bottom: calc(-100vh - #{$app-padding});
   }
 
   &__close-btn {
