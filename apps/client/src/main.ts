@@ -15,7 +15,14 @@ axios.defaults.baseURL = process.env.BACKEND_LINK;
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
 
-const scrollableEl = document.getElementById('game-container');
+const overflow = 0;
+document.body.style.overflowY = 'hidden';
+document.body.style.marginTop = `${overflow}px`;
+document.body.style.height = window.innerHeight + overflow + 'px';
+document.body.style.paddingBottom = `${overflow}px`;
+window.scrollTo(0, overflow);
+
+const scrollableEl = document.getElementById('app');
 let ts: number | undefined;
 const onTouchStart = (e: TouchEvent) => {
   ts = e.touches[0].clientY;
