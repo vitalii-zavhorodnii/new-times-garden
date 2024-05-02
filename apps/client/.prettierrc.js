@@ -9,7 +9,7 @@ module.exports = {
     '<THIRD_PARTY_MODULES>',
     '^@services\\w*',
     '^@scenes\\w*',
-    '^@components\\w*',
+    '(^@components\\w*)|(^@ui\\w*)',
     '^@entities\\w*',
     '^@mappers\\w*',
     '^@helpers\\w*',

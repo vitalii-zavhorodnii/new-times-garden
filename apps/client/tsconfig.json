@@ -25,7 +25,8 @@
       "@helpers/*": ["./src/helpers/*"],
       "@mappers/*": ["./src/mappers/*"],
       "@entities/*": ["./src/entities/*"],
-      "@interfaces/*": ["./src/interfaces/*"]
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@ui/*": ["./src/ui/*"]
     }
   },
   "include": ["environment.d.ts", "src"]

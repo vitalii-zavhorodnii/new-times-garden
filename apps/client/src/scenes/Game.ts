@@ -3,11 +3,11 @@ import { Scene } from 'phaser';
 import { createPayment } from '@services/createPayment';
 import { sendTonTransaction } from '@services/sendTonTransaction';
 
-import BalanceBar from '@components/menus/BalanceBar';
-import BottomBar from '@components/menus/BottomBar';
-import PickedSeedMenu from '@components/menus/PickedSeedMenu';
-import PlantsMenu from '@components/menus/PlantsMenu';
-import ShopMenu from '@components/menus/ShopMenu';
+import BalanceBar from '@ui/bars/BalanceBar';
+import BottomBar from '@ui/bars/BottomBar';
+import PickedPlantBar from '@ui/bars/PickedPlantBar';
+import PlantsMenu from '@ui/menus/PlantsMenu';
+import ShopMenu from '@ui/menus/ShopMenu';
 
 import Dummy from '@entities/Dummy';
 import Plant from '@entities/Plant';
@@ -44,7 +44,7 @@ export class Game extends Scene {
   private gardenContainer: Phaser.GameObjects.Container[];
   private soilContainer: Phaser.GameObjects.Container[];
 
-  private pickedSeedInfo: PickedSeedMenu;
+  private pickedPlantBar: PickedPlantBar;
   private bottomBar: BottomBar;
   private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
@@ -125,7 +125,7 @@ export class Game extends Scene {
     this.renderPlantsList();
     this.renderGardenField();
     // Create picked seed data
-    this.pickedSeedInfo = new PickedSeedMenu();
+    this.pickedPlantBar = new PickedPlantBar();
     /* 
       Camera movement
     */
@@ -280,7 +280,7 @@ export class Game extends Scene {
   private renderPlantsList() {
     this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
       this.pickedPlant = plant;
-      this.pickedSeedInfo.show(this.pickedPlant);
+      this.pickedPlantBar.show(this.pickedPlant);
       this.isBlocked = false;
     });
   }
@@ -321,7 +321,7 @@ export class Game extends Scene {
       this.pickedPlant = null;
       this.isBlocked = false;
       this.menuPlants.close();
-      this.pickedSeedInfo.hide();
+      this.pickedPlantBar.hide();
 
       return;
     }
@@ -329,7 +329,7 @@ export class Game extends Scene {
     this.pickedPlant = null;
     this.isBlocked = true;
     this.menuPlants.open();
-    this.pickedSeedInfo.hide();
+    this.pickedPlantBar.hide();
   }
   // Handle button click: Fertilizer
   private handleFertilizerBtn() {

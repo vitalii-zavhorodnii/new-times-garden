@@ -11,21 +11,17 @@
 
   <body>
     <div id="app">
-      <div class="balance-data hidden">
-        <div class="balance-data__cell">
-          <img class="balance-data__icon" src="./assets/utils/coin.png" alt="coin" />
-          <span class="balance-data__value" id="coin-balance">0</span>
+      <div class="balance-bar hidden">
+        <div class="balance-bar__cell">
+          <img class="balance-bar__icon" src="./assets/utils/coin.png" alt="coin" />
+          <span class="balance-bar__value" id="coin-balance">0</span>
         </div>
-        <div class="balance-data__cell">
-          <img
-            class="balance-data__icon"
-            src="./assets/utils/token.png"
-            alt="coin"
-          />
-          <span class="balance-data__value" id="token-balance">0</span>
+        <div class="balance-bar__cell">
+          <img class="balance-bar__icon" src="./assets/utils/token.png" alt="coin" />
+          <span class="balance-bar__value" id="token-balance">0</span>
         </div>
-        <div class="balance-data__cell" id="shop-button">
-          <img class="balance-data__icon" src="./assets/utils/plus.png" alt="add" />
+        <div class="balance-bar__cell" id="shop-button">
+          <img class="balance-bar__icon" src="./assets/utils/plus.png" alt="add" />
         </div>
       </div>
 
@@ -39,17 +35,17 @@
         <ul class="shop-menu__list"></ul>
       </div>
 
-      <div class="bottom-menu hidden">
-        <ul class="bottom-menu__container">
-          <li class="bottom-menu__item" id="decorate">
-            <img class="bottom-menu__icon" src="./assets/menu/paint.svg" alt="" />
+      <div class="bottom-bar hidden">
+        <ul class="bottom-bar__container">
+          <li class="bottom-bar__item" id="decorate">
+            <img class="bottom-bar__icon" src="./assets/menu/paint.svg" alt="" />
           </li>
-          <li class="bottom-menu__item" id="plants">
-            <img class="bottom-menu__icon" src="./assets/menu/shovel.svg" alt="" />
+          <li class="bottom-bar__item" id="plants">
+            <img class="bottom-bar__icon" src="./assets/menu/shovel.svg" alt="" />
           </li>
-          <li class="bottom-menu__item" id="fertilizer">
+          <li class="bottom-bar__item" id="fertilizer">
             <img
-              class="bottom-menu__icon"
+              class="bottom-bar__icon"
               src="./assets/menu/fertilizer.svg"
               alt=""
             />
@@ -57,7 +53,7 @@
         </ul>
       </div>
 
-      <div class="seed-picked"></div>
+      <div class="picked-plant-bar hidden"></div>
 
       <div class="plants-menu">
         <ul class="plants-menu__list"></ul>
@@ -66,7 +62,6 @@
       <div id="game-container"></div>
     </div>
 
-    <!-- <script src="https://unpkg.com/@tonconnect/ui@0.0.9/dist/tonconnect-ui.min.js"></script> -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="module" src="./bundle.min.js"></script>
   </body>
