@@ -15,9 +15,9 @@ axios.defaults.baseURL = process.env.BACKEND_LINK;
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
 
-window.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-window.scrollTo(0, 100);
-Telegram.WebApp.ready();
+// window.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+// window.scrollTo(0, 100);
+// Telegram.WebApp.ready();
 // const overflow = 100;
 // document.body.style.marginTop = `${overflow}px`;
 // document.body.style.height = window.innerHeight + overflow + 'px';
