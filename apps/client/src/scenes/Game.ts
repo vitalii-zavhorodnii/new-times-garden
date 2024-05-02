@@ -134,8 +134,9 @@ export class Game extends Scene {
       Camera movement
     */
     this.input.on('pointermove', (p) => {
+      console.log(p)
       if (!p.isDown) return;
-
+      console.log(p);
       const { scrollX } = this.camera;
       const { left, right } = CAMERA_BOUNDRIES;
 

@@ -36,12 +36,12 @@
   }
 
   &__close-btn {
-    pointer-events: all;
     z-index: 12;
     position: absolute;
     top: 15px;
     right: 15px;
     width: 36px;
+    pointer-events: auto;
   }
 
   &__frame {
