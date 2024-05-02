@@ -56,6 +56,7 @@ export class Game extends Scene {
   private closeButton: HTMLElement;
   private btnDecorate: HTMLElement;
   private btnPlants: HTMLElement;
+  private closePlants: HTMLElement;
   private btnFertilizer: HTMLElement;
 
   constructor() {
@@ -104,6 +105,8 @@ export class Game extends Scene {
     this.openShopBtn.addEventListener('click', () => this.handleOpenShop());
     this.closeButton = document.querySelector('.shop-menu__btn-close');
     this.closeButton.addEventListener('click', () => this.handleCloseShop());
+    this.closePlants = document.getElementById('close-plants');
+    this.closePlants.addEventListener('click', () => this.handlePlantsBtn());
     /*
       Opacity for ont completed buttons
     */
@@ -163,8 +166,11 @@ export class Game extends Scene {
       }
 
       if (!soil.isOccupied && this.pickedPlant) {
+        console.log('Planting');
         this.plantNewSeed(soil, this.pickedPlant, rowIndex, plantIndex);
       }
+
+      console.log('clicked soil');
     }
   }
   // Handle planing process

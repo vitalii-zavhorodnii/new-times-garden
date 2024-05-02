@@ -19,6 +19,14 @@
     bottom: -100vh;
   }
 
+  &__close-btn {
+    z-index: 12;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+  }
+
   &__frame {
     position: absolute;
     left: 50%;
