@@ -54,6 +54,7 @@
     width: 100%;
     margin-top: 18px;
     margin-left: 10px;
+    padding-bottom: 90px;
     overflow-y: scroll;
 
     &::-webkit-scrollbar {
@@ -88,6 +89,7 @@
     margin-left: 10px;
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   &__title {
@@ -102,6 +104,7 @@
     display: flex;
     align-items: center;
     margin-top: 6px;
+    width: 100%;
   }
 
   &__stat-icon {
@@ -112,9 +115,10 @@
   &__value {
     display: flex;
     align-items: center;
-    margin-right: 10px;
     font-family: 'Newspapper', sans-serif;
     font-size: 16px;
+    // margin-right: 18px;
+    width: 33%;
 
     &:last-child {
       margin-right: 0;
