@@ -20,7 +20,7 @@ export const markup = (
           ? `<p class="plants-menu__value">
               <img 
                 class="plants-menu__stat-icon" 
-                src="./assets/utils/coin.svg" 
+                src="./assets/utils/coin.png" 
                 alt="coin"
               >
               ${coins}
@@ -32,7 +32,7 @@ export const markup = (
           ? `<p class="plants-menu__value">
               <img 
                 class="plants-menu__stat-icon" 
-                src="./assets/utils/token.png" 
+                src="./assets/utils/token.svg" 
                 alt="token"
               >
               ${tokens}
@@ -66,7 +66,7 @@ export const markup = (
       <p class="plants-menu__value">
         <img 
           class="plants-menu__stat-icon" 
-          src="./assets/utils/timer.svg" 
+          src="./assets/utils/timer.png" 
           alt="timer"
         >
         ${timer}
