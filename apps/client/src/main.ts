@@ -13,7 +13,8 @@ import '@helpers/ton-connect-ui';
 axios.defaults.baseURL = process.env.BACKEND_LINK;
 
 window?.Telegram?.WebApp?.expand();
-window.scrollTo(0, 0)
+window?.Telegram?.WebApp?.enableClosingConfirmation();
+
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
   y: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
