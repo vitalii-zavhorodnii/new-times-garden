@@ -19,7 +19,8 @@ const overflow = 100;
 document.body.style.marginTop = `${overflow}px`;
 document.body.style.height = window.innerHeight + overflow + 'px';
 document.body.style.paddingBottom = `${overflow}px`;
-window.scrollTo(0, overflow);
+// window.scrollTo(0, overflow);
+document.getElementById('app').scrollIntoView();
 
 const scrollableEl = document.getElementById('app');
 
@@ -52,7 +53,7 @@ const screenSize = {
 };
 
 const config: Types.Core.GameConfig = {
-  parent: 'game-container',
+  parent: 'app',
   type: Phaser.CANVAS,
   width: screenSize.x,
   height: screenSize.y,
