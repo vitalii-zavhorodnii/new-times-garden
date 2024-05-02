@@ -166,6 +166,19 @@ export class Game extends Scene {
   // Growing checker
   private growingChecker() {
     console.log('growingChecker');
+
+    this.plants.forEach((row, rowIndex) => {
+      row.forEach((plant: Plant, plantIndex) => {
+        console.log({
+          dummy: plant.dummy,
+          planted: plant.plantedAt,
+          growTime: plant.growTime
+        });
+        if (!plant.dummy) {
+          console.log('Not dummy');
+        }
+      });
+    });
   }
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
