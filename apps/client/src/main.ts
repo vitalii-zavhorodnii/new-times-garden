@@ -15,7 +15,7 @@ axios.defaults.baseURL = process.env.BACKEND_LINK;
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
 
-const overflow = 0;
+const overflow = 100;
 document.body.style.overflowY = 'hidden';
 document.body.style.marginTop = `${overflow}px`;
 document.body.style.height = window.innerHeight + overflow + 'px';
