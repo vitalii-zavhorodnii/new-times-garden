@@ -33,11 +33,12 @@
     top: 0;
     transform: translate(-50%, 0);
     width: 100%;
+    pointer-events: none;
   }
 
   &__header {
     color: $plant-shop-color;
-    font-size: 36px;
+    font-size: 40px;
     font-family: 'Newspapper', sans-serif;
   }
 
@@ -67,7 +68,7 @@
     margin-bottom: 8px;
     padding-top: 8px;
     color: $plant-shop-color;
-    border-top: 1px dotted #61677A;
+    border-top: 1px dashed #61677a;
 
     &:last-child() {
       margin-bottom: 0;
@@ -89,25 +90,27 @@
   }
 
   &__title {
-    font-size: 1.3rem;
+    font-size: 20px;
     font-family: 'Newspapper', sans-serif;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
   }
 
   &__info {
     display: flex;
     align-items: center;
+    margin-top: 6px;
   }
 
   &__stat-icon {
     margin-right: 5px;
+    width: 24px;
   }
 
   &__value {
     display: flex;
     align-items: center;
     margin-right: 14px;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Newspapper', sans-serif;
     font-family: 1.7rem;
 
     &:last-child {
