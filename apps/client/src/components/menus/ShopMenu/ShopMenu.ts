@@ -5,7 +5,6 @@ export default class ShopMenu {
   public shopList: IShopItem[];
 
   private container: HTMLElement;
-  private closeButton: HTMLElement;
   private listContainer: HTMLElement;
   private callbackItemClick: Function;
 
@@ -17,10 +16,6 @@ export default class ShopMenu {
 
     this.shopList = list;
     this.callbackItemClick = callback;
-
-    this.closeButton.addEventListener('click', () => {
-      this.close();
-    });
 
     this.createMarkup();
   }
