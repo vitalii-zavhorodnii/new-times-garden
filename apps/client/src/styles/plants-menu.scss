@@ -3,9 +3,6 @@
 
 .plants-menu {
   z-index: 10;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,6 +11,9 @@
   padding: 40px 10px 0 10px;
   background-color: #e2dfd0;
   transition: bottom 200ms ease-in-out;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 
   &.hidden {
     bottom: -100vh;
