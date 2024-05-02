@@ -2,15 +2,15 @@
 
 Repo contains workspaces in /apps/
 
-#### Installing environment
+### Installing environment
+
+Set .env file from .env.example template
 
 ```sh
 npm install
 ```
 
-Set .env file from .env.example template
-
-#### Development mode
+### Development mode
 
 Repo has few commands for each module: sass and client, api for backend
 
@@ -20,7 +20,7 @@ npm run sass
 npm run api
 ```
 
-#### Build mode
+### Build mode
 
 Build mode runs build api (backend), then creates client, on server it will be moved into api folder 'static' and serves 'index.html'
 
