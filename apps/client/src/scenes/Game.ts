@@ -169,11 +169,6 @@ export class Game extends Scene {
 
     this.plants.forEach((row, rowIndex) => {
       row.forEach((plant: Plant, plantIndex) => {
-        console.log({
-          dummy: plant.dummy,
-          planted: plant.plantedAt,
-          growTime: plant.growTime
-        });
         if (!plant.dummy) {
           console.log('Not dummy');
         }

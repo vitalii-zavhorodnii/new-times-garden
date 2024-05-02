@@ -39,6 +39,24 @@ export class Preloader extends Scene {
       frameHeight: 96
     });
     // Sprites for plants
+    this.load.spritesheet('salat', 'assets/plants/salat.png', {
+      frameWidth: 96,
+      frameHeight: 96,
+      startFrame: 0,
+      endFrame: 3
+    });
+    this.load.spritesheet('marigold', 'assets/plants/marigold.png', {
+      frameWidth: 96,
+      frameHeight: 96,
+      startFrame: 0,
+      endFrame: 3
+    });
+    this.load.spritesheet('bay-leaf', 'assets/plants/bay-leaf.png', {
+      frameWidth: 96,
+      frameHeight: 96,
+      startFrame: 0,
+      endFrame: 3
+    });
     this.load.image('potato', 'assets/plants/potato.png');
     this.load.image('corn', 'assets/plants/corn.png');
     this.load.image('berry', 'assets/plants/berry.png');

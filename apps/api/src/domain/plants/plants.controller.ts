@@ -80,10 +80,10 @@ export class PlantsController {
   getPlants(): Array<Plant> {
     const PLANTS: any[] = [
       {
-        icon: './assets/plants/icons/potato.png',
-        title: 'Potato',
-        description: 'pommes for men',
-        texture: 'potato',
+        icon: './assets/plants/icons/salat.png',
+        title: 'Salat',
+        description: 'salat is green',
+        texture: 'salat',
         growTime: 20,
         gamePrice: 20,
         tokenPrice: 0,
@@ -91,10 +91,10 @@ export class PlantsController {
         tokensIncome: 0
       },
       {
-        title: 'Corn',
-        description: 'corn is yellow',
-        icon: './assets/plants/icons/corn.png',
-        texture: 'corn',
+        title: 'Bay leaf',
+        description: 'bay leaf for borsch',
+        icon: './assets/plants/icons/bay-leaf.png',
+        texture: 'bay-leaf',
         growTime: 40,
         gamePrice: 20,
         tokenPrice: 0,
@@ -102,10 +102,10 @@ export class PlantsController {
         tokensIncome: 0
       },
       {
-        title: 'Berry',
-        description: 'tasty berries',
-        icon: './assets/plants/icons/berry.png',
-        texture: 'berry',
+        title: 'Marigold',
+        description: 'shiny orange flower',
+        icon: './assets/plants/icons/marigold.png',
+        texture: 'marigold',
         growTime: 60,
         gamePrice: 0,
         tokenPrice: 10,
