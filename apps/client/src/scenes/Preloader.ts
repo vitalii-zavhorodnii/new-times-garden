@@ -51,15 +51,12 @@ export class Preloader extends Scene {
       startFrame: 0,
       endFrame: 3
     });
-    this.load.spritesheet('bay-leaf', 'assets/plants/bay-leaf.png', {
+    this.load.spritesheet('sunflower', 'assets/plants/sunflower.png', {
       frameWidth: 96,
       frameHeight: 96,
       startFrame: 0,
       endFrame: 3
     });
-    this.load.image('potato', 'assets/plants/potato.png');
-    this.load.image('corn', 'assets/plants/corn.png');
-    this.load.image('berry', 'assets/plants/berry.png');
   }
 
   create() {
