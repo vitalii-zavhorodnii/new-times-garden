@@ -6,6 +6,7 @@ import {
   IsDefined,
   IsNotEmpty,
   IsNotEmptyObject,
+  IsNumber,
   IsObject,
   IsOptional,
   IsString,
@@ -15,69 +16,86 @@ import {
 
 export class CreatePlantDto {
   @ApiProperty({
-    example: 'diagnostic',
-    description: 'Issue URL'
+    example: './assets/plants/icons/salat.png',
+    description: 'Icon for plants shop'
   })
-  @IsOptional()
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  readonly slug?: string;
+  readonly icon: string;
 
   @ApiProperty({
-    example: 'Diagnostic',
-    description: 'Issue title'
+    example: 'Salat',
+    description: 'Name of plant'
   })
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  @Length(1, 60, {
-    message: 'title required to be 1-60 symbols length'
-  })
+  @Length(1, 60)
   readonly title: string;
 
   @ApiProperty({
-    example: 'від 200 грн',
-    description: 'Issue fix price'
+    example: 'Salat is green',
+    description: 'Description of plant'
   })
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  @Length(1, 30, {
-    message: 'title required to be 1-30 symbols length'
-  })
-  readonly price: string;
-
-  gamePrice;
-  tokenPrice;
-  coinsIncome;
-  tokensIncome;
-
-  @ApiProperty({
-    example: 'Diagnostic...',
-    description: 'Issue description'
-  })
-  @IsOptional()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
+  @Length(1, 200)
   readonly description: string;
 
   @ApiProperty({
-    example: false,
-    description: 'If false, will not appear on client side lists'
+    example: 'Salat is green',
+    description: 'Description of plant'
   })
-  @IsOptional()
-  @IsBoolean({ message: 'field must be a boolean' })
-  readonly isActive: boolean;
-
-  @ApiProperty({ example: '64ef4383e46e72721c03090e' })
-  @IsOptional()
+  @IsDefined()
+  @IsNotEmpty()
   @IsString()
-  readonly image?: string;
+  @Length(1, 50)
+  readonly texture: string;
 
-  @ApiProperty({ example: ['64ef4383e46e72721c03090e'] })
-  @IsOptional()
-  @IsString({ each: true })
-  readonly benefits?: string[];
+  @ApiProperty({
+    example: 90,
+    description: 'Grow time'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly growTime: number;
+
+  @ApiProperty({
+    example: 90,
+    description: 'Price in coins'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly gamePrice: number;
+
+  @ApiProperty({
+    example: 90,
+    description: 'Price in tokens'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly tokenPrice: number;
+
+  @ApiProperty({
+    example: 90,
+    description: 'Amount of coins to harvest'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly coinsIncome: number;
+
+  @ApiProperty({
+    example: 30,
+    description: 'Amount of tokens to harvest'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly tokensIncome: number;
 }

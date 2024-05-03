@@ -2,26 +2,20 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Document, HydratedDocument, Schema as MongooseSchema, now } from 'mongoose';
 
+import { Plant } from '@domain/plants/schemas/plant.schema';
+
 import { DEFAULT_GARDEN } from '@constants/garden.constants';
 
 export type GardenCellDocument = HydratedDocument<GardenCell>;
 
-@Schema({ versionKey: false })
+@Schema({ versionKey: false, _id: false })
 class GardenCell extends Document {
-  @ApiProperty({ example: 'Potato' })
-  @Prop({ type: String, required: true })
-  readonly title: string;
-
-  @ApiProperty({ example: 'potato' })
-  @Prop({ type: String, required: true })
-  readonly texture: string;
+  @ApiProperty({ example: Plant })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Plant.name })
+  readonly plant: Plant;
 
   @ApiProperty({ example: 90 })
-  @Prop({ type: Number, required: true })
-  readonly growTime: number;
-
-  @ApiProperty({ example: 90 })
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Number })
   readonly plantedAt: number;
 }
 
@@ -40,10 +34,10 @@ class Garden extends Document {
 
   @ApiProperty({ type: GardenCell, isArray: true })
   @Prop({
-    type: [[{ type: MongooseSchema.Types.ObjectId, ref: GardenCell.name }]],
+    type: [[{ type: GardenCell, ref: GardenCell.name }]],
     default: DEFAULT_GARDEN
   })
-  readonly field: Array<GardenCell | null>[];
+  readonly field: GardenCell[][];
 
   @Prop({ default: now() })
   readonly createdAt: Date;

@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 
 import { createPayment } from '@services/createPayment';
 import { sendTonTransaction } from '@services/sendTonTransaction';
+import { startGrowPlant } from '@services/startGrowPlant';
 
 import BalanceBar from '@ui/bars/BalanceBar';
 import BottomBar from '@ui/bars/BottomBar';
@@ -25,6 +26,12 @@ import type { IPlantListItem } from '@interfaces/IPlantListItem';
 import type { IShopItem } from '@interfaces/IShopItem';
 import type { IUserData } from '@interfaces/IUserData';
 
+interface IData {
+  user: IUserData;
+  plants: IPlantListItem[];
+  shopList: IShopItem[];
+}
+
 export class Game extends Scene {
   public camera: Phaser.Cameras.Scene2D.Camera;
   public isBlocked: boolean;
@@ -38,8 +45,8 @@ export class Game extends Scene {
   private plantsData: IPlantListItem[];
   private shopList: IShopItem[];
 
-  private plants: Array<Plant | Dummy>[];
-  private soil: Array<Soil[]>;
+  private plants: (Plant | Dummy)[][];
+  private soil: Soil[][];
   private growingInterval: ReturnType<typeof setInterval>;
 
   private gardenContainer: Phaser.GameObjects.Container[];
@@ -71,7 +78,7 @@ export class Game extends Scene {
     this.isBlocked = false;
   }
 
-  public init(data: any) {
+  public init(data: IData) {
     this.userData = data.user;
     this.plantsData = data.plants;
     this.shopList = data.shopList;
@@ -166,12 +173,12 @@ export class Game extends Scene {
   */
   // Growing checker
   private growingChecker() {
-    console.log('growingChecker');
+    // console.log('growingChecker');
 
     this.plants.forEach((row, rowIndex) => {
       row.forEach((plant: Plant, plantIndex) => {
         if (!plant.dummy) {
-          console.log('Not dummy');
+          // console.log('Not dummy');
         }
       });
     });
@@ -180,24 +187,38 @@ export class Game extends Scene {
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
       if (soil.isOccupied) {
-        console.log('Growing...');
+        console.log('CAN NOT PLACE HERE!');
       }
 
       if (!soil.isOccupied && this.pickedPlant) {
-        console.log('Planting');
         this.plantNewSeed(soil, this.pickedPlant, rowIndex, plantIndex);
       }
-
-      console.log('clicked soil');
     }
   }
   // Handle planing process
-  private plantNewSeed(
+  private async plantNewSeed(
     soil: Soil,
     plant: IPlantListItem,
     rowIndex: number,
     plantIndex: number
   ) {
+    if (
+      plant.gamePrice > this.userData.balanceCoins ||
+      plant.tokenPrice > this.userData.balanceTokens
+    ) {
+      this.pickedPlant = null;
+      this.pickedPlantBar.hide();
+      return;
+    }
+
+    console.log({ planting: plant });
+    startGrowPlant(this.userData.telegramId, plant._id, rowIndex, plantIndex);
+
+    this.userData.balanceCoins -= plant.gamePrice;
+    this.userData.balanceTokens -= plant.tokenPrice;
+    this.balanceBar.setCoins(this.userData.balanceCoins);
+    this.balanceBar.setTokens(this.userData.balanceTokens);
+
     const { texture, title, growTime } = plant;
     const { x, y } = soil;
     const plantedAt = Date.now();
@@ -217,6 +238,15 @@ export class Game extends Scene {
     soil.placePlant(newPlant);
 
     this.gardenContainer[rowIndex].addAt(newPlant, plantIndex);
+
+    if (
+      plant.gamePrice > this.userData.balanceCoins ||
+      plant.tokenPrice > this.userData.balanceTokens
+    ) {
+      this.pickedPlant = null;
+      this.pickedPlantBar.hide();
+      return;
+    }
   }
   /*
       Render methods
@@ -224,17 +254,19 @@ export class Game extends Scene {
   */
   // Render garden field
   private renderGardenField() {
+    console.log('renderGardenField', this.userData.garden.field);
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
 
     this.plants = this.userData.garden.field.map((gardenRow) => {
       const plantedRow = gardenRow.map((item) => {
-        if (!item.texture) {
+        if (!item.plantedAt) {
           return new Dummy(this);
         }
 
-        const { x, y, texture, title, plantedAt, growTime } = item;
+        const { plantedAt } = item;
+        const { texture, title, growTime, x, y } = item.plant;
 
         const plant = new Plant(this, x, y, texture, title, plantedAt, growTime);
 
@@ -304,16 +336,28 @@ export class Game extends Scene {
   }
   // Render plants list
   private renderPlantsList() {
-    this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
-      this.pickedPlant = plant;
-      this.pickedPlantBar.show(this.pickedPlant);
-      this.isBlocked = false;
-    });
+    this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) =>
+      this.handleSeedChoose(plant)
+    );
   }
   /*
       Bottom menu handlers
       Handle button click: Shop
   */
+  // handle Seeds menu
+  private handleSeedChoose(plant: IPlantListItem) {
+    if (this.userData.balanceCoins < plant.gamePrice) {
+      return;
+    }
+    if (this.userData.balanceTokens < plant.tokenPrice) {
+      return;
+    }
+
+    this.pickedPlant = plant;
+    this.pickedPlantBar.show(this.pickedPlant);
+    this.menuPlants.close();
+    this.isBlocked = false;
+  }
   // Handle shops items
   private async handleShopItemClick(item: IShopItem) {
     const boc = await sendTonTransaction(item.price);

@@ -58,7 +58,6 @@ export default class PlantsMenu {
 
       itemHTML.addEventListener('click', () => {
         this.callback(plant);
-        this.close();
       });
 
       return itemHTML;

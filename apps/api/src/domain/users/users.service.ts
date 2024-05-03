@@ -2,11 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { GardensService } from 'domain/gardens/gardens.service';
+import { GardensService } from '@domain/gardens/gardens.service';
+import { PlantsService } from '@domain/plants/plants.service';
 
 import { User } from './schemas/user.schema';
+import { Garden, GardenCell } from '@domain/gardens/schemas/garden.schema';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { GrowPlantDto } from './dto/grow-plant.dto';
 
 import { INIT_CURRENCY } from '@constants/users.constants';
 
@@ -14,12 +17,10 @@ import { INIT_CURRENCY } from '@constants/users.constants';
 export class UsersService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
-    private readonly gardendsService: GardensService
+    private readonly plantsService: PlantsService
   ) {}
 
-  public async create(dto: CreateUserDto): Promise<User> {
-    const garden = await this.gardendsService.create();
-
+  public async create(dto: CreateUserDto, garden: Garden): Promise<User> {
     const newUser = await new this.userModel({
       ...dto,
       balanceCoins: INIT_CURRENCY.coins,
@@ -33,7 +34,10 @@ export class UsersService {
   }
 
   public async findOneByTelegramId(telegramId: string): Promise<User | null> {
-    const user = await this.userModel.findOne({ telegramId }).populate('garden');
+    const user = await this.userModel
+      .findOne({ telegramId })
+      .populate({ path: 'garden' })
+      .exec();
 
     if (!user) {
       return null;
@@ -62,6 +66,13 @@ export class UsersService {
       },
       { new: true }
     );
+
+    return user;
+  }
+
+  public async startGrow(userId: string, plantId: string): Promise<User> {
+    console.log({ userId, plantId });
+    const user = await this.userModel.findById(userId);
 
     return user;
   }

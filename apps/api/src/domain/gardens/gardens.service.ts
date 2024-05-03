@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
 import { Garden } from './schemas/garden.schema';
+import type { Plant } from '@domain/plants/schemas/plant.schema';
 
 import { UpdateGardenDto } from './dto/update-garden.dto';
 
@@ -32,14 +33,42 @@ export class GardensService {
       return null;
     }
 
-    const updatedGarden = await this.gardenModel
-      .findByIdAndUpdate(id, dto, {
-        new: true
-      })
-      .populate('image')
-      .populate({ path: 'benefits', populate: { path: 'icon' } });
+    const updatedGarden = await this.gardenModel.findByIdAndUpdate(id, dto, {
+      new: true
+    });
 
     return updatedGarden;
+  }
+
+  public async updatePlant(
+    id: string,
+    rowIndex: number,
+    plantIndex: number,
+    plant: Plant
+  ) {
+    console.log({ id, updatePlant: [rowIndex, plantIndex], plant });
+
+    const time = Date.now();
+    console.log({ time });
+
+    const value = {
+      plant: plant,
+      plantedAt: time
+    };
+    const key = `field.${rowIndex}.${plantIndex}`;
+    console.log({ key, value });
+    const newGarden = await this.gardenModel.findByIdAndUpdate(
+      id,
+      {
+        $set: { [key]: value }
+      },
+      {
+        // arrayFilters: [{ rowIndex: rowIndex }, { plantIndex: plantIndex }],
+        new: true
+      }
+    );
+    // .populate('plant');
+    console.log({ newGarden: newGarden.field[rowIndex][plantIndex] });
   }
 
   public async findOneById(id: string): Promise<Garden> {

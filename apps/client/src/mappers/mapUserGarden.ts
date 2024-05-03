@@ -2,19 +2,23 @@ import { mapFieldRows } from './mapFieldRows';
 
 import { ROW_MAP } from '@constants/rows.constants';
 
-import { IGardenFetched } from '@interfaces/IGardenFetched';
-import { IPlantData } from '@interfaces/IPlantData';
+import type { ICellData } from '@interfaces/IUserData';
+import type { ICellDto } from '@interfaces/IUserDto';
 
-export const userGardenMapper = (field: IGardenFetched): IPlantData[][] => {
+export const userGardenMapper = (field: ICellDto[][]): ICellData[][] => {
   const data = field.map((item, rowIndex: number) => {
     const concatCoordsFetched = mapFieldRows(ROW_MAP);
 
-    return item.map((plant, plantIndex: number) => {
-      const cell = { ...plant, ...concatCoordsFetched[rowIndex][plantIndex] };
+    return item.map((cell, cellIndex: number) => {
+      const mappedCell = { ...cell };
+      mappedCell.plant = {
+        ...mappedCell.plant,
+        ...concatCoordsFetched[rowIndex][cellIndex]
+      };
 
-      return cell;
+      return mappedCell;
     });
   });
 
-  return data;
+  return data as ICellData[][];
 };

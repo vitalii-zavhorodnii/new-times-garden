@@ -17,15 +17,11 @@ import {
   validate
 } from 'class-validator';
 
+import { Plant } from '@domain/plants/schemas/plant.schema';
+
 class GardenCellDto {
-  @IsString()
-  title: string;
-
-  @IsString()
-  texture: string;
-
   @IsNumber()
-  growTime: number;
+  plant: Plant;
 
   @IsNumber()
   plantedAt: number;
@@ -67,5 +63,5 @@ export class UpdateGardenDto {
   })
   @IsArray({ each: true })
   @Validate(validateRowArray, { each: true })
-  readonly field: (GardenCellDto | null)[][];
+  readonly field: GardenCellDto[][];
 }

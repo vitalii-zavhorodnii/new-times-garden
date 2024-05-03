@@ -1,15 +1,5 @@
-export interface IUserGardenCell {
-  title: string;
-  texture: string;
-  growTime: number;
-  plantedAt: number;
-  x: number;
-  y: number;
-}
-
-export type IUserGarden = Array<IUserGardenCell | null>[];
-
 export interface IUserData {
+  _id: string;
   telegramId: number;
   name: string;
   avatar?: string;
@@ -17,6 +7,23 @@ export interface IUserData {
   balanceTokens: number;
   garden: {
     _id: string;
-    field: IUserGarden;
+    field: ICellData[][];
+  };
+}
+
+export interface ICellData {
+  plantedAt: number;
+  plant: {
+    title: string;
+    description: string;
+    texture: string;
+    icon: string;
+    growTime: number;
+    gamePrice: number;
+    tokenPrice: number;
+    coinsIncome: number;
+    tokensIncome: number;
+    x: number;
+    y: number;
   };
 }

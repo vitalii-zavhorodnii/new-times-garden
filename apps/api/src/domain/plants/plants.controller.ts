@@ -96,9 +96,9 @@ export class PlantsController {
         icon: './assets/plants/icons/bay-leaf.png',
         texture: 'bay-leaf',
         growTime: 40,
-        gamePrice: 20,
+        gamePrice: 90,
         tokenPrice: 0,
-        coinsIncome: 35,
+        coinsIncome: 130,
         tokensIncome: 0
       },
       {
@@ -129,7 +129,7 @@ export class PlantsController {
         description: 'pommes for men',
         texture: 'potato',
         growTime: 20,
-        gamePrice: 20,
+        gamePrice: 500,
         tokenPrice: 0,
         coinsIncome: 40,
         tokensIncome: 0
@@ -140,9 +140,9 @@ export class PlantsController {
         icon: './assets/plants/icons/corn.png',
         texture: 'corn',
         growTime: 40,
-        gamePrice: 20,
+        gamePrice: 300,
         tokenPrice: 0,
-        coinsIncome: 35,
+        coinsIncome: 490,
         tokensIncome: 0
       },
       {

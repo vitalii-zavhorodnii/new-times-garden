@@ -16,7 +16,6 @@ class Plant extends Document {
   @ApiProperty({ example: 'assets/plants/bush.png' })
   @Prop({
     type: String,
-    unique: true,
     set: (v: string) => v?.trim().toLowerCase(),
     required: false
   })

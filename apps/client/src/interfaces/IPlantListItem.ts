@@ -1,4 +1,5 @@
 export interface IPlantListItem {
+  _id: string;
   icon: string;
   title: string;
   description: string;
