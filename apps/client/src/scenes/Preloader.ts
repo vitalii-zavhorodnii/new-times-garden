@@ -34,6 +34,7 @@ export class Preloader extends Scene {
     this.load.image('dummy', 'assets/utils/dummy.png');
     // field tiles
     this.load.image('planted', 'assets/soil/planted.png');
+    this.load.image('harvested', 'assets/soil/harvested.png');
     this.load.spritesheet('soil', 'assets/soil/soil-spritesheet.png', {
       frameWidth: 96,
       frameHeight: 96

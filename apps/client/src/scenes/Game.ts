@@ -153,44 +153,11 @@ export class Game extends Scene {
     /* 
       Camera movement
     */
-    // this.input.on('pointermove', (p) => {
-    //   if (!p.isDown) return;
-    //   console.log(this.camera.scrollX);
-    //   console.log(p.prevPosition);
+    
 
-    //   const { left, right } = CAMERA_BOUNDRIES;
-
-    //   const distance = p.x - p.prevPosition.x + 3 / this.camera.zoom;
-
-    //   this.camera.scrollX -= distance;
-
-    //   if (scrollX <= left) {
-    //     this.camera.scrollX = left + 5;
-    //   }
-
-    //   if (scrollX >= right) {
-    //     this.camera.scrollX = right - 5;
-    //   }
-    //   /* End control define function */
-    // });
-    var dragScale = this.plugins.get('rexpinchplugin').add(this);
-
-    var camera = this.cameras.main;
-    dragScale
-      .on('drag1', function (dragScale) {
-        const drag1Vector = dragScale.drag1Vector;
-        camera.scrollX -= drag1Vector.x / camera.zoom;
-        // camera.scrollY -= drag1Vector.y / camera.zoom;
-      })
-      .on(
-        'pinch',
-        function (dragScale) {
-          const scaleFactor = dragScale.scaleFactor;
-          camera.zoom *= scaleFactor;
-        },
-        this
-      );
-
+    /*
+      End camera movement
+    */
     this.events.on('destroy', () => {
       this.growingInterval = null;
     });
