@@ -45,7 +45,7 @@ export default class PlantsMenu {
       itemHTML.classList.add('plants-menu__item');
       itemHTML.setAttribute('index', String(index));
 
-      const growing = Duration.fromMillis(plant.growTime).toFormat('mm');
+      const growing = Duration.fromMillis(plant.growTime).toFormat('m');
 
       const markupHTML: string = markup(
         plant.title,
