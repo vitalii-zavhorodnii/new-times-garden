@@ -215,7 +215,7 @@ export class Game extends Scene {
     const endTime = DateTime.fromMillis(plant.plantedAt + plant.growTime);
     const diff1 = endTime.diff(currentTime).toMillis();
     const percentLeft = Math.floor((diff1 / plant.growTime) * 100);
-    console.log({ percentLeft });
+    // console.log({ percentLeft });
     // console.log({ diff1, diff2 });
     // console.log({ x:  });
     // const procentGrowth = Math.floor((diff / plant.growTime) * 100) - 100;

@@ -65,10 +65,13 @@ jobs:
             nvm install latest
             cd /projects/new-times-garden/
             git status
+            git stash
             git checkout main
             git pull origin main
             npm install
             npm run build:api
+            rm -rf apps/client/dist/*
             npm run build:client
+            
             rm -rf apps/api/static/*
             mv apps/client/dist/* apps/api/static
