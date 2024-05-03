@@ -20,10 +20,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../assets/menu/wooden-bg.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    // background-image: url('../assets/menu/wooden-bg.png');
+    // background-position: center;
+    // background-repeat: no-repeat;
+    // background-size: cover;
 
     &:first-child {
       margin-left: 0;
@@ -31,12 +31,12 @@
   }
 
   &__icon {
-    background-color: #fbfada;
-    border-radius: 50%;
+    // background-color: #fbfada;
+    // border-radius: 50%;
     width: 32px;
 
     &.big {
-      width: 45px;
+      width: 52px;
     }
   }
 
