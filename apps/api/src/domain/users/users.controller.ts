@@ -45,6 +45,41 @@ export class UsersController {
 
     return result;
   }
+  @ApiOperation({ summary: 'Find User by Telegram ID' })
+  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 404, description: 'Garden was not found' })
+  @Get('/:id')
+  public async findUserByTelegramId(@Param('id') id: string): Promise<User | null> {
+    const user = await this.usersService.findOneByTelegramId(id);
+
+    if (!user) {
+      return null;
+    }
+
+    const plants = await this.plantsService.findAll();
+
+    if (plants.length === 0) {
+      throw new BadRequestException('Plants was not found!');
+    }
+
+    const result: any = JSON.parse(JSON.stringify(user));
+
+    const field = result.garden.field.map((row) => {
+      return row.map((cell) => {
+        if (!cell) {
+          return null;
+        }
+
+        const foundPlant = plants.find((item) => `${item._id}` === `${cell.plant}`);
+
+        return { ...cell, plant: foundPlant };
+      });
+    });
+
+    result.garden.field = field;
+
+    return result as User;
+  }
 
   @ApiOperation({ summary: 'Start growing' })
   @ApiResponse({ status: 200, type: User })
@@ -129,41 +164,5 @@ export class UsersController {
 
     const result = await this.usersService.findOneByTelegramId(id);
     return { user: result, status: 'updated' };
-  }
-
-  @ApiOperation({ summary: 'Find User by Telegram ID' })
-  @ApiResponse({ status: 200, type: User })
-  @ApiResponse({ status: 404, description: 'Garden was not found' })
-  @Get('/:id')
-  public async findUserByTelegramId(@Param('id') id: string): Promise<User | null> {
-    const user = await this.usersService.findOneByTelegramId(id);
-
-    if (!user) {
-      throw new NotFoundException('User was not found');
-    }
-
-    const plants = await this.plantsService.findAll();
-
-    if (plants.length === 0) {
-      throw new BadRequestException('Plants was not found!');
-    }
-
-    const result: any = JSON.parse(JSON.stringify(user));
-
-    const field = result.garden.field.map((row) => {
-      return row.map((cell) => {
-        if (!cell) {
-          return null;
-        }
-
-        const foundPlant = plants.find((item) => `${item._id}` === `${cell.plant}`);
-
-        return { ...cell, plant: foundPlant };
-      });
-    });
-
-    result.garden.field = field;
-
-    return result as User;
   }
 }
