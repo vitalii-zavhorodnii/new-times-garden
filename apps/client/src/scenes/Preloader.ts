@@ -57,6 +57,12 @@ export class Preloader extends Scene {
       startFrame: 0,
       endFrame: 3
     });
+    this.load.spritesheet('pumpkin', 'assets/plants/pumpkin.png', {
+      frameWidth: 96,
+      frameHeight: 96,
+      startFrame: 0,
+      endFrame: 3
+    });
   }
 
   create() {
