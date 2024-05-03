@@ -1,4 +1,5 @@
 import throttle from 'lodash.throttle';
+import { DateTime } from 'luxon';
 import { Scene } from 'phaser';
 
 import { createPayment } from '@services/createPayment';
@@ -145,6 +146,10 @@ export class Game extends Scene {
     this.renderGardenField();
     // Create picked seed data
     this.pickedPlantBar = new PickedPlantBar();
+    /*
+      Create animations
+    */
+    // this.anims.add
     /* 
       Camera movement
     */
@@ -195,17 +200,48 @@ export class Game extends Scene {
   */
   // Growing checker
   private growingChecker() {
-    // console.log('growingChecker');
+    const currentTime = DateTime.now();
 
-    this.plants.forEach((row, rowIndex) => {
-      row.forEach((plant: Plant, plantIndex) => {
-        if (!plant.dummy) {
-          const time = Date.now();
-          // console.log('time', time);
-          // console.log('plantedAt', plant.plantedAt);
+    this.plants.forEach((row) => {
+      row.forEach((plant: Plant) => {
+        if (!plant.dummy && plant.growTime) {
+          this.updateGrowPhase(plant, currentTime);
         }
       });
     });
+  }
+  // Handle plant texutre by grow phase
+  private updateGrowPhase(plant: Plant, currentTime: DateTime) {
+    const endTime = DateTime.fromMillis(plant.plantedAt + plant.growTime);
+    const diff1 = endTime.diff(currentTime).toMillis();
+    const percentLeft = Math.floor((diff1 / plant.growTime) * 100);
+    console.log({ percentLeft });
+    // console.log({ diff1, diff2 });
+    // console.log({ x:  });
+    // const procentGrowth = Math.floor((diff / plant.growTime) * 100) - 100;
+    // console.log({
+    //   frameName: parseInt(plant.frame.name),
+    //   left: procentGrowth < 25,
+    //   right: parseInt(plant.frame.name) !== 0
+    // });
+    // console.log({ procentGrowth });
+    // if (procentGrowth < 25 && parseInt(plant.frame.name) !== 0) {
+    //   console.log('< 25%')
+    //   plant.setFrame(0);
+    // } else if (procentGrowth < 60 && parseInt(plant.frame.name) !== 1) {
+    //   console.log('< 60')
+    //   plant.setFrame(1);
+    // } else if (procentGrowth < 100 && parseInt(plant.frame.name) !== 2) {
+    //   console.log('< 100%')
+    //   plant.setFrame(2);
+    // } else if (procentGrowth >= 100 && parseInt(plant.frame.name) !== 3) {
+    //   console.log('= 100%')
+    //   plant.setFrame(3);
+    // }
+
+    // plant.setFrame(2);
+    // plant.setFrame(1);
+    // plant.setFrame(1);
   }
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {

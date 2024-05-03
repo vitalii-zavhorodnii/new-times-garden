@@ -47,7 +47,6 @@ export class GardensService {
     plant: Plant
   ) {
     const time = Date.now();
-    console.log({ time });
 
     const value = {
       plant: plant,
