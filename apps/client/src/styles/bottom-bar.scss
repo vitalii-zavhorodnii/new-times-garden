@@ -30,13 +30,25 @@
     }
   }
 
+  &__title {
+    z-index: 3;
+    position: absolute;
+    left: 50%;
+    top: 24px;
+    // transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-family: 'Newspapper';
+    color: #ffffff;
+  }
+
   &__icon {
     // background-color: #fbfada;
     // border-radius: 50%;
-    width: 32px;
+    display: none;
 
     &.big {
-      width: 52px;
+      display: flex;
+      width: 72px;
     }
   }
 
