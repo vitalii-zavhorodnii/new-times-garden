@@ -236,28 +236,35 @@ export class Game extends Scene {
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
       if (soil.isOccupied) {
-        const harvestTime = soil.plant.plantedAt + soil.plant.growTime;
-        const currentTime = Date.now();
-        const differenceTime = harvestTime - currentTime;
+        const currentTime = DateTime.now();
+        const endTime = DateTime.fromMillis(
+          soil.plant.plantedAt + soil.plant.growTime
+        );
+        const diff1 = endTime.diff(currentTime).toMillis();
+        const percentLeft = Math.floor((diff1 / soil.plant.growTime) * 100);
 
-        if (differenceTime < 0) {
-          this.userData.balanceCoins += soil.plant.coinsIncome;
-          this.balanceBar.setCoins(this.userData.balanceCoins);
-          this.userData.balanceTokens += soil.plant.tokensIncome;
-          this.balanceBar.setTokens(this.userData.balanceTokens);
-
-          this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
-          this.plants[rowIndex][plantIndex].destroy();
-
-          this.plants[rowIndex][plantIndex] = new Dummy(this) as Plant;
-          const dummy = this.plants[rowIndex][plantIndex] as Plant;
-
-          soil.placePlant(dummy);
-
-          this.gardenContainer[rowIndex].addAt(dummy, plantIndex);
-
-          harvestPlant(this.userData.telegramId, rowIndex, plantIndex);
+        if (percentLeft > 0) {
+          return;
         }
+
+        this.userData.balanceCoins += soil.plant.coinsIncome;
+        this.balanceBar.setCoins(this.userData.balanceCoins);
+        this.userData.balanceTokens += soil.plant.tokensIncome;
+        this.balanceBar.setTokens(this.userData.balanceTokens);
+
+        this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
+        this.plants[rowIndex][plantIndex].destroy();
+
+        this.plants[rowIndex][plantIndex] = new Dummy(this) as Plant;
+        const dummy = this.plants[rowIndex][plantIndex] as Plant;
+
+        soil.placePlant(dummy);
+
+        this.gardenContainer[rowIndex].addAt(dummy, plantIndex);
+
+        harvestPlant(this.userData.telegramId, rowIndex, plantIndex);
+
+        return;
       }
 
       if (!soil.isOccupied && this.pickedPlant) {
