@@ -277,6 +277,8 @@ export class Game extends Scene {
         if (differenceTime < 0) {
           this.userData.balanceCoins += soil.plant.coinsIncome;
           this.balanceBar.setCoins(this.userData.balanceCoins);
+          this.userData.balanceTokens += soil.plant.tokensIncome;
+          this.balanceBar.setTokens(this.userData.balanceTokens);
 
           this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
           this.plants[rowIndex][plantIndex].destroy();
