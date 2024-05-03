@@ -11,4 +11,4 @@ export const ROWS_GAP = {
   y: 28
 };
 
-export const PLANTS_MARGIN = 15;
+export const PLANTS_MARGIN = 32;
