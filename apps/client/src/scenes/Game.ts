@@ -143,7 +143,7 @@ export class Game extends Scene {
     // backgroundImage.setDisplaySize(backgroundImage.width, height);
     // Run fetch data methods
     this.renderPlantsList();
-    this.renderGardenField();
+    this.renderPlantsField();
     // Create picked seed data
     this.pickedPlantBar = new PickedPlantBar();
     /*
@@ -349,7 +349,7 @@ export class Game extends Scene {
       Render garden field
   */
   // Render garden field
-  private renderGardenField() {
+  private renderPlantsField() {
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
@@ -385,6 +385,8 @@ export class Game extends Scene {
       this.gardenContainer.push(container);
       this.gardenContainer[index].add(row);
     });
+
+    this.growingChecker();
 
     this.renderSoil(this.plants);
   }
