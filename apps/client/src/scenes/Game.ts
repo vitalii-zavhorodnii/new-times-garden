@@ -421,8 +421,6 @@ export class Game extends Scene {
       return;
     }
 
-    this.openShopBtn.setAttribute('src', './assets/menu/plant-shop-close.png');
-
     this.pickedPlant = plant;
     this.pickedPlantBar.show(this.pickedPlant);
     this.menuPlants.close();
@@ -448,7 +446,6 @@ export class Game extends Scene {
   }
   // Handle button add coins
   private handleOpenShop() {
-    this.openShopBtn.setAttribute('src', './assets/menu/plant-shop-close.png');
     this.shopMenu.open();
     this.isBlocked = true;
   }

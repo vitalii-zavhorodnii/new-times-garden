@@ -1,4 +1,5 @@
 import { markup } from './markup';
+import { Duration } from 'luxon';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
@@ -44,13 +45,15 @@ export default class PlantsMenu {
       itemHTML.classList.add('plants-menu__item');
       itemHTML.setAttribute('index', String(index));
 
+      const growing = Duration.fromMillis(plant.growTime).toFormat('mm');
+
       const markupHTML: string = markup(
         plant.title,
         plant.gamePrice,
         plant.tokenPrice,
         plant.coinsIncome,
         plant.tokensIncome,
-        String(plant.growTime),
+        String(growing),
         plant.icon
       );
 
