@@ -24,6 +24,7 @@
   "homepage": "https://github.com/vitalii-zavhorodnii/new-times-garden#readme",
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/lodash.throttle": "^4.1.9",
     "@types/node": "^20.12.7",
     "dotenv": "^16.4.5",
     "esbuild": "^0.20.2",
@@ -33,5 +34,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "lodash.throttle": "^4.1.1"
   }
 }

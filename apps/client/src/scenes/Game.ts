@@ -1,3 +1,4 @@
+import throttle from 'lodash.throttle';
 import { Scene } from 'phaser';
 
 import { createPayment } from '@services/createPayment';
@@ -79,6 +80,12 @@ export class Game extends Scene {
     this.isBlocked = false;
   }
 
+  public preload() {
+    const url =
+      'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexpinchplugin.min.js';
+    this.load.plugin('rexpinchplugin', url, true);
+  }
+
   public init(data: IData) {
     this.userData = data.user;
     this.plantsData = data.plants;
@@ -141,29 +148,43 @@ export class Game extends Scene {
     /* 
       Camera movement
     */
-    this.input.on('pointermove', (p) => {
-      // console.log(p)
-      if (!p.isDown) return;
-      // console.log(p);
-      const { scrollX } = this.camera;
-      const { left, right } = CAMERA_BOUNDRIES;
+    // this.input.on('pointermove', (p) => {
+    //   if (!p.isDown) return;
+    //   console.log(this.camera.scrollX);
+    //   console.log(p.prevPosition);
 
-      const distance = p.x - p.prevPosition.x + 3 / this.camera.zoom;
-      // sensitivity refactor
-      // console.log({ distance: p.x - p.prevPosition.x });
+    //   const { left, right } = CAMERA_BOUNDRIES;
 
-      this.camera.scrollX -= distance;
+    //   const distance = p.x - p.prevPosition.x + 3 / this.camera.zoom;
 
-      if (scrollX <= left) {
-        this.camera.scrollX = left + 5;
-      }
+    //   this.camera.scrollX -= distance;
 
-      if (scrollX >= right) {
-        this.camera.scrollX = right - 5;
-      }
+    //   if (scrollX <= left) {
+    //     this.camera.scrollX = left + 5;
+    //   }
 
-      // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
-    });
+    //   if (scrollX >= right) {
+    //     this.camera.scrollX = right - 5;
+    //   }
+    //   /* End control define function */
+    // });
+    var dragScale = this.plugins.get('rexpinchplugin').add(this);
+
+    var camera = this.cameras.main;
+    dragScale
+      .on('drag1', function (dragScale) {
+        const drag1Vector = dragScale.drag1Vector;
+        camera.scrollX -= drag1Vector.x / camera.zoom;
+        // camera.scrollY -= drag1Vector.y / camera.zoom;
+      })
+      .on(
+        'pinch',
+        function (dragScale) {
+          const scaleFactor = dragScale.scaleFactor;
+          camera.zoom *= scaleFactor;
+        },
+        this
+      );
 
     this.events.on('destroy', () => {
       this.growingInterval = null;
@@ -189,12 +210,11 @@ export class Game extends Scene {
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
-      console.log({ soil: soil.isOccupied });
       if (soil.isOccupied) {
         const harvestTime = soil.plant.plantedAt + soil.plant.growTime;
         const currentTime = Date.now();
         const differenceTime = harvestTime - currentTime;
-        console.log({ differenceTime });
+
         if (differenceTime < 0) {
           this.userData.balanceCoins += soil.plant.coinsIncome;
           this.balanceBar.setCoins(this.userData.balanceCoins);
@@ -234,7 +254,6 @@ export class Game extends Scene {
       return;
     }
 
-    console.log({ planting: plant });
     startGrowPlant(this.userData.telegramId, plant._id, rowIndex, plantIndex);
 
     this.userData.balanceCoins -= plant.gamePrice;
