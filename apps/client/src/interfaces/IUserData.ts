@@ -13,17 +13,19 @@ export interface IUserData {
 
 export interface ICellData {
   plantedAt: number;
-  plant: {
-    title: string;
-    description: string;
-    texture: string;
-    icon: string;
-    growTime: number;
-    gamePrice: number;
-    tokenPrice: number;
-    coinsIncome: number;
-    tokensIncome: number;
-    x: number;
-    y: number;
-  };
+  plant: IPlantData;
+}
+
+export interface IPlantData {
+  title: string;
+  description: string;
+  texture: string;
+  icon: string;
+  growTime: number;
+  gamePrice: number;
+  tokenPrice: number;
+  coinsIncome: number;
+  tokensIncome: number;
+  x: number;
+  y: number;
 }

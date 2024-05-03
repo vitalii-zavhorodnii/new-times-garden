@@ -178,7 +178,8 @@ export class Game extends Scene {
     this.plants.forEach((row, rowIndex) => {
       row.forEach((plant: Plant, plantIndex) => {
         if (!plant.dummy) {
-          // console.log('Not dummy');
+          console.log('growTime', plant.growTime);
+          console.log('growTime', plant.plantedAt);
         }
       });
     });
@@ -219,19 +220,15 @@ export class Game extends Scene {
     this.balanceBar.setCoins(this.userData.balanceCoins);
     this.balanceBar.setTokens(this.userData.balanceTokens);
 
-    const { texture, title, growTime } = plant;
-    const { x, y } = soil;
     const plantedAt = Date.now();
+    const props = {
+      x: soil.x,
+      y: soil.y,
+      ...plant
+    };
+    console.log({ time: plantedAt });
 
-    this.plants[rowIndex][plantIndex] = new Plant(
-      this,
-      x,
-      y,
-      texture,
-      title,
-      plantedAt,
-      growTime
-    );
+    this.plants[rowIndex][plantIndex] = new Plant(this, props, plantedAt);
 
     const newPlant = this.plants[rowIndex][plantIndex] as Plant;
 
@@ -254,7 +251,6 @@ export class Game extends Scene {
   */
   // Render garden field
   private renderGardenField() {
-    console.log('renderGardenField', this.userData.garden.field);
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
@@ -265,10 +261,12 @@ export class Game extends Scene {
           return new Dummy(this);
         }
 
-        const { plantedAt } = item;
-        const { texture, title, growTime, x, y } = item.plant;
+        const props = {
+          ...item.plant,
+          plantedAt: item.plantedAt
+        };
 
-        const plant = new Plant(this, x, y, texture, title, plantedAt, growTime);
+        const plant = new Plant(this, props, item.plantedAt);
 
         return plant;
       });
