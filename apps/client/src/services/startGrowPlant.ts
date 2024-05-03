@@ -8,7 +8,7 @@ export const startGrowPlant = async (
   rowIndex: number,
   plantIndex: number
 ): Promise<{ user: IUserData; status: 'updated' | 'unchanged' }> => {
-  const { data } = await axios.post(`/users/${userId}`, {
+  const { data } = await axios.post(`/users/${userId}/start-grow`, {
     plantId,
     rowIndex,
     plantIndex

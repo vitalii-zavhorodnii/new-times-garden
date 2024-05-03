@@ -6,18 +6,23 @@ export default class Soil extends Phaser.GameObjects.Sprite {
   public isOccupied: boolean;
   public plant: Plant;
 
-  constructor(scene: Scene, x: number, y: number, texture: string) {
-    super(scene, x, y, texture);
+  constructor(scene: Scene, x: number, y: number) {
+    super(scene, x, y, 'soil');
 
     this.isOccupied = false;
   }
 
   public placePlant(plant: Plant) {
-    if (!plant?.dummy) {
-      this.isOccupied = true;
+    if (plant?.dummy) {
+      this.isOccupied = false;
+      this.setTexture('soil');
     }
 
-    this.setTexture('planted');
+    if (plant.growTime) {
+      this.isOccupied = true;
+      this.setTexture('planted');
+    }
+
     this.plant = plant;
   }
 }

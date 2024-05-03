@@ -46,8 +46,6 @@ export class GardensService {
     plantIndex: number,
     plant: Plant
   ) {
-    console.log({ id, updatePlant: [rowIndex, plantIndex], plant });
-
     const time = Date.now();
     console.log({ time });
 
@@ -56,19 +54,17 @@ export class GardensService {
       plantedAt: time
     };
     const key = `field.${rowIndex}.${plantIndex}`;
-    console.log({ key, value });
     const newGarden = await this.gardenModel.findByIdAndUpdate(
       id,
       {
         $set: { [key]: value }
       },
       {
-        // arrayFilters: [{ rowIndex: rowIndex }, { plantIndex: plantIndex }],
         new: true
       }
     );
-    // .populate('plant');
-    console.log({ newGarden: newGarden.field[rowIndex][plantIndex] });
+
+    return newGarden;
   }
 
   public async findOneById(id: string): Promise<Garden> {

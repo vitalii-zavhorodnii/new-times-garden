@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 
 import { createPayment } from '@services/createPayment';
+import { harvestPlant } from '@services/harvestPlant';
 import { sendTonTransaction } from '@services/sendTonTransaction';
 import { startGrowPlant } from '@services/startGrowPlant';
 
@@ -178,8 +179,9 @@ export class Game extends Scene {
     this.plants.forEach((row, rowIndex) => {
       row.forEach((plant: Plant, plantIndex) => {
         if (!plant.dummy) {
-          console.log('growTime', plant.growTime);
-          console.log('growTime', plant.plantedAt);
+          const time = Date.now();
+          // console.log('time', time);
+          // console.log('plantedAt', plant.plantedAt);
         }
       });
     });
@@ -187,8 +189,28 @@ export class Game extends Scene {
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
+      console.log({ soil: soil.isOccupied });
       if (soil.isOccupied) {
-        console.log('CAN NOT PLACE HERE!');
+        const harvestTime = soil.plant.plantedAt + soil.plant.growTime;
+        const currentTime = Date.now();
+        const differenceTime = harvestTime - currentTime;
+        console.log({ differenceTime });
+        if (differenceTime < 0) {
+          this.userData.balanceCoins += soil.plant.coinsIncome;
+          this.balanceBar.setCoins(this.userData.balanceCoins);
+
+          this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
+          this.plants[rowIndex][plantIndex].destroy();
+
+          this.plants[rowIndex][plantIndex] = new Dummy(this) as Plant;
+          const dummy = this.plants[rowIndex][plantIndex] as Plant;
+
+          soil.placePlant(dummy);
+
+          this.gardenContainer[rowIndex].addAt(dummy, plantIndex);
+
+          harvestPlant(this.userData.telegramId, rowIndex, plantIndex);
+        }
       }
 
       if (!soil.isOccupied && this.pickedPlant) {
@@ -226,7 +248,6 @@ export class Game extends Scene {
       y: soil.y,
       ...plant
     };
-    console.log({ time: plantedAt });
 
     this.plants[rowIndex][plantIndex] = new Plant(this, props, plantedAt);
 
@@ -299,11 +320,12 @@ export class Game extends Scene {
       const soilRow = row.map(({ x, y }, soilIndex: number) => {
         const i = randomNumberHelper(0, 5);
 
-        const soil = new Soil(this, x, y, 'soil');
+        const soil = new Soil(this, x, y);
         soil.setFrame(i);
         soil.setInteractive(this.input.makePixelPerfect());
 
         const plant = plants[rowIndex][soilIndex];
+
         if (!plant['dummy']) {
           soil.placePlant(plant as Plant);
         }

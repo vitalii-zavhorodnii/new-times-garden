@@ -71,7 +71,6 @@ export class UsersService {
   }
 
   public async startGrow(userId: string, plantId: string): Promise<User> {
-    console.log({ userId, plantId });
     const user = await this.userModel.findById(userId);
 
     return user;

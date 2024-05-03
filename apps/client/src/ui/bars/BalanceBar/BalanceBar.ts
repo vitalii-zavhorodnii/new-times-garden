@@ -26,6 +26,7 @@ export default class BalanceBar {
   }
 
   public setCoins(value: number) {
+    console.log({ value });
     this.coins.innerHTML = String(value);
   }
 

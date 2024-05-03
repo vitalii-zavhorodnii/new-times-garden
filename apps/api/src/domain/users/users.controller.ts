@@ -18,6 +18,7 @@ import type { GardenCell } from '@domain/gardens/schemas/garden.schema';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { GrowPlantDto } from './dto/grow-plant.dto';
+import { HarvestPlantDto } from './dto/harvest-plant.dto';
 
 import { ROUTES } from '@constants/routes.constants';
 
@@ -47,7 +48,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Start growing' })
   @ApiResponse({ status: 200, type: User })
-  @Post('/:id')
+  @Post('/:id/start-grow')
   public async startGrowPlant(
     @Param('id') id: string,
     @Body() dto: GrowPlantDto
@@ -84,12 +85,49 @@ export class UsersController {
       dto.plantIndex,
       plant
     );
-    console.log({ garden });
 
     const result = await this.usersService.startGrow(user._id, plant._id);
 
     // const result = await this.usersService.startGrow();
 
+    return { user: result, status: 'updated' };
+  }
+
+  @ApiOperation({ summary: 'Start harvesting' })
+  @ApiResponse({ status: 200, type: User })
+  @Post('/:id/harvest')
+  public async harvestPlant(
+    @Param('id') id: string,
+    @Body() dto: HarvestPlantDto
+  ): Promise<{ user: User; status: 'updated' | 'unchanged' }> {
+    const user = await this.usersService.findOneByTelegramId(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const gardenData = await this.gardendsService.findOneById(user.garden._id);
+
+    const { _id } = gardenData.field[dto.rowIndex][dto.plantIndex].plant;
+    const plant = await this.plantsService.findOneById(_id);
+
+    if (plant.coinsIncome) {
+      const balance = user.balanceCoins + plant.coinsIncome;
+      await this.usersService.updateUserCoins(user._id, balance);
+    }
+    if (plant.tokensIncome) {
+      const balance = user.balanceTokens + plant.tokensIncome;
+      await this.usersService.updateUserTokens(user._id, balance);
+    }
+
+    const garden = await this.gardendsService.updatePlant(
+      user.garden._id,
+      dto.rowIndex,
+      dto.plantIndex,
+      null
+    );
+
+    const result = await this.usersService.findOneByTelegramId(id);
     return { user: result, status: 'updated' };
   }
 
