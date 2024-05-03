@@ -196,7 +196,7 @@ export class Game extends Scene {
     });
   }
   /*
-    Methods
+      Methods
   */
   // Growing checker
   private growingChecker() {
