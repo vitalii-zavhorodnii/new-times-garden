@@ -34,6 +34,7 @@ const builder = async () => {
           { from: './public/favicon.png', to: './' },
           { from: './public/css/*', to: './css/' },
           { from: './public/fonts/*', to: './fonts/' },
+          { from: './public/telegram/*', to: './telegram/' },
           { from: './public/assets/**/*', to: './assets/' }
         ]
       }),
