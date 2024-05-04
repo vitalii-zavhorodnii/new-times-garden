@@ -12,7 +12,6 @@ $text-color: #272829;
   z-index: 10;
   position: absolute;
   left: 0;
-  right: 0;
   bottom: 0;
   display: flex;
   flex-direction: column;
@@ -24,7 +23,7 @@ $text-color: #272829;
   opacity: 1;
 
   &.hidden {
-    bottom: -110vh;
+    bottom: -100vh;
     opacity: 0;
   }
 
@@ -48,6 +47,7 @@ $text-color: #272829;
 
   &__frame {
     width: 100vw;
+    overflow: hidden;
     pointer-events: none;
   }
 
