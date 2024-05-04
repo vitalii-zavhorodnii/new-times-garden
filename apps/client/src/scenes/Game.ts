@@ -219,6 +219,8 @@ export class Game extends Scene {
       if (plant.phase !== 3) {
         plant.setFrame(3);
         plant.phase = 3;
+
+        plant.play(`tap-3-${plant.title.toLowerCase()}`);
       }
       return;
     }
@@ -227,6 +229,8 @@ export class Game extends Scene {
       if (plant.phase !== 2) {
         plant.setFrame(2);
         plant.phase = 2;
+
+        plant.play(`tap-2-${plant.title.toLowerCase()}`);
       }
       return;
     }
@@ -236,9 +240,7 @@ export class Game extends Scene {
         plant.setFrame(1);
         plant.phase = 1;
 
-        if (plant.title.toLowerCase() === 'sunflower') {
-          plant.play(`tap-1-${plant.title.toLowerCase()}`);
-        }
+        plant.play(`tap-1-${plant.title.toLowerCase()}`);
       }
       return;
     }
@@ -248,11 +250,7 @@ export class Game extends Scene {
     if (!this.isBlocked) {
       // soil.plant.play('tap');
       if (soil.isOccupied) {
-        if (soil.plant.title.toLowerCase() === 'sunflower') {
-          soil.plant.play(
-            `tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`
-          );
-        }
+        soil.plant.play(`tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`);
 
         const currentTime = DateTime.now();
         const endTime = DateTime.fromMillis(
