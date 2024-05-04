@@ -2,7 +2,7 @@
 @import './variables.scss';
 
 $bg-color: #e2dfd0;
-$animation: bottom 200ms ease-in-out, opacity 180ms ease-in-out;
+$animation: top 200ms ease-in-out;
 $font-family: 'Newspapper', sans-serif;
 $title-size: 40px;
 $descriptions-size: 12px;
@@ -12,20 +12,17 @@ $text-color: #272829;
   z-index: 10;
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
   background-color: $bg-color;
   transition: $animation;
-  opacity: 1;
 
   &.hidden {
-    bottom: -100vh;
-    opacity: 0;
+    top: 100vh;
   }
 
   &__foreground {
