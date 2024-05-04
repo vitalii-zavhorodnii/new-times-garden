@@ -45,9 +45,13 @@ export default class PlantsMenu {
       itemHTML.classList.add('plants-menu__item');
       itemHTML.setAttribute('index', String(index));
 
-      const growing = Duration.fromMillis(plant.growTime).toFormat('hh:mm');
+      const { days, hours, minutes, seconds } = Duration.fromMillis(
+        plant.growTime
+      ).rescale();
 
-      console.log({ growing });
+      const growingString = `${days ? days + 'd' : ''} ${
+        hours ? hours + 'hr' : ''
+      } ${minutes ? minutes + 'min' : ''} ${seconds ? seconds + ' s' : ''}`;
 
       const markupHTML: string = markup(
         plant.title,
@@ -55,7 +59,7 @@ export default class PlantsMenu {
         plant.tokenPrice,
         plant.coinsIncome,
         plant.tokensIncome,
-        String(growing)
+        growingString
       );
 
       itemHTML.innerHTML = markupHTML;

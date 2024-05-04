@@ -13,6 +13,9 @@ export const markup = (
   >
   <div class="plants-menu__card">
     <h2 class="plants-menu__title">${title}</h2>
+    <p class="plants-menu__growing">
+      Growing time: ${timer}
+    </p>
     <div class="plants-menu__info">
       ${
         coins > 0
@@ -62,14 +65,6 @@ export const markup = (
             </p>`
           : ''
       }
-      <p class="plants-menu__value">
-        <img 
-          class="plants-menu__stat-icon" 
-          src="./assets/utils/timer.png" 
-          alt="timer"
-        >
-        ${timer}
-      </p>
     </div>
   </div>
 `;
