@@ -144,12 +144,12 @@ export class Game extends Scene {
     /*
       Create animations
     */
-    // this.anims.create({
-    //   key: 'tap',
-    //   frameRate: 24,
-    //   frames: this.anims.generateFrameNumbers('sunflower', { start: 5, end: 30 }),
-    //   repeat: 1
-    // });
+    this.anims.create({
+      key: 'tap-sunflower',
+      frameRate: 25,
+      frames: this.anims.generateFrameNumbers('sunflower', { start: 4, end: 28 }),
+      repeat: 1
+    });
     /*
      * Run fetch data methods
      * Run render game
@@ -228,6 +228,10 @@ export class Game extends Scene {
   }
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
+    if (!soil.plant.dummy) {
+      soil.plant.play(`tap-${soil.plant.title.toLowerCase()}`);
+    }
+
     if (!this.isBlocked) {
       // soil.plant.play('tap');
       if (soil.isOccupied) {

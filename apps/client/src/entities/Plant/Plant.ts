@@ -3,6 +3,7 @@ import { Scene } from 'phaser';
 import type { IPlantData } from '@interfaces/IUserData';
 
 export default class Plant extends Phaser.GameObjects.Sprite {
+  public title: string;
   public icon: string;
   public description: string;
 
@@ -18,6 +19,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
   constructor(scene: Scene, props: IPlantData, plantedAt: number) {
     super(scene, props.x, props.y, props.texture, props.title);
 
+    this.title = props.title;
     this.gamePrice = props.gamePrice;
     this.tokenPrice = props.tokenPrice;
     this.coinsIncome = props.coinsIncome;
