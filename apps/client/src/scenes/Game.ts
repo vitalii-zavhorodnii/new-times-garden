@@ -228,13 +228,13 @@ export class Game extends Scene {
   }
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
-    if (!soil.plant.dummy) {
-      soil.plant.play(`tap-${soil.plant.title.toLowerCase()}`);
-    }
-
     if (!this.isBlocked) {
       // soil.plant.play('tap');
       if (soil.isOccupied) {
+        if (soil.plant.title.toLowerCase() === 'sunflower') {
+          soil.plant.play(`tap-${soil.plant.title.toLowerCase()}`);
+        }
+
         const currentTime = DateTime.now();
         const endTime = DateTime.fromMillis(
           soil.plant.plantedAt + soil.plant.growTime
