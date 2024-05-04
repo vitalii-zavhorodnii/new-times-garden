@@ -6,10 +6,3 @@ export const CAMERA_BOUNDRIES = {
   // bottomLeft: {x: , y: },
   // bottomRight: {x: , y: }
 };
-
-export const CAMERA_BOUNDS = {
-  x: -10000,
-  y: 400100,
-  width: 26000,
-  height: 10000
-};
