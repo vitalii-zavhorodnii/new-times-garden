@@ -16,6 +16,8 @@ import { PlantsService } from '@domain/plants/plants.service';
 import { User } from './schemas/user.schema';
 import type { GardenCell } from '@domain/gardens/schemas/garden.schema';
 
+import { calculateReadyHelper } from '@helpers/calculate-ready.helper';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { GrowPlantDto } from './dto/grow-plant.dto';
 import { HarvestPlantDto } from './dto/harvest-plant.dto';
@@ -94,6 +96,7 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
     if (!plant) {
       throw new NotFoundException('Plant not found');
     }
@@ -105,19 +108,20 @@ export class UsersController {
       return false;
     }
 
-    if (plant.gamePrice) {
+    if (plant.gamePrice > 0) {
       const balance = user.balanceCoins - plant.gamePrice;
       await this.usersService.updateUserCoins(user._id, balance);
     }
-    if (plant.tokenPrice) {
+    if (plant.tokenPrice > 0) {
       const balance = user.balanceTokens - plant.tokenPrice;
       await this.usersService.updateUserTokens(user._id, balance);
     }
 
-    const garden = await this.gardendsService.updatePlant(
+    await this.gardendsService.updatePlant(
       user.garden._id,
       dto.rowIndex,
       dto.plantIndex,
+      dto.plantedAtClient,
       plant
     );
 
@@ -139,8 +143,20 @@ export class UsersController {
 
     const gardenData = await this.gardendsService.findOneById(user.garden._id);
 
+    const cell = gardenData.field[dto.rowIndex][dto.plantIndex];
+
+    if (!cell.plantedAt) {
+      return false;
+    }
+
     const plantId = gardenData.field[dto.rowIndex][dto.plantIndex].plant._id;
     const plant = await this.plantsService.findOneById(plantId);
+
+    const isReady = calculateReadyHelper(cell.plantedAt, plant.growTime);
+
+    if (!isReady) {
+      return false;
+    }
 
     if (plant.coinsIncome) {
       const balance = user.balanceCoins + plant.coinsIncome;
@@ -151,11 +167,10 @@ export class UsersController {
       await this.usersService.updateUserTokens(user._id, balance);
     }
 
-    await this.gardendsService.updatePlant(
+    await this.gardendsService.removePlant(
       user.garden._id,
       dto.rowIndex,
-      dto.plantIndex,
-      null
+      dto.plantIndex
     );
 
     return true;

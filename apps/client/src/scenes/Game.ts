@@ -145,10 +145,10 @@ export class Game extends Scene {
       Create animations
     */
     this.anims.create({
-      key: 'tap-sunflower',
-      frameRate: 25,
-      frames: this.anims.generateFrameNumbers('sunflower', { start: 4, end: 28 }),
-      repeat: 1
+      key: 'tap-0-sunflower',
+      frameRate: 20,
+      frames: this.anims.generateFrameNumbers('sunflower', { start: 4, end: 15 }),
+      repeat: 0
     });
     /*
      * Run fetch data methods
@@ -206,22 +206,25 @@ export class Game extends Scene {
     const percentLeft = Math.floor((diff1 / plant.growTime) * 100);
 
     if (percentLeft < 0) {
-      if (parseInt(plant.frame.name) !== 3) {
+      if (plant.phase !== 3) {
         plant.setFrame(3);
+        plant.phase = 3;
       }
       return;
     }
 
     if (percentLeft < 30) {
-      if (parseInt(plant.frame.name) !== 2) {
+      if (plant.phase !== 2) {
         plant.setFrame(2);
+        plant.phase = 2;
       }
       return;
     }
 
     if (percentLeft < 80) {
-      if (parseInt(plant.frame.name) !== 1) {
+      if (plant.phase !== 1) {
         plant.setFrame(1);
+        plant.phase = 1;
       }
       return;
     }
@@ -232,7 +235,9 @@ export class Game extends Scene {
       // soil.plant.play('tap');
       if (soil.isOccupied) {
         if (soil.plant.title.toLowerCase() === 'sunflower') {
-          soil.plant.play(`tap-${soil.plant.title.toLowerCase()}`);
+          soil.plant.play(
+            `tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`
+          );
         }
 
         const currentTime = DateTime.now();
@@ -242,6 +247,12 @@ export class Game extends Scene {
         const diff1 = endTime.diff(currentTime).toMillis();
         const percentLeft = Math.floor((diff1 / soil.plant.growTime) * 100);
 
+        console.log({
+          plantedAt: soil.plant.plantedAt,
+          growTime: soil.plant.growTime,
+          diff1,
+          percentLeft
+        });
         if (percentLeft > 0) {
           return;
         }
@@ -287,14 +298,21 @@ export class Game extends Scene {
       return;
     }
 
-    startGrowPlant(this.userData.telegramId, plant._id, rowIndex, plantIndex);
-
     this.userData.balanceCoins -= plant.gamePrice;
     this.userData.balanceTokens -= plant.tokenPrice;
     this.balanceBar.setCoins(this.userData.balanceCoins);
     this.balanceBar.setTokens(this.userData.balanceTokens);
 
-    const plantedAt = Date.now();
+    const plantedAt = DateTime.now().toMillis();
+
+    startGrowPlant(
+      this.userData.telegramId,
+      plant._id,
+      rowIndex,
+      plantIndex,
+      plantedAt
+    );
+
     const props = {
       x: soil.x,
       y: soil.y,
@@ -336,7 +354,7 @@ export class Game extends Scene {
 
         const props = {
           ...item.plant,
-          plantedAt: item.plantedAt
+          plantedAt: item.plantedAtClient
         };
 
         const plant = new Plant(this, props, item.plantedAt);

@@ -13,6 +13,7 @@ export interface IUserData {
 
 export interface ICellData {
   plantedAt: number;
+  plantedAtClient: number;
   plant: IPlantData;
 }
 

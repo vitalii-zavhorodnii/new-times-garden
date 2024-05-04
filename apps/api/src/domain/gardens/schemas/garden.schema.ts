@@ -16,6 +16,10 @@ class GardenCell extends Document {
 
   @ApiProperty({ example: 90 })
   @Prop({ type: Number })
+  readonly plantedAtClient: number;
+
+  @ApiProperty({ example: 90 })
+  @Prop({ type: Number })
   readonly plantedAt: number;
 }
 

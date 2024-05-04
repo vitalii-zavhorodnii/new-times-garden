@@ -6,6 +6,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
   public title: string;
   public icon: string;
   public description: string;
+  public phase: number;
 
   public growTime: number;
   public plantedAt: number;
@@ -19,6 +20,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
   constructor(scene: Scene, props: IPlantData, plantedAt: number) {
     super(scene, props.x, props.y, props.texture, props.title);
 
+    this.phase = 0;
     this.title = props.title;
     this.gamePrice = props.gamePrice;
     this.tokenPrice = props.tokenPrice;

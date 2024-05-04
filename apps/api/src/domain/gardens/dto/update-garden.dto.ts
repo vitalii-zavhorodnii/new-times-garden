@@ -24,6 +24,9 @@ class GardenCellDto {
   plant: Plant;
 
   @IsNumber()
+  plantedAtClient: number;
+
+  @IsNumber()
   plantedAt: number;
 }
 

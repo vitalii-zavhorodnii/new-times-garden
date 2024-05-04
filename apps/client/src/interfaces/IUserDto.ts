@@ -13,6 +13,7 @@ export interface IUserDto {
 
 export interface ICellDto {
   plantedAt: number;
+  plantedAtClient: number;
   plant: {
     title: string;
     description: string;

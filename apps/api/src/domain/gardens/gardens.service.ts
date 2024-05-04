@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
+import { DateTime } from 'luxon';
+
 import { Garden } from './schemas/garden.schema';
 import type { Plant } from '@domain/plants/schemas/plant.schema';
 
@@ -44,14 +46,17 @@ export class GardensService {
     id: string,
     rowIndex: number,
     plantIndex: number,
+    clientTime: number,
     plant: Plant
   ) {
-    const time = Date.now();
-
+    const time = DateTime.now().toMillis();
+    // Creating cell with plantedTime and plant Plant ref
     const value = {
       plant: plant,
+      plantedAtClient: clientTime,
       plantedAt: time
     };
+
     const key = `field.${rowIndex}.${plantIndex}`;
     const newGarden = await this.gardenModel.findByIdAndUpdate(
       id,
@@ -66,11 +71,25 @@ export class GardensService {
     return newGarden;
   }
 
+  public async removePlant(id: string, rowIndex: number, plantIndex: number) {
+    const key = `field.${rowIndex}.${plantIndex}`;
+    const newGarden = await this.gardenModel.findByIdAndUpdate(
+      id,
+      {
+        $set: { [key]: null }
+      },
+      {
+        new: true
+      }
+    );
+
+    return newGarden;
+  }
+
   public async findOneById(id: string): Promise<Garden> {
     if (!Types.ObjectId.isValid(id)) {
       throw new NotFoundException(`Incorrect ID - ${id}`);
     }
-
     const garden = await this.gardenModel.findById(id);
 
     if (!garden) {

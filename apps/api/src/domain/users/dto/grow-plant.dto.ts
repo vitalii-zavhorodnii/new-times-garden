@@ -27,4 +27,12 @@ export class GrowPlantDto {
   @IsNotEmpty()
   @IsNumber()
   readonly plantIndex: number;
+
+  @ApiProperty({
+    example: 3
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly plantedAtClient: number;
 }
