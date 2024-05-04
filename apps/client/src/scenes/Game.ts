@@ -81,11 +81,7 @@ export class Game extends Scene {
     this.isBlocked = false;
   }
 
-  public preload() {
-    const url =
-      'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexpinchplugin.min.js';
-    this.load.plugin('rexpinchplugin', url, true);
-  }
+  public preload() {}
 
   public init(data: IData) {
     this.userData = data.user;
@@ -131,8 +127,6 @@ export class Game extends Scene {
     this.btnDecorate = document.getElementById('decorate');
     this.btnPlants = document.getElementById('plants');
     this.btnFertilizer = document.getElementById('fertilizer');
-    this.btnDecorate.style.opacity = '0.5';
-    this.btnFertilizer.style.opacity = '0.5';
     // Add event listeners to bottom menu buttons
     this.btnDecorate.addEventListener('click', () => this.handleDecorateBtn());
     this.btnPlants.addEventListener('click', () => this.handlePlantsBtn());
@@ -149,21 +143,18 @@ export class Game extends Scene {
     /*
       Create animations
     */
-    // this.anims.add
-    /* 
-      Camera movement
-    */
-
-    /*
-      End camera movement
-    */
-    this.events.on('destroy', () => {
-      this.growingInterval = null;
-    });
+    // this.anims.create({
+    //   key: 'tap',
+    //   frameRate: 24,
+    //   frames: this.anims.generateFrameNumbers('sunflower', { start: 5, end: 30 }),
+    //   repeat: 1
+    // });
   }
   /*
       Methods
   */
+  // Controls
+  private initiateControls() {}
   // Growing checker
   private growingChecker() {
     const currentTime = DateTime.now();
@@ -202,39 +193,11 @@ export class Game extends Scene {
       }
       return;
     }
-    console.log({ percentLeft });
-
-    // console.log({ percentLeft });
-    // console.log({ diff1, diff2 });
-    // console.log({ x:  });
-    // const procentGrowth = Math.floor((diff / plant.growTime) * 100) - 100;
-    // console.log({
-    //   frameName: parseInt(plant.frame.name),
-    //   left: procentGrowth < 25,
-    //   right: parseInt(plant.frame.name) !== 0
-    // });
-    // console.log({ procentGrowth });
-    // if (procentGrowth < 25 && parseInt(plant.frame.name) !== 0) {
-    //   console.log('< 25%')
-    //   plant.setFrame(0);
-    // } else if (procentGrowth < 60 && parseInt(plant.frame.name) !== 1) {
-    //   console.log('< 60')
-    //   plant.setFrame(1);
-    // } else if (procentGrowth < 100 && parseInt(plant.frame.name) !== 2) {
-    //   console.log('< 100%')
-    //   plant.setFrame(2);
-    // } else if (procentGrowth >= 100 && parseInt(plant.frame.name) !== 3) {
-    //   console.log('= 100%')
-    //   plant.setFrame(3);
-    // }
-
-    // plant.setFrame(2);
-    // plant.setFrame(1);
-    // plant.setFrame(1);
   }
   // Handle clicks on soil
   private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
+      // soil.plant.play('tap');
       if (soil.isOccupied) {
         const currentTime = DateTime.now();
         const endTime = DateTime.fromMillis(
@@ -407,7 +370,10 @@ export class Game extends Scene {
       this.soilContainer[index].add(row);
     });
 
+    this.initiateControls();
+
     this.growingInterval = setInterval(() => this.growingChecker(), 2000);
+    this.events.on('destroy', () => (this.growingInterval = null));
   }
   // Render plants list
   private renderPlantsList() {
