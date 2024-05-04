@@ -231,6 +231,10 @@ export class Game extends Scene {
       if (plant.phase !== 1) {
         plant.setFrame(1);
         plant.phase = 1;
+
+        if (plant.title.toLowerCase() === 'sunflower') {
+          plant.play(`tap-1-${plant.title.toLowerCase()}`);
+        }
       }
       return;
     }
@@ -332,6 +336,10 @@ export class Game extends Scene {
     soil.placePlant(newPlant);
 
     this.gardenContainer[rowIndex].addAt(newPlant, plantIndex);
+
+    if (newPlant.title.toLowerCase() === 'sunflower') {
+      newPlant.play(`tap-0-${newPlant.title.toLowerCase()}`);
+    }
 
     if (
       plant.gamePrice > this.userData.balanceCoins ||
