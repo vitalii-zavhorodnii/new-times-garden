@@ -2,7 +2,7 @@
 @import './variables.scss';
 
 $bg-color: #e2dfd0;
-$animation: bottom 200ms ease-in-out;
+$animation: bottom 200ms ease-in-out, opacity 180ms ease-in-out;
 $font-family: 'Newspapper', sans-serif;
 $title-size: 40px;
 $descriptions-size: 12px;
@@ -10,7 +10,7 @@ $text-color: #272829;
 
 .papper-menu {
   z-index: 10;
-  position: absolute;
+  position: sticky;
   left: 0;
   bottom: 0;
   display: flex;
@@ -20,9 +20,11 @@ $text-color: #272829;
   height: 100vh;
   background-color: $bg-color;
   transition: $animation;
+  opacity: 1;
 
   &.hidden {
     bottom: -110vh;
+    opacity: 0;
   }
 
   &__foreground {
