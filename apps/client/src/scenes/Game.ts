@@ -145,20 +145,20 @@ export class Game extends Scene {
     /*
       Create animations
     */
-    PLANTS_SPRITES.forEach((sprite) => {
-      this.anims.create({
-        key: `tap-0-${sprite}`,
-        frameRate: 20,
-        frames: this.anims.generateFrameNumbers(sprite, { start: 4, end: 15 }),
-        repeat: 0
-      });
-      this.anims.create({
-        key: `tap-1-${sprite}`,
-        frameRate: 20,
-        frames: this.anims.generateFrameNumbers(sprite, { start: 16, end: 27 }),
-        repeat: 0
-      });
-    });
+    // PLANTS_SPRITES.forEach((sprite) => {
+    //   this.anims.create({
+    //     key: `tap-0-${sprite}`,
+    //     frameRate: 20,
+    //     frames: this.anims.generateFrameNumbers(sprite, { start: 4, end: 15 }),
+    //     repeat: 0
+    //   });
+    //   this.anims.create({
+    //     key: `tap-1-${sprite}`,
+    //     frameRate: 20,
+    //     frames: this.anims.generateFrameNumbers(sprite, { start: 16, end: 27 }),
+    //     repeat: 0
+    //   });
+    // });
 
     /*
      * Run fetch data methods
@@ -220,7 +220,7 @@ export class Game extends Scene {
         plant.setFrame(3);
         plant.phase = 3;
 
-        plant.play(`tap-3-${plant.title.toLowerCase()}`);
+        // plant.play(`tap-3-${plant.title.toLowerCase()}`);
       }
       return;
     }
@@ -230,7 +230,7 @@ export class Game extends Scene {
         plant.setFrame(2);
         plant.phase = 2;
 
-        plant.play(`tap-2-${plant.title.toLowerCase()}`);
+        // plant.play(`tap-2-${plant.title.toLowerCase()}`);
       }
       return;
     }
@@ -240,7 +240,7 @@ export class Game extends Scene {
         plant.setFrame(1);
         plant.phase = 1;
 
-        plant.play(`tap-1-${plant.title.toLowerCase()}`);
+        // plant.play(`tap-1-${plant.title.toLowerCase()}`);
       }
       return;
     }
@@ -250,7 +250,7 @@ export class Game extends Scene {
     if (!this.isBlocked) {
       // soil.plant.play('tap');
       if (soil.isOccupied) {
-        soil.plant.play(`tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`);
+        // soil.plant.play(`tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`);
 
         const currentTime = DateTime.now();
         const endTime = DateTime.fromMillis(
