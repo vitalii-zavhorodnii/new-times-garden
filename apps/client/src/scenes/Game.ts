@@ -81,8 +81,6 @@ export class Game extends Scene {
     this.isBlocked = false;
   }
 
-  public preload() {}
-
   public init(data: IData) {
     this.userData = data.user;
     this.plantsData = data.plants;
@@ -154,7 +152,30 @@ export class Game extends Scene {
       Methods
   */
   // Controls
-  private initiateControls() {}
+  private initiateControls() {
+    this.input.on('pointermove', (p) => {
+      if (!p.isDown) return;
+
+      const { scrollX } = this.camera;
+      const { left, right } = CAMERA_BOUNDRIES;
+
+      const distance = p.x - p.prevPosition.x / this.camera.zoom;
+      // sensitivity refactor
+      // console.log({ distance: p.x - p.prevPosition.x });
+
+      this.camera.scrollX -= distance * 1.2;
+
+      if (scrollX <= left) {
+        this.camera.scrollX = left + 5;
+      }
+
+      if (scrollX >= right) {
+        this.camera.scrollX = right - 5;
+      }
+
+      // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
+    });
+  }
   // Growing checker
   private growingChecker() {
     const currentTime = DateTime.now();
