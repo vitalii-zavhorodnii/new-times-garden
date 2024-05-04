@@ -24,11 +24,11 @@ body {
 }
 
 #log {
-  position: fixed;
+  position: absolute;
   left: 10px;
   bottom: 10px;
   font-size: 18px;
-  font-family: 'Newspapper';
+  font-family: sans-serif;
 }
 
 #game-container {

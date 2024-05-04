@@ -1,4 +1,4 @@
-import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
+import { CAMERA_BOUNDRIES } from 'src/constants/camera-bounds';
 
 export const cameraBoundriesHelper = (
   camera: Phaser.Cameras.Scene2D.Camera,

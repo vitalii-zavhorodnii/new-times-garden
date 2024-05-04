@@ -21,7 +21,7 @@ import { mapFieldRows } from '@mappers/mapFieldRows';
 
 import { randomNumberHelper } from '@helpers/random-number';
 
-import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
+import { CAMERA_BOUNDRIES, CAMERA_BOUNDS } from '@constants/camera-bounds';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
 import { PLANTS_ANIMATED, PLANTS_SPRITES } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
@@ -39,6 +39,7 @@ interface IData {
 export class Game extends Scene {
   public camera: Phaser.Cameras.Scene2D.Camera;
   public isBlocked: boolean;
+  public pinchDistance: number;
 
   // private balance: number;
   private pickedPlant: IPlantListItem;
@@ -92,6 +93,13 @@ export class Game extends Scene {
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
+    // this.camera.setBounds(
+    //   CAMERA_BOUNDS.x,
+    //   CAMERA_BOUNDS.y,
+    //   CAMERA_BOUNDS.width,
+    //   CAMERA_BOUNDS.height
+    // );
+    // this.camera.setPosition(0, 0);
     // center canvas variables
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
@@ -185,15 +193,44 @@ export class Game extends Scene {
   */
   // Controls
   private initiateControls() {
+    const pinch = new Pinch(this);
+    pinch.setEnable(true);
+    pinch.on('pinch', () => {
+      if (!this.pinchDistance) {
+        this.pinchDistance = pinch.distanceBetween;
+        return;
+      }
+
+      if (this.pinchDistance > pinch.distanceBetween) {
+        const zoom = pinch.scaleFactor * this.camera.zoom;
+        if (zoom > 0.65) {
+          this.camera.setZoom(zoom, zoom);
+        }
+      }
+      if (this.pinchDistance < pinch.distanceBetween) {
+        const zoom = pinch.scaleFactor * this.camera.zoom;
+        if (zoom < 1) {
+          this.camera.setZoom(zoom, zoom);
+        }
+
+        // this.camera.setZoom(1, 1);
+      }
+
+      this.pinchDistance = pinch.distanceBetween;
+    });
+    pinch.on('pinchend', () => {
+      this.pinchDistance = null;
+    });
+
     this.input.on('pointermove', (p) => {
       if (!p.isDown) return;
-
+      if (this.pinchDistance) return;
       const { scrollX } = this.camera;
       const { left, right } = CAMERA_BOUNDRIES;
 
-      const distance = p.x - p.prevPosition.x / this.camera.zoom;
+      const distance = p.x - p.prevPosition.x;
 
-      this.camera.scrollX -= distance * 1.2;
+      this.camera.scrollX -= distance;
 
       if (scrollX <= left) {
         this.camera.scrollX = left + 5;
@@ -202,23 +239,6 @@ export class Game extends Scene {
       if (scrollX >= right) {
         this.camera.scrollX = right - 5;
       }
-
-      // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
-    });
-
-    const pinch = new Pinch(this);
-    pinch.setEnable(true);
-    pinch.on('pinch', () => {
-      // console.log(pinch.isPinched);
-      // document.getElementById('log').innerHTML = `
-      //   ${String(pinch.distanceBetween)}
-      // `;
-      // this.balanceBar.
-    });
-    pinch.on('pinchend', () => {
-      // console.log(pinch.isPinched);
-      // document.getElementById('log').innerHTML = '';
-      // this.balanceBar.
     });
   }
   // Growing checker
