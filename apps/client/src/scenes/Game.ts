@@ -264,7 +264,7 @@ export class Game extends Scene {
         plant.setFrame(3);
         plant.phase = 3;
 
-        if (plant.title.toLowerCase() === 'sunflower') {
+        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
           plant.play(`tap-3-${plant.title.toLowerCase()}`);
         }
       }
@@ -276,7 +276,7 @@ export class Game extends Scene {
         plant.setFrame(2);
         plant.phase = 2;
 
-        if (plant.title.toLowerCase() === 'sunflower') {
+        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
           plant.play(`tap-2-${plant.title.toLowerCase()}`);
         }
       }
@@ -287,7 +287,7 @@ export class Game extends Scene {
       if (plant.phase !== 1) {
         plant.setFrame(1);
         plant.phase = 1;
-        if (plant.title.toLowerCase() === 'sunflower') {
+        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
           plant.play(`tap-1-${plant.title.toLowerCase()}`);
         }
       }
@@ -299,7 +299,7 @@ export class Game extends Scene {
     if (!this.isBlocked) {
       // soil.plant.play('tap');
       if (soil.isOccupied) {
-        if (soil.plant.title.toLowerCase() === 'sunflower') {
+        if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
           soil.plant.play(
             `tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`
           );
@@ -385,7 +385,7 @@ export class Game extends Scene {
 
     this.gardenContainer[rowIndex].addAt(newPlant, plantIndex);
 
-    if (newPlant.title.toLowerCase() === 'sunflower') {
+    if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
       newPlant.play(`tap-0-${newPlant.title.toLowerCase()}`);
     }
 

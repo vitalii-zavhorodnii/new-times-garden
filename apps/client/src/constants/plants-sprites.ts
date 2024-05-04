@@ -6,4 +6,4 @@ export const PLANTS_SPRITES = [
   'anemone'
 ];
 
-export const PLANTS_ANIMATED = ['sunflower'];
+export const PLANTS_ANIMATED = ['sunflower', 'anemone'];
