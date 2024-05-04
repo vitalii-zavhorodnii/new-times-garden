@@ -9,14 +9,14 @@ export default class PlantsMenu {
   public callback: Function;
 
   private container: HTMLElement;
-  private listContainer: HTMLElement;
+  private content: HTMLElement;
 
   constructor(plants: IPlantListItem[], callback: Function) {
     this.isOpen = false;
     this.callback = callback;
 
-    this.container = document.querySelector('.plants-menu');
-    this.listContainer = document.querySelector('.plants-menu__list');
+    this.container = document.getElementById('plants-menu');
+    this.content = document.getElementById('plants-menu-content');
 
     this.createMarkup(plants);
   }
@@ -66,8 +66,12 @@ export default class PlantsMenu {
       return itemHTML;
     });
 
+    const listHTML = document.createElement('ul');
+
     list.forEach((item) => {
-      this.listContainer.appendChild(item);
+      listHTML.appendChild(item);
     });
+
+    this.content.appendChild(listHTML);
   }
 }

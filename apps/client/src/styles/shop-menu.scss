@@ -2,19 +2,6 @@
 @import './variables.scss';
 
 .shop-menu {
-  z-index: 10;
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  padding: 20px 0;
-  background: #31363f;
-  transition: left 200ms $menu-animation;
-
   &__btn-open {
     z-index: 1;
     position: absolute;
@@ -26,14 +13,6 @@
     width: 45px;
     height: 45px;
     background: #fff;
-  }
-
-  &__btn-close {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    display: flex;
-    width: 32px;
   }
 
   &__wallet {
@@ -103,9 +82,5 @@
     font-size: 1rem;
     text-decoration: line-through;
     color: red;
-  }
-
-  &.hidden {
-    left: -100vw;
   }
 }

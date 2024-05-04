@@ -1,6 +1,6 @@
-import throttle from 'lodash.throttle';
 import { DateTime } from 'luxon';
 import { Scene } from 'phaser';
+import { Pinch } from 'phaser3-rex-plugins/plugins/gestures.js';
 
 import { createPayment } from '@services/createPayment';
 import { harvestPlant } from '@services/harvestPlant';
@@ -63,11 +63,12 @@ export class Game extends Scene {
   private menuPlants: PlantsMenu;
   // private menuFfertilizer: any;
 
-  private openShopBtn: HTMLElement;
-  private closeButton: HTMLElement;
+  // UI buttons
+  private btnShopOpen: HTMLElement;
+  private btnShopClose: HTMLElement;
+  private btnPlantsOpen: HTMLElement;
+  private btnPlantsClose: HTMLElement;
   private btnDecorate: HTMLElement;
-  private btnPlants: HTMLElement;
-  private closePlants: HTMLElement;
   private btnFertilizer: HTMLElement;
 
   constructor() {
@@ -112,31 +113,33 @@ export class Game extends Scene {
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) =>
       this.handleShopItemClick(item)
     );
-    this.openShopBtn = document.getElementById('shop-button');
-    this.openShopBtn.addEventListener('click', () => this.handleOpenShop());
-    this.closeButton = document.querySelector('.shop-menu__btn-close');
-    this.closeButton.addEventListener('click', () => this.handleCloseShop());
-    this.closePlants = document.getElementById('close-plants');
-    this.closePlants.addEventListener('click', () => this.handlePlantsBtn());
+
     /*
-      Opacity for ont completed buttons
-    */
-    // Find all buttons
+     * UI buttons and menus defining
+     * Finding by id
+     * find buttons and add listeners
+     */
+    // Tokens and coins menu
+    this.btnShopOpen = document.getElementById('shop-menu-open');
+    this.btnShopOpen.addEventListener('click', () => this.handleOpenShop());
+    this.btnShopClose = document.getElementById('shop-menu-close');
+    this.btnShopClose.addEventListener('click', () => this.handleCloseShop());
+    // Plants menu
+    this.btnPlantsOpen = document.getElementById('plants-menu-open');
+    this.btnPlantsOpen.addEventListener('click', () => this.handlePlantsBtn());
+    this.btnPlantsClose = document.getElementById('plants-menu-close');
+    this.btnPlantsClose.addEventListener('click', () => this.handlePlantsBtn());
+    // Fertilizers menu
     this.btnDecorate = document.getElementById('decorate');
-    this.btnPlants = document.getElementById('plants');
     this.btnFertilizer = document.getElementById('fertilizer');
-    // Add event listeners to bottom menu buttons
     this.btnDecorate.addEventListener('click', () => this.handleDecorateBtn());
-    this.btnPlants.addEventListener('click', () => this.handlePlantsBtn());
     this.btnFertilizer.addEventListener('click', () => this.handleFertilizerBtn());
-    // Background
+    /*
+     * Render background and decors
+     */
     const backgroundImage = this.add.image(centerX, centerY, 'background');
     backgroundImage.x = backgroundImage.x - 250;
     // backgroundImage.setDisplaySize(backgroundImage.width, height);
-    // Run fetch data methods
-    this.renderPlantsList();
-    this.renderPlantsField();
-    // Create picked seed data
     this.pickedPlantBar = new PickedPlantBar();
     /*
       Create animations
@@ -147,6 +150,13 @@ export class Game extends Scene {
     //   frames: this.anims.generateFrameNumbers('sunflower', { start: 5, end: 30 }),
     //   repeat: 1
     // });
+    /*
+     * Run fetch data methods
+     * Run render game
+     */
+    this.renderPlantsList();
+    this.renderPlantsField();
+    /* End of create */
   }
   /*
       Methods
@@ -160,8 +170,6 @@ export class Game extends Scene {
       const { left, right } = CAMERA_BOUNDRIES;
 
       const distance = p.x - p.prevPosition.x / this.camera.zoom;
-      // sensitivity refactor
-      // console.log({ distance: p.x - p.prevPosition.x });
 
       this.camera.scrollX -= distance * 1.2;
 
@@ -175,6 +183,9 @@ export class Game extends Scene {
 
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
     });
+
+    // const pinch = new Pinch(this);
+    // pinch.setEnable(true);
   }
   // Growing checker
   private growingChecker() {
@@ -449,6 +460,7 @@ export class Game extends Scene {
   }
   // Handle button click: Plants
   private handlePlantsBtn() {
+    console.log('handlePlantsBtnF');
     if (this.menuPlants.isOpen || this.pickedPlant) {
       this.pickedPlant = null;
       this.isBlocked = false;

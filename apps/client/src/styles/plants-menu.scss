@@ -1,75 +1,11 @@
 @import './fonts.scss';
 @import './variables.scss';
 
+$text-color: #272829;
+
 .plants-menu {
-  z-index: 10;
-  position: absolute;
-  left: 0;
-  bottom: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  padding: 40px 10px 0 10px;
-  background-color: #e2dfd0;
-  transition: bottom 200ms ease-in-out;
-
-  &.hidden {
-    bottom: -100vh;
-  }
-
-  &__foreground {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    pointer-events: none;
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-
-  &__close-btn {
-    z-index: 12;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 36px;
-    pointer-events: auto;
-  }
-
-  &__frame {
-    pointer-events: none;
-    width: 100%;
-  }
-
-  &__header {
-    color: $plant-shop-color;
-    font-size: 40px;
-    font-family: 'Newspapper', sans-serif;
-  }
-
-  &__description {
-    margin: 5px 15px 0 15px;
-    text-align: center;
-    color: $plant-shop-color;
-    font-size: 12px;
-    font-family: 'Newspapper', sans-serif;
-  }
-
-  &__list {
-    width: 100%;
-    height: 100%;
-    margin-top: 18px;
-    margin-left: 10px;
-    padding-bottom: 90px;
-  }
 
   &__item {
     display: flex;
@@ -78,7 +14,7 @@
     margin-bottom: 8px;
     padding-top: 8px;
     padding-left: 5px;
-    color: $plant-shop-color;
+    color: $text-color;
     border-top: 1px dashed #61677a;
 
     &:last-child() {

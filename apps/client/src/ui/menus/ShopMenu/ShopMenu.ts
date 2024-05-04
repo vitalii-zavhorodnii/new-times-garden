@@ -5,14 +5,14 @@ export default class ShopMenu {
   public shopList: IShopItem[];
 
   private container: HTMLElement;
-  private listContainer: HTMLElement;
+  private content: HTMLElement;
   private callbackItemClick: Function;
 
   constructor(list: IShopItem[], callback: Function) {
     this.isOpen = false;
 
-    this.container = document.querySelector('.shop-menu');
-    this.listContainer = document.querySelector('.shop-menu__list');
+    this.container = document.getElementById('shop-menu');
+    this.content = document.getElementById('shop-menu-content');
 
     this.shopList = list;
     this.callbackItemClick = callback;
@@ -72,7 +72,7 @@ export default class ShopMenu {
       itemHTML.appendChild(valueHTML);
       itemHTML.appendChild(textHTML);
 
-      this.listContainer.appendChild(itemHTML);
+      this.content.appendChild(itemHTML);
 
       itemHTML.addEventListener('click', () => {
         this.callbackItemClick(menuItem);

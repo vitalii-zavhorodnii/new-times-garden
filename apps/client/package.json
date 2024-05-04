@@ -22,7 +22,8 @@
     "@tonconnect/ui": "^2.0.2",
     "axios": "^1.6.8",
     "dotenv": "^12.0.0",
-    "phaser": "^3.80.1"
+    "phaser": "^3.80.1",
+    "phaser3-rex-plugins": "^1.80.3"
   },
   "devDependencies": {
     "@jgoz/esbuild-plugin-livereload": "^2.0.4",

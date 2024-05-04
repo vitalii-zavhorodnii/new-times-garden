@@ -11,6 +11,60 @@
 
   <body>
     <div id="app">
+      <!-- tokens shop menu-->
+      <div id="shop-menu" class="papper-menu hidden">
+        <div class="papper-menu__foreground">
+          <img
+            id="shop-menu-close"
+            class="papper-menu__close-btn"
+            src="./assets/utils/cross.png"
+            alt="close"
+          />
+          <img
+            class="papper-menu__frame"
+            src="./assets/utils/frame.png"
+            alt="frame"
+          />
+        </div>
+
+        <div class="papper-menu__container">
+          <h4 class="papper-menu__header">Token&Coin</h4>
+          <p class="papper-menu__description">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi fuga ad
+            ducimus
+          </p>
+          <div class="wallet" id="ton-connect"></div>
+          <div id="shop-menu-content" class="papper-menu__content"></div>
+        </div>
+      </div>
+      <!-- plants shop menu-->
+      <div id="plants-menu" class="papper-menu hidden">
+        <div class="papper-menu__foreground">
+          <img
+            id="plants-menu-close"
+            class="papper-menu__close-btn"
+            src="./assets/utils/cross.png"
+            alt="close"
+          />
+          <img
+            class="papper-menu__frame"
+            src="./assets/utils/frame.png"
+            alt="frame"
+          />
+        </div>
+
+        <div class="papper-menu__container">
+          <h4 class="papper-menu__header">Seeds Shop</h4>
+          <p class="papper-menu__description">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi fuga ad
+            ducimus
+          </p>
+          <div id="plants-menu-content" class="papper-menu__content"></div>
+        </div>
+      </div>
+      <!-- UI elements and containers -->
+      <div class="picked-plant-bar hidden"></div>
+
       <div class="balance-bar hidden">
         <div class="balance-bar__cell">
           <img class="balance-bar__icon" src="./assets/utils/coin.png" alt="coin" />
@@ -20,19 +74,9 @@
           <img class="balance-bar__icon" src="./assets/utils/token.svg" alt="coin" />
           <span class="balance-bar__value" id="token-balance">0</span>
         </div>
-        <div class="balance-bar__cell" id="shop-button">
+        <div id="shop-menu-open" class="balance-bar__cell">
           <img class="balance-bar__icon" src="./assets/utils/plus.svg" alt="add" />
         </div>
-      </div>
-
-      <div class="shop-menu hidden">
-        <img
-          class="shop-menu__btn-close"
-          src="./assets/utils/cross.png"
-          alt="close"
-        />
-        <div class="shop-menu__wallet" id="ton-connect"></div>
-        <ul class="shop-menu__list"></ul>
       </div>
 
       <ul class="bottom-bar hidden">
@@ -42,42 +86,15 @@
         <li class="bottom-bar__item" id="fertilizer">
           <img class="bottom-bar__icon" src="./assets/menu/fertilizer.svg" alt="" />
         </li>
-        <li class="bottom-bar__item" id="plants">
+        <li id="plants-menu-open" class="bottom-bar__item">
           <p class="bottom-bar__title">Seeds</p>
           <img
             class="bottom-bar__icon big"
             src="./assets/menu/plant-shop.png"
-            alt=""
+            alt="plants"
           />
         </li>
       </ul>
-
-      <div class="picked-plant-bar hidden"></div>
-
-      <div class="plants-menu hidden">
-        <div class="plants-menu__foreground">
-          <img
-            class="plants-menu__close-btn"
-            id="close-plants"
-            src="./assets//utils/cross.png"
-            alt="close"
-          />
-          <img
-            class="plants-menu__frame"
-            src="./assets/utils/frame.png"
-            alt="frame"
-          />
-        </div>
-
-        <div class="plants-menu__content">
-          <h4 class="plants-menu__header">Seeds Shop</h4>
-          <p class="plants-menu__description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi fuga ad
-            ducimus
-          </p>
-          <ul class="plants-menu__list"></ul>
-        </div>
-      </div>
 
       <div id="game-container"></div>
     </div>
