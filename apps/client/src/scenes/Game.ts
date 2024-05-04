@@ -93,18 +93,10 @@ export class Game extends Scene {
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
-    // this.camera.sca
-    // this.camera.setBounds(
-    //   CAMERA_BOUNDS.x,
-    //   CAMERA_BOUNDS.y,
-    //   CAMERA_BOUNDS.width,
-    //   CAMERA_BOUNDS.height
-    // );
-    // this.camera.setPosition(0, 0);
     // center canvas variables
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
-    const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
+    const centerY = worldView.y + height / 2 - 13;
     /*
       UI - elements
     */
