@@ -23,6 +23,7 @@ import { randomNumberHelper } from '@helpers/random-number';
 
 import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
+import { PLANTS_SPRITES } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
@@ -144,18 +145,21 @@ export class Game extends Scene {
     /*
       Create animations
     */
-    this.anims.create({
-      key: 'tap-0-sunflower',
-      frameRate: 20,
-      frames: this.anims.generateFrameNumbers('sunflower', { start: 4, end: 15 }),
-      repeat: 0
+    PLANTS_SPRITES.forEach((sprite) => {
+      this.anims.create({
+        key: `tap-0-${sprite}`,
+        frameRate: 20,
+        frames: this.anims.generateFrameNumbers(sprite, { start: 4, end: 15 }),
+        repeat: 0
+      });
+      this.anims.create({
+        key: `tap-1-${sprite}`,
+        frameRate: 20,
+        frames: this.anims.generateFrameNumbers(sprite, { start: 16, end: 27 }),
+        repeat: 0
+      });
     });
-    this.anims.create({
-      key: 'tap-1-sunflower',
-      frameRate: 20,
-      frames: this.anims.generateFrameNumbers('sunflower', { start: 16, end: 27 }),
-      repeat: 0
-    });
+
     /*
      * Run fetch data methods
      * Run render game
@@ -257,12 +261,6 @@ export class Game extends Scene {
         const diff1 = endTime.diff(currentTime).toMillis();
         const percentLeft = Math.floor((diff1 / soil.plant.growTime) * 100);
 
-        console.log({
-          plantedAt: soil.plant.plantedAt,
-          growTime: soil.plant.growTime,
-          diff1,
-          percentLeft
-        });
         if (percentLeft > 0) {
           return;
         }
@@ -496,7 +494,6 @@ export class Game extends Scene {
   }
   // Handle button click: Plants
   private handlePlantsBtn() {
-    console.log('handlePlantsBtnF');
     if (this.menuPlants.isOpen || this.pickedPlant) {
       this.pickedPlant = null;
       this.isBlocked = false;

@@ -10,6 +10,7 @@ import { userGardenMapper } from '@mappers/mapUserGarden';
 import { randomNumberHelper } from '@helpers/random-number';
 
 import { LOADING_TEXTS } from '@constants/loading-texts';
+import { PLANTS_SPRITES } from '@constants/plants-sprites';
 
 import type { IUserData } from '@interfaces/IUserData';
 
@@ -40,29 +41,11 @@ export class Preloader extends Scene {
       frameHeight: 96
     });
     // Sprites for plants
-    this.load.spritesheet('salat', 'assets/plants/salat.png', {
-      frameWidth: 96,
-      frameHeight: 96,
-      startFrame: 0,
-      endFrame: 3
-    });
-    this.load.spritesheet('marigold', 'assets/plants/marigold.png', {
-      frameWidth: 96,
-      frameHeight: 96,
-      startFrame: 0,
-      endFrame: 3
-    });
-    this.load.spritesheet('sunflower', 'assets/plants/sunflower.png', {
-      frameWidth: 96,
-      frameHeight: 96,
-      // startFrame: 0,
-      // endFrame: 3
-    });
-    this.load.spritesheet('pumpkin', 'assets/plants/pumpkin.png', {
-      frameWidth: 96,
-      frameHeight: 96,
-      startFrame: 0,
-      endFrame: 3
+    PLANTS_SPRITES.forEach((sprite: string) => {
+      this.load.spritesheet(sprite, `assets/plants/${sprite}.png`, {
+        frameWidth: 96,
+        frameHeight: 96
+      });
     });
   }
 

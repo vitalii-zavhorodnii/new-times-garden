@@ -19,10 +19,9 @@ export class CreatePlantDto {
     example: './assets/plants/icons/salat.png',
     description: 'Icon for plants shop'
   })
-  @IsDefined()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  readonly icon: string;
+  readonly icon?: string;
 
   @ApiProperty({
     example: 'Salat',

@@ -4,12 +4,11 @@ export const markup = (
   tokens: number,
   coinsIncome: number,
   tokensIncome: number,
-  timer: string,
-  icon: string
+  timer: string
 ): string => `
   <img 
     class="plants-menu__icon" 
-    src="${icon}" 
+    src="./assets/plants/icons/${title.toLowerCase()}.png" 
     alt="icon"
   >
   <div class="plants-menu__card">

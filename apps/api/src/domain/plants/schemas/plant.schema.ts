@@ -19,7 +19,7 @@ class Plant extends Document {
     set: (v: string) => v?.trim().toLowerCase(),
     required: false
   })
-  readonly icon: string;
+  readonly icon?: string;
 
   @ApiProperty({ example: 'Potato' })
   @Prop({ type: String, required: true })
