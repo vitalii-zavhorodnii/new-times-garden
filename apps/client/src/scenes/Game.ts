@@ -140,7 +140,8 @@ export class Game extends Scene {
      * Render background and decors
      */
     const backgroundImage = this.add.image(centerX, centerY, 'background');
-    backgroundImage.x = backgroundImage.x - 250;
+    backgroundImage.x = backgroundImage.x - 340;
+    backgroundImage.y = backgroundImage.y - 118;
     // backgroundImage.setDisplaySize(backgroundImage.width, height);
     this.pickedPlantBar = new PickedPlantBar();
     /*
