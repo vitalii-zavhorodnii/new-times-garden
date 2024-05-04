@@ -150,6 +150,12 @@ export class Game extends Scene {
       frames: this.anims.generateFrameNumbers('sunflower', { start: 4, end: 15 }),
       repeat: 0
     });
+    this.anims.create({
+      key: 'tap-1-sunflower',
+      frameRate: 20,
+      frames: this.anims.generateFrameNumbers('sunflower', { start: 16, end: 27 }),
+      repeat: 0
+    });
     /*
      * Run fetch data methods
      * Run render game
