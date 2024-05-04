@@ -93,6 +93,8 @@ export class Game extends Scene {
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
+    const zoom = parseFloat(JSON.parse(localStorage.getItem('zoom'))) | 1;
+    this.camera.setZoom(zoom, zoom);
     // center canvas variables
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
@@ -213,6 +215,8 @@ export class Game extends Scene {
       this.pinchDistance = pinch.distanceBetween;
     });
     pinch.on('pinchend', () => {
+      const zoom = pinch.scaleFactor * this.camera.zoom;
+      localStorage.setItem('zoom', JSON.stringify(zoom));
       this.pinchDistance = null;
     });
 
