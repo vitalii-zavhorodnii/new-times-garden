@@ -93,6 +93,7 @@ export class Game extends Scene {
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
+    // this.camera.sca
     // this.camera.setBounds(
     //   CAMERA_BOUNDS.x,
     //   CAMERA_BOUNDS.y,

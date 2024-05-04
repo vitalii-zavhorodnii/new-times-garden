@@ -14,7 +14,7 @@ axios.defaults.baseURL = process.env.BACKEND_LINK;
 
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
-// window?.Telegram?.WebApp?.ready();
+window?.Telegram?.WebApp?.ready();
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
@@ -27,9 +27,9 @@ const config: Types.Core.GameConfig = {
   width: screenSize.x,
   height: screenSize.y,
   scale: {
-    width: '100%',
+    width: '200%',
     height: '100%',
-    mode: Phaser.Scale.MAX_ZOOM,
+    mode: Phaser.Scale.NONE,
     autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
   },
 
