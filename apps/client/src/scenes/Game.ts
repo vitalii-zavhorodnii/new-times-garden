@@ -21,9 +21,9 @@ import { mapFieldRows } from '@mappers/mapFieldRows';
 
 import { randomNumberHelper } from '@helpers/random-number';
 
-import { CAMERA_BOUNDRIES, CAMERA_BOUNDS } from '@constants/camera-bounds';
+import { CAMERA_BOUNDRIES } from '@constants/camera-bounds';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
-import { PLANTS_ANIMATED, PLANTS_SPRITES } from '@constants/plants-sprites';
+import { PLANTS_ANIMATED } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
@@ -203,7 +203,7 @@ export class Game extends Scene {
       }
       if (this.pinchDistance < pinch.distanceBetween) {
         const zoom = pinch.scaleFactor * this.camera.zoom;
-        if (zoom < 1) {
+        if (zoom < 1.2) {
           this.camera.setZoom(zoom, zoom);
         }
 
