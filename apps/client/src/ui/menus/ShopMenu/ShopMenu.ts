@@ -1,3 +1,5 @@
+import { markup } from './markup';
+
 import type { IShopItem } from '@interfaces/IShopItem';
 
 export default class ShopMenu {
@@ -31,52 +33,31 @@ export default class ShopMenu {
   }
 
   private createMarkup() {
-    this.shopList.forEach((menuItem) => {
+    const listHTML = document.createElement('ul');
+    listHTML.classList.add('shop-menu__container');
+
+    const list = this.shopList.map((menuItem) => {
       const itemHTML = document.createElement('li');
       itemHTML.classList.add('shop-menu__item');
 
-      const imgHTML = document.createElement('img');
-      imgHTML.classList.add('shop-menu__image');
-      imgHTML.setAttribute('src', menuItem.img);
-      imgHTML.setAttribute('alt', 'menu-item');
-
-      const valueHTML = document.createElement('span');
-      valueHTML.classList.add('shop-menu__value');
-      const valueTextNode = document.createTextNode(String(menuItem.value));
-
-      const iconHTML = document.createElement('img');
-      iconHTML.classList.add('shop-menu__icon');
-      iconHTML.setAttribute('src', './assets/utils/token.svg');
-      iconHTML.setAttribute('alt', 'icon');
-
-      const textHTML = document.createElement('p');
-      textHTML.classList.add('shop-menu__text');
-
-      const costHTML = document.createElement('span');
-      costHTML.classList.add('shop-menu__cost');
-      costHTML.innerHTML = `$${String(menuItem.price)}`;
-
-      const saleHTML = document.createElement('span');
-      saleHTML.classList.add('shop-menu__sale');
-      saleHTML.innerHTML = `$${String(menuItem.oldPrice)}`;
-
-      textHTML.appendChild(costHTML);
-      if (menuItem?.oldPrice) {
-        textHTML.appendChild(saleHTML);
-      }
-
-      valueHTML.appendChild(iconHTML);
-      valueHTML.appendChild(valueTextNode);
-
-      itemHTML.appendChild(imgHTML);
-      itemHTML.appendChild(valueHTML);
-      itemHTML.appendChild(textHTML);
-
-      this.content.appendChild(itemHTML);
+      itemHTML.innerHTML = markup(
+        menuItem.img,
+        menuItem.value,
+        menuItem.price,
+        menuItem.oldPrice
+      );
 
       itemHTML.addEventListener('click', () => {
         this.callbackItemClick(menuItem);
       });
+
+      return itemHTML;
     });
+
+    list.forEach((item) => {
+      listHTML.appendChild(item);
+    });
+
+    this.content.appendChild(listHTML);
   }
 }

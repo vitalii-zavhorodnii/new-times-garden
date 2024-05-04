@@ -1,18 +1,33 @@
 @import './fonts.scss';
 @import './variables.scss';
 
+$font-family: 'Newspapper', sans-serif;
+$title-size: 28px;
+$text-color: #272829;
+$text-color-red: #cd1818;
+$color-currency: #03AED2;
+
 .shop-menu {
-  &__btn-open {
-    z-index: 1;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+  display: flex;
+  flex-direction: column;
+
+  &__container {
+    padding: 0 20px;
+  }
+
+  &__item {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 45px;
-    height: 45px;
-    background: #fff;
+    width: 100%;
+    margin-bottom: 8px;
+    padding-top: 8px;
+    padding-left: 5px;
+    color: $text-color;
+    border-top: 1px dashed #61677a;
+
+    &:last-child() {
+      margin-bottom: 0;
+    }
   }
 
   &__wallet {
@@ -21,66 +36,50 @@
     margin-top: 15px;
   }
 
-  &__list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 10px;
-    margin-left: 10px;
-    overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  &__img {
+    width: 64px;
   }
 
-  &__item {
+  &__card {
+    margin-left: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 29%;
-    border-radius: 10px;
-    background-color: #3d3b40;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-
-  &__image {
     width: 100%;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
   }
 
-  &__text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 8px;
-    padding-bottom: 5px;
-    font-family: 'Newspapper', sans-serif;
-  }
-
-  &__value {
+  &__title {
     display: flex;
     align-items: center;
-    font-size: 1.2rem;
-    margin-top: 5px;
-    font-family: 'Newspapper', sans-serif;
+    font-size: $title-size;
+    font-family: $font-family;
+    color: $color-currency;
+    letter-spacing: 1px;
   }
 
-  &__icon {
-    width: 24px;
+  &__currency {
+    width: 30px;
     margin-right: 5px;
   }
 
-  &__cost {
-    font-size: 1rem;
+  &__info {
+    display: flex;
+    align-items: center;
+    margin-top: 6px;
+    width: 100%;
   }
 
-  &__sale {
+  &__price {
+    display: flex;
+    font-family: 16px;
+    font-family: $font-family;
+    color: $text-color;
+  }
+
+  &__old-price {
     margin-left: 8px;
-    font-size: 1rem;
+    font-size: 16px;
     text-decoration: line-through;
-    color: red;
+    font-family: $font-family;
+    color: $text-color-red;
   }
 }
