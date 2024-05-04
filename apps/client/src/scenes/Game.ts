@@ -23,7 +23,7 @@ import { randomNumberHelper } from '@helpers/random-number';
 
 import { CAMERA_BOUNDRIES } from '@constants/camera-boundries.constants';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
-import { PLANTS_SPRITES } from '@constants/plants-sprites';
+import { PLANTS_ANIMATED, PLANTS_SPRITES } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
@@ -145,20 +145,32 @@ export class Game extends Scene {
     /*
       Create animations
     */
-    // PLANTS_SPRITES.forEach((sprite) => {
-    //   this.anims.create({
-    //     key: `tap-0-${sprite}`,
-    //     frameRate: 20,
-    //     frames: this.anims.generateFrameNumbers(sprite, { start: 4, end: 15 }),
-    //     repeat: 0
-    //   });
-    //   this.anims.create({
-    //     key: `tap-1-${sprite}`,
-    //     frameRate: 20,
-    //     frames: this.anims.generateFrameNumbers(sprite, { start: 16, end: 27 }),
-    //     repeat: 0
-    //   });
-    // });
+    PLANTS_ANIMATED.forEach((sprite) => {
+      this.anims.create({
+        key: `tap-0-${sprite}`,
+        frameRate: 20,
+        frames: this.anims.generateFrameNumbers(sprite, { start: 4, end: 15 }),
+        repeat: 0
+      });
+      this.anims.create({
+        key: `tap-1-${sprite}`,
+        frameRate: 20,
+        frames: this.anims.generateFrameNumbers(sprite, { start: 16, end: 27 }),
+        repeat: 0
+      });
+      this.anims.create({
+        key: `tap-2-${sprite}`,
+        frameRate: 20,
+        frames: this.anims.generateFrameNumbers(sprite, { start: 28, end: 39 }),
+        repeat: 0
+      });
+      this.anims.create({
+        key: `tap-3-${sprite}`,
+        frameRate: 20,
+        frames: this.anims.generateFrameNumbers(sprite, { start: 40, end: 51 }),
+        repeat: 0
+      });
+    });
 
     /*
      * Run fetch data methods
@@ -194,8 +206,20 @@ export class Game extends Scene {
       // this.camera.scrollY -= (p.y - p.prevPosition.y) / this.camera.zoom;
     });
 
-    // const pinch = new Pinch(this);
-    // pinch.setEnable(true);
+    const pinch = new Pinch(this);
+    pinch.setEnable(true);
+    pinch.on('pinch', () => {
+      // console.log(pinch.isPinched);
+      // document.getElementById('log').innerHTML = `
+      //   ${String(pinch.distanceBetween)}
+      // `;
+      // this.balanceBar.
+    });
+    pinch.on('pinchend', () => {
+      // console.log(pinch.isPinched);
+      // document.getElementById('log').innerHTML = '';
+      // this.balanceBar.
+    });
   }
   // Growing checker
   private growingChecker() {
@@ -220,7 +244,9 @@ export class Game extends Scene {
         plant.setFrame(3);
         plant.phase = 3;
 
-        // plant.play(`tap-3-${plant.title.toLowerCase()}`);
+        if (plant.title.toLowerCase() === 'sunflower') {
+          plant.play(`tap-3-${plant.title.toLowerCase()}`);
+        }
       }
       return;
     }
@@ -230,7 +256,9 @@ export class Game extends Scene {
         plant.setFrame(2);
         plant.phase = 2;
 
-        // plant.play(`tap-2-${plant.title.toLowerCase()}`);
+        if (plant.title.toLowerCase() === 'sunflower') {
+          plant.play(`tap-2-${plant.title.toLowerCase()}`);
+        }
       }
       return;
     }
@@ -239,8 +267,9 @@ export class Game extends Scene {
       if (plant.phase !== 1) {
         plant.setFrame(1);
         plant.phase = 1;
-
-        // plant.play(`tap-1-${plant.title.toLowerCase()}`);
+        if (plant.title.toLowerCase() === 'sunflower') {
+          plant.play(`tap-1-${plant.title.toLowerCase()}`);
+        }
       }
       return;
     }
@@ -250,8 +279,11 @@ export class Game extends Scene {
     if (!this.isBlocked) {
       // soil.plant.play('tap');
       if (soil.isOccupied) {
-        // soil.plant.play(`tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`);
-
+        if (soil.plant.title.toLowerCase() === 'sunflower') {
+          soil.plant.play(
+            `tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`
+          );
+        }
         const currentTime = DateTime.now();
         const endTime = DateTime.fromMillis(
           soil.plant.plantedAt + soil.plant.growTime
