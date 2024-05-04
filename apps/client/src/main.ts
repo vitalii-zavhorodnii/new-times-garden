@@ -17,15 +17,15 @@ window?.Telegram?.WebApp?.enableClosingConfirmation();
 // window?.Telegram?.WebApp?.ready();
 
 const screenSize = {
-  x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
-  y: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+  // x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
+  // y: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
 };
 
 const config: Types.Core.GameConfig = {
   parent: 'game-container',
   type: Phaser.CANVAS,
-  width: screenSize.x,
-  height: screenSize.y,
+  width: window.innerWidth,
+  height: window.innerHeight,
   scale: {
     width: '100%',
     height: '100%',

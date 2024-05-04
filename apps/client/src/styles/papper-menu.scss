@@ -22,7 +22,6 @@ $text-color: #272829;
   background-color: $bg-color;
   transition: $animation;
   opacity: 1;
-  overflow: hidden;
 
   &.hidden {
     bottom: -110vh;
