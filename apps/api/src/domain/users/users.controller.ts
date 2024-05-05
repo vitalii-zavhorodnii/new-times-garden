@@ -145,7 +145,7 @@ export class UsersController {
 
     const cell = gardenData.field[dto.rowIndex][dto.plantIndex];
 
-    if (!cell.plantedAt) {
+    if (!cell?.plantedAt) {
       return false;
     }
 
