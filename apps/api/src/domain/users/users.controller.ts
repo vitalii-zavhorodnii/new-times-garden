@@ -167,6 +167,10 @@ export class UsersController {
       const balance = user.balanceTokens + plant.tokensIncome;
       await this.usersService.updateUserTokens(user._id, balance);
     }
+    if (plant.xpIncome) {
+      const balance = user.xp + plant.xpIncome;
+      await this.usersService.updateUserXp(user._id, balance);
+    }
 
     await this.gardendsService.removePlant(
       user.garden._id,

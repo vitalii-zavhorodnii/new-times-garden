@@ -306,6 +306,8 @@ export class Game extends Scene {
       }
 
       if (soil.isOccupied) {
+        console.log({ in: soil.plant, xp: this.userData.xp });
+
         if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
           soil.plant.play(
             `tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`
@@ -327,6 +329,8 @@ export class Game extends Scene {
         this.balanceBar.setCoins(this.userData.balanceCoins);
         this.userData.balanceTokens += soil.plant.tokensIncome;
         this.balanceBar.setTokens(this.userData.balanceTokens);
+        this.userData.xp += soil.plant.xpIncome;
+        this.balanceBar.setLevel(this.userData.xp);
 
         this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
         this.plants[rowIndex][plantIndex].destroy();

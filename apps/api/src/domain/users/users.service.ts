@@ -67,6 +67,18 @@ export class UsersService {
     return user;
   }
 
+  public async updateUserXp(userId: string, amount: number): Promise<User> {
+    const user = await this.userModel.findByIdAndUpdate(
+      userId,
+      {
+        xp: amount
+      },
+      { new: true }
+    );
+
+    return user;
+  }
+
   public async startGrow(userId: string, plantId: string): Promise<User> {
     const user = await this.userModel.findById(userId);
 

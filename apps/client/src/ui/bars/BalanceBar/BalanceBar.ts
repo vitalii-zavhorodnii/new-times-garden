@@ -38,6 +38,6 @@ export default class BalanceBar {
   public setLevel(value: number) {
     const level = value;
     const currentXp = value;
-    this.xp.innerHTML = String(`${level} and ${currentXp}`);
+    this.xp.innerHTML = String(level);
   }
 }
