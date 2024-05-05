@@ -131,7 +131,7 @@ class User extends Document {
     default: {
       todo: [],
       completed: [],
-      completedCount: 0
+      completeCount: 0
     }
   })
   readonly achievements: AcvieveLog;
