@@ -5,7 +5,9 @@ export const ROUTES = {
   gardens: 'gardens',
   users: 'users',
   products: 'products',
-  payments: 'payments'
+  payments: 'payments',
+  quests: 'quests',
+  settings: 'settings'
 };
 
 export const PUBLIC_FOLDER = 'public';

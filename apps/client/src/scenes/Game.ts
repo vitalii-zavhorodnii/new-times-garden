@@ -13,6 +13,7 @@ import PickedPlantBar from '@ui/bars/PickedPlantBar';
 import PlantsMenu from '@ui/menus/PlantsMenu';
 import ShopMenu from '@ui/menus/ShopMenu';
 
+import Decoration from '@entities/Decoration';
 import Dummy from '@entities/Dummy';
 import Plant from '@entities/Plant';
 import Soil from '@entities/Soil';
@@ -23,6 +24,7 @@ import { randomNumberHelper } from '@helpers/random-number';
 
 import { CAMERA_BOUNDRIES } from '@constants/camera-bounds';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
+import { DECORATION_LIST } from '@constants/decorations';
 import { PLANTS_ANIMATED } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
@@ -34,26 +36,28 @@ interface IData {
   user: IUserData;
   plants: IPlantListItem[];
   shopList: IShopItem[];
+  settings: any;
 }
 
 export class Game extends Scene {
   public camera: Phaser.Cameras.Scene2D.Camera;
   public isBlocked: boolean;
   public pinchDistance: number;
-
-  // private balance: number;
+  public settings: any;
   private pickedPlant: IPlantListItem;
 
   // private plantsCollection: Array<Plant>;
   // private plantsCollection: Array<Seed>;
-  private userData: IUserData;
+  private user: IUserData;
   private plantsData: IPlantListItem[];
   private shopList: IShopItem[];
 
   private plants: (Plant | Dummy)[][];
   private soil: Soil[][];
+  private decorations: Decoration[];
   private growingInterval: ReturnType<typeof setInterval>;
 
+  private decorationContainer: Phaser.GameObjects.Container;
   private gardenContainer: Phaser.GameObjects.Container[];
   private soilContainer: Phaser.GameObjects.Container[];
 
@@ -79,15 +83,18 @@ export class Game extends Scene {
     this.pickedPlant = null;
     this.soilContainer = [];
     this.gardenContainer = [];
+    this.decorationContainer = null;
+    this.decorations = [];
     this.plants = [];
     this.soil = [];
     this.isBlocked = false;
   }
 
   public init(data: IData) {
-    this.userData = data.user;
+    this.user = data.user;
     this.plantsData = data.plants;
     this.shopList = data.shopList;
+    this.settings = data.settings;
   }
 
   // Create scene method
@@ -104,9 +111,9 @@ export class Game extends Scene {
     */
     // Top right Balance bar
     this.balanceBar = new BalanceBar();
-    this.balanceBar.setCoins(this.userData.balanceCoins);
-    this.balanceBar.setTokens(this.userData.balanceTokens);
-    this.balanceBar.setLevel(this.userData.xp);
+    this.balanceBar.setCoins(this.user.balanceCoins);
+    this.balanceBar.setTokens(this.user.balanceTokens);
+    this.balanceBar.setLevel(this.user.xp);
     this.balanceBar.show();
     // Bottom buttons bar
     this.bottomBar = new BottomBar();
@@ -143,7 +150,7 @@ export class Game extends Scene {
      * Render background and decors
      */
     const backgroundImage = this.add.image(centerX, centerY, 'background');
-    backgroundImage.x = backgroundImage.x - 340;
+    backgroundImage.x = backgroundImage.x - 280;
     backgroundImage.y = backgroundImage.y - 118;
     // backgroundImage.setDisplaySize(backgroundImage.width, height);
     this.pickedPlantBar = new PickedPlantBar();
@@ -306,7 +313,7 @@ export class Game extends Scene {
       }
 
       if (soil.isOccupied) {
-        console.log({ in: soil.plant, xp: this.userData.xp });
+        console.log({ in: soil.plant, xp: this.user.xp });
 
         if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
           soil.plant.play(
@@ -325,12 +332,12 @@ export class Game extends Scene {
           return;
         }
 
-        this.userData.balanceCoins += soil.plant.coinsIncome;
-        this.balanceBar.setCoins(this.userData.balanceCoins);
-        this.userData.balanceTokens += soil.plant.tokensIncome;
-        this.balanceBar.setTokens(this.userData.balanceTokens);
-        this.userData.xp += soil.plant.xpIncome;
-        this.balanceBar.setLevel(this.userData.xp);
+        this.user.balanceCoins += soil.plant.coinsIncome;
+        this.balanceBar.setCoins(this.user.balanceCoins);
+        this.user.balanceTokens += soil.plant.tokensIncome;
+        this.balanceBar.setTokens(this.user.balanceTokens);
+        this.user.xp += soil.plant.xpIncome;
+        this.balanceBar.setLevel(this.user.xp);
 
         this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
         this.plants[rowIndex][plantIndex].destroy();
@@ -342,7 +349,7 @@ export class Game extends Scene {
 
         this.gardenContainer[rowIndex].addAt(dummy, plantIndex);
 
-        harvestPlant(this.userData.telegramId, rowIndex, plantIndex);
+        harvestPlant(this.user.telegramId, rowIndex, plantIndex);
 
         return;
       }
@@ -360,28 +367,22 @@ export class Game extends Scene {
     plantIndex: number
   ) {
     if (
-      plant.gamePrice > this.userData.balanceCoins ||
-      plant.tokenPrice > this.userData.balanceTokens
+      plant.gamePrice > this.user.balanceCoins ||
+      plant.tokenPrice > this.user.balanceTokens
     ) {
       this.pickedPlant = null;
       this.pickedPlantBar.hide();
       return;
     }
 
-    this.userData.balanceCoins -= plant.gamePrice;
-    this.userData.balanceTokens -= plant.tokenPrice;
-    this.balanceBar.setCoins(this.userData.balanceCoins);
-    this.balanceBar.setTokens(this.userData.balanceTokens);
+    this.user.balanceCoins -= plant.gamePrice;
+    this.user.balanceTokens -= plant.tokenPrice;
+    this.balanceBar.setCoins(this.user.balanceCoins);
+    this.balanceBar.setTokens(this.user.balanceTokens);
 
     const plantedAt = DateTime.now().toMillis();
 
-    startGrowPlant(
-      this.userData.telegramId,
-      plant._id,
-      rowIndex,
-      plantIndex,
-      plantedAt
-    );
+    startGrowPlant(this.user.telegramId, plant._id, rowIndex, plantIndex, plantedAt);
 
     const props = {
       x: soil.x,
@@ -402,8 +403,8 @@ export class Game extends Scene {
     }
 
     if (
-      plant.gamePrice > this.userData.balanceCoins ||
-      plant.tokenPrice > this.userData.balanceTokens
+      plant.gamePrice > this.user.balanceCoins ||
+      plant.tokenPrice > this.user.balanceTokens
     ) {
       this.pickedPlant = null;
       this.pickedPlantBar.hide();
@@ -420,7 +421,7 @@ export class Game extends Scene {
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
 
-    this.plants = this.userData.garden.field.map((gardenRow) => {
+    this.plants = this.user.garden.field.map((gardenRow) => {
       const plantedRow = gardenRow.map((item) => {
         if (!item.plantedAt) {
           return new Dummy(this);
@@ -498,6 +499,30 @@ export class Game extends Scene {
       this.soilContainer[index].add(row);
     });
 
+    this.renderDecorations();
+  }
+  // Render decorations
+  private renderDecorations() {
+    this.decorations = DECORATION_LIST.map(({ texture, x, y, scale }) => {
+      const decoration = new Decoration(this, x, y, texture, scale);
+
+      return decoration;
+    });
+
+    const { height, width, worldView } = this.cameras.main;
+    const positionX = worldView.x + width / 2;
+    const positionY = worldView.y + height / 2;
+
+    this.decorationContainer = this.add.container(positionX, positionY);
+
+    this.decorationContainer.depth = CONTAINERS_DEPTH.plant;
+    this.decorationContainer.add(this.decorations);
+
+    this.renderCompletion();
+  }
+
+  // action on end of renders
+  private renderCompletion() {
     this.initiateControls();
 
     this.growingInterval = setInterval(() => this.growingChecker(), 2000);
@@ -515,10 +540,10 @@ export class Game extends Scene {
   */
   // handle Seeds menu
   private handleSeedChoose(plant: IPlantListItem) {
-    if (this.userData.balanceCoins < plant.gamePrice) {
+    if (this.user.balanceCoins < plant.gamePrice) {
       return;
     }
-    if (this.userData.balanceTokens < plant.tokenPrice) {
+    if (this.user.balanceTokens < plant.tokenPrice) {
       return;
     }
 
@@ -532,13 +557,13 @@ export class Game extends Scene {
     const boc = await sendTonTransaction(item.price);
 
     if (boc) {
-      const updatedValue = this.userData.balanceTokens + item.value;
-      this.userData.balanceTokens = updatedValue;
+      const updatedValue = this.user.balanceTokens + item.value;
+      this.user.balanceTokens = updatedValue;
       this.balanceBar.setTokens(updatedValue);
 
       createPayment({
         productId: item._id,
-        userId: String(this.userData.telegramId),
+        userId: String(this.user.telegramId),
         boc
       });
 

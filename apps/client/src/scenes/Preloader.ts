@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 
 import { createUser } from '@services/createUser';
 import { getPlantsList } from '@services/getPlantsList';
+import { getSettings } from '@services/getSettings';
 import { getShopItems } from '@services/getShopItems';
 import { getUserData } from '@services/getUserData';
 
@@ -30,8 +31,9 @@ export class Preloader extends Scene {
       endFrame: 27
     });
     // background
-    this.load.image('background', 'assets/utils/background.jpg');
-    // decor
+    this.load.image('background', 'assets/decorations/background.png');
+    this.load.image('haus', 'assets/decorations/haus.png');
+    // utils
     this.load.image('dummy', 'assets/utils/dummy.png');
     // field tiles
     this.load.image('planted', 'assets/soil/planted.png');
@@ -99,6 +101,7 @@ export class Preloader extends Scene {
   }
 
   private async fetchUserData(userData: IUserData) {
+    console.log('fetchUserData');
     let user = await getUserData(userData.telegramId);
 
     if (!user) {
@@ -107,10 +110,11 @@ export class Preloader extends Scene {
 
     user.garden.field = userGardenMapper(user.garden.field);
 
+    const settings = await getSettings();
     const plants = await getPlantsList();
     const shopList = await getShopItems();
 
     clearInterval(this.timer);
-    this.scene.start('Game', { user, plants, shopList });
+    this.scene.start('Game', { user, plants, shopList, settings });
   }
 }
