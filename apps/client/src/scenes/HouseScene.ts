@@ -11,8 +11,8 @@ export class HouseScene extends Scene {
   preload() {
     this.load.image('interior-bg', 'assets/interior/background.png');
     this.load.spritesheet('fireplace', 'assets/interior/fire.png', {
-      frameWidth: 200,
-      frameHeight: 200
+      frameWidth: 256,
+      frameHeight: 256
     });
   }
 
@@ -24,12 +24,12 @@ export class HouseScene extends Scene {
     this.background = this.add.image(centerX, centerY, 'interior-bg');
     this.background.setScale(0.35, 0.35);
 
-    this.fireplace = this.add.sprite(centerX, centerY + 100, 'fireplace');
-    this.fireplace.setScale(0.9, 0.9);
+    this.fireplace = this.add.sprite(centerX + 10, centerY + 125, 'fireplace');
+    this.fireplace.setScale(0.35, 0.35);
 
     this.anims.create({
       key: 'fire',
-      frameRate: 15,
+      frameRate: 24,
       frames: this.anims.generateFrameNumbers('fireplace'),
       repeat: -1
     });

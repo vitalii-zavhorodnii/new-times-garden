@@ -92,6 +92,8 @@ export class Preloader extends Scene {
         };
       }
 
+      console.log(user.telegramId);
+
       if (user?.telegramId) {
         this.fetchUserData(user);
       } else {
