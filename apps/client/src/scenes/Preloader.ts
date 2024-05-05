@@ -24,6 +24,13 @@ export class Preloader extends Scene {
   }
 
   preload() {
+    // house
+    this.load.image('interior-bg', 'assets/interior/background.png');
+    this.load.spritesheet('fireplace', 'assets/interior/fire.png', {
+      frameWidth: 256,
+      frameHeight: 256
+    });
+    // game
     this.load.spritesheet('loader', 'assets/utils/loader-spreadsheet.png', {
       frameWidth: 64,
       frameHeight: 64,
