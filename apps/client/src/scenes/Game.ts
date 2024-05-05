@@ -533,6 +533,7 @@ export class Game extends Scene {
 
     if (boc) {
       const updatedValue = this.userData.balanceTokens + item.value;
+      this.userData.balanceTokens = updatedValue;
       this.balanceBar.setTokens(updatedValue);
 
       createPayment({
