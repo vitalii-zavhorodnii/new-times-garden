@@ -7,7 +7,8 @@ export const ROUTES = {
   products: 'products',
   payments: 'payments',
   quests: 'quests',
-  settings: 'settings'
+  settings: 'settings',
+  achievements: 'achievements'
 };
 
 export const PUBLIC_FOLDER = 'public';

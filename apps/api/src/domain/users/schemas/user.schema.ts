@@ -2,8 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Document, HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
+import { Achievement } from '@domain/achievements/schemas/achievement.schema';
 import { Garden } from '@domain/gardens/schemas/garden.schema';
-import { Quest } from 'domain/quests/schemas/quest.schema';
+import { Quest } from '@domain/quests/schemas/quest.schema';
 
 @Schema({ versionKey: false, _id: false })
 class UserQuest extends Document {
@@ -21,7 +22,7 @@ class UserQuest extends Document {
 }
 
 @Schema({ versionKey: false, _id: false })
-class DailyQuestLog extends Document {
+class QuestLog extends Document {
   @ApiProperty({ example: [UserQuest] })
   @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: UserQuest.name }] })
   readonly todo: UserQuest[];
@@ -36,14 +37,35 @@ class DailyQuestLog extends Document {
 }
 
 @Schema({ versionKey: false, _id: false })
-class MainQuestLog extends Document {
-  @ApiProperty({ example: [UserQuest] })
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: UserQuest.name }] })
-  readonly todo: UserQuest[];
+class UserAchieve extends Document {
+  @ApiProperty({ example: [Achievement] })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Achievement.name })
+  readonly achievement: Achievement;
 
-  @ApiProperty({ example: [UserQuest] })
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: UserQuest.name }] })
-  readonly completed: UserQuest[];
+  @ApiProperty({ example: 90 })
+  @Prop({ type: Number })
+  readonly goal: number;
+
+  @ApiProperty({ example: 90 })
+  @Prop({ type: Number })
+  readonly progress: number;
+}
+
+@Schema({ versionKey: false, _id: false })
+class AcvieveLog extends Document {
+  @ApiProperty({ example: [UserAchieve] })
+  @Prop({
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: UserAchieve.name }],
+    default: []
+  })
+  readonly todo: UserAchieve[];
+
+  @ApiProperty({ example: [UserAchieve] })
+  @Prop({
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: UserAchieve.name }],
+    default: []
+  })
+  readonly completed: UserAchieve[];
 
   @ApiProperty({ example: 90 })
   @Prop({ type: Number })
@@ -98,13 +120,13 @@ class User extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Garden.name })
   readonly garden: Garden;
 
-  @ApiProperty({ type: DailyQuestLog })
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: DailyQuestLog.name })
-  readonly dailyQuests: DailyQuestLog;
+  @ApiProperty({ type: QuestLog })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: QuestLog.name })
+  readonly quests: QuestLog;
 
-  @ApiProperty({ type: MainQuestLog })
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: MainQuestLog.name })
-  readonly mainQuests: MainQuestLog;
+  @ApiProperty({ type: AcvieveLog })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: AcvieveLog.name })
+  readonly achievements: AcvieveLog;
 }
 
 const UserSchema = SchemaFactory.createForClass(User);

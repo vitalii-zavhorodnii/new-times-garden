@@ -84,4 +84,33 @@ export class UsersService {
 
     return user;
   }
+
+  public async completeAchievement(userId: string, usrAchId: string) {
+    const user = await this.userModel.findByIdAndUpdate(
+      userId
+      // {$push: {'acviements.completed': }}
+    );
+
+    return user;
+  }
+
+  public async todoAchievement(userId: string, achieveId: string) {
+    const achieve = {
+      achievement: achieveId,
+      goal: 300,
+      progress: 0
+    };
+
+    console.log({ userId, achieveId, achieve });
+
+    const user = await this.userModel.findByIdAndUpdate(
+      userId,
+      {
+        $push: { 'achievements.todo': achieve }
+      },
+      { new: true }
+    );
+
+    return user;
+  }
 }

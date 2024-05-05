@@ -5,7 +5,8 @@ import {
   Get,
   NotFoundException,
   Param,
-  Post
+  Post,
+  Query
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -48,6 +49,7 @@ export class UsersController {
 
     return result;
   }
+
   @ApiOperation({ summary: 'Find User by Telegram ID' })
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'Garden was not found' })
@@ -179,5 +181,44 @@ export class UsersController {
     );
 
     return true;
+  }
+
+  @ApiOperation({ summary: 'Start harvesting' })
+  @ApiResponse({ status: 200, type: User })
+  @Post('/:id/complete-achievement/:achieve-id')
+  public async completeAchieve(
+    @Param('id') id: string,
+    @Param('achieve-id') achId: string
+  ): Promise<boolean> {
+    const user = await this.usersService.findOneByTelegramId(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (!achId) {
+      return null;
+    }
+
+    return true;
+  }
+
+  @ApiOperation({ summary: 'Start harvesting' })
+  @ApiResponse({ status: 200, type: User })
+  @Post('/:id/test')
+  public async testAchieve(
+    @Param('id') id: string,
+    @Query('achieve') achieve: string
+  ): Promise<any> {
+    console.log('testAchieve,', { id, achieve });
+    const user = await this.usersService.findOneByTelegramId(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const upd = await this.usersService.todoAchievement(id, achieve);
+
+    return upd;
   }
 }

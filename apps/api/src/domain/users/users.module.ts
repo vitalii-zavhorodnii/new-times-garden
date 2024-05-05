@@ -3,8 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
+import { AchievementsModule } from '@domain/achievements/achievements.module';
 import { GardensModule } from '@domain/gardens/gardens.module';
 import { PlantsModule } from '@domain/plants/plants.module';
+import { QuestsModule } from '@domain/quests/quests.module';
 
 import { User, UserSchema } from './schemas/user.schema';
 
@@ -12,7 +14,9 @@ import { User, UserSchema } from './schemas/user.schema';
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     GardensModule,
-    PlantsModule
+    PlantsModule,
+    AchievementsModule,
+    QuestsModule
   ],
   controllers: [UsersController],
   providers: [UsersService],

@@ -14,6 +14,7 @@ import { UsersModule } from '@domain/users/users.module';
 import { STATIC_FOLDER } from '@constants/routes.constants';
 import { QuestsModule } from './quests/quests.module';
 import { SettingsModule } from './settings/settings.module';
+import { AchievementsModule } from './achievements/achievements.module';
 
 @Module({
   imports: [
@@ -39,7 +40,8 @@ import { SettingsModule } from './settings/settings.module';
     PaymentsModule,
     ProductsModule,
     QuestsModule,
-    SettingsModule
+    SettingsModule,
+    AchievementsModule
   ],
   controllers: [],
   providers: []

@@ -2,16 +2,22 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Document, HydratedDocument, now } from 'mongoose';
 
-export type QuestDocument = HydratedDocument<Quest>;
+import { Plant } from '@domain/plants/schemas/plant.schema';
+
+export type AchievementDocument = HydratedDocument<Achievement>;
 
 @Schema({ versionKey: false })
-class Quest extends Document {
+class Achievement extends Document {
   @ApiProperty({ example: '64ef4383e46e72721c03090e' })
   readonly _id: string;
 
   @ApiProperty({ example: true })
   @Prop({ type: Boolean, default: true })
   readonly isActive: boolean;
+
+  @ApiProperty({ example: 90 })
+  @Prop({ type: Plant, ref: Plant.name })
+  readonly plant: Plant;
 
   @ApiProperty({ example: 'harvest' })
   @Prop({ type: String, isRequired: true })
@@ -20,6 +26,14 @@ class Quest extends Document {
   @ApiProperty({ example: 'Harvest-o-matic' })
   @Prop({ type: String })
   readonly title: string;
+
+  @ApiProperty({ example: './assets/achieve.png' })
+  @Prop({ type: String })
+  readonly icon: string;
+
+  @ApiProperty({ example: 'achievement-texture' })
+  @Prop({ type: String })
+  readonly texture: string;
 
   @ApiProperty({ example: 'Harvest 6 crops' })
   @Prop({ type: String })
@@ -44,6 +58,6 @@ class Quest extends Document {
   readonly updatedAt: Date;
 }
 
-const QuestSchema = SchemaFactory.createForClass(Quest);
+const AchievementSchema = SchemaFactory.createForClass(Achievement);
 
-export { Quest, QuestSchema };
+export { Achievement, AchievementSchema };
