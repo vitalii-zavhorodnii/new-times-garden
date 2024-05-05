@@ -12,6 +12,7 @@ import { ProductsModule } from '@domain/products/products.module';
 import { UsersModule } from '@domain/users/users.module';
 
 import { STATIC_FOLDER } from '@constants/routes.constants';
+import { QuestsModule } from './quests/quests.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { STATIC_FOLDER } from '@constants/routes.constants';
     GardensModule,
     UsersModule,
     PaymentsModule,
-    ProductsModule
+    ProductsModule,
+    QuestsModule
   ],
   controllers: [],
   providers: []

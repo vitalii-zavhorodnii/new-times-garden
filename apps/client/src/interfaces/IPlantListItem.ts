@@ -9,4 +9,5 @@ export interface IPlantListItem {
   tokenPrice: number;
   coinsIncome: number;
   tokensIncome: number;
+  xpIncome: number;
 }

@@ -1,5 +1,7 @@
 import { markup } from './markup';
 
+import { timeReadableConverter } from '@helpers/time-coverter';
+
 import { IPlantListItem } from '@interfaces/IPlantListItem';
 
 export default class PickedPlantBar {
@@ -15,12 +17,12 @@ export default class PickedPlantBar {
   }
 
   public show(plantData: IPlantListItem) {
-    const convertedTimer = String(plantData.growTime);
+    const growingString = timeReadableConverter(plantData.growTime);
 
     const markupHTML = markup(
       plantData.gamePrice,
       plantData.tokenPrice,
-      convertedTimer,
+      growingString,
       plantData.icon
     );
 

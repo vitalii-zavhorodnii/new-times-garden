@@ -4,6 +4,7 @@ export const markup = (
   tokens: number,
   coinsIncome: number,
   tokensIncome: number,
+  xpIncome: number,
   timer: string
 ): string => `
   <img 
@@ -62,6 +63,18 @@ export const markup = (
                 alt="token"
               >
               ~${tokensIncome}
+            </p>`
+          : ''
+      }
+      ${
+        xpIncome > 0
+          ? `<p class="plants-menu__value">
+              <img 
+                class="plants-menu__stat-icon" 
+                src="./assets/utils/experience.png" 
+                alt="coin"
+              >
+              ~${xpIncome}
             </p>`
           : ''
       }

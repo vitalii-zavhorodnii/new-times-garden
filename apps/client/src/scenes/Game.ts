@@ -106,6 +106,7 @@ export class Game extends Scene {
     this.balanceBar = new BalanceBar();
     this.balanceBar.setCoins(this.userData.balanceCoins);
     this.balanceBar.setTokens(this.userData.balanceTokens);
+    this.balanceBar.setLevel(this.userData.xp);
     this.balanceBar.show();
     // Bottom buttons bar
     this.bottomBar = new BottomBar();
@@ -300,10 +301,10 @@ export class Game extends Scene {
         this.isBlocked = false;
         this.menuPlants.close();
         this.pickedPlantBar.hide();
-        
+
         return;
       }
-      
+
       if (soil.isOccupied) {
         if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
           soil.plant.play(

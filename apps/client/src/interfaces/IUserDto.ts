@@ -5,6 +5,7 @@ export interface IUserDto {
   avatar?: string;
   balanceCoins: number;
   balanceTokens: number;
+  xp: number;
   garden: {
     _id: string;
     field: ICellDto[][];

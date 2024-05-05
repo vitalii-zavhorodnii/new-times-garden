@@ -3,12 +3,14 @@ export default class BalanceBar {
 
   private coins: HTMLElement;
   private tokens: HTMLElement;
+  private xp: HTMLElement;
   private container: HTMLElement;
 
   constructor() {
     this.container = document.querySelector('.balance-bar');
     this.coins = document.getElementById('coin-balance');
     this.tokens = document.getElementById('token-balance');
+    this.xp = document.getElementById('xp-balance');
   }
 
   public show() {
@@ -31,5 +33,11 @@ export default class BalanceBar {
 
   public setTokens(value: number) {
     this.tokens.innerHTML = String(value);
+  }
+
+  public setLevel(value: number) {
+    const level = value;
+    const currentXp = value;
+    this.xp.innerHTML = String(`${level} and ${currentXp}`);
   }
 }

@@ -15,10 +15,7 @@ import { INIT_CURRENCY } from '@constants/users.constants';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User.name) private readonly userModel: Model<User>,
-    private readonly plantsService: PlantsService
-  ) {}
+  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
 
   public async create(dto: CreateUserDto, garden: Garden): Promise<User> {
     const newUser = await new this.userModel({

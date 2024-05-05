@@ -1,6 +1,8 @@
 import { markup } from './markup';
 import { Duration } from 'luxon';
 
+import { timeReadableConverter } from '@helpers/time-coverter';
+
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
 export default class PlantsMenu {
@@ -45,13 +47,7 @@ export default class PlantsMenu {
       itemHTML.classList.add('plants-menu__item');
       itemHTML.setAttribute('index', String(index));
 
-      const { days, hours, minutes, seconds } = Duration.fromMillis(
-        plant.growTime
-      ).rescale();
-
-      const growingString = `${days ? days + 'd' : ''} ${
-        hours ? hours + 'hr' : ''
-      } ${minutes ? minutes + 'min' : ''} ${seconds ? seconds + ' s' : ''}`;
+      const growingString = timeReadableConverter(plant.growTime);
 
       const markupHTML: string = markup(
         plant.title,
@@ -59,6 +55,7 @@ export default class PlantsMenu {
         plant.tokenPrice,
         plant.coinsIncome,
         plant.tokensIncome,
+        plant.xpIncome,
         growingString
       );
 

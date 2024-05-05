@@ -14,6 +14,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
   public tokenPrice: number;
   public coinsIncome: number;
   public tokensIncome: number;
+  public xpIncome: number;
 
   public dummy: boolean;
 
@@ -26,6 +27,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
     this.tokenPrice = props.tokenPrice;
     this.coinsIncome = props.coinsIncome;
     this.tokensIncome = props.tokensIncome;
+    this.tokensIncome = props.xpIncome;
     this.growTime = props.growTime;
     this.plantedAt = plantedAt;
   }

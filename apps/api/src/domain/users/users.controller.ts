@@ -12,6 +12,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { GardensService } from '@domain/gardens/gardens.service';
 import { PlantsService } from '@domain/plants/plants.service';
+import { QuestsService } from '@domain/quests/quests.service';
 
 import { User } from './schemas/user.schema';
 import type { GardenCell } from '@domain/gardens/schemas/garden.schema';

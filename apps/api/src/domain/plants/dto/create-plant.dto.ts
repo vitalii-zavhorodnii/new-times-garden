@@ -33,6 +33,17 @@ export class CreatePlantDto {
   @Length(1, 60)
   readonly title: string;
 
+
+  @ApiProperty({
+    example: 'Salat',
+    description: 'Name of plant'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @Length(1, 60)
+  readonly type: string;
+
   @ApiProperty({
     example: 'Salat is green',
     description: 'Description of plant'

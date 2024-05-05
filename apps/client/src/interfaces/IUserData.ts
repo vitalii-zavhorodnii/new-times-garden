@@ -5,6 +5,7 @@ export interface IUserData {
   avatar?: string;
   balanceCoins: number;
   balanceTokens: number;
+  xp: number;
   garden: {
     _id: string;
     field: ICellData[][];
@@ -27,6 +28,7 @@ export interface IPlantData {
   tokenPrice: number;
   coinsIncome: number;
   tokensIncome: number;
+  xpIncome: number;
   x: number;
   y: number;
 }

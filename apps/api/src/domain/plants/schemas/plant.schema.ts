@@ -29,6 +29,10 @@ class Plant extends Document {
   @Prop({ type: String, required: true })
   readonly texture: string;
 
+  @ApiProperty({ example: 'potato' })
+  @Prop({ type: String, required: false })
+  readonly type: string;
+
   @ApiProperty({ example: 90 })
   @Prop({ type: Number, required: true })
   readonly growTime: number;
@@ -48,6 +52,10 @@ class Plant extends Document {
   @ApiProperty({ example: 20 })
   @Prop({ type: Number, required: true })
   readonly tokensIncome: number;
+
+  @ApiProperty({ example: 20 })
+  @Prop({ type: Number, required: true })
+  readonly xpIncome: number;
 
   @ApiProperty({ example: 'Pommes for men...' })
   @Prop({ type: String, required: false })
