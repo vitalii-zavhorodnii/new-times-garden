@@ -121,14 +121,18 @@ class User extends Document {
   readonly garden: Garden;
 
   @ApiProperty({ type: QuestLog })
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: QuestLog.name, required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: QuestLog.name })
   readonly quests: QuestLog;
 
   @ApiProperty({ type: AcvieveLog })
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: AcvieveLog.name,
-    required: true
+    default: {
+      todo: [],
+      completed: [],
+      completedCount: 0
+    }
   })
   readonly achievements: AcvieveLog;
 }
