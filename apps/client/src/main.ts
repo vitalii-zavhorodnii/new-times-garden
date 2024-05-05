@@ -11,8 +11,8 @@ import { Preloader } from '@scenes/Preloader';
 
 import '@helpers/ton-connect-ui';
 
-axios.defaults.baseURL = 'http://192.168.2.49:4000/api';
-// axios.defaults.baseURL = process.env.BACKEND_LINK;
+// axios.defaults.baseURL = 'http://192.168.2.49:4000/api';
+axios.defaults.baseURL = process.env.BACKEND_LINK;
 
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
