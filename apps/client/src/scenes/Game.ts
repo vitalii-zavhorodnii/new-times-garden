@@ -359,6 +359,14 @@ export class Game extends Scene {
       }
     }
   }
+  // Handle decoration click
+  private handleDecorationClick(decoration: Decoration) {
+    console.log(decoration.decorationName)
+    if (decoration.decorationName === 'haus') {
+      
+      this.scene.switch('HouseScene');
+    }
+  }
   // Handle planing process
   private async plantNewSeed(
     soil: Soil,
@@ -503,11 +511,27 @@ export class Game extends Scene {
   }
   // Render decorations
   private renderDecorations() {
-    this.decorations = DECORATION_LIST.map(({ texture, x, y, scale }) => {
-      const decoration = new Decoration(this, x, y, texture, scale);
+    this.decorations = DECORATION_LIST.map(
+      ({ texture, decorationName, x, y, scale }) => {
+        const decoration = new Decoration(
+          this,
+          x,
+          y,
+          decorationName,
+          texture,
+          scale
+        );
 
-      return decoration;
-    });
+        decoration.setInteractive(this.input.makePixelPerfect());
+
+        decoration.on('pointerdown', () => {
+          console.log('go');
+          this.handleDecorationClick(decoration);
+        });
+
+        return decoration;
+      }
+    );
 
     const { height, width, worldView } = this.cameras.main;
     const positionX = worldView.x + width / 2;
