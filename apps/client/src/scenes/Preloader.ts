@@ -99,8 +99,6 @@ export class Preloader extends Scene {
         };
       }
 
-      console.log(user.telegramId);
-
       if (user?.telegramId) {
         this.fetchUserData(user);
       } else {
@@ -110,7 +108,6 @@ export class Preloader extends Scene {
   }
 
   private async fetchUserData(userData: IUserData) {
-    console.log('fetchUserData');
     let user = await getUserData(userData.telegramId);
 
     if (!user) {

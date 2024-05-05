@@ -68,7 +68,7 @@ class AcvieveLog extends Document {
   readonly completed: UserAchieve[];
 
   @ApiProperty({ example: 90 })
-  @Prop({ type: Number })
+  @Prop({ type: Number, default: 0 })
   readonly completeCount: number;
 }
 
@@ -121,11 +121,15 @@ class User extends Document {
   readonly garden: Garden;
 
   @ApiProperty({ type: QuestLog })
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: QuestLog.name })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: QuestLog.name, required: true })
   readonly quests: QuestLog;
 
   @ApiProperty({ type: AcvieveLog })
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: AcvieveLog.name })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: AcvieveLog.name,
+    required: true
+  })
   readonly achievements: AcvieveLog;
 }
 
