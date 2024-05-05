@@ -29,7 +29,7 @@ export class HouseScene extends Scene {
 
     this.anims.create({
       key: 'fire',
-      frameRate: 24,
+      frameRate: 9,
       frames: this.anims.generateFrameNumbers('fireplace'),
       repeat: -1
     });
