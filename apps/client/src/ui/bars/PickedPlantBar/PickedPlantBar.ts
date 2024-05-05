@@ -15,19 +15,20 @@ export default class PickedPlantBar {
   }
 
   public show(plantData: IPlantListItem) {
-    this.createMarkup(plantData);
+    const convertedTimer = String(plantData.growTime);
+
+    const markupHTML = markup(
+      plantData.gamePrice,
+      plantData.tokenPrice,
+      convertedTimer,
+      plantData.icon
+    );
+
+    this.container.innerHTML = markupHTML;
     this.container.classList.remove('hidden');
   }
 
   public hide() {
     this.container.classList.add('hidden');
-  }
-
-  private createMarkup(data: IPlantListItem) {
-    const convertedTimer = String(data.growTime);
-    console.log({ data });
-    const markupHTML = markup(data.gamePrice, data.tokenPrice, convertedTimer,data.icon);
-
-    this.container.innerHTML = markupHTML;
   }
 }

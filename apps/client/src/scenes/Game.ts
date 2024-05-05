@@ -293,15 +293,24 @@ export class Game extends Scene {
     }
   }
   // Handle clicks on soil
-  private soilClickHandler(soil: Soil, rowIndex: number, plantIndex: number) {
+  private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
-      // soil.plant.play('tap');
+      if (soil.isOccupied && this.pickedPlant) {
+        this.pickedPlant = null;
+        this.isBlocked = false;
+        this.menuPlants.close();
+        this.pickedPlantBar.hide();
+        
+        return;
+      }
+      
       if (soil.isOccupied) {
         if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
           soil.plant.play(
             `tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`
           );
         }
+
         const currentTime = DateTime.now();
         const endTime = DateTime.fromMillis(
           soil.plant.plantedAt + soil.plant.growTime
@@ -463,7 +472,7 @@ export class Game extends Scene {
         }
 
         soil.on('pointerdown', () => {
-          this.soilClickHandler(soil, rowIndex, soilIndex);
+          this.handleSoilClick(soil, rowIndex, soilIndex);
         });
 
         return soil;
