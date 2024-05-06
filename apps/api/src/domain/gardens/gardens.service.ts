@@ -48,7 +48,7 @@ export class GardensService {
     plantIndex: number,
     clientTime: number,
     plant: Plant
-  ) {
+  ): Promise<Garden> {
     const time = DateTime.now().toMillis();
     // Creating cell with plantedTime and plant Plant ref
     const value = {
@@ -71,7 +71,11 @@ export class GardensService {
     return newGarden;
   }
 
-  public async removePlant(id: string, rowIndex: number, plantIndex: number) {
+  public async removePlant(
+    id: string,
+    rowIndex: number,
+    plantIndex: number
+  ): Promise<Garden> {
     const key = `field.${rowIndex}.${plantIndex}`;
     const newGarden = await this.gardenModel.findByIdAndUpdate(
       id,

@@ -1,4 +1,3 @@
-import { Public } from '@decorators/public.decorator';
 import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -10,7 +9,6 @@ import { UpdateGardenDto } from './dto/update-garden.dto';
 
 import { ROUTES } from '@constants/routes.constants';
 
-//410027537
 @ApiTags(ROUTES.gardens)
 @Controller(ROUTES.gardens)
 export class GardensController {
@@ -31,35 +29,11 @@ export class GardensController {
     description: 'Issue was not found'
   })
   @Put('/:id')
-  public async updateIssue(
+  public async updateGardenById(
     @Param('id') id: string,
     @Body()
     dto: UpdateGardenDto
   ): Promise<Garden> {
     return await this.gardensService.update(id, dto);
-  }
-
-  @Get('/test')
-  getPlants(): Array<any>[] {
-    const plants = [
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [
-        null,
-        null,
-        null,
-        null,
-        {
-          title: 'Potato',
-          growTime: 20,
-          plantedAt: 1,
-          texture: 'potato'
-        }
-      ]
-    ];
-
-    return plants;
   }
 }

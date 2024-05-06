@@ -313,8 +313,6 @@ export class Game extends Scene {
       }
 
       if (soil.isOccupied) {
-        console.log({ in: soil.plant, xp: this.user.xp });
-
         if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
           soil.plant.play(
             `tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`
@@ -361,7 +359,6 @@ export class Game extends Scene {
   }
   // Handle decoration click
   private handleDecorationClick(decoration: Decoration) {
-    console.log(decoration.decorationName);
     if (decoration.decorationName === 'haus') {
       this.scene.switch('HouseScene');
     }
@@ -524,7 +521,6 @@ export class Game extends Scene {
         decoration.setInteractive(this.input.makePixelPerfect());
 
         decoration.on('pointerdown', () => {
-          console.log('go');
           this.handleDecorationClick(decoration);
         });
 
