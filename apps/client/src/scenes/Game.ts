@@ -361,9 +361,8 @@ export class Game extends Scene {
   }
   // Handle decoration click
   private handleDecorationClick(decoration: Decoration) {
-    console.log(decoration.decorationName)
+    console.log(decoration.decorationName);
     if (decoration.decorationName === 'haus') {
-      
       this.scene.switch('HouseScene');
     }
   }
