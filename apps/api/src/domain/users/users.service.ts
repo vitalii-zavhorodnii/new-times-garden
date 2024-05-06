@@ -2,14 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { GardensService } from '@domain/gardens/gardens.service';
-import { PlantsService } from '@domain/plants/plants.service';
-
 import { User } from './schemas/user.schema';
-import { Garden, GardenCell } from '@domain/gardens/schemas/garden.schema';
+import { Achievement } from '@domain/achievements/schemas/achievement.schema';
+import { Garden } from '@domain/gardens/schemas/garden.schema';
 
 import { CreateUserDto } from './dto/create-user.dto';
-import { GrowPlantDto } from './dto/grow-plant.dto';
 
 import { INIT_CURRENCY } from '@constants/users.constants';
 
@@ -33,7 +30,11 @@ export class UsersService {
   public async findOneByTelegramId(telegramId: string): Promise<User | null> {
     const user = await this.userModel
       .findOne({ telegramId })
-      .populate({ path: 'garden' })
+      .populate('garden')
+      .populate('achievements.todo.achievement')
+      .populate('achievements.completed.achievement')
+      .populate('quests.todo.quest')
+      .populate('quests.completed.quest')
       .exec();
 
     if (!user) {

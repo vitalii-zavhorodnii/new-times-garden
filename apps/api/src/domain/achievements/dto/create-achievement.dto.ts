@@ -22,6 +22,15 @@ export class CreateAchievementDto {
   readonly name: string;
 
   @ApiProperty({
+    example: 'name',
+    description: 'Product id'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  readonly type: string;
+
+  @ApiProperty({
     example: 'title',
     description: 'boc transction id'
   })

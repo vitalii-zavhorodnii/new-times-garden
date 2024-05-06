@@ -7,7 +7,7 @@ import { Garden } from '@domain/gardens/schemas/garden.schema';
 import { Quest } from '@domain/quests/schemas/quest.schema';
 
 @Schema({ versionKey: false, _id: false })
-class UserQuest extends Document {
+class UserQuest {
   @ApiProperty({ example: [Quest] })
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Quest.name })
   readonly quest: Quest;
@@ -22,13 +22,13 @@ class UserQuest extends Document {
 }
 
 @Schema({ versionKey: false, _id: false })
-class QuestLog extends Document {
+class QuestLog {
   @ApiProperty({ example: [UserQuest] })
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: UserQuest.name }] })
+  @Prop({ type: [{ type: UserQuest }] })
   readonly todo: UserQuest[];
 
   @ApiProperty({ example: [UserQuest] })
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: UserQuest.name }] })
+  @Prop({ type: [{ type: UserQuest }] })
   readonly completed: UserQuest[];
 
   @ApiProperty({ example: 90 })
@@ -37,7 +37,7 @@ class QuestLog extends Document {
 }
 
 @Schema({ versionKey: false, _id: false })
-class UserAchieve extends Document {
+class UserAchieve {
   @ApiProperty({ example: [Achievement] })
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Achievement.name })
   readonly achievement: Achievement;
@@ -52,17 +52,17 @@ class UserAchieve extends Document {
 }
 
 @Schema({ versionKey: false, _id: false })
-class AcvieveLog extends Document {
+class AcvieveLog {
   @ApiProperty({ example: [UserAchieve] })
   @Prop({
-    type: [{ type: MongooseSchema.Types.ObjectId, ref: UserAchieve.name }],
+    type: [{ type: UserAchieve }],
     default: []
   })
   readonly todo: UserAchieve[];
 
   @ApiProperty({ example: [UserAchieve] })
   @Prop({
-    type: [{ type: MongooseSchema.Types.ObjectId, ref: UserAchieve.name }],
+    type: [{ type: UserAchieve }],
     default: []
   })
   readonly completed: UserAchieve[];
@@ -121,18 +121,18 @@ class User extends Document {
   readonly garden: Garden;
 
   @ApiProperty({ type: QuestLog })
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: QuestLog.name })
+  @Prop({
+    type: QuestLog,
+    required: false,
+    default: { todo: [], completed: [], completeCount: 0 }
+  })
   readonly quests: QuestLog;
 
   @ApiProperty({ type: AcvieveLog })
   @Prop({
-    type: MongooseSchema.Types.ObjectId,
-    ref: AcvieveLog.name,
-    default: {
-      todo: [],
-      completed: [],
-      completeCount: 0
-    }
+    type: AcvieveLog,
+    required: false,
+    default: { todo: [], completed: [], completeCount: 0 }
   })
   readonly achievements: AcvieveLog;
 }

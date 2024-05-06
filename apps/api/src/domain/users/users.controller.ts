@@ -217,7 +217,7 @@ export class UsersController {
       throw new NotFoundException('User not found');
     }
 
-    const upd = await this.usersService.todoAchievement(id, achieve);
+    const upd = await this.usersService.todoAchievement(user._id, achieve);
 
     return upd;
   }

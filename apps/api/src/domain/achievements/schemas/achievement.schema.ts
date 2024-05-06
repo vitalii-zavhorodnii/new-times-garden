@@ -23,6 +23,10 @@ class Achievement extends Document {
   @Prop({ type: String, isRequired: true })
   readonly name: string;
 
+  @ApiProperty({ example: 'harvest' })
+  @Prop({ type: String, isRequired: true })
+  readonly type: 'harvest' | 'badge';
+
   @ApiProperty({ example: 'Harvest-o-matic' })
   @Prop({ type: String })
   readonly title: string;
