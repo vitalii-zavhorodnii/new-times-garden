@@ -108,4 +108,13 @@ export class CreatePlantDto {
   @IsNotEmpty()
   @IsNumber()
   readonly tokensIncome: number;
+
+  @ApiProperty({
+    example: 30,
+    description: 'Amount of xp to harvest'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly xpIncome: number;
 }

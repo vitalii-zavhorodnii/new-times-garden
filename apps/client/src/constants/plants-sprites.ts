@@ -3,7 +3,9 @@ export const PLANTS_SPRITES = [
   'marigold',
   'sunflower',
   'pumpkin',
-  'anemone'
+  'anemone',
+  'carrot',
+  'tomato'
 ];
 
 export const PLANTS_ANIMATED = ['sunflower', 'anemone'];
