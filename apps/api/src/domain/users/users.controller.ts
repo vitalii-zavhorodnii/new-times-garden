@@ -16,7 +16,6 @@ import { PlantsService } from '@domain/plants/plants.service';
 import { QuestsService } from '@domain/quests/quests.service';
 
 import { User } from './schemas/user.schema';
-import type { GardenCell } from '@domain/gardens/schemas/garden.schema';
 
 import { calculateReadyHelper } from '@helpers/calculate-ready.helper';
 

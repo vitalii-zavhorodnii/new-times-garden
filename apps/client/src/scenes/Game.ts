@@ -10,6 +10,7 @@ import { startGrowPlant } from '@services/startGrowPlant';
 import BalanceBar from '@ui/bars/BalanceBar';
 import BottomBar from '@ui/bars/BottomBar';
 import PickedPlantBar from '@ui/bars/PickedPlantBar';
+import AchieveMenu from '@ui/menus/AchieveMenu';
 import PlantsMenu from '@ui/menus/PlantsMenu';
 import ShopMenu from '@ui/menus/ShopMenu';
 
@@ -30,7 +31,7 @@ import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
 import type { IShopItem } from '@interfaces/IShopItem';
-import type { IUserData } from '@interfaces/IUserData';
+import type { IAchievement, IQuest, IUserData } from '@interfaces/IUserData';
 
 interface IData {
   user: IUserData;
@@ -44,10 +45,8 @@ export class Game extends Scene {
   public isBlocked: boolean;
   public pinchDistance: number;
   public settings: any;
-  private pickedPlant: IPlantListItem;
+  public pickedPlant: IPlantListItem;
 
-  // private plantsCollection: Array<Plant>;
-  // private plantsCollection: Array<Seed>;
   private user: IUserData;
   private plantsData: IPlantListItem[];
   private shopList: IShopItem[];
@@ -65,8 +64,10 @@ export class Game extends Scene {
   private bottomBar: BottomBar;
   private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
-  // private menuDecoration: any;
   private menuPlants: PlantsMenu;
+  private achieveMenu: AchieveMenu;
+  // private menuDecoration: any;
+
   // private menuFfertilizer: any;
 
   // UI buttons
@@ -74,8 +75,12 @@ export class Game extends Scene {
   private btnShopClose: HTMLElement;
   private btnPlantsOpen: HTMLElement;
   private btnPlantsClose: HTMLElement;
+  private btnAchieveOpen: HTMLElement;
+  private btnAchieveClose: HTMLElement;
+
   private btnDecorate: HTMLElement;
   private btnFertilizer: HTMLElement;
+  private btnAchieve: HTMLElement;
 
   constructor() {
     super('Game');
@@ -131,6 +136,15 @@ export class Game extends Scene {
      * Finding by id
      * find buttons and add listeners
      */
+    // achievements menu
+    this.btnAchieveOpen = document.getElementById('achieve-menu-open');
+    this.btnAchieveOpen.addEventListener('click', () =>
+      this.handleOpenAchievements()
+    );
+    this.btnAchieveClose = document.getElementById('achieve-menu-close');
+    this.btnAchieveClose.addEventListener('click', () =>
+      this.handleOpenAchievements()
+    );
     // Tokens and coins menu
     this.btnShopOpen = document.getElementById('shop-menu-open');
     this.btnShopOpen.addEventListener('click', () => this.handleOpenShop());
@@ -189,6 +203,7 @@ export class Game extends Scene {
      * Run render game
      */
     this.renderPlantsList();
+    this.renderAchievementsList();
     this.renderPlantsField();
     /* End of create */
   }
@@ -232,21 +247,15 @@ export class Game extends Scene {
 
     this.input.on('pointermove', (p) => {
       if (!p.isDown) return;
-      if (p.x - p.prevPosition.x >= -1 && p.x - p.prevPosition.x <= 1) {
-        console.log(
-          'false ',
-          p.x - p.prevPosition.x,
-          p.x - p.prevPosition.x >= -1 || p.x - p.prevPosition.x <= 1
-        );
-        return;
-      }
-      if (this.pinchDistance) return;
-      console.log('scroll', this.camera.scrollX);
-      console.log('dist', p.x - p.prevPosition.x);
-      const { scrollX } = this.camera;
-      const { left, right } = CAMERA_BOUNDRIES;
 
       const distance = p.x - p.prevPosition.x;
+
+      if (distance >= -1 && distance <= 1) return;
+
+      if (this.pinchDistance) return;
+
+      const { scrollX } = this.camera;
+      const { left, right } = CAMERA_BOUNDRIES;
 
       this.camera.scrollX -= distance;
 
@@ -565,6 +574,12 @@ export class Game extends Scene {
       this.handleSeedChoose(plant)
     );
   }
+  private renderAchievementsList() {
+    this.achieveMenu = new AchieveMenu(
+      this.user.achievements,
+      (achieve: IAchievement) => this.handleAchieveClick(achieve)
+    );
+  }
   /*
       Bottom menu handlers
       Handle button click: Shop
@@ -602,6 +617,10 @@ export class Game extends Scene {
       this.isBlocked = false;
     }
   }
+  // Handle achieve click
+  private handleAchieveClick(achieve: IAchievement) {
+    console.log({ achieve });
+  }
   // Handle button add coins
   private handleOpenShop() {
     this.shopMenu.open();
@@ -634,5 +653,13 @@ export class Game extends Scene {
   // Handle button click: Decorattions
   private handleDecorateBtn() {
     console.log('handleDecorateBtn');
+  }
+
+  private handleOpenAchievements() {
+    if (!this.achieveMenu.isOpen) {
+      this.achieveMenu.open();
+    } else {
+      this.achieveMenu.close();
+    }
   }
 }

@@ -10,6 +10,8 @@ export interface IUserData {
     _id: string;
     field: ICellData[][];
   };
+  quests: IQuestLog;
+  achievements: IAchievementLog;
 }
 
 export interface ICellData {
@@ -31,4 +33,35 @@ export interface IPlantData {
   xpIncome: number;
   x: number;
   y: number;
+}
+
+export interface IAchievementLog {
+  completeCount: number;
+  completed: IQuest[];
+  todo: IQuest[];
+}
+
+export interface IQuestLog {
+  completeCount: number;
+  completed: IAchievement[];
+  todo: IAchievement[];
+}
+
+export interface IQuest {}
+
+export interface IAchievement {
+  achievement: {
+    plant: string;
+    name: string;
+    type: string;
+    title: string;
+    icon: string;
+    texture: string;
+    description: string;
+    tokenReward: number;
+    coinReward: number;
+    xpReward: number;
+  };
+  goal: number;
+  progress: number;
 }
