@@ -324,15 +324,6 @@ export class Game extends Scene {
   // Handle clicks on soil
   private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number) {
     if (!this.isBlocked) {
-      if (soil.isOccupied && this.pickedPlant) {
-        this.pickedPlant = null;
-        this.isBlocked = false;
-        this.menuPlants.close();
-        this.pickedPlantBar.hide();
-
-        return;
-      }
-
       if (soil.isOccupied) {
         if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
           soil.plant.play(
