@@ -199,6 +199,7 @@ export class Game extends Scene {
   private initiateControls() {
     const pinch = new Pinch(this);
     pinch.setEnable(true);
+
     pinch.on('pinch', () => {
       if (!this.pinchDistance) {
         this.pinchDistance = pinch.distanceBetween;
@@ -222,6 +223,7 @@ export class Game extends Scene {
 
       this.pinchDistance = pinch.distanceBetween;
     });
+
     pinch.on('pinchend', () => {
       const zoom = pinch.scaleFactor * this.camera.zoom;
       window.localStorage.setItem('zoom', JSON.stringify(zoom));
@@ -230,7 +232,17 @@ export class Game extends Scene {
 
     this.input.on('pointermove', (p) => {
       if (!p.isDown) return;
+      if (p.x - p.prevPosition.x >= -1 && p.x - p.prevPosition.x <= 1) {
+        console.log(
+          'false ',
+          p.x - p.prevPosition.x,
+          p.x - p.prevPosition.x >= -1 || p.x - p.prevPosition.x <= 1
+        );
+        return;
+      }
       if (this.pinchDistance) return;
+      console.log('scroll', this.camera.scrollX);
+      console.log('dist', p.x - p.prevPosition.x);
       const { scrollX } = this.camera;
       const { left, right } = CAMERA_BOUNDRIES;
 
