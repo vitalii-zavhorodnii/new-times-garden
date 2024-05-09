@@ -103,37 +103,6 @@ export class Game extends Scene {
     this.settings = data.settings;
   }
 
-  preload() {
-    /*
-        Game assets
-    */
-    // background
-    this.load.image('background', 'assets/decorations/background.png');
-    this.load.image('haus', 'assets/decorations/haus.png');
-    // utils
-    this.load.image('dummy', 'assets/utils/dummy.png');
-    // field tiles
-    this.load.image('planted', 'assets/soil/planted.png');
-    this.load.image('harvested', 'assets/soil/harvested.png');
-    this.load.spritesheet('soil', 'assets/soil/soil-spritesheet.png', {
-      frameWidth: 96,
-      frameHeight: 96
-    });
-    // Sprites for plants
-    PLANTS_SPRITES.forEach((sprite: string) => {
-      this.load.spritesheet(sprite, `assets/plants/${sprite}.png`, {
-        frameWidth: 96,
-        frameHeight: 96
-      });
-    });
-    // House assets
-    this.load.image('interior-bg', 'assets/interior/background.png');
-    this.load.spritesheet('fireplace', 'assets/interior/fire.png', {
-      frameWidth: 256,
-      frameHeight: 256
-    });
-  }
-
   // Create scene method
   public create() {
     this.camera = this.cameras.main;
