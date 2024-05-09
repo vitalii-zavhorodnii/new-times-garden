@@ -29,13 +29,13 @@ import { DECORATION_LIST } from '@constants/decorations';
 import { PLANTS_ANIMATED } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
-import type { IPlantListItem } from '@interfaces/IPlantListItem';
+import type { IPlantListItem, IPlantsList } from '@interfaces/IPlantListItem';
 import type { IShopItem } from '@interfaces/IShopItem';
 import type { IAchievement, IQuest, IUserData } from '@interfaces/IUserData';
 
 interface IData {
   user: IUserData;
-  plants: IPlantListItem[];
+  plants: IPlantsList;
   shopList: IShopItem[];
   settings: any;
 }
@@ -48,7 +48,7 @@ export class Game extends Scene {
   public pickedPlant: IPlantListItem;
 
   private user: IUserData;
-  private plantsData: IPlantListItem[];
+  private plantsData: IPlantsList;
   private shopList: IShopItem[];
 
   private plants: (Plant | Dummy)[][];
@@ -352,7 +352,7 @@ export class Game extends Scene {
         this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
         this.plants[rowIndex][plantIndex].destroy();
         this.plants[rowIndex][plantIndex] = new Dummy(this) as Plant;
-        
+
         const dummy = this.plants[rowIndex][plantIndex] as Plant;
         soil.placePlant(dummy);
 

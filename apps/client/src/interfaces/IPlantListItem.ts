@@ -1,3 +1,10 @@
+export interface IPlantsList {
+  vegetables: IPlantListItem[];
+  fruits: IPlantListItem[];
+  berries: IPlantListItem[];
+  flowers: IPlantListItem[];
+}
+
 export interface IPlantListItem {
   _id: string;
   icon: string;

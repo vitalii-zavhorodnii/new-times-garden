@@ -29,8 +29,19 @@ export class PlantsController {
   @ApiResponse({ status: 200, type: Plant, isArray: true })
   @Public()
   @Get('')
-  public async findAll(): Promise<Plant[]> {
-    return await this.plantsService.findAllActive();
+  public async findAllActive(): Promise<{
+    vegetables: Plant[];
+    fruits: Plant[];
+    berries: Plant[];
+    flowers: Plant[];
+  }> {
+    const vegetables = await this.plantsService.findByType('vegetable');
+    const fruits = await this.plantsService.findByType('fruit');
+    const berries = await this.plantsService.findByType('berry');
+    const flowers = await this.plantsService.findByType('flower');
+
+    console.log({ vegetables, fruits, berries, flowers });
+    return { vegetables, fruits, berries, flowers };
   }
 
   @ApiOperation({ summary: 'create new Plant' })

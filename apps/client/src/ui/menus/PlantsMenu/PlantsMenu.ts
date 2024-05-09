@@ -1,48 +1,46 @@
 import { markup } from './markup';
-import { Duration } from 'luxon';
+import Swiper from 'swiper';
+import { Navigation } from 'swiper/modules';
 
 import { timeReadableConverter } from '@helpers/time-coverter';
 
-import type { IPlantListItem } from '@interfaces/IPlantListItem';
+import type { IPlantListItem, IPlantsList } from '@interfaces/IPlantListItem';
 
 export default class PlantsMenu {
   public isOpen: boolean;
-  public list: IPlantListItem[];
+  public list: IPlantsList;
   public callback: Function;
 
   private container: HTMLElement;
   private content: HTMLElement;
 
-  constructor(plants: IPlantListItem[], callback: Function) {
+  private swiper: Swiper;
+  private categories: {
+    vegetables: HTMLElement | null;
+    fruits: HTMLElement | null;
+    berries: HTMLElement | null;
+    flowers: HTMLElement | null;
+  };
+
+  constructor(plants: IPlantsList, callback: Function) {
     this.isOpen = false;
     this.callback = callback;
 
     this.container = document.getElementById('plants-menu');
     this.content = document.getElementById('plants-menu-content');
 
-    this.createMarkup(plants);
+    this.categories = {
+      vegetables: this.createMarkupCategory(plants.vegetables),
+      fruits: this.createMarkupCategory(plants.fruits),
+      berries: this.createMarkupCategory(plants.berries),
+      flowers: this.createMarkupCategory(plants.flowers)
+    };
+
+    this.createMarkup();
   }
 
-  public open() {
-    this.isOpen = true;
-    this.container.classList.remove('hidden');
-  }
-
-  public close() {
-    this.isOpen = false;
-    this.container.classList.add('hidden');
-  }
-
-  public toggle() {
-    if (!this.isOpen) {
-      this.open();
-    } else if (this.isOpen) {
-      this.close();
-    }
-  }
-
-  private createMarkup(plants: IPlantListItem[]) {
-    const list = plants.map((plant, index) => {
+  private createMarkupCategory(plants: IPlantListItem[]) {
+    const itemsHTML = plants.map((plant, index) => {
       const itemHTML = document.createElement('li');
       itemHTML.classList.add('plants-menu__item');
       itemHTML.setAttribute('index', String(index));
@@ -69,11 +67,90 @@ export default class PlantsMenu {
     });
 
     const listHTML = document.createElement('ul');
+    listHTML.classList.add('swiper-slide');
 
-    list.forEach((item) => {
+    itemsHTML.forEach((item) => {
       listHTML.appendChild(item);
     });
 
-    this.content.appendChild(listHTML);
+    if (!itemsHTML.length) {
+      return null;
+    }
+
+    return listHTML;
+  }
+
+  private createMarkup() {
+    const swiperHTML = document.createElement('div');
+    swiperHTML.classList.add('swiper');
+    swiperHTML.setAttribute('id', 'swiper');
+
+    const wrapperHTML = document.createElement('div');
+    wrapperHTML.classList.add('swiper-wrapper');
+
+    const paginationHTML = document.createElement('ul');
+    paginationHTML.classList.add('swiper-extra-pagination');
+    paginationHTML.setAttribute('id', 'swiper-pagination');
+
+    let index = 0;
+    for (const category in this.categories) {
+      if (this.categories[category] !== null) {
+        const paginationBtnHTML = document.createElement('li');
+        paginationBtnHTML.classList.add('swiper-extra-pagination__item');
+        paginationBtnHTML.innerHTML = category;
+
+        const goTo = index;
+        paginationBtnHTML.addEventListener('click', () => {
+          this.handleSlideChange(goTo);
+        });
+
+        paginationHTML.appendChild(paginationBtnHTML);
+        wrapperHTML.appendChild(this.categories[category]);
+
+        index++;
+      }
+    }
+
+    swiperHTML.appendChild(paginationHTML);
+    swiperHTML.appendChild(wrapperHTML);
+
+    this.content.appendChild(swiperHTML);
+
+    const container = document.getElementById('swiper');
+    this.swiper = new Swiper(container, {
+      direction: 'horizontal',
+      loop: false,
+      slidesPerView: 1,
+      modules: [Navigation],
+      pagination: {
+        el: '#swiper-pagination'
+      },
+      navigation: {
+        nextEl: '#swiper-button-next',
+        prevEl: '#swiper-button-prev'
+      }
+    });
+  }
+
+  public handleSlideChange(slide: number) {
+    this.swiper.slideTo(slide);
+  }
+
+  public open() {
+    this.isOpen = true;
+    this.container.classList.remove('hidden');
+  }
+
+  public close() {
+    this.isOpen = false;
+    this.container.classList.add('hidden');
+  }
+
+  public toggle() {
+    if (!this.isOpen) {
+      this.open();
+    } else if (this.isOpen) {
+      this.close();
+    }
   }
 }

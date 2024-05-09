@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
@@ -17,6 +17,15 @@ export class PlantsService {
 
   public async findAllActive(): Promise<Plant[]> {
     return await this.plantModel.find({ isActive: true });
+  }
+
+  public async findByType(type: string): Promise<Plant[]> {
+    const plants = await this.plantModel.find({
+      isActive: true,
+      type: type
+    });
+
+    return plants;
   }
 
   public async findOneByQuery(query: UpdatePlantDto): Promise<Plant | null> {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { Game, Types } from 'phaser';
+import 'swiper/css';
 
 import { Boot } from '@scenes/Boot';
 import { Game as MainGame } from '@scenes/Game';
