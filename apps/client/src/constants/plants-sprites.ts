@@ -8,4 +8,10 @@ export const PLANTS_SPRITES = [
   'tomato'
 ];
 
-export const PLANTS_ANIMATED = ['sunflower', 'anemone'];
+export const PLANTS_ANIMATED = [
+  'salat',
+  'sunflower',
+  'pumpkin',
+  'anemone',
+  'tomato'
+];

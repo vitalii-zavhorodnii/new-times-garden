@@ -351,10 +351,9 @@ export class Game extends Scene {
 
         this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
         this.plants[rowIndex][plantIndex].destroy();
-
         this.plants[rowIndex][plantIndex] = new Dummy(this) as Plant;
+        
         const dummy = this.plants[rowIndex][plantIndex] as Plant;
-
         soil.placePlant(dummy);
 
         this.gardenContainer[rowIndex].addAt(dummy, plantIndex);
