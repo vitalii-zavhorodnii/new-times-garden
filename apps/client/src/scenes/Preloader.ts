@@ -53,12 +53,6 @@ export class Preloader extends Scene {
         frameHeight: 96
       });
     });
-    // House assets
-    this.load.image('interior-bg', 'assets/interior/background.png');
-    this.load.spritesheet('fireplace', 'assets/interior/fire.png', {
-      frameWidth: 256,
-      frameHeight: 256
-    });
   }
 
   create() {
