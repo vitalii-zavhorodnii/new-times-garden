@@ -5,7 +5,8 @@ export const PLANTS_SPRITES = [
   'pumpkin',
   'anemone',
   'carrot',
-  'tomato'
+  'tomato',
+  'cucumber'
 ];
 
 export const PLANTS_ANIMATED = [

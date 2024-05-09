@@ -40,7 +40,6 @@ export class PlantsController {
     const berries = await this.plantsService.findByType('berry');
     const flowers = await this.plantsService.findByType('flower');
 
-    console.log({ vegetables, fruits, berries, flowers });
     return { vegetables, fruits, berries, flowers };
   }
 

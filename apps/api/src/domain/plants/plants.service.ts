@@ -20,10 +20,12 @@ export class PlantsService {
   }
 
   public async findByType(type: string): Promise<Plant[]> {
-    const plants = await this.plantModel.find({
-      isActive: true,
-      type: type
-    });
+    const plants = await this.plantModel
+      .find({
+        isActive: true,
+        type: type
+      })
+      .sort({ gamePrice: 1, tokenPrice: 1 });
 
     return plants;
   }
