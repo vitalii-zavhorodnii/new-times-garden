@@ -27,11 +27,9 @@ export class Preloader extends Scene {
     /* 
         Loadingscreen
     */
-    this.load.spritesheet('loader', 'assets/utils/loader-spreadsheet.png', {
-      frameWidth: 64,
-      frameHeight: 64,
-      startFrame: 0,
-      endFrame: 27
+    this.load.spritesheet('loader', 'assets/utils/loader.png', {
+      frameWidth: 200,
+      frameHeight: 200
     });
     /*
         Game assets
@@ -70,7 +68,7 @@ export class Preloader extends Scene {
 
     const rndNumber = randomNumberHelper(0, LOADING_TEXTS.length - 1);
 
-    this.text = this.add.text(centerX, centerY + 60, LOADING_TEXTS[rndNumber]);
+    this.text = this.add.text(centerX, centerY + 70, LOADING_TEXTS[rndNumber]);
     this.text.setOrigin(0.5, 0.5);
 
     this.timer = setInterval(() => {
@@ -86,7 +84,9 @@ export class Preloader extends Scene {
       repeat: -1
     });
 
-    this.add.sprite(centerX, centerY, 'loader').play('loading');
+    const loader = this.add.sprite(centerX, centerY, 'loader').play('loading');
+
+    loader.setScale(0.4);
 
     if (window?.Telegram) {
       let user = null;
