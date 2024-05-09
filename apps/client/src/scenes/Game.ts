@@ -26,6 +26,7 @@ import { randomNumberHelper } from '@helpers/random-number';
 import { CAMERA_BOUNDRIES } from '@constants/camera-bounds';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
 import { DECORATION_LIST } from '@constants/decorations';
+import { PLANTS_SPRITES } from '@constants/plants-sprites';
 import { PLANTS_ANIMATED } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
@@ -100,6 +101,37 @@ export class Game extends Scene {
     this.plantsData = data.plants;
     this.shopList = data.shopList;
     this.settings = data.settings;
+  }
+
+  preload() {
+    /*
+        Game assets
+    */
+    // background
+    this.load.image('background', 'assets/decorations/background.png');
+    this.load.image('haus', 'assets/decorations/haus.png');
+    // utils
+    this.load.image('dummy', 'assets/utils/dummy.png');
+    // field tiles
+    this.load.image('planted', 'assets/soil/planted.png');
+    this.load.image('harvested', 'assets/soil/harvested.png');
+    this.load.spritesheet('soil', 'assets/soil/soil-spritesheet.png', {
+      frameWidth: 96,
+      frameHeight: 96
+    });
+    // Sprites for plants
+    PLANTS_SPRITES.forEach((sprite: string) => {
+      this.load.spritesheet(sprite, `assets/plants/${sprite}.png`, {
+        frameWidth: 96,
+        frameHeight: 96
+      });
+    });
+    // House assets
+    this.load.image('interior-bg', 'assets/interior/background.png');
+    this.load.spritesheet('fireplace', 'assets/interior/fire.png', {
+      frameWidth: 256,
+      frameHeight: 256
+    });
   }
 
   // Create scene method
