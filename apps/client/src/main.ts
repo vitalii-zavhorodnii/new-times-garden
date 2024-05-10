@@ -22,11 +22,8 @@ if (!WebApp) {
 }
 
 WebApp.expand();
-WebApp.enableClosingConfirmation();
+WebApp.disableClosingConfirmation();
 WebApp.ready();
-WebApp.onEvent('backButtonClicked', () => {
-  WebApp.showAlert('back button clicked');
-});
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
