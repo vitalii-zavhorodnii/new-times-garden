@@ -16,4 +16,12 @@ export default class BottomBar {
     this.container.classList.add('hidden');
     this.isShown = false;
   }
+
+  public activateMenu() {
+    this.container.classList.remove('rotated');
+  }
+
+  public activateCancel() {
+    this.container.classList.add('rotated');
+  }
 }

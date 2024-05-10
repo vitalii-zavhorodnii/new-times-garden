@@ -9,7 +9,6 @@ import { startGrowPlant } from '@services/startGrowPlant';
 
 import BalanceBar from '@ui/bars/BalanceBar';
 import BottomBar from '@ui/bars/BottomBar';
-import EscapeButton from '@ui/bars/EscapeButton';
 import PickedPlantBar from '@ui/bars/PickedPlantBar';
 import PlantsMenu from '@ui/menus/PlantsMenu';
 import ShopMenu from '@ui/menus/ShopMenu';
@@ -66,7 +65,6 @@ export class Game extends Scene {
   private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
   private menuPlants: PlantsMenu;
-  private escapeBtn: EscapeButton;
   // private menuDecoration: any;
 
   // private menuFfertilizer: any;
@@ -76,6 +74,7 @@ export class Game extends Scene {
   private btnShopClose: HTMLElement;
   private btnPlantsOpen: HTMLElement;
   private btnPlantsClose: HTMLElement;
+  private btnEscape: HTMLElement;
 
   constructor() {
     super('Game');
@@ -118,18 +117,13 @@ export class Game extends Scene {
     // Bottom buttons bar
     this.bottomBar = new BottomBar();
     this.bottomBar.show();
-    // escape button
-    this.escapeBtn = new EscapeButton(() => {
-      this.handleInGameEscape();
-    });
     /* 
       Menus
     */
     // Shop tokens menu
-    this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) =>
-      this.handleShopItemClick(item)
-    );
-
+    this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) => {
+      this.handleShopItemClick(item);
+    });
     /*
      * UI buttons and menus defining
      * Finding by id
@@ -138,16 +132,27 @@ export class Game extends Scene {
     // Tokens and coins menu
     // menu coins menu shop
     this.btnShopOpen = document.getElementById('shop-menu-open');
-    this.btnShopOpen.addEventListener('click', () => this.handleOpenShop());
+    this.btnShopOpen.addEventListener('click', () => {
+      this.handleOpenShop();
+    });
     this.btnShopClose = document.getElementById('shop-menu-close');
-    this.btnShopClose.addEventListener('click', () => this.handleCloseShop());
+    this.btnShopClose.addEventListener('click', () => {
+      this.handleCloseShop();
+    });
     // Plants menu
     this.btnPlantsOpen = document.getElementById('plants-menu-open');
-    this.btnPlantsOpen.addEventListener('click', () => this.handleOpenPlantsShop());
+    this.btnPlantsOpen.addEventListener('click', () => {
+      this.handleOpenPlantsShop();
+    });
     this.btnPlantsClose = document.getElementById('plants-menu-close');
-    this.btnPlantsClose.addEventListener('click', () =>
-      this.handleCancelPlantsShop()
-    );
+    this.btnPlantsClose.addEventListener('click', () => {
+      this.handleCancelPlantsShop();
+    });
+    // escape
+    this.btnEscape = document.getElementById('escape');
+    this.btnEscape.addEventListener('click', () => {
+      this.handleInGameEscape();
+    });
     /*
      * Render background and decors
      * bg
@@ -411,8 +416,7 @@ export class Game extends Scene {
     ) {
       this.pickedPlant = null;
       this.pickedPlantBar.hide();
-      this.escapeBtn.hide();
-      this.bottomBar.show();
+      this.bottomBar.activateMenu();
       return;
     }
   }
@@ -590,6 +594,7 @@ export class Game extends Scene {
     this.pickedPlantBar.show(this.pickedPlant);
 
     this.handleClosePlantsShop();
+    this.bottomBar.activateCancel();
   }
 
   // Handle button add coins
@@ -604,7 +609,7 @@ export class Game extends Scene {
   // Handle button click: Plants
   private handleOpenPlantsShop() {
     this.isBlocked = true;
-
+    console.log('handleOpenPlantsShop');
     this.pickedPlant = null;
     this.pickedPlantBar.hide();
 
@@ -614,8 +619,8 @@ export class Game extends Scene {
     this.isBlocked = false;
 
     this.menuPlants.close();
-    
-    this.escapeBtn.show();
+
+    this.bottomBar.activateCancel();
   }
   // Handle close in maneu button
   private handleCancelPlantsShop() {
@@ -623,7 +628,7 @@ export class Game extends Scene {
 
     this.menuPlants.close();
 
-    this.escapeBtn.hide();
+    this.bottomBar.activateMenu();
   }
   // Handle escape
   private handleInGameEscape() {
@@ -632,7 +637,6 @@ export class Game extends Scene {
     this.pickedPlant = null;
     this.pickedPlantBar.hide();
 
-    this.bottomBar.show();
-    this.escapeBtn.hide();
+    this.bottomBar.activateMenu();
   }
 }
