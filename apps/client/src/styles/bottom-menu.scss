@@ -1,0 +1,39 @@
+@import './fonts.scss';
+@import './variables.scss';
+
+$is-open: 10px;
+$is-closed: -120%;
+
+.bottom-menu {
+  z-index: 1;
+  position: absolute;
+  right: $is-open;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  transition: right 500ms $start-animation;
+
+  &.hidden {
+    right: $is-closed;
+  }
+
+  &__button {
+    margin-bottom: 18px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    width: $bot-icon-size;
+
+    &.big {
+      display: flex;
+      width: $bot-icon-size-main;
+    }
+  }
+}

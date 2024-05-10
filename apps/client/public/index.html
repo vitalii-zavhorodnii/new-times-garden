@@ -117,31 +117,31 @@
         </div>
       </div>
 
-      <ul class="bottom-bar hidden">
-        <li class="bottom-bar__item" id="decorate">
-          <img class="bottom-bar__icon" src="./assets/menu/paint.svg" alt="" />
-        </li>
-        <li class="bottom-bar__item" id="fertilizer">
-          <img class="bottom-bar__icon" src="./assets/menu/fertilizer.svg" alt="" />
-        </li>
-        <li id="achieve-menu-open" class="bottom-bar__item">
-          <p class="bottom-bar__title">Achievs</p>
-          <img
-            class="bottom-bar__icon big"
-            src="./assets/menu/plant-shop.png"
-            alt="plants"
-          />
-        </li>
+      <div id="escape" class="escape-button hidden">
+        <img
+          class="escape-button__icon big"
+          src="./assets/utils/cross.png"
+          alt="escape"
+        />
+      </div>
 
-        <li id="plants-menu-open" class="bottom-bar__item">
-          <p class="bottom-bar__title">Seeds</p>
+      <div id="bottom-bar" class="bottom-menu hidden">
+        <div id="placeholder" class="bottom-menu__button">
           <img
-            class="bottom-bar__icon big"
+            class="bottom-menu__icon"
             src="./assets/menu/plant-shop.png"
             alt="plants"
           />
-        </li>
-      </ul>
+        </div>
+        <!-- main button and escape-->
+        <div id="plants-menu-open" class="bottom-menu__button esc">
+          <img
+            class="bottom-menu__icon big"
+            src="./assets/menu/plant-shop.png"
+            alt="plants"
+          />
+        </div>
+      </div>
 
       <div id="game-container"></div>
     </div>

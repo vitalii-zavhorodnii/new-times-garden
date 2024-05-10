@@ -1,0 +1,41 @@
+@import './fonts.scss';
+@import './variables.scss';
+
+$is-open: 10px;
+$is-closed: -120%;
+
+.escape-button {
+  position: absolute;
+  right: $is-open;
+  bottom: 32px;
+
+  &.hidden {
+    right: $is-closed;
+  }
+
+  &__icon {
+    display: flex;
+    width: $bot-icon-size;
+
+    &.big {
+      width: $bot-icon-size-main;
+    }
+  }
+
+  &.fixed {
+    margin-bottom: 0;
+  }
+
+  &.esc {
+    z-index: 5;
+    position: absolute;
+    display: flex;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 0;
+
+    &.hidden {
+      display: none;
+    }
+  }
+}

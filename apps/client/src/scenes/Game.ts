@@ -9,8 +9,8 @@ import { startGrowPlant } from '@services/startGrowPlant';
 
 import BalanceBar from '@ui/bars/BalanceBar';
 import BottomBar from '@ui/bars/BottomBar';
+import EscapeButton from '@ui/bars/EscapeButton';
 import PickedPlantBar from '@ui/bars/PickedPlantBar';
-import AchieveMenu from '@ui/menus/AchieveMenu';
 import PlantsMenu from '@ui/menus/PlantsMenu';
 import ShopMenu from '@ui/menus/ShopMenu';
 
@@ -32,7 +32,7 @@ import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
 import type { IPlantListItem, IPlantsList } from '@interfaces/IPlantListItem';
 import type { IShopItem } from '@interfaces/IShopItem';
-import type { IAchievement, IQuest, IUserData } from '@interfaces/IUserData';
+import type { IAchievement, IUserData } from '@interfaces/IUserData';
 
 interface IData {
   user: IUserData;
@@ -66,7 +66,7 @@ export class Game extends Scene {
   private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
   private menuPlants: PlantsMenu;
-  private achieveMenu: AchieveMenu;
+  private escapeBtn: EscapeButton;
   // private menuDecoration: any;
 
   // private menuFfertilizer: any;
@@ -76,12 +76,6 @@ export class Game extends Scene {
   private btnShopClose: HTMLElement;
   private btnPlantsOpen: HTMLElement;
   private btnPlantsClose: HTMLElement;
-  private btnAchieveOpen: HTMLElement;
-  private btnAchieveClose: HTMLElement;
-
-  private btnDecorate: HTMLElement;
-  private btnFertilizer: HTMLElement;
-  private btnAchieve: HTMLElement;
 
   constructor() {
     super('Game');
@@ -124,6 +118,10 @@ export class Game extends Scene {
     // Bottom buttons bar
     this.bottomBar = new BottomBar();
     this.bottomBar.show();
+    // escape button
+    this.escapeBtn = new EscapeButton(() => {
+      this.handleInGameEscape();
+    });
     /* 
       Menus
     */
@@ -137,30 +135,17 @@ export class Game extends Scene {
      * Finding by id
      * find buttons and add listeners
      */
-    // achievements menu
-    this.btnAchieveOpen = document.getElementById('achieve-menu-open');
-    this.btnAchieveOpen.addEventListener('click', () =>
-      this.handleOpenAchievements()
-    );
-    this.btnAchieveClose = document.getElementById('achieve-menu-close');
-    this.btnAchieveClose.addEventListener('click', () =>
-      this.handleOpenAchievements()
-    );
     // Tokens and coins menu
     this.btnShopOpen = document.getElementById('shop-menu-open');
     this.btnShopOpen.addEventListener('click', () => this.handleOpenShop());
     this.btnShopClose = document.getElementById('shop-menu-close');
     this.btnShopClose.addEventListener('click', () => this.handleCloseShop());
+    // handle esc button
     // Plants menu
     this.btnPlantsOpen = document.getElementById('plants-menu-open');
     this.btnPlantsOpen.addEventListener('click', () => this.handlePlantsBtn());
     this.btnPlantsClose = document.getElementById('plants-menu-close');
     this.btnPlantsClose.addEventListener('click', () => this.handlePlantsBtn());
-    // Fertilizers menu
-    this.btnDecorate = document.getElementById('decorate');
-    this.btnFertilizer = document.getElementById('fertilizer');
-    this.btnDecorate.addEventListener('click', () => this.handleDecorateBtn());
-    this.btnFertilizer.addEventListener('click', () => this.handleFertilizerBtn());
     /*
      * Render background and decors
      */
@@ -204,7 +189,6 @@ export class Game extends Scene {
      * Run render game
      */
     this.renderPlantsList();
-    this.renderAchievementsList();
     this.renderPlantsField();
     /* End of create */
   }
@@ -424,6 +408,8 @@ export class Game extends Scene {
     ) {
       this.pickedPlant = null;
       this.pickedPlantBar.hide();
+      this.escapeBtn.hide();
+      this.bottomBar.show();
       return;
     }
   }
@@ -565,30 +551,10 @@ export class Game extends Scene {
       this.handleSeedChoose(plant)
     );
   }
-  private renderAchievementsList() {
-    this.achieveMenu = new AchieveMenu(
-      this.user.achievements,
-      (achieve: IAchievement) => this.handleAchieveClick(achieve)
-    );
-  }
   /*
       Bottom menu handlers
       Handle button click: Shop
   */
-  // handle Seeds menu
-  private handleSeedChoose(plant: IPlantListItem) {
-    if (this.user.balanceCoins < plant.gamePrice) {
-      return;
-    }
-    if (this.user.balanceTokens < plant.tokenPrice) {
-      return;
-    }
-
-    this.pickedPlant = plant;
-    this.pickedPlantBar.show(this.pickedPlant);
-    this.menuPlants.close();
-    this.isBlocked = false;
-  }
   // Handle shops items
   private async handleShopItemClick(item: IShopItem) {
     const boc = await sendTonTransaction(item.price);
@@ -608,10 +574,24 @@ export class Game extends Scene {
       this.isBlocked = false;
     }
   }
-  // Handle achieve click
-  private handleAchieveClick(achieve: IAchievement) {
-    console.log({ achieve });
+  // handle Seeds menu
+  private handleSeedChoose(plant: IPlantListItem) {
+    if (this.user.balanceCoins < plant.gamePrice) {
+      return;
+    }
+    if (this.user.balanceTokens < plant.tokenPrice) {
+      return;
+    }
+
+    this.escapeBtn.show();
+    this.bottomBar.hide();
+
+    this.pickedPlant = plant;
+    this.pickedPlantBar.show(this.pickedPlant);
+    this.menuPlants.close();
+    this.isBlocked = false;
   }
+
   // Handle button add coins
   private handleOpenShop() {
     this.shopMenu.open();
@@ -623,34 +603,21 @@ export class Game extends Scene {
   }
   // Handle button click: Plants
   private handlePlantsBtn() {
-    if (this.menuPlants.isOpen || this.pickedPlant) {
-      this.pickedPlant = null;
-      this.isBlocked = false;
-      this.menuPlants.close();
-      this.pickedPlantBar.hide();
-
-      return;
-    }
+    this.isBlocked = true;
 
     this.pickedPlant = null;
-    this.isBlocked = true;
-    this.menuPlants.open();
     this.pickedPlantBar.hide();
-  }
-  // Handle button click: Fertilizer
-  private handleFertilizerBtn() {
-    console.log('handleFertilizerBtn');
-  }
-  // Handle button click: Decorattions
-  private handleDecorateBtn() {
-    console.log('handleDecorateBtn');
-  }
 
-  private handleOpenAchievements() {
-    if (!this.achieveMenu.isOpen) {
-      this.achieveMenu.open();
-    } else {
-      this.achieveMenu.close();
-    }
+    this.menuPlants.open();
+  }
+  // Handle escape
+  private handleInGameEscape() {
+    this.isBlocked = false;
+
+    this.pickedPlant = null;
+    this.pickedPlantBar.hide();
+
+    this.bottomBar.show();
+    this.escapeBtn.hide();
   }
 }
