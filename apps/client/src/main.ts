@@ -15,10 +15,18 @@ import '@helpers/ton-connect-ui';
 // axios.defaults.baseURL = 'http://192.168.2.49:4000/api';
 axios.defaults.baseURL = process.env.BACKEND_LINK;
 
-window?.Telegram?.WebApp?.expand();
-window?.Telegram?.WebApp?.enableClosingConfirmation();
-window?.Telegram?.WebApp?.ready();
-window?.Telegram?.WebApp.disableClosingConfirmation();
+const WebApp = window?.Telegram?.WebApp;
+
+if (!WebApp) {
+  console.error('No Web App!');
+}
+
+WebApp.expand();
+WebApp.enableClosingConfirmation();
+WebApp.ready();
+WebApp.onEvent('backButtonClicked', () => {
+  WebApp.showAlert('back button clicked');
+});
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
