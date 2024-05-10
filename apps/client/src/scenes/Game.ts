@@ -136,11 +136,11 @@ export class Game extends Scene {
      * find buttons and add listeners
      */
     // Tokens and coins menu
+    // menu coins menu shop
     this.btnShopOpen = document.getElementById('shop-menu-open');
     this.btnShopOpen.addEventListener('click', () => this.handleOpenShop());
     this.btnShopClose = document.getElementById('shop-menu-close');
     this.btnShopClose.addEventListener('click', () => this.handleCloseShop());
-    // handle esc button
     // Plants menu
     this.btnPlantsOpen = document.getElementById('plants-menu-open');
     this.btnPlantsOpen.addEventListener('click', () => this.handlePlantsBtn());
@@ -148,6 +148,7 @@ export class Game extends Scene {
     this.btnPlantsClose.addEventListener('click', () => this.handlePlantsBtn());
     /*
      * Render background and decors
+     * bg
      */
     const backgroundImage = this.add.image(centerX, centerY, 'background');
     backgroundImage.x = backgroundImage.x - 280;
