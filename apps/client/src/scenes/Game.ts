@@ -143,9 +143,11 @@ export class Game extends Scene {
     this.btnShopClose.addEventListener('click', () => this.handleCloseShop());
     // Plants menu
     this.btnPlantsOpen = document.getElementById('plants-menu-open');
-    this.btnPlantsOpen.addEventListener('click', () => this.handlePlantsBtn());
+    this.btnPlantsOpen.addEventListener('click', () => this.handleOpenPlantsShop());
     this.btnPlantsClose = document.getElementById('plants-menu-close');
-    this.btnPlantsClose.addEventListener('click', () => this.handlePlantsBtn());
+    this.btnPlantsClose.addEventListener('click', () =>
+      this.handleClosePlantsShop()
+    );
     /*
      * Render background and decors
      * bg
@@ -356,7 +358,7 @@ export class Game extends Scene {
   }
   // Handle decoration click
   private handleDecorationClick(decoration: Decoration) {
-    if (decoration.decorationName === 'haus') {
+    if (decoration.decorationName === 'house') {
       this.scene.switch('HouseScene');
     }
   }
@@ -584,13 +586,10 @@ export class Game extends Scene {
       return;
     }
 
-    this.escapeBtn.show();
-    this.bottomBar.hide();
-
     this.pickedPlant = plant;
     this.pickedPlantBar.show(this.pickedPlant);
-    this.menuPlants.close();
-    this.isBlocked = false;
+
+    this.handleClosePlantsShop();
   }
 
   // Handle button add coins
@@ -603,7 +602,7 @@ export class Game extends Scene {
     this.isBlocked = false;
   }
   // Handle button click: Plants
-  private handlePlantsBtn() {
+  private handleOpenPlantsShop() {
     this.isBlocked = true;
 
     this.pickedPlant = null;
@@ -611,6 +610,15 @@ export class Game extends Scene {
 
     this.menuPlants.open();
   }
+  private handleClosePlantsShop() {
+    this.isBlocked = false;
+
+    this.menuPlants.close();
+
+    this.bottomBar.hide();
+    this.escapeBtn.show();
+  }
+
   // Handle escape
   private handleInGameEscape() {
     this.isBlocked = false;

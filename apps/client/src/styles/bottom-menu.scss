@@ -8,7 +8,7 @@ $is-closed: -120%;
   z-index: 1;
   position: absolute;
   right: $is-open;
-  bottom: 32px;
+  bottom: $bot-position-y;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

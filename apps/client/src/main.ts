@@ -18,6 +18,7 @@ axios.defaults.baseURL = process.env.BACKEND_LINK;
 window?.Telegram?.WebApp?.expand();
 window?.Telegram?.WebApp?.enableClosingConfirmation();
 window?.Telegram?.WebApp?.ready();
+window?.Telegram?.WebApp.disableClosingConfirmation();
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),

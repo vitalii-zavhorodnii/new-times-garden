@@ -13,7 +13,7 @@ export default class PickedPlantBar {
   constructor() {
     this.isShown = false;
 
-    this.container = document.querySelector('.picked-plant-bar');
+    this.container = document.getElementById('picked-plant-container');
   }
 
   public show(plantData: IPlantListItem) {
