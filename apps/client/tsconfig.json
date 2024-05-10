@@ -19,12 +19,12 @@
       "*": ["./*"],
       "@assets/*": ["./public/assets/*"],
       "@scenes/*": ["./src/scenes/*"],
+      "@entities/*": ["./src/entities/*"],
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
       "@services/*": ["./src/services/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@mappers/*": ["./src/mappers/*"],
-      "@entities/*": ["./src/entities/*"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@ui/*": ["./src/ui/*"]
     }

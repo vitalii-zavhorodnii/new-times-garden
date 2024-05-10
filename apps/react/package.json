@@ -1,0 +1,55 @@
+{
+  "name": "react",
+  "description": "A Phaser 3 TypeScript project template that demonstrates React communication and uses Vite for bundling.",
+  "version": "1.0.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phaserjs/template-react-ts.git"
+  },
+  "author": "Phaser Studio <support@phaser.io> (https://phaser.io/)",
+  "license": "MIT",
+  "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
+  "bugs": {
+    "url": "https://github.com/phaserjs/template-react-ts/issues"
+  },
+  "homepage": "https://github.com/phaserjs/template-react-ts#readme",
+  "keywords": [
+    "phaser",
+    "phaser3",
+    "react",
+    "vite",
+    "typescript"
+  ],
+  "scripts": {
+    "dev": "vite --config vite/config.dev.mjs",
+    "build": "vite build --config vite/config.prod.mjs"
+  },
+  "dependencies": {
+    "@tonconnect/ui": "^2.0.2",
+    "axios": "^1.6.8",
+    "phaser": "^3.80.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "swiper": "^11.1.1"
+  },
+  "devDependencies": {
+    "@jgoz/esbuild-plugin-livereload": "^2.0.4",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "@types/axios": "^0.14.0",
+    "@types/node": "^17.0.8",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@types/telegram-web-app": "^7.2.1",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "sass": "^1.75.0",
+    "terser": "^5.28.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.4",
+    "vite-tsconfig-paths": "^4.3.2"
+  }
+}

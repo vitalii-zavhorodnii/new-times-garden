@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
+    <title>New Times Garden | Game</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- tokens shop menu-->
+      <div id="shop-menu" class="papper-menu hidden">
+        <div class="papper-menu__foreground">
+          <img
+            id="shop-menu-close"
+            class="papper-menu__close-btn"
+            src="./assets/menu/cross.png"
+            alt="close"
+          />
+          <img
+            class="papper-menu__frame"
+            src="./assets/utils/frame.png"
+            alt="frame"
+          />
+        </div>
+
+        <div class="papper-menu__container">
+          <h4 class="papper-menu__header">Token&Coin</h4>
+          <p class="papper-menu__description">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi fuga ad
+            ducimus
+          </p>
+          <div class="shop-menu__wallet" id="ton-connect"></div>
+          <div id="shop-menu-content" class="papper-menu__content"></div>
+        </div>
+      </div>
+      <!-- plants shop menu-->
+      <div id="plants-menu" class="papper-menu hidden">
+        <div class="papper-menu__foreground">
+          <img
+            id="plants-menu-close"
+            class="papper-menu__close-btn"
+            src="./assets/utils/cross.png"
+            alt="close"
+          />
+          <img
+            class="papper-menu__frame"
+            src="./assets/utils/frame.png"
+            alt="frame"
+          />
+        </div>
+
+        <div class="papper-menu__container">
+          <h4 class="papper-menu__header">Seeds Shop</h4>
+          <p class="papper-menu__description">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi fuga ad
+            ducimus
+          </p>
+          <div id="plants-menu-content" class="papper-menu__content"></div>
+        </div>
+      </div>
+      <!-- achievements -->
+      <!-- <div id="achieve-menu" class="papper-menu hidden">
+        <div class="papper-menu__foreground">
+          <img
+            id="achieve-menu-close"
+            class="papper-menu__close-btn"
+            src="./assets/utils/cross.png"
+            alt="close"
+          />
+          <img
+            class="papper-menu__frame"
+            src="./assets/utils/frame.png"
+            alt="frame"
+          />
+        </div>
+
+        <div class="papper-menu__container">
+          <h4 class="papper-menu__header">Achievements</h4>
+          <p class="papper-menu__description">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi fuga ad
+            ducimus
+          </p>
+          <div id="achieve-menu-content" class="papper-menu__content"></div>
+        </div>
+      </div> -->
+
+      <!-- UI elements and containers -->
+      <div id="picked-plant-container" class="picked-plant hidden"></div>
+
+      <div class="balance-bar hidden">
+        <div class="balance-bar__cell">
+          <span class="balance-bar__value" id="xp-balance">0</span>
+          <img
+            class="balance-bar__icon"
+            src="./assets/utils/experience.png"
+            alt="xp"
+          />
+        </div>
+        <div class="balance-bar__cell">
+          <img class="balance-bar__icon" src="./assets/utils/coin.png" alt="coin" />
+          <span class="balance-bar__value" id="coin-balance">0</span>
+        </div>
+        <div class="balance-bar__cell">
+          <img class="balance-bar__icon" src="./assets/utils/token.svg" alt="coin" />
+          <span class="balance-bar__value" id="token-balance">0</span>
+        </div>
+        <div id="shop-menu-open" class="balance-bar__cell">
+          <img class="balance-bar__icon" src="./assets/utils/plus.svg" alt="add" />
+        </div>
+      </div>
+
+      <div id="utility-bar" class="utility-bar hidden"></div>
+
+      <div id="bottom-bar" class="bottom-menu hidden">
+        <div class="circle">
+          <!-- background -->
+          <div class="circle__background">
+            <img class="circle__image" src="./assets/menu/ring.png" alt="ring" />
+          </div>
+          <!-- main button and escape -->
+          <div class="circle__button-container">
+            <div id="plants-menu-open" class="circle__button">
+              <img
+                class="circle__icon"
+                src="./assets/menu/plant-shop.png"
+                alt="plants"
+              />
+            </div>
+          </div>
+
+          <div class="circle__button-container rotated">
+            <div id="escape" class="circle__button">
+              <img
+                class="circle__icon"
+                src="./assets/menu/cancel.png"
+                alt="escape"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="game-container"></div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </body>
+</html>

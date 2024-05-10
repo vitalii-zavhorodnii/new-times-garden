@@ -1,0 +1,20 @@
+export const LOADING_TEXTS = [
+  'Digging up the beds',
+  'Sharpening shovels',
+  'Cleaning garden shoes',
+  'Watering flowers',
+  'Clearing fallen leaves',
+  'Hanging bird feeders',
+  'Pruning shrubs and trees',
+  'Building a garden fence',
+  'Mixing soil',
+  'Setting up a compost bin',
+  'Trimming hedges',
+  'Checking for pests',
+  'Creating a herb spiral',
+  'Building a trellis',
+  'Installing a sprinklers',
+  'Clearing garden debris',
+  'Fertilizing trees',
+  'Trimming lawn edges'
+];

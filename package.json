@@ -8,9 +8,11 @@
   "scripts": {
     "client": "npm run dev --workspace=client",
     "sass": "npm run sass --workspace=client",
+    "react": "npm run dev --workspace=react",
     "api": "npm run dev --workspace=api",
     "build:api": "npm run build --workspace=api",
-    "build:client": "npm run build --workspace=client"
+    "build:client": "npm run build --workspace=client",
+    "build:react": "npm run build --workspace=react"
   },
   "repository": {
     "type": "git",
