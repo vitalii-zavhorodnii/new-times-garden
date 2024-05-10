@@ -146,7 +146,7 @@ export class Game extends Scene {
     this.btnPlantsOpen.addEventListener('click', () => this.handleOpenPlantsShop());
     this.btnPlantsClose = document.getElementById('plants-menu-close');
     this.btnPlantsClose.addEventListener('click', () =>
-      this.handleClosePlantsShop()
+      this.handleCancelPlantsShop()
     );
     /*
      * Render background and decors
@@ -614,11 +614,17 @@ export class Game extends Scene {
     this.isBlocked = false;
 
     this.menuPlants.close();
-
-    this.bottomBar.hide();
+    
     this.escapeBtn.show();
   }
+  // Handle close in maneu button
+  private handleCancelPlantsShop() {
+    this.isBlocked = false;
 
+    this.menuPlants.close();
+
+    this.escapeBtn.hide();
+  }
   // Handle escape
   private handleInGameEscape() {
     this.isBlocked = false;

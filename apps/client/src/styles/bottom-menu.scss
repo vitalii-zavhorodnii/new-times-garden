@@ -1,22 +1,30 @@
 @import './fonts.scss';
 @import './variables.scss';
 
-$is-open: 10px;
+$is-open: 0px;
 $is-closed: -120%;
+$bot-position-y: 32px;
+$block-size: 172px;
+$ring-size: 128px;
 
 .bottom-menu {
   z-index: 1;
+  overflow: hidden;
   position: absolute;
   right: $is-open;
   bottom: $bot-position-y;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
+  transform: translateX(25%) translateY(100%);
+  // bottom: 0;
+  // right: -50%;
+
   transition: right 500ms $start-animation;
 
   &.hidden {
     right: $is-closed;
+  }
+
+  &__background {
+    display: flex;
   }
 
   &__button {
@@ -35,5 +43,42 @@ $is-closed: -120%;
       display: flex;
       width: $bot-icon-size-main;
     }
+  }
+}
+
+.circle {
+  position: relative;
+  width: $block-size;
+  height: $block-size;
+
+  &__background {
+    position: absolute;
+    z-index: 1;
+    width: $ring-size;
+    height: $ring-size;
+    top: 0;
+    right: -50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__buttons {
+    position: relative;
+  }
+
+  &__button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    transform: translateY(50%);
+  }
+
+  &__icon {
+    width: 18px;
   }
 }
