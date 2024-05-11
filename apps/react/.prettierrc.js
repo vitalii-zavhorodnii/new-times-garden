@@ -5,7 +5,7 @@ module.exports = {
   singleQuote: true,
   semi: true,
   importOrder: [
-    '(^react/\\w*)|(^phaser/.*?$)|(^axios\\w*)|(^@tonconnect/\\w*)',
+    '(^react\\w*)|(^phaser/.*?$)|(^@reduxjs\\w*)|(^axios\\w*)|(^@tonconnect/\\w*)',
     '<THIRD_PARTY_MODULES>',
     '^@services\\w*',
     '^@scenes\\w*',
@@ -17,6 +17,6 @@ module.exports = {
     '^@interfaces\\w*'
   ],
   importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
-  importOrderParserPlugins: ['typescript', 'decorators-legacy']
+  importOrderSortSpecifiers: true
+  // importOrderParserPlugins: ['typescript', 'decorators-legacy']
 };

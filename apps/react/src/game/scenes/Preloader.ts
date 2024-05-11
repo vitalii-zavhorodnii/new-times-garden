@@ -1,24 +1,10 @@
+import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
-
-import { createUser } from '@services/createUser';
-import { getPlantsList } from '@services/getPlantsList';
-import { getSettings } from '@services/getSettings';
-import { getShopItems } from '@services/getShopItems';
-import { getUserData } from '@services/getUserData';
-
-import { userGardenMapper } from '@mappers/mapUserGarden';
 
 import { randomNumberHelper } from '@helpers/random-number';
 
 import { LOADING_TEXTS } from '@constants/loading-texts';
 import { PLANTS_SPRITES } from '@constants/plants-sprites';
-
-// import type { IUserData } from '@interfaces/IUserData';
-
-interface IPropsUser {
-  telegramId: string;
-  name: string;
-}
 
 export class Preloader extends Scene {
   private timer: ReturnType<typeof setInterval>;
@@ -35,28 +21,6 @@ export class Preloader extends Scene {
     this.load.spritesheet('loader', 'assets/utils/loader.png', {
       frameWidth: 200,
       frameHeight: 200
-    });
-    /*
-          Game assets
-      */
-    // background
-    this.load.image('background', 'assets/decorations/background.png');
-    this.load.image('house', 'assets/decorations/house.png');
-    // utils
-    this.load.image('dummy', 'assets/utils/dummy.png');
-    // field tiles
-    this.load.image('planted', 'assets/soil/planted.png');
-    this.load.image('harvested', 'assets/soil/harvested.png');
-    this.load.spritesheet('soil', 'assets/soil/soil-spritesheet.png', {
-      frameWidth: 96,
-      frameHeight: 96
-    });
-    // Sprites for plants
-    PLANTS_SPRITES.forEach((sprite: string) => {
-      this.load.spritesheet(sprite, `assets/plants/${sprite}.png`, {
-        frameWidth: 96,
-        frameHeight: 96
-      });
     });
   }
 
@@ -84,47 +48,12 @@ export class Preloader extends Scene {
     });
 
     const loader = this.add.sprite(centerX, centerY, 'loader').play('loading');
-
     loader.setScale(0.4);
 
-    if (window?.Telegram) {
-      let user = null;
-
-      if (process.env.NODE_ENV === 'production') {
-        user = {
-          telegramId: String(window?.Telegram?.WebApp?.initDataUnsafe?.user?.id),
-          name: window?.Telegram?.WebApp?.initDataUnsafe?.user?.username
-        };
-      }
-      if (process.env.NODE_ENV === 'development') {
-        user = {
-          telegramId: process.env.DEFAULT_ID,
-          name: 'user'
-        };
-      }
-
-      if (user?.telegramId !== undefined) {
-        this.fetchUserData(user);
-      } else {
-        this.scene.start('GameOver');
-      }
-    }
-  }
-
-  private async fetchUserData(userProps: IPropsUser) {
-    let user = await getUserData(userProps.telegramId);
-
-    if (!user) {
-      user = await createUser(userProps);
-    }
-
-    user.garden.field = userGardenMapper(user.garden.field);
-
-    const settings = await getSettings();
-    const plants = await getPlantsList();
-    const shopList = await getShopItems();
-
-    clearInterval(this.timer);
-    this.scene.start('Game', { user, plants, shopList, settings });
+    console.log('EventBus initialize');
+    EventBus.on('initialize-data-fetch', (data: any) => {
+      console.log('initialization emmited');
+      this.scene.start('Game', data);
+    });
   }
 }

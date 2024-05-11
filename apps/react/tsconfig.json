@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ES6",
-    "skipLibCheck": false,
+    "module": "ESNext",
+    "skipLibCheck": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -15,21 +14,23 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "strict": false,
+    "strict": true,
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": "./",
     "paths": {
       "*": ["./*"],
       "@assets/*": ["./public/assets/*"],
       "@scenes/*": ["./src/game/scenes/*"],
       "@entities/*": ["./src/game/entities/*"],
-      "@components/*": ["./src/components/*"],
-      "@constants/*": ["./src/constants/*"],
       "@services/*": ["./src/services/*"],
+      "@queries/*": ["./src/services/queries/*"],
+      "@models/*": ["./src/services/models/*"],
+      "@components/*": ["src/ui/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@test/*": ["./src/services-old/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@mappers/*": ["./src/mappers/*"],
       "@interfaces/*": ["./src/interfaces/*"],

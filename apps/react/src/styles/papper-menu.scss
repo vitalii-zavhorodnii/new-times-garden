@@ -1,0 +1,79 @@
+@import './fonts.scss';
+@import './variables.scss';
+
+$bg-color: #e2dfd0;
+$animation: top 200ms ease-in-out;
+$font-family: 'Newspapper', sans-serif;
+$title-size: 40px;
+$descriptions-size: 12px;
+$text-color: #272829;
+
+.papper-menu {
+  z-index: 10;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: $bg-color;
+  transition: $animation;
+
+  &.hidden {
+    top: 100vh;
+  }
+
+  &__foreground {
+    z-index: 12;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  &__close-btn {
+    z-index: 12;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    pointer-events: auto;
+  }
+
+  &__frame {
+    width: 100vw;
+    pointer-events: none;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 40px 10px 0 10px;
+  }
+
+  &__header {
+    color: $text-color;
+    font-size: $title-size;
+    font-family: $font-family;
+  }
+
+  &__description {
+    margin: 5px 15px 0 15px;
+    text-align: center;
+    color: $text-color;
+    font-size: 12px;
+    font-family: $font-family;
+  }
+
+  &__content {
+    margin-top: 15px;
+    width: 100%;
+  }
+}

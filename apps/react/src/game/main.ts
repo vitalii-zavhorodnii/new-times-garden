@@ -8,16 +8,6 @@ import { GameOver } from '@scenes/GameOver';
 import { MainMenu } from '@scenes/MainMenu';
 import { Preloader } from '@scenes/Preloader';
 
-const WebApp = window?.Telegram?.WebApp;
-
-if (WebApp) {
-  WebApp.expand();
-  WebApp.disableClosingConfirmation();
-  WebApp.ready();
-} else {
-  console.error('No Web App!');
-}
-
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const screenSize = {

@@ -1,6 +1,6 @@
 import { TonConnectUI } from '@tonconnect/ui';
 
 export const tonConnectUI = new TonConnectUI({
-  manifestUrl: process.env.MANIFEST_URL,
+  manifestUrl: 'https://newtimesgarden.online/tonconnect-manifest.json',
   buttonRootId: 'ton-connect'
 });
