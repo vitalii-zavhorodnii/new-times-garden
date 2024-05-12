@@ -1,17 +1,19 @@
 import MenuPlantsItem from './MenuItem';
+
 import type { IPlantListItem, IPlantsList } from '@models/plants.model';
-import { EventBus } from 'src/game/EventBus';
 
 interface IPlantsMenuProps {
   plantsList: IPlantsList;
+  handlePickSeed: (value: IPlantListItem) => void;
   handleModal: (value: boolean) => void;
 }
 
-const PlantsMenu = ({ plantsList, handleModal }: IPlantsMenuProps): JSX.Element => {
+const PlantsMenu = ({
+  plantsList,
+  handlePickSeed
+}: IPlantsMenuProps): JSX.Element => {
   const handleClickItem = (data: IPlantListItem): void => {
-    console.log(data);
-    EventBus.emit('pick-plant', data);
-    handleModal(false);
+    handlePickSeed(data);
   };
 
   const renderMenu = (): JSX.Element[] => {

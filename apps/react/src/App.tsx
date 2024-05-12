@@ -9,10 +9,13 @@ import { useFetchSettingsQuery } from '@services/queries/settings.api';
 import { useFetchUserQuery } from '@services/queries/users.api';
 
 import BalanceBar from '@ui/bars/BalanceBar';
+import PickedPlantBar from '@ui/bars/PickedPlantBar';
 import RingButton from '@ui/buttons/RingButton';
 import PlantsMenu from '@ui/menus/PlantsMenu';
 import ShopMenu from '@ui/menus/ShopMenu';
 import PaperModal from '@ui/modals/PaperModal';
+
+import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
 const WebApp = window?.Telegram?.WebApp;
 
@@ -26,6 +29,7 @@ if (WebApp) {
 
 export default function App(): JSX.Element {
   const [isHiddenUI, setHidden] = useState(true);
+  const [pickedPlant, setPickedPlant] = useState<IPlantListItem | null>(null);
   const [menuPlantsOpen, setMenuPlantsOpen] = useState(false);
   const [menuShopOpen, setMenuShopOpen] = useState(false);
   const [isEscapeActive, setEscapeActive] = useState(false);
@@ -50,6 +54,10 @@ export default function App(): JSX.Element {
         settings
       });
 
+      EventBus.on('test', (data) => {
+        console.log(data);
+      });
+
       setBalanceCoins(user.balanceCoins);
       setBalanceTokens(user.balanceTokens);
       setBalanceXp(user.xp);
@@ -57,12 +65,22 @@ export default function App(): JSX.Element {
     }
   }, [user, plants, products, settings]);
 
+  useEffect(() => {
+    EventBus.emit('change-balance', { balanceCoins, balanceTokens, balanceXp });
+  }, [balanceCoins, balanceTokens, balanceXp]);
+
   const currentScene = (scene: Phaser.Scene): void => {
     console.log({ scene });
   };
 
-  const handleShopOpen = (value: boolean): void => {
-    setMenuShopOpen(value);
+  const handleClearSeed = () => {
+    setPickedPlant(null);
+  };
+
+  const handlePickSeed = (seed: IPlantListItem): void => {
+    setMenuPlantsOpen(false);
+    setPickedPlant(seed);
+    EventBus.emit('pick-plant', seed);
   };
 
   const handlePlantsModal = (value: boolean): void => {
@@ -81,6 +99,8 @@ export default function App(): JSX.Element {
 
   return (
     <>
+      <PickedPlantBar seed={pickedPlant} />
+
       {plants ? (
         <PaperModal
           isOpen={menuPlantsOpen}
@@ -88,7 +108,11 @@ export default function App(): JSX.Element {
           title="Seeds Shop"
           description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum pariatur omnis animi, et excepturi ipsum ab reprehenderit necessitatibus?"
         >
-          <PlantsMenu handleModal={handlePlantsModal} plantsList={plants} />
+          <PlantsMenu
+            handlePickSeed={handlePickSeed}
+            handleModal={handlePlantsModal}
+            plantsList={plants}
+          />
         </PaperModal>
       ) : null}
 
@@ -109,7 +133,7 @@ export default function App(): JSX.Element {
           coins={balanceCoins}
           tokens={balanceTokens}
           xp={balanceXp}
-          handleShopOpen={handleShopOpen}
+          handleShopOpen={handleShopModal}
         />
       ) : null}
 
@@ -126,19 +150,3 @@ export default function App(): JSX.Element {
     </>
   );
 }
-
-
-// private handleSeedChoose(plant: IPlantListItem) {
-//   if (this.user.balanceCoins < plant.gamePrice) {
-//     return;
-//   }
-//   if (this.user.balanceTokens < plant.tokenPrice) {
-//     return;
-//   }
-
-//   this.pickedPlant = plant;
-//   // this.pickedPlantBar.show(this.pickedPlant);
-
-//   this.handleClosePlantsShop();
-//   // this.bottomBar.activateCancel();
-// }

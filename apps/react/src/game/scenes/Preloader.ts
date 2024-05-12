@@ -72,7 +72,6 @@ export class Preloader extends Scene {
     const loader = this.add.sprite(centerX, centerY, 'loader').play('loading');
     loader.setScale(0.4);
 
-    console.log('EventBus initialize');
     EventBus.on('initialize-data-fetch', (data: any) => {
       clearInterval(this.timer);
       this.scene.start('Game', data);

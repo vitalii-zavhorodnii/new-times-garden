@@ -119,6 +119,27 @@ export class Game extends Scene {
       });
     });
 
+    // Define event emmiters
+    EventBus.on('pick-plant', (plant: IPlantListItem) => {
+      this.handlePlantChoose(plant);
+    });
+    EventBus.on(
+      'change-balance',
+      ({
+        balanceCoins,
+        balanceTokens,
+        balanceXp
+      }: {
+        balanceCoins: number;
+        balanceTokens: number;
+        balanceXp: number;
+      }) => {
+        this.user.balanceCoins = balanceCoins;
+        this.user.balanceTokens = balanceTokens;
+        this.user.xp = balanceXp;
+      }
+    );
+
     // Start render game objects
     this.renderPlantsField();
   }
@@ -334,10 +355,7 @@ export class Game extends Scene {
       return;
     }
 
-    this.user.balanceCoins -= plant.gamePrice;
-    this.user.balanceTokens -= plant.tokenPrice;
-    // this.balanceBar.setCoins(this.user.balanceCoins);
-    // this.balanceBar.setTokens(this.user.balanceTokens);
+    EventBus.emit('test', plant.gamePrice);
 
     const plantedAt = DateTime.now().toMillis();
 
@@ -425,7 +443,24 @@ export class Game extends Scene {
       this.scene.switch('HouseScene');
     }
   }
+  /*
+   *
+   * Handle emitted eventes from UI
+   *
+   */
+  // Handle pick plants menu
+  private handlePlantChoose(plant: IPlantListItem): void {
+    if (this.user.balanceCoins < plant.gamePrice) {
+      return;
+    }
+    if (this.user.balanceTokens < plant.tokenPrice) {
+      return;
+    }
 
+    this.pickedPlant = plant;
+  }
+  // Handle user balance
+  private handleUserBalance() {}
   /*
       Methods
   */
