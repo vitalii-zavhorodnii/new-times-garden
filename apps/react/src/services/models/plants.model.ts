@@ -1,4 +1,5 @@
 export interface IPlantsList {
+  [index: string]: IPlantListItem[];
   vegetables: IPlantListItem[];
   fruits: IPlantListItem[];
   berries: IPlantListItem[];

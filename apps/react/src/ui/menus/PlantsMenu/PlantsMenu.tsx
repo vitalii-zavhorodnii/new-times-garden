@@ -1,4 +1,6 @@
 import MenuPlantsItem from './MenuItem';
+import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import type { IPlantListItem, IPlantsList } from '@models/plants.model';
 
@@ -12,32 +14,57 @@ const PlantsMenu = ({
   plantsList,
   handlePickSeed
 }: IPlantsMenuProps): JSX.Element => {
-  const handleClickItem = (data: IPlantListItem): void => {
-    handlePickSeed(data);
+  const handleClickItem = (plantsCategories: IPlantListItem): void => {
+    handlePickSeed(plantsCategories);
+  };
+
+  const renderPagination = (): JSX.Element => {
+    return <div></div>;
   };
 
   const renderMenu = (): JSX.Element[] => {
-    const list = plantsList.vegetables.map((plant) => {
-      return (
-        <MenuPlantsItem
-          key={plant._id}
-          onClick={() => handleClickItem(plant)}
-          title={plant.title}
-          timer={1}
-          coins={plant.gamePrice}
-          tokens={plant.tokenPrice}
-          coinsIncome={plant.coinsIncome}
-          tokensIncome={plant.tokensIncome}
-          xpIncome={plant.xpIncome}
-          icon={plant.title}
-        />
-      );
-    });
+    const markup = [];
 
-    return list;
+    for (const category in plantsList) {
+      if (plantsList[category].length) {
+        markup.push(
+          <SwiperSlide key={category} style={{ height: '100%' }}>
+            <ul className="">{renderList(plantsList[category])}</ul>
+          </SwiperSlide>
+        );
+      }
+    }
+
+    return markup;
   };
 
-  return <div className="plants-menu">{renderMenu()}</div>;
+  const renderList = (category: IPlantListItem[]): JSX.Element[] => {
+    return category.map((plant) => (
+      <MenuPlantsItem
+        key={plant._id}
+        onClick={() => handleClickItem(plant)}
+        title={plant.title}
+        timer={1}
+        coins={plant.gamePrice}
+        tokens={plant.tokenPrice}
+        coinsIncome={plant.coinsIncome}
+        tokensIncome={plant.tokensIncome}
+        xpIncome={plant.xpIncome}
+        icon={plant.title}
+      />
+    ));
+  };
+
+  return (
+    <Swiper
+      spaceBetween={0}
+      slidesPerView={1}
+      onSlideChange={() => console.log('slide change')}
+      onSwiper={(swiper) => console.log(swiper)}
+    >
+      {renderMenu()}
+    </Swiper>
+  );
 };
 
 export default PlantsMenu;

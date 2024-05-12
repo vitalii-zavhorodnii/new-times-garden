@@ -134,20 +134,16 @@ export class Game extends Scene {
       this.handlePlantChoose(plant);
     });
 
+    EventBus.on('clear-pick-plant', () => {
+      this.pickedPlant = null;
+    });
+
     EventBus.on(
       'change-balance',
-      ({
-        balanceCoins,
-        balanceTokens,
-        balanceXp
-      }: {
-        balanceCoins: number;
-        balanceTokens: number;
-        balanceXp: number;
-      }) => {
-        this.balanceCoins = balanceCoins;
-        this.balanceTokens = balanceTokens;
-        this.balanceXp = balanceXp;
+      (data: { balanceCoins: number; balanceTokens: number; balanceXp: number }) => {
+        this.balanceCoins = data.balanceCoins;
+        this.balanceTokens = data.balanceTokens;
+        this.balanceXp = data.balanceXp;
       }
     );
 
@@ -282,7 +278,7 @@ export class Game extends Scene {
   private renderCompletion(): void {
     this.initiateControls();
 
-    EventBus.emit('loading-end');
+    EventBus.emit('current-scene-ready', this);
 
     this.growingInterval = setInterval(() => this.growingChecker(), 2000);
   }
@@ -321,6 +317,8 @@ export class Game extends Scene {
       if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
         plant.play(`tap-3-${plant.title.toLowerCase()}`);
       }
+
+      return;
     }
 
     if (percentLeft < 30) {
@@ -332,6 +330,8 @@ export class Game extends Scene {
       if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
         plant.play(`tap-2-${plant.title.toLowerCase()}`);
       }
+
+      return;
     }
 
     if (percentLeft < 80) {
@@ -343,6 +343,8 @@ export class Game extends Scene {
       if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
         plant.play(`tap-1-${plant.title.toLowerCase()}`);
       }
+
+      return;
     }
   }
   /*
@@ -412,49 +414,48 @@ export class Game extends Scene {
   }
   // Handle clicks on soil
   private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number): void {
-    if (!this.isBlocked) {
-      if (soil.isOccupied) {
+    // Check of Soil is not occupied yet, plant new Plant
+    if (!soil.isOccupied && this.pickedPlant) {
+      this.placeNewPlant(soil, this.pickedPlant, rowIndex, plantIndex);
+
+      return;
+    }
+    // Check if occupied, harvers / play animation
+    if (soil.isOccupied) {
+      // Calculate time with Luxon {DateTime}
+      // Difference between end grow time and current time in Milliseconds
+      // Calculate % in
+      const { plantedAt, growTime } = soil.plant;
+      const currentTime = DateTime.now();
+      const endGrowTime = DateTime.fromMillis(plantedAt + growTime);
+      const difference = endGrowTime.diff(currentTime).toMillis();
+      const percentLeft = Math.floor((difference / growTime) * 100);
+      // If percent to grow is more then 0, play animation
+      if (percentLeft > 0) {
         if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
           soil.plant.play(
             `tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`
           );
         }
 
-        const currentTime = DateTime.now();
-        const endTime = DateTime.fromMillis(
-          soil.plant.plantedAt + soil.plant.growTime
-        );
-        const diff1 = endTime.diff(currentTime).toMillis();
-        const percentLeft = Math.floor((diff1 / soil.plant.growTime) * 100);
-
-        if (percentLeft > 0) {
-          return;
-        }
-
-        this.user.balanceCoins += soil.plant.coinsIncome;
-        // this.balanceBar.setCoins(this.user.balanceCoins);
-        this.user.balanceTokens += soil.plant.tokensIncome;
-        // this.balanceBar.setTokens(this.user.balanceTokens);
-        this.user.xp += soil.plant.xpIncome;
-        // this.balanceBar.setLevel(this.user.xp);
-
-        this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
-        this.plants[rowIndex][plantIndex].destroy();
-        this.plants[rowIndex][plantIndex] = new Dummy(this) as Plant;
-
-        const dummy = this.plants[rowIndex][plantIndex] as Plant;
-        soil.placePlant(dummy);
-
-        this.gardenContainer[rowIndex].addAt(dummy, plantIndex);
-
-        // harvestPlant(this.user.telegramId, rowIndex, plantIndex);
-
         return;
       }
-
-      if (!soil.isOccupied && this.pickedPlant) {
-        this.placeNewPlant(soil, this.pickedPlant, rowIndex, plantIndex);
-      }
+      // Refill balance from harvesting
+      EventBus.emit('harvest', {
+        plant: soil.plant,
+        rowIndex: rowIndex,
+        plantIndex: plantIndex
+      });
+      // Remove sprite from container and replace width Dummy
+      this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
+      this.plants[rowIndex][plantIndex].destroy();
+      this.plants[rowIndex][plantIndex] = new Dummy(this) as Plant;
+      // Variable of placed Dummy
+      const dummy = this.plants[rowIndex][plantIndex] as Plant;
+      // Put dummy in Soil.plant
+      soil.placePlant(dummy);
+      // Add new Dummy Sprite container garden
+      this.gardenContainer[rowIndex].addAt(dummy, plantIndex);
     }
   }
   // Handle decoration click

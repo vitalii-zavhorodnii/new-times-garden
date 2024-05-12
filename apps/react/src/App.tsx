@@ -47,36 +47,14 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     if (!!user && !!settings) {
-      console.log('ready');
+      setBalanceCoins(user.balanceCoins);
+      setBalanceTokens(user.balanceTokens);
+      setBalanceXp(user.xp);
+
       EventBus.emit('initialize-data-fetch', {
         user,
         settings
       });
-
-      EventBus.on('loading-end', () => {
-        setBalanceCoins(user.balanceCoins);
-        setBalanceTokens(user.balanceTokens);
-        setBalanceXp(user.xp);
-        setHidden(false);
-      });
-
-      EventBus.on('clear-pick-plant', () => {
-        console.log('clear-pick-plant', null);
-        setPickedPlant(null);
-      });
-
-      EventBus.on('plant-new-plant', (data: any) => {
-        console.log('plant-new-plant', data);
-      });
-
-      EventBus.on(
-        'withdraw-balance',
-        ({ coins, tokens }: { coins: number; tokens: number }) => {
-          console.log('withdraw-balance');
-          setBalanceCoins(balanceCoins - coins);
-          setBalanceTokens(balanceTokens - tokens);
-        }
-      );
     }
   }, [user, settings]);
 
@@ -85,7 +63,35 @@ export default function App(): JSX.Element {
   }, [balanceCoins, balanceTokens, balanceXp]);
 
   const currentScene = (scene: Phaser.Scene): void => {
-    console.log({ scene });
+    setHidden(false);
+
+    EventBus.on(
+      'withdraw-balance',
+      ({ coins, tokens }: { coins: number; tokens: number }) => {
+        console.log('withdraw-balance', coins, balanceCoins);
+        setBalanceCoins((prevState) => prevState - coins);
+        setBalanceTokens((prevState) => prevState - tokens);
+      }
+    );
+
+    EventBus.on('clear-pick-plant', () => {
+      console.log('clear-pick-plant', null);
+      setPickedPlant(null);
+    });
+
+    EventBus.on('plant-new-plant', (data: any) => {
+      console.log('plant-new-plant', data);
+    });
+
+    EventBus.on(
+      'harvest',
+      (data: { plant: IPlantListItem; rowIndex: number; plantIndex: number }) => {
+        console.log('harvest', data);
+        setBalanceCoins(balanceCoins + data.plant.coinsIncome);
+        setBalanceTokens(balanceTokens + data.plant.tokensIncome);
+        setBalanceXp(balanceXp + data.plant.xpIncome);
+      }
+    );
   };
 
   const handleClearSeed = () => {
@@ -95,6 +101,7 @@ export default function App(): JSX.Element {
   const handlePickSeed = (seed: IPlantListItem): void => {
     setMenuPlantsOpen(false);
     setPickedPlant(seed);
+    setEscapeActive(true);
     EventBus.emit('pick-plant', seed);
   };
 
@@ -110,6 +117,8 @@ export default function App(): JSX.Element {
     setMenuPlantsOpen(false);
     setMenuShopOpen(false);
     setEscapeActive(false);
+
+    EventBus.emit('clear-pick-plant');
   };
 
   return (
