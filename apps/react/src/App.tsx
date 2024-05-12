@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { DateTime } from 'luxon';
+
 import { EventBus } from '@game/EventBus';
 import { IRefPhaserGame, PhaserGame } from '@game/PhaserGame';
 
 import { useFetchPlantsQuery } from '@services/queries/plants.api';
 import { useFetchProductsQuery } from '@services/queries/products.api';
 import { useFetchSettingsQuery } from '@services/queries/settings.api';
-import { useFetchUserQuery } from '@services/queries/users.api';
+import {
+  useFetchUserQuery,
+  useHarvestMutation,
+  useStartGrowMutation
+} from '@services/queries/users.api';
 
 import BalanceBar from '@ui/bars/BalanceBar';
 import PickedPlantBar from '@ui/bars/PickedPlantBar';
@@ -42,6 +48,9 @@ export default function App(): JSX.Element {
   const { data: plants } = useFetchPlantsQuery();
   const { data: products } = useFetchProductsQuery();
   const { data: settings } = useFetchSettingsQuery();
+
+  const [startGrow] = useStartGrowMutation();
+  const [harvestQuery] = useHarvestMutation();
 
   const phaserRef = useRef<IRefPhaserGame | null>(null);
 
@@ -80,6 +89,15 @@ export default function App(): JSX.Element {
 
     EventBus.on('plant-new-plant', (data: any) => {
       console.log('plant-new-plant', data);
+      if (user) {
+        startGrow({
+          userId: user?.telegramId,
+          plantId: data.id,
+          rowIndex: data.rowIndex,
+          plantIndex: data.plantIndex,
+          plantedAtClient: DateTime.now().toMillis()
+        });
+      }
     });
 
     EventBus.on(
@@ -90,6 +108,14 @@ export default function App(): JSX.Element {
         setBalanceCoins((balance) => balance + coinsIncome);
         setBalanceTokens((balance) => balance + tokensIncome);
         setBalanceXp((balance) => balance + xpIncome);
+
+        if (user) {
+          harvestQuery({
+            userId: user.telegramId,
+            rowIndex: data.rowIndex,
+            plantIndex: data.plantIndex
+          });
+        }
       }
     );
   };
