@@ -46,7 +46,7 @@ export default function App(): JSX.Element {
   const phaserRef = useRef<IRefPhaserGame | null>(null);
 
   useEffect(() => {
-    if (!!user && !!plants && !!settings) {
+    if (!!user && !!settings) {
       EventBus.emit('initialize-data-fetch', {
         user,
         plants,
@@ -54,7 +54,7 @@ export default function App(): JSX.Element {
         settings
       });
 
-      EventBus.on('test', (data) => {
+      EventBus.on('test', (data: any) => {
         console.log(data);
       });
 
