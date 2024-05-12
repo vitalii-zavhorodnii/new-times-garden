@@ -47,6 +47,7 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     if (!!user && !!settings) {
+      console.log('ready');
       EventBus.emit('initialize-data-fetch', {
         user,
         settings
@@ -77,7 +78,7 @@ export default function App(): JSX.Element {
         }
       );
     }
-  }, [user, plants, products, settings]);
+  }, [user, settings]);
 
   useEffect(() => {
     EventBus.emit('change-balance', { balanceCoins, balanceTokens, balanceXp });
