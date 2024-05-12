@@ -32,8 +32,10 @@ interface IData {
 }
 
 export class Game extends Scene {
-  public camera: Phaser.Cameras.Scene2D.Camera;
   public isBlocked: boolean;
+
+  public camera: Phaser.Cameras.Scene2D.Camera;
+
   public pinchDistance: number | null;
   public settings: any;
   public pickedPlant: IPlantListItem | null;
@@ -146,6 +148,14 @@ export class Game extends Scene {
         this.balanceXp = data.balanceXp;
       }
     );
+
+    EventBus.on('block-game', () => {
+      this.isBlocked = true;
+    });
+
+    EventBus.on('unblock-game', () => {
+      this.isBlocked = false;
+    });
 
     // Start render game objects
     this.renderPlantsField();
@@ -402,7 +412,10 @@ export class Game extends Scene {
     if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
       newPlant.play(`tap-0-${newPlant.title.toLowerCase()}`);
     }
-    // One more check balance
+    // Update balance
+    this.balanceCoins -= plant.gamePrice;
+    this.balanceTokens -= plant.tokenPrice;
+    // Post plant check balance
     if (
       plant.gamePrice > this.balanceCoins ||
       plant.tokenPrice > this.balanceTokens
@@ -414,6 +427,9 @@ export class Game extends Scene {
   }
   // Handle clicks on soil
   private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number): void {
+    // Block clicking
+    if (this.isBlocked) return;
+    console.log('Clicked!');
     // Check of Soil is not occupied yet, plant new Plant
     if (!soil.isOccupied && this.pickedPlant) {
       this.placeNewPlant(soil, this.pickedPlant, rowIndex, plantIndex);

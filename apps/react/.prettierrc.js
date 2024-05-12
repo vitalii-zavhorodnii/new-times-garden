@@ -10,7 +10,7 @@ module.exports = {
     '(^@scenes\\w*)|(^@game\\w*)',
     '^@entities\\w*',
     '(^@services\\w*)|(^@queries\\w*)',
-    '(^@components\\w*)|(^@ui\\w*)',
+    '(^@components\\w*)|(^@ui\\w*)|(^./\\w*)',
     '^@mappers\\w*',
     '^@helpers\\w*',
     '^@constants\\w*',

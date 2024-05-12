@@ -68,15 +68,14 @@ export default function App(): JSX.Element {
     EventBus.on(
       'withdraw-balance',
       ({ coins, tokens }: { coins: number; tokens: number }) => {
-        console.log('withdraw-balance', coins, balanceCoins);
         setBalanceCoins((prevState) => prevState - coins);
         setBalanceTokens((prevState) => prevState - tokens);
       }
     );
 
     EventBus.on('clear-pick-plant', () => {
-      console.log('clear-pick-plant', null);
       setPickedPlant(null);
+      setEscapeActive(false);
     });
 
     EventBus.on('plant-new-plant', (data: any) => {
@@ -86,30 +85,40 @@ export default function App(): JSX.Element {
     EventBus.on(
       'harvest',
       (data: { plant: IPlantListItem; rowIndex: number; plantIndex: number }) => {
-        console.log('harvest', data);
-        setBalanceCoins(balanceCoins + data.plant.coinsIncome);
-        setBalanceTokens(balanceTokens + data.plant.tokensIncome);
-        setBalanceXp(balanceXp + data.plant.xpIncome);
+        const { coinsIncome, tokensIncome, xpIncome } = data.plant;
+
+        setBalanceCoins((balance) => balance + coinsIncome);
+        setBalanceTokens((balance) => balance + tokensIncome);
+        setBalanceXp((balance) => balance + xpIncome);
       }
     );
-  };
-
-  const handleClearSeed = () => {
-    setPickedPlant(null);
   };
 
   const handlePickSeed = (seed: IPlantListItem): void => {
     setMenuPlantsOpen(false);
     setPickedPlant(seed);
     setEscapeActive(true);
+    EventBus.emit('unblock-game');
     EventBus.emit('pick-plant', seed);
   };
 
   const handlePlantsModal = (value: boolean): void => {
+    if (value) {
+      EventBus.emit('block-game');
+    } else {
+      EventBus.emit('unblock-game');
+    }
+
     setMenuPlantsOpen(value);
   };
 
   const handleShopModal = (value: boolean): void => {
+    if (!value) {
+      EventBus.emit('block-game');
+    } else {
+      EventBus.emit('unblock-game');
+    }
+
     setMenuShopOpen(value);
   };
 
@@ -136,6 +145,8 @@ export default function App(): JSX.Element {
             handlePickSeed={handlePickSeed}
             handleModal={handlePlantsModal}
             plantsList={plants}
+            balanceCoins={balanceCoins}
+            balanceTokens={balanceTokens}
           />
         </PaperModal>
       ) : null}

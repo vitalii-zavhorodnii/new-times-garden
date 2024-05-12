@@ -7,6 +7,8 @@ interface IMenuItemProps {
   tokensIncome: number;
   xpIncome: number;
   icon: string;
+  balanceCoins: number;
+  balanceTokens: number;
   onClick: React.MouseEventHandler<HTMLLIElement>;
 }
 
@@ -19,7 +21,9 @@ const MenuPlantsItem = ({
   tokensIncome,
   xpIncome,
   icon,
-  onClick
+  onClick,
+  balanceCoins,
+  balanceTokens
 }: IMenuItemProps): JSX.Element => {
   return (
     <li className="plants-menu__item" onClick={onClick}>
@@ -33,7 +37,11 @@ const MenuPlantsItem = ({
         <p className="plants-menu__growing">Growing time: {timer}</p>
         <div className="plants-menu__info">
           {coins ? (
-            <p className="plants-menu__value">
+            <p
+              className={`plants-menu__value ${
+                balanceCoins < coins ? 'insufficient' : ''
+              }`}
+            >
               <img
                 className="plants-menu__stat-icon"
                 src="./assets/utils/coin.png"
@@ -43,7 +51,11 @@ const MenuPlantsItem = ({
             </p>
           ) : null}
           {tokens ? (
-            <p className="plants-menu__value">
+            <p
+              className={`plants-menu__value ${
+                balanceTokens < tokens ? 'insufficient' : ''
+              }`}
+            >
               <img
                 className="plants-menu__stat-icon"
                 src="./assets/utils/token.svg"

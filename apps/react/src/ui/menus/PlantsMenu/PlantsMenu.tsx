@@ -1,10 +1,15 @@
-import MenuPlantsItem from './MenuItem';
 import 'swiper/css';
+import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+import MenuPlantsItem from './MenuItem';
+import PlantsPagination from './PlantsPagination';
 
 import type { IPlantListItem, IPlantsList } from '@models/plants.model';
 
 interface IPlantsMenuProps {
+  balanceCoins: number;
+  balanceTokens: number;
   plantsList: IPlantsList;
   handlePickSeed: (value: IPlantListItem) => void;
   handleModal: (value: boolean) => void;
@@ -12,14 +17,15 @@ interface IPlantsMenuProps {
 
 const PlantsMenu = ({
   plantsList,
-  handlePickSeed
+  handlePickSeed,
+  balanceCoins,
+  balanceTokens
 }: IPlantsMenuProps): JSX.Element => {
-  const handleClickItem = (plantsCategories: IPlantListItem): void => {
-    handlePickSeed(plantsCategories);
-  };
-
-  const renderPagination = (): JSX.Element => {
-    return <div></div>;
+  const handleClickItem = (seed: IPlantListItem): void => {
+    if (balanceCoins < seed.gamePrice) return;
+    if (balanceTokens < seed.tokenPrice) return;
+    
+    handlePickSeed(seed);
   };
 
   const renderMenu = (): JSX.Element[] => {
@@ -51,19 +57,35 @@ const PlantsMenu = ({
         tokensIncome={plant.tokensIncome}
         xpIncome={plant.xpIncome}
         icon={plant.title}
+        balanceCoins={balanceCoins}
+        balanceTokens={balanceTokens}
       />
     ));
   };
 
+  const formPagination = (): string[] => {
+    const categoriesButtons = [];
+
+    for (const category in plantsList) {
+      if (plantsList[category].length) {
+        categoriesButtons.push(category);
+      }
+    }
+    return categoriesButtons;
+  };
+
   return (
-    <Swiper
-      spaceBetween={0}
-      slidesPerView={1}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
-      {renderMenu()}
-    </Swiper>
+    <>
+      <Swiper
+        style={{ display: 'flex', flexDirection: 'column-reverse' }}
+        spaceBetween={0}
+        slidesPerView={1}
+        modules={[Pagination]}
+      >
+        <PlantsPagination pages={formPagination()} />
+        {renderMenu()}
+      </Swiper>
+    </>
   );
 };
 
