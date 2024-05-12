@@ -1,19 +1,23 @@
-import { useState } from 'react';
-
 interface IPaperModalProps {
+  isOpen: boolean;
   title: string;
   description: string;
+  handleModal: (value: boolean) => void;
   children: React.ReactNode;
 }
 
-const PaperModal = ({ title, description, children }: IPaperModalProps) => {
-  const [isOpen, setOpen] = useState(true);
-
+const PaperModal = ({
+  isOpen,
+  handleModal,
+  title,
+  description,
+  children
+}: IPaperModalProps): JSX.Element => {
   return (
     <div className={`papper-menu ${isOpen ? '' : 'hidden'}`}>
       <div className="papper-menu__foreground">
         <img
-          onClick={() => setOpen(false)}
+          onClick={() => handleModal(false)}
           className="papper-menu__close-btn"
           src="./assets/utils/cross.png"
           alt="close"

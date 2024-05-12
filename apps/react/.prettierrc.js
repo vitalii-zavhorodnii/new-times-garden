@@ -7,14 +7,15 @@ module.exports = {
   importOrder: [
     '(^react\\w*)|(^phaser/.*?$)|(^@reduxjs\\w*)|(^axios\\w*)|(^@tonconnect/\\w*)',
     '<THIRD_PARTY_MODULES>',
-    '^@services\\w*',
-    '^@scenes\\w*',
-    '(^@components\\w*)|(^@ui\\w*)',
+    '(^@scenes\\w*)|(^@game\\w*)',
     '^@entities\\w*',
+    '(^@services\\w*)|(^@queries\\w*)',
+    '(^@components\\w*)|(^@ui\\w*)',
     '^@mappers\\w*',
     '^@helpers\\w*',
     '^@constants\\w*',
-    '^@interfaces\\w*'
+    '^@assets\\w*',
+    '(^@interfaces\\w*)|(^@models\\w*)'
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true

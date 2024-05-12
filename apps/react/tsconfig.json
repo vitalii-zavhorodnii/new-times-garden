@@ -22,19 +22,18 @@
 
     "paths": {
       "*": ["./*"],
+      "@ui/*": ["./src/ui/*"],
       "@assets/*": ["./public/assets/*"],
+      "@game/*": ["./src/game/*"],
       "@scenes/*": ["./src/game/scenes/*"],
       "@entities/*": ["./src/game/entities/*"],
       "@services/*": ["./src/services/*"],
       "@queries/*": ["./src/services/queries/*"],
       "@models/*": ["./src/services/models/*"],
-      "@components/*": ["src/ui/*"],
       "@constants/*": ["./src/constants/*"],
-      "@test/*": ["./src/services-old/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@mappers/*": ["./src/mappers/*"],
-      "@interfaces/*": ["./src/interfaces/*"],
-      "@ui/*": ["./src/ui/*"]
+      "@interfaces/*": ["./src/interfaces/*"]
     }
   },
   "include": ["src"]

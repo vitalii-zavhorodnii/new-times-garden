@@ -14,7 +14,7 @@ export class Preloader extends Scene {
     super('Preloader');
   }
 
-  preload() {
+  public preload(): void {
     /* 
           Loadingscreen
       */
@@ -22,9 +22,31 @@ export class Preloader extends Scene {
       frameWidth: 200,
       frameHeight: 200
     });
+    /*
+          Game assets
+      */
+    // background
+    this.load.image('background', 'assets/decorations/background.png');
+    this.load.image('house', 'assets/decorations/house.png');
+    // utils
+    this.load.image('dummy', 'assets/utils/dummy.png');
+    // field tiles
+    this.load.image('planted', 'assets/soil/planted.png');
+    this.load.image('harvested', 'assets/soil/harvested.png');
+    this.load.spritesheet('soil', 'assets/soil/soil-spritesheet.png', {
+      frameWidth: 96,
+      frameHeight: 96
+    });
+    // Sprites for plants
+    PLANTS_SPRITES.forEach((sprite: string) => {
+      this.load.spritesheet(sprite, `assets/plants/${sprite}.png`, {
+        frameWidth: 96,
+        frameHeight: 96
+      });
+    });
   }
 
-  create() {
+  public create(): void {
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2;
@@ -52,7 +74,7 @@ export class Preloader extends Scene {
 
     console.log('EventBus initialize');
     EventBus.on('initialize-data-fetch', (data: any) => {
-      console.log('initialization emmited');
+      clearInterval(this.timer);
       this.scene.start('Game', data);
     });
   }

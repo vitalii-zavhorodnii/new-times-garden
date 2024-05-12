@@ -4,7 +4,7 @@ import { Game, Types } from 'phaser';
 import { Boot } from '@scenes/Boot';
 import { Game as MainGame } from '@scenes/Game';
 import { GameOver } from '@scenes/GameOver';
-// import { HouseScene } from '@scenes/HouseScene';
+import { HouseScene } from '@scenes/HouseScene';
 import { MainMenu } from '@scenes/MainMenu';
 import { Preloader } from '@scenes/Preloader';
 
@@ -39,7 +39,7 @@ const config: Types.Core.GameConfig = {
   banner: false,
   backgroundColor: '#2d2d2d',
 
-  scene: [Boot, Preloader, MainGame, MainMenu, GameOver]
+  scene: [Boot, Preloader, MainGame, HouseScene, MainMenu, GameOver]
 };
 
 const StartGame = (parent: string) => {

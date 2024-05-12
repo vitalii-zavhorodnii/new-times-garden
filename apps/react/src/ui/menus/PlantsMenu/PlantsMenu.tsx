@@ -4,15 +4,17 @@ import { EventBus } from 'src/game/EventBus';
 
 interface IPlantsMenuProps {
   plantsList: IPlantsList;
+  handleModal: (value: boolean) => void;
 }
 
-const PlantsMenu = ({ plantsList }: IPlantsMenuProps) => {
-  const handleClickItem = (data: IPlantListItem) => {
+const PlantsMenu = ({ plantsList, handleModal }: IPlantsMenuProps): JSX.Element => {
+  const handleClickItem = (data: IPlantListItem): void => {
     console.log(data);
     EventBus.emit('pick-plant', data);
+    handleModal(false);
   };
 
-  const renderMenu = () => {
+  const renderMenu = (): JSX.Element[] => {
     const list = plantsList.vegetables.map((plant) => {
       return (
         <MenuPlantsItem
