@@ -74,6 +74,7 @@ export class Preloader extends Scene {
 
     EventBus.on('initialize-data-fetch', (data: any) => {
       clearInterval(this.timer);
+
       this.scene.start('Game', data);
     });
   }

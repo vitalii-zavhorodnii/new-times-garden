@@ -10,6 +10,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
 
   public growTime: number;
   public plantedAt: number;
+
   public gamePrice: number;
   public tokenPrice: number;
   public coinsIncome: number;
@@ -32,8 +33,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
     this.plantedAt = plantedAt;
   }
 
-  public preDestroy() {
+  public preDestroy(): void {
     this.anims.destroy();
-    this.anims = undefined;
   }
 }

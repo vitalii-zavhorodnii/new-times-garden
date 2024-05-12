@@ -54,14 +54,26 @@ export default function App(): JSX.Element {
         settings
       });
 
-      EventBus.on('test', (data: any) => {
-        console.log(data);
-      });
-
       setBalanceCoins(user.balanceCoins);
       setBalanceTokens(user.balanceTokens);
       setBalanceXp(user.xp);
       setHidden(false);
+
+      EventBus.on('clear-pick-plant', () => {
+        setPickedPlant(null);
+      });
+
+      EventBus.on('plant-new-plant', (data: any) => {
+        console.log('plant-new-plant', data);
+      });
+
+      EventBus.on(
+        'withdraw-balance',
+        ({ coins, tokens }: { coins: number; tokens: number }) => {
+          setBalanceCoins(balanceCoins - coins);
+          setBalanceTokens(balanceTokens - tokens);
+        }
+      );
     }
   }, [user, plants, products, settings]);
 

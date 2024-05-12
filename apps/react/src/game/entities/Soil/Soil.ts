@@ -12,7 +12,7 @@ export default class Soil extends Phaser.GameObjects.Sprite {
     this.isOccupied = false;
   }
 
-  public placePlant(plant: Plant) {
+  public placePlant(plant: Plant): void {
     if (plant?.dummy) {
       this.isOccupied = false;
       this.setTexture('harvested');

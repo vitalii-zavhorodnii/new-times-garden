@@ -23,6 +23,7 @@ import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
 import type { IShopItem } from '@interfaces/IShopItem';
 import type { IUserData } from '@interfaces/IUserData';
+import type { ICellData } from '@interfaces/IUserData';
 
 interface IData {
   user: IUserData;
@@ -38,15 +39,20 @@ export class Game extends Scene {
   public pickedPlant: IPlantListItem | null;
 
   private user: IUserData;
+  private balanceCoins: number;
+  private balanceTokens: number;
+  private balanceXp: number;
+  private field: ICellData[][];
 
   private plants: (Plant | Dummy)[][];
   private soil: Soil[][];
   private decorations: Decoration[];
-  private growingInterval: ReturnType<typeof setInterval>;
 
   private decorationContainer: Phaser.GameObjects.Container | null;
   private gardenContainer: Phaser.GameObjects.Container[];
   private soilContainer: Phaser.GameObjects.Container[];
+
+  private growingInterval: ReturnType<typeof setInterval>;
 
   constructor() {
     super('Game');
@@ -64,7 +70,12 @@ export class Game extends Scene {
   public init(data: IData): void {
     console.log('init game', { data });
     this.user = data.user;
+
     this.settings = data.settings;
+    this.balanceCoins = data.user.balanceCoins;
+    this.balanceTokens = data.user.balanceTokens;
+    this.balanceXp = data.user.xp;
+    this.field = userGardenMapper(data.user.garden.field);
   }
 
   // Create scene method
@@ -77,15 +88,14 @@ export class Game extends Scene {
     // const zoom = parseFloat(savedZoom) || 1;
     // this.camera.setZoom(zoom, zoom);
 
-    // center canvas variables
-    const { height, width, worldView } = this.cameras.main;
-    const centerX = worldView.x + width / 2;
-    const centerY = worldView.y + height / 2 - 13;
-
     /*
      * Render background and decors
      * bg
      */
+    const { height, width, worldView } = this.cameras.main;
+    const centerX = worldView.x + width / 2;
+    const centerY = worldView.y + height / 2;
+
     const backgroundImage = this.add.image(centerX, centerY, 'background');
     backgroundImage.x = backgroundImage.x - 280;
     backgroundImage.y = backgroundImage.y - 118;
@@ -123,6 +133,7 @@ export class Game extends Scene {
     EventBus.on('pick-plant', (plant: IPlantListItem) => {
       this.handlePlantChoose(plant);
     });
+
     EventBus.on(
       'change-balance',
       ({
@@ -134,139 +145,77 @@ export class Game extends Scene {
         balanceTokens: number;
         balanceXp: number;
       }) => {
-        this.user.balanceCoins = balanceCoins;
-        this.user.balanceTokens = balanceTokens;
-        this.user.xp = balanceXp;
+        this.balanceCoins = balanceCoins;
+        this.balanceTokens = balanceTokens;
+        this.balanceXp = balanceXp;
       }
     );
 
     // Start render game objects
     this.renderPlantsField();
   }
-
-  // Growing checker
-  private growingChecker(): void {
-    const currentTime = DateTime.now();
-
-    this.plants.forEach((row) => {
-      row.forEach((plant: Plant | Dummy) => {
-        if (!plant.dummy && 'growTime' in plant) {
-          this.updateGrowPhase(plant, currentTime);
-        }
-      });
-    });
-  }
-  // Handle plant texutre by grow phase
-  private updateGrowPhase(plant: Plant, currentTime: DateTime): void {
-    const endTime = DateTime.fromMillis(plant.plantedAt + plant.growTime);
-    const diff1 = endTime.diff(currentTime).toMillis();
-    const percentLeft = Math.floor((diff1 / plant.growTime) * 100);
-
-    if (percentLeft < 0) {
-      if (plant.phase !== 3) {
-        plant.setFrame(3);
-        plant.phase = 3;
-
-        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
-          plant.play(`tap-3-${plant.title.toLowerCase()}`);
-        }
-      }
-
-      return;
-    }
-
-    if (percentLeft < 30) {
-      if (plant.phase !== 2) {
-        plant.setFrame(2);
-        plant.phase = 2;
-
-        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
-          plant.play(`tap-2-${plant.title.toLowerCase()}`);
-        }
-      }
-
-      return;
-    }
-
-    if (percentLeft < 80) {
-      if (plant.phase !== 1) {
-        plant.setFrame(1);
-        plant.phase = 1;
-        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
-          plant.play(`tap-1-${plant.title.toLowerCase()}`);
-        }
-      }
-      return;
-    }
-  }
   /*
       Render methods
       Render garden field
   */
-  // Render garden field
+  // Render plants on field
   private renderPlantsField(): void {
+    // create plants sprites in 2 array
+    this.plants = this.field.map((fieldRow) => {
+      const plantsRow = fieldRow.map((cell) => {
+        // if cell has no plantedAt return Dummy sprites
+        if (!cell.plantedAt) {
+          return new Dummy(this);
+        }
+        // return new Plant sprites
+        return new Plant(this, cell.plant, cell.plantedAt);
+      });
+
+      return plantsRow;
+    });
+    // defining center points for Plants
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - PLANTS_MARGIN;
-
-    const field = userGardenMapper(this.user.garden.field);
-
-    this.plants = field.map((gardenRow) => {
-      const plantedRow = gardenRow.map((item) => {
-        if (!item.plantedAt) {
-          return new Dummy(this);
-        }
-
-        const props = {
-          ...item.plant,
-          plantedAt: item.plantedAtClient
-        };
-
-        const plant = new Plant(this, props, item.plantedAt);
-
-        return plant;
-      });
-
-      return plantedRow;
-    });
-
     // added rows to container
     this.plants.forEach((row, index) => {
       const container = this.add.container(
         centerX + (index - 2) * ROWS_GAP.x,
         centerY + (index - 2) * ROWS_GAP.y
       );
-
+      // define z-index of plants
       container.depth = CONTAINERS_DEPTH.plant;
-
+      // add Plants sprites to cantainer
       this.gardenContainer.push(container);
       this.gardenContainer[index].add(row);
     });
-
+    // run growing checker to set needed frame
     this.growingChecker();
-
+    // run next step of render: Soil field
     this.renderSoil(this.plants);
   }
   // Rener soil
   private renderSoil(plants: (Plant | Dummy)[][]): void {
-    const { height, width, worldView } = this.cameras.main;
-    const centerX = worldView.x + width / 2;
-    const centerY = worldView.y + height / 2;
-
-    this.soil = mapFieldRows(ROW_MAP).map((row, rowIndex: number) => {
+    // Map garden field, concat X and Y
+    const soilfield = mapFieldRows(ROW_MAP);
+    // Update soil field 2D array
+    this.soil = soilfield.map((row, rowIndex: number) => {
       const soilRow = row.map(({ x, y }, soilIndex: number) => {
-        const i = randomNumberHelper(0, 5);
-
+        // Create Soil sprite
         const soil = new Soil(this, x, y);
+        // Set random frame for Sprite
+        const i = randomNumberHelper(0, 5);
         soil.setFrame(i);
         soil.setInteractive(this.input.makePixelPerfect());
 
+        // Update Plant sprite link to Soil sprite
+        // Find plant in Plants 2D array
         const plant = plants[rowIndex][soilIndex];
-
+        // Add Plant to Soil if NOT Dummy
         if (!plant['dummy']) {
           soil.placePlant(plant as Plant);
         }
-
+        // Add handler to Soil
         soil.on('pointerdown', () => {
           this.handleSoilClick(soil, rowIndex, soilIndex);
         });
@@ -276,19 +225,23 @@ export class Game extends Scene {
 
       return soilRow;
     });
-
+    // define position of soil
+    const { height, width, worldView } = this.cameras.main;
+    const centerX = worldView.x + width / 2;
+    const centerY = worldView.y + height / 2;
+    // create containers for soil sprites
     this.soil.forEach((row, index) => {
       const container = this.add.container(
         centerX + (index - 2) * ROWS_GAP.x,
         centerY + (index - 2) * ROWS_GAP.y
       );
-
+      // set z-index for soil layer
       container.depth = CONTAINERS_DEPTH.soil;
-
+      // push sprites to game container
       this.soilContainer.push(container);
       this.soilContainer[index].add(row);
     });
-
+    // run next step: render Decorations
     this.renderDecorations();
   }
   // Render decorations
@@ -322,74 +275,139 @@ export class Game extends Scene {
 
     this.decorationContainer.depth = CONTAINERS_DEPTH.plant;
     this.decorationContainer.add(this.decorations);
-
+    // Run post render methods
     this.renderCompletion();
   }
-
   // action on end of renders
   private renderCompletion(): void {
     this.initiateControls();
 
     this.growingInterval = setInterval(() => this.growingChecker(), 2000);
-    // this.events.on('destroy', () => (this.growingInterval = null));
   }
+  /*
+   *
+   *  Utilities methods
+   *
+   */
+  // Check full 2D array of Plants sprites
+  private growingChecker(): void {
+    const currentTime = DateTime.now();
+    // Run through 2D plants sprite array
+    this.plants.forEach((row) => {
+      row.forEach((plant: Plant | Dummy) => {
+        if (!plant.dummy && 'growTime' in plant) {
+          this.updateGrowPhase(plant, currentTime);
+        }
+      });
+    });
+  }
+  // Update grow phase and animations of Plant sprite
+  private updateGrowPhase(plant: Plant, currentTime: DateTime): void {
+    // Calculate time with Luxon {DateTime}
+    // Difference between end grow time and current time in Milliseconds
+    // Calculate % in
+    const endGrowTime = DateTime.fromMillis(plant.plantedAt + plant.growTime);
+    const difference = endGrowTime.diff(currentTime).toMillis();
+    const percentLeft = Math.floor((difference / plant.growTime) * 100);
+    // Update static animation and play anim
+    if (percentLeft < 0) {
+      if (plant.phase === 3) return;
+      // Update phase and static frame
+      plant.setFrame(3);
+      plant.phase = 3;
+      // Check if plant is animated, must contain name of plant in {PLANTS_ANIMATED}
+      if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
+        plant.play(`tap-3-${plant.title.toLowerCase()}`);
+      }
+    }
 
+    if (percentLeft < 30) {
+      if (plant.phase === 2) return;
+      // Update phase and static frame
+      plant.setFrame(2);
+      plant.phase = 2;
+      // Check if plant is animated, must contain name of plant in {PLANTS_ANIMATED}
+      if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
+        plant.play(`tap-2-${plant.title.toLowerCase()}`);
+      }
+    }
+
+    if (percentLeft < 80) {
+      if (plant.phase === 1) return;
+      // Update phase and static frame
+      plant.setFrame(1);
+      plant.phase = 1;
+      // Check if plant is animated, must contain name of plant in {PLANTS_ANIMATED}
+      if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
+        plant.play(`tap-1-${plant.title.toLowerCase()}`);
+      }
+    }
+  }
   /*
    *
    * Handlers
    *
    */
   // Handle planting process
-  private async plantNewSeed(
+  private async placeNewPlant(
     soil: Soil,
     plant: IPlantListItem,
     rowIndex: number,
     plantIndex: number
   ): Promise<void> {
+    // Check if Plant price is less then balance
     if (
-      plant.gamePrice > this.user.balanceCoins ||
-      plant.tokenPrice > this.user.balanceTokens
+      plant.gamePrice > this.balanceCoins ||
+      plant.tokenPrice > this.balanceTokens
     ) {
+      // Clear picked plant
       this.pickedPlant = null;
-      // this.pickedPlantBar.hide();
+      EventBus.emit('clear-pick-plant');
+      // Stop method
       return;
     }
-
-    EventBus.emit('test', plant.gamePrice);
-
+    // Update user balance
+    EventBus.emit('withdraw-balance', {
+      coins: plant.gamePrice,
+      tokens: plant.tokenPrice
+    });
+    // Define planted time on Client
     const plantedAt = DateTime.now().toMillis();
-
-    // startGrowPlant(this.user.telegramId, plant._id, rowIndex, plantIndex, plantedAt);
-
+    // Send update on server
+    EventBus.emit('plant-new-plant', {
+      id: plant._id,
+      rowIndex,
+      plantIndex,
+      plantedAt
+    });
+    // Create props with X and Y for plant from Soil coords
     const props = {
       x: soil.x,
       y: soil.y,
       ...plant
     };
-
+    // Set new Plant sprite in given Cell
     this.plants[rowIndex][plantIndex] = new Plant(this, props, plantedAt);
-
+    // Get Plant sprite to local variable
     const newPlant = this.plants[rowIndex][plantIndex] as Plant;
-
+    // Place new Plant sprite to Soil
     soil.placePlant(newPlant);
-
+    // Update Plant sprite in container at Coords
     this.gardenContainer[rowIndex].addAt(newPlant, plantIndex);
-
+    // Play animation if Plant is in {PLANTS_ANIMATED} list
     if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
       newPlant.play(`tap-0-${newPlant.title.toLowerCase()}`);
     }
-
+    // One more check balance
     if (
-      plant.gamePrice > this.user.balanceCoins ||
-      plant.tokenPrice > this.user.balanceTokens
+      plant.gamePrice > this.balanceCoins ||
+      plant.tokenPrice > this.balanceTokens
     ) {
+      // Clear picked plant
+      EventBus.emit('clear-pick-plant');
       this.pickedPlant = null;
-      // this.pickedPlantBar.hide();
-      // this.bottomBar.activateMenu();
-      return;
     }
   }
-
   // Handle clicks on soil
   private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number): void {
     if (!this.isBlocked) {
@@ -433,7 +451,7 @@ export class Game extends Scene {
       }
 
       if (!soil.isOccupied && this.pickedPlant) {
-        this.plantNewSeed(soil, this.pickedPlant, rowIndex, plantIndex);
+        this.placeNewPlant(soil, this.pickedPlant, rowIndex, plantIndex);
       }
     }
   }

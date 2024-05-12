@@ -20,7 +20,7 @@ const MenuPlantsItem = ({
   xpIncome,
   icon,
   onClick
-}: IMenuItemProps) => {
+}: IMenuItemProps): JSX.Element => {
   return (
     <li className="plants-menu__item" onClick={onClick}>
       <img
