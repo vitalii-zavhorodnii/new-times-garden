@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { EventBus } from './game/EventBus';
-import { IRefPhaserGame, PhaserGame } from './game/PhaserGame';
+import { EventBus } from '@game/EventBus';
+import { IRefPhaserGame, PhaserGame } from '@game/PhaserGame';
 
 import { useFetchPlantsQuery } from '@services/queries/plants.api';
 import { useFetchProductsQuery } from '@services/queries/products.api';
@@ -49,17 +49,18 @@ export default function App(): JSX.Element {
     if (!!user && !!settings) {
       EventBus.emit('initialize-data-fetch', {
         user,
-        plants,
-        products,
         settings
       });
 
-      setBalanceCoins(user.balanceCoins);
-      setBalanceTokens(user.balanceTokens);
-      setBalanceXp(user.xp);
-      setHidden(false);
+      EventBus.on('loading-end', () => {
+        setBalanceCoins(user.balanceCoins);
+        setBalanceTokens(user.balanceTokens);
+        setBalanceXp(user.xp);
+        setHidden(false);
+      });
 
       EventBus.on('clear-pick-plant', () => {
+        console.log('clear-pick-plant', null);
         setPickedPlant(null);
       });
 
@@ -70,6 +71,7 @@ export default function App(): JSX.Element {
       EventBus.on(
         'withdraw-balance',
         ({ coins, tokens }: { coins: number; tokens: number }) => {
+          console.log('withdraw-balance');
           setBalanceCoins(balanceCoins - coins);
           setBalanceTokens(balanceTokens - tokens);
         }

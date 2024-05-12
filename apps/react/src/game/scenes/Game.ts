@@ -129,7 +129,7 @@ export class Game extends Scene {
       });
     });
 
-    // Define event emmiters
+    // Define event emitters
     EventBus.on('pick-plant', (plant: IPlantListItem) => {
       this.handlePlantChoose(plant);
     });
@@ -281,6 +281,8 @@ export class Game extends Scene {
   // action on end of renders
   private renderCompletion(): void {
     this.initiateControls();
+
+    EventBus.emit('loading-end');
 
     this.growingInterval = setInterval(() => this.growingChecker(), 2000);
   }
@@ -468,21 +470,20 @@ export class Game extends Scene {
    */
   // Handle pick plants menu
   private handlePlantChoose(plant: IPlantListItem): void {
-    if (this.user.balanceCoins < plant.gamePrice) {
-      return;
-    }
-    if (this.user.balanceTokens < plant.tokenPrice) {
+    if (
+      this.user.balanceCoins < plant.gamePrice ||
+      this.user.balanceTokens < plant.tokenPrice
+    ) {
       return;
     }
 
     this.pickedPlant = plant;
   }
-  // Handle user balance
-  private handleUserBalance() {}
   /*
-      Methods
-  */
-  // Controls
+   *  Game controls
+   *
+   *   Init controls
+   */
   private initiateControls(): void {
     const pinch = new Pinch(this);
     pinch.setEnable(true);

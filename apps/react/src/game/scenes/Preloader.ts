@@ -73,6 +73,7 @@ export class Preloader extends Scene {
     loader.setScale(0.4);
 
     EventBus.on('initialize-data-fetch', (data: any) => {
+      console.log('initialize-data-fetch', data);
       clearInterval(this.timer);
 
       this.scene.start('Game', data);
