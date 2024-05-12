@@ -15,11 +15,25 @@ interface IHarvestDto {
   plantIndex: number;
 }
 
+interface ICreateUserDto {
+  telegramId: number;
+  name: string;
+  avatar?: string;
+  isActive?: boolean;
+}
+
 export const usersApi = commonApi.injectEndpoints({
   endpoints: (build) => ({
     fetchUser: build.query<IUsersModel, string>({
       query: (id) => ({ url: `/users/${id}` }),
       providesTags: (_) => [{ type: 'Users' }]
+    }),
+    createUser: build.mutation<boolean, ICreateUserDto>({
+      query: ({ telegramId, name, avatar, isActive }) => ({
+        url: `/users`,
+        method: 'POST',
+        body: { telegramId, name, avatar, isActive }
+      })
     }),
     startGrow: build.mutation<boolean, IStartGrowDto>({
       query: ({ userId, plantId, rowIndex, plantIndex, plantedAtClient }) => ({
@@ -38,5 +52,9 @@ export const usersApi = commonApi.injectEndpoints({
   })
 });
 
-export const { useFetchUserQuery, useStartGrowMutation, useHarvestMutation } =
-  usersApi;
+export const {
+  useFetchUserQuery,
+  useStartGrowMutation,
+  useHarvestMutation,
+  useCreateUserMutation
+} = usersApi;

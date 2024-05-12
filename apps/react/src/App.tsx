@@ -9,6 +9,7 @@ import { useFetchPlantsQuery } from '@services/queries/plants.api';
 import { useFetchProductsQuery } from '@services/queries/products.api';
 import { useFetchSettingsQuery } from '@services/queries/settings.api';
 import {
+  useCreateUserMutation,
   useFetchUserQuery,
   useHarvestMutation,
   useStartGrowMutation
@@ -23,15 +24,12 @@ import PaperModal from '@ui/modals/PaperModal';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
-const WebApp = window?.Telegram?.WebApp;
+// console.log({ WebApp: WebApp });
+// if (WebApp) {
 
-if (WebApp) {
-  WebApp.expand();
-  WebApp.disableClosingConfirmation();
-  WebApp.ready();
-} else {
-  console.log('No Web App!');
-}
+// } else {
+//   console.log('No Web App!');
+// }
 
 export default function App(): JSX.Element {
   const [isHiddenUI, setHidden] = useState(true);
@@ -54,7 +52,10 @@ export default function App(): JSX.Element {
 
   const phaserRef = useRef<IRefPhaserGame | null>(null);
 
+  const WebApp = window?.Telegram?.WebApp;
+
   useEffect(() => {
+    console.log({ WebApp });
     if (!!user && !!settings) {
       setBalanceCoins(user.balanceCoins);
       setBalanceTokens(user.balanceTokens);
