@@ -19,6 +19,9 @@ const phasermsg = () => {
 };
 
 export default defineConfig({
+  plugins: [react(), phasermsg()],
+  logLevel: 'error',
+
   resolve: {
     alias: {
       '@ui': path.resolve(__dirname, './src/ui').replace(/\\/g, '/'),
@@ -41,8 +44,7 @@ export default defineConfig({
       '@interfaces': path.resolve(__dirname, './src/interfaces').replace(/\\/g, '/')
     }
   },
-  plugins: [react(), phasermsg()],
-  logLevel: 'info',
+
   build: {
     rollupOptions: {
       output: {
