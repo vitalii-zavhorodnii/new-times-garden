@@ -19,7 +19,7 @@ const phasermsg = () => {
 };
 
 export default defineConfig({
-  base: './',
+  base: '../',
   resolve: {
     alias: {
       '@ui': path.resolve(__dirname, '../src/ui').replace(/\\/g, '/'),
