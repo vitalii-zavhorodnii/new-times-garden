@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "dev": "vite --config vite/config.dev.mjs",
-    "build": "vite build --config vite/config.prod.mjs"
+    "build": "vite build --config ./vite.config.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.4",
