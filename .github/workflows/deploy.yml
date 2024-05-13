@@ -80,5 +80,5 @@ jobs:
             npm run build:react
             
             rm -rf apps/api/static/*
-            mv apps/client/dist/* apps/api/static
+            mv apps/react/dist/* apps/api/static
             pm2 restart api --name=api --watch
