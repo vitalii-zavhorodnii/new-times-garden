@@ -1,5 +1,5 @@
-import { commonApi } from 'src/services/common.api';
-import { IUsersModel } from 'src/services/models/users.model';
+import { commonApi } from '../common.api';
+import { IUsersModel } from '../models/users.model';
 
 export const gardensApi = commonApi.injectEndpoints({
   endpoints: (build) => ({

@@ -24,13 +24,6 @@ import PaperModal from '@ui/modals/PaperModal';
 
 import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
-// console.log({ WebApp: WebApp });
-// if (WebApp) {
-
-// } else {
-//   console.log('No Web App!');
-// }
-
 export default function App(): JSX.Element {
   const [isHiddenUI, setHidden] = useState(true);
   const [pickedPlant, setPickedPlant] = useState<IPlantListItem | null>(null);
@@ -50,12 +43,10 @@ export default function App(): JSX.Element {
   const [startGrow] = useStartGrowMutation();
   const [harvestQuery] = useHarvestMutation();
 
+  const webApp = window?.Telegram?.WebApp;
   const phaserRef = useRef<IRefPhaserGame | null>(null);
 
-  const WebApp = window?.Telegram?.WebApp;
-
   useEffect(() => {
-    console.log({ WebApp });
     if (!!user && !!settings) {
       setBalanceCoins(user.balanceCoins);
       setBalanceTokens(user.balanceTokens);
@@ -67,6 +58,10 @@ export default function App(): JSX.Element {
       });
     }
   }, [user, settings]);
+
+  useEffect(() => {
+    console.log('web-app', webApp?.initDataUnsafe?.user?.id);
+  }, [webApp]);
 
   useEffect(() => {
     EventBus.emit('change-balance', { balanceCoins, balanceTokens, balanceXp });
@@ -89,7 +84,6 @@ export default function App(): JSX.Element {
     });
 
     EventBus.on('plant-new-plant', (data: any) => {
-      console.log('plant-new-plant', data);
       if (user) {
         startGrow({
           userId: user?.telegramId,
@@ -159,6 +153,7 @@ export default function App(): JSX.Element {
 
   return (
     <>
+      {/* <div>{window?.Telegram?.WebApp?.initDataUnsafe?.user?.id}</div> */}
       <PickedPlantBar seed={pickedPlant} />
 
       {plants ? (

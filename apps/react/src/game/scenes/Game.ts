@@ -70,7 +70,6 @@ export class Game extends Scene {
   }
 
   public init(data: IData): void {
-    console.log('init game', { data });
     this.user = data.user;
 
     this.settings = data.settings;
@@ -429,7 +428,6 @@ export class Game extends Scene {
   private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number): void {
     // Block clicking
     if (this.isBlocked) return;
-    console.log('Clicked!');
     // Check of Soil is not occupied yet, plant new Plant
     if (!soil.isOccupied && this.pickedPlant) {
       this.placeNewPlant(soil, this.pickedPlant, rowIndex, plantIndex);
