@@ -10,7 +10,10 @@ export const PLANTS_SPRITES = [
   'potato',
   'onion',
   'cabbage',
-  'pepper'
+  'pepper',
+  'strawberry',
+  'radish',
+  'broccoli'
 ];
 
 export const PLANTS_ANIMATED = [

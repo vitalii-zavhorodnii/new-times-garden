@@ -84,6 +84,15 @@ export class CreatePlantDto {
 
   @ApiProperty({
     example: 90,
+    description: 'level in coins'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly requiredLevel: number;
+
+  @ApiProperty({
+    example: 90,
     description: 'Price in tokens'
   })
   @IsDefined()

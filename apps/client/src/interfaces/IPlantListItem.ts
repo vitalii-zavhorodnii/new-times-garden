@@ -3,6 +3,7 @@ export interface IPlantsList {
   fruits: IPlantListItem[];
   berries: IPlantListItem[];
   flowers: IPlantListItem[];
+  herbs: IPlantListItem[];
 }
 
 export interface IPlantListItem {

@@ -54,6 +54,10 @@ class Plant extends Document {
   readonly tokensIncome: number;
 
   @ApiProperty({ example: 20 })
+  @Prop({ type: Number, required: false, default: 0 })
+  readonly requiredLevel: number;
+
+  @ApiProperty({ example: 20 })
   @Prop({ type: Number, required: true })
   readonly xpIncome: number;
 

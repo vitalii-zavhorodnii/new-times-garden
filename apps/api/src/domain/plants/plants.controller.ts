@@ -34,13 +34,15 @@ export class PlantsController {
     fruits: Plant[];
     berries: Plant[];
     flowers: Plant[];
+    herbs: Plant[];
   }> {
     const vegetables = await this.plantsService.findByType('vegetable');
     const fruits = await this.plantsService.findByType('fruit');
     const berries = await this.plantsService.findByType('berry');
     const flowers = await this.plantsService.findByType('flower');
+    const herbs = await this.plantsService.findByType('herbs');
 
-    return { vegetables, fruits, berries, flowers };
+    return { vegetables, fruits, berries, herbs, flowers };
   }
 
   @ApiOperation({ summary: 'create new Plant' })
