@@ -93,7 +93,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: api-app
-          path: api/
+          path: /api/
 
       # - name: Download Client artifact
       #   uses: actions/download-artifact@v4
@@ -109,11 +109,9 @@ jobs:
 
       - name: Display structure of downloaded files
         run: |
-            echo "* * * ------"
+            echo "Files: ------"
             ls
             echo "* * * ------"
-            cd modules
-            ls
 
       - name: Mount artifact
         uses: appleboy/scp-action@v0.1.7
