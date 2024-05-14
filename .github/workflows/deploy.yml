@@ -76,11 +76,14 @@ jobs:
             git stash
             git pull origin main
             npm install
+
+            touch apps/api/.env
+            echo ${{ secrets.ENV_API }} >> apps/api/.env
             
-            cd apps/api
-            touch .env
-            echo ${{ secrets.ENV_API }} >> .env
-            npm run build
+            npm run build:api
+            npm run build:client
+
+            mv apps/client/dist/* apps/api/static/
 
             pm2 stop api  
             pm2 delete api
@@ -106,11 +109,11 @@ jobs:
           cd build && ls
           echo "* * * ------"
 
-      - name: Mount artifact
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          source: "./client/*"
-          target: /projects/new-times-garden/apps/api/static/
+      # - name: Mount artifact
+      #   uses: appleboy/scp-action@v0.1.7
+      #   with:
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USER }}
+      #     source: "./client/*"
+      #     target: /projects/new-times-garden/apps/api/static/
