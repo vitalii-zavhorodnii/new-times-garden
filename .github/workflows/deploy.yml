@@ -21,7 +21,7 @@ jobs:
           npm -v
 
   build-client:
-    name: Build Client
+    name: Create Client artifact
     needs: lint
     runs-on: ubuntu-latest
 
@@ -72,6 +72,7 @@ jobs:
           port: 22
           script: |
             cd /projects/new-times-garden/
+
             git stash
             git pull origin main
             npm install
@@ -79,7 +80,7 @@ jobs:
             
             pm2 stop api  
             pm2 delete api
-            pm2 start /apps/garden/main.js --name=api
+            pm2 start apps/garden/main.js --name=api
 
   deploy-client:
     name: Deploy client
