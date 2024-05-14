@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node esbuild/dev.server.mjs -w",
-    "sass": "node watch-sass",
+    "sass": "node scripts/watch-sass",
     "build": "node esbuild/build.prod.mjs"
   },
   "author": "Phaser Studio <support@phaser.io> (https://phaser.io/)",
