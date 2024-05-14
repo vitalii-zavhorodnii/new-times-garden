@@ -19,6 +19,7 @@ const phasermsg = () => {
 };
 
 export default defineConfig({
+  base: '/new-times-garden/',
   plugins: [react(), phasermsg()],
   logLevel: 'error',
 

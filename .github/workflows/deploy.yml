@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: client-app
-          path: ./apps/react/dist
+          path: ./apps/react/dist/*
           if-no-files-found: error
           compression-level: 0
           overwrite: true
@@ -63,15 +63,9 @@ jobs:
     name: Deploy
     needs: [lint, build]
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Deploying using SSH
         uses: appleboy/ssh-action@master
         with:
@@ -103,3 +97,17 @@ jobs:
             rm -rf apps/api/static/*
             mv apps/client/dist/* apps/api/static
             pm2 restart api --name=api --watch
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client-app
+
+      - name: Copy React Artifact
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          source: "./*"
+          target: /apps/garden/client/
