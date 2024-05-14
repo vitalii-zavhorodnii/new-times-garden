@@ -93,25 +93,27 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: api-app
-          path: /api/
+          path: api/
 
       - name: Download Client artifact
         uses: actions/download-artifact@v4
         with:
           name: client-app
-          path: /api/static/
+          path: client/static/
 
       - name: Download Modules artifact
         uses: actions/download-artifact@v4
         with:
           name: node-modules
-          path: ./
+          path: modules
 
       - name: Display structure of downloaded files
         run: |
             echo "* * * ------"
             ls
             echo "* * * ------"
+            cd modules
+            ls
 
       - name: Mount artifact
         uses: appleboy/scp-action@v0.1.7
