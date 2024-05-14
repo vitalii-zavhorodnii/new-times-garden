@@ -29,7 +29,6 @@ jobs:
 
   build:
     name: Build
-    needs: [lint]
     runs-on: ubuntu-latest
 
     steps:
@@ -55,23 +54,14 @@ jobs:
       - name: Build API
         run: npm run build:api
 
-      - name: Upload API artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-app
-          path: ./apps/api/dist/*
-          if-no-files-found: error
-          compression-level: 0
-          overwrite: true
-
       - name: Build Client
         run: npm run build:react
 
-      - name: Upload Client artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: client-app
-          path: ./apps/react/dist/*
+          name: garden-app
+          path: ./
           if-no-files-found: error
           compression-level: 0
           overwrite: true
@@ -84,12 +74,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download API artifact
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: api-app
+          name: garden-app
 
-      - name: Mount API artifact
+      - name: Mount artifact
         uses: appleboy/scp-action@v0.1.7
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -98,27 +88,13 @@ jobs:
           source: "./*"
           target: /apps/garden/
 
-      - name: Download Client artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: client-app
-
-      - name: Mount Client artifact
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          source: "./*"
-          target: /apps/garden/static/
-
   post:
     name: Restart apps
     needs: [build, deploy]
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Restart PM2 app'
+      - name: "Restart PM2 app"
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
