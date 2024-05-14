@@ -1,6 +1,9 @@
 # Env
 .env
 
+# Build
+/**/bundle.*.*
+
 # Logs
 logs
 *.log
