@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: api-app
-          path: apps/api/dist/
+          path: ./apps/api/dist/*
           if-no-files-found: error
           compression-level: 0
           overwrite: true
