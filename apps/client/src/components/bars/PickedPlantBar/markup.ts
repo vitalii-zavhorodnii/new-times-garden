@@ -24,7 +24,7 @@ export const markup = (
       tokens > 0
         ? `<p class="picked-plant-bar__value">
             <img class="picked-plant-bar__icon" 
-              src="./assets/utils/token.svg" 
+              src="./assets/utils/token.png" 
               alt="token"
             >
             ${tokens}

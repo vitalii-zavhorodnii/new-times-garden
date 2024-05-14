@@ -13,7 +13,7 @@ export const markup = (
       <h2 class="shop-menu__title">
         <img 
           class="shop-menu__currency" 
-          src="./assets/utils/token.svg" 
+          src="./assets/utils/token.png" 
           alt="token"
         >  
         ${value}

@@ -14,7 +14,8 @@ export const PLANTS_SPRITES = [
   'strawberry',
   'radish',
   'broccoli',
-  'tsukini'
+  'tsukini',
+  'blueberry'
 ];
 
 export const PLANTS_ANIMATED = [

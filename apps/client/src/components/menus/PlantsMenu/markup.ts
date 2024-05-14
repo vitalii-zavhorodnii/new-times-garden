@@ -35,7 +35,7 @@ export const markup = (
           ? `<p class="plants-menu__value">
               <img 
                 class="plants-menu__stat-icon" 
-                src="./assets/utils/token.svg" 
+                src="./assets/utils/token.png" 
                 alt="token"
               >
               ${tokens}
