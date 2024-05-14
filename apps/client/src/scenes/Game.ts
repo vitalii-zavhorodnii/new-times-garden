@@ -348,6 +348,7 @@ export class Game extends Scene {
 
         const dummy = this.plants[rowIndex][plantIndex] as Plant;
         soil.placePlant(dummy);
+        soil.setTexture('harvested');
 
         this.gardenContainer[rowIndex].addAt(dummy, plantIndex);
 
