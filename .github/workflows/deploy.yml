@@ -73,9 +73,9 @@ jobs:
         with:
           name: node-modules
           path: |
-              ./apps/api/node_modules
-              ./apps/api/package.json
-              ./apps/api/package-lock.json
+            ./apps/api/node_modules
+            ./apps/api/package.json
+            ./apps/api/package-lock.json
           if-no-files-found: error
           compression-level: 0
           overwrite: true
@@ -102,6 +102,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-modules
+
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: Mount artifact
         uses: appleboy/scp-action@v0.1.7
