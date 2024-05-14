@@ -65,9 +65,6 @@ export class Game extends Scene {
   private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
   private menuPlants: PlantsMenu;
-  // private menuDecoration: any;
-
-  // private menuFfertilizer: any;
 
   // UI buttons
   private btnShopOpen: HTMLElement;
