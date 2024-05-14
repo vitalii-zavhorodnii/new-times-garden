@@ -47,10 +47,27 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Create ENV for API
+        run: |
+          touch apps/api/.env
+          echo ${{ secrets.ENV_API }} >> apps/api/.env
+
+      - name: Build API
+        run: npm run build:api
+
+      - name: Upload API artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-app
+          path: ./apps/api/dist/*
+          if-no-files-found: error
+          compression-level: 0
+          overwrite: true
+
+      - name: Build Client
         run: npm run build:react
 
-      - name: Upload production-ready build files
+      - name: Upload Client artifact
         uses: actions/upload-artifact@v4
         with:
           name: client-app
@@ -61,27 +78,47 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: [lint, build]
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Artifact
+      - name: Download API artifact
         uses: actions/download-artifact@v4
         with:
-          name: client-app
+          name: api-app
 
-      - name: Copy React Artifact
+      - name: Mount API artifact
         uses: appleboy/scp-action@v0.1.7
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           source: "./*"
-          target: /apps/garden/client/
+          target: /apps/garden/
 
-      - name: Deploying using SSH
+      - name: Download Client artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client-app
+
+      - name: Mount Client artifact
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          source: "./*"
+          target: /apps/garden/static/
+
+  post:
+    name: Restart apps
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Restart PM2 app'
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -89,23 +126,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: 22
           script: |
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-            export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install latest
-            cd /projects/new-times-garden/
-            git status
-            git stash
-            git checkout main
-            git pull origin main
-            npm install
-            pm2 stop api
+            pm2 stop api  
+            pm2 delete api
 
-            npm run build:api
-
-            rm -rf apps/client/dist/*
-            npm run build:client
-
-            rm -rf apps/api/static/*
-            mv apps/client/dist/* apps/api/static
-            pm2 restart api --name=api --watch
+            pm2 start /apps/garden/main.js --name=api
