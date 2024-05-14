@@ -34,23 +34,31 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          clean: true
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 21
+          node-version: 22.x
+          check-latest: true
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+        env:
+          NODE_ENV: production
 
       - name: Build project
         run: npm run build:react
 
       - name: Upload production-ready build files
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: production
+          name: client-app
           path: ./apps/react/dist
+          if-no-files-found: error
+          compression-level: 0
+          overwrite: true
 
   deploy:
     name: Deploy
