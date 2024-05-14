@@ -21,7 +21,7 @@ jobs:
           npm -v
 
   build-client:
-    name: Create Client artifact
+    name: Create react artifact
     needs: lint
     runs-on: ubuntu-latest
 
@@ -40,10 +40,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Create ENV for API
+      - name: Create ENV for client
         run: |
-          touch apps/api/.env
-          echo ${{ secrets.ENV_API }} >> apps/api/.env
+          touch apps/react/.env
+          echo ${{ secrets.ENV_API }} >> apps/react/.env
 
       - name: Build Client
         run: npm run build:react
