@@ -19,18 +19,20 @@
   "homepage": "https://github.com/phaserjs/template-esbuild-ts#readme",
   "license": "MIT",
   "dependencies": {
+    "@tonconnect/ui": "^2.0.2",
+    "axios": "^1.6.8",
     "phaser": "^3.80.1",
     "phaser3-rex-plugins": "^1.80.3",
-    "axios": "^1.6.8",
-    "@tonconnect/ui": "^2.0.2",
     "swiper": "^11.1.1"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "prettier": "^2.8.8",
+    "@jgoz/esbuild-plugin-livereload": "^2.0.4",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "@types/lodash.throttle": "^4.1.9",
+    "@types/luxon": "^3.4.2",
+    "@types/node": "^17.0.8",
+    "@types/telegram-web-app": "^7.2.1",
     "dotenv": "^16.4.5",
-    "nodemon": "^3.1.0",
-    "sass": "^1.75.0",
     "esbuild": "^0.20.2",
     "esbuild-envfile-plugin": "^1.0.6",
     "esbuild-plugin-clean": "^1.0.1",
@@ -43,11 +45,9 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "@jgoz/esbuild-plugin-livereload": "^2.0.4",
-    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
-    "@types/node": "^17.0.8",
-    "@types/telegram-web-app": "^7.2.1",
-    "@types/lodash.throttle": "^4.1.9",
-    "@types/luxon": "^3.4.2"
+    "nodemon": "^3.1.0",
+    "prettier": "^2.8.8",
+    "sass": "^1.75.0",
+    "typescript": "^5.3.3"
   }
 }
