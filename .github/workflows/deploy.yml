@@ -39,7 +39,7 @@ jobs:
             echo Going to git repo 🚀
             cd /projects/new-times-garden/
 
-            echo Pulling from main 🚀
+            echo Stashing and pulling from main 🚀
             git stash --all
             git pull origin main
 
