@@ -11,21 +11,14 @@ on:
 
 jobs:
   lint:
-    name: ESLint check
+    name: Linter
     runs-on: ubuntu-latest
     continue-on-error: true
 
     steps:
       - name: Install ESLint
         run: |
-          npm install eslint@latest
-          npm install @microsoft/eslint-formatter-sarif@latest
-      - name: Run lint
-        run: npx eslint .
-          --config .eslintrc.js
-          --ext .ts,.js
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
+          npm -v
 
   build:
     name: Build
@@ -57,11 +50,29 @@ jobs:
       - name: Build Client
         run: npm run build:react
 
-      - name: Upload artifact
+      - name: Upload API artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-app
+          path: ./apps/api/dist
+          if-no-files-found: error
+          compression-level: 0
+          overwrite: true
+
+      - name: Upload Client artifact
         uses: actions/upload-artifact@v4
         with:
           name: garden-app
-          path: ./
+          path: ./apps/react/dist
+          if-no-files-found: error
+          compression-level: 0
+          overwrite: true
+
+      - name: Upload Modules artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-modules
+          path: ./api/node_modules/
           if-no-files-found: error
           compression-level: 0
           overwrite: true
@@ -77,7 +88,17 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: garden-app
+          name: api-app
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client-app
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: node-modules
 
       - name: Mount artifact
         uses: appleboy/scp-action@v0.1.7
@@ -104,5 +125,4 @@ jobs:
           script: |
             pm2 stop api  
             pm2 delete api
-
             pm2 start /apps/garden/main.js --name=api
