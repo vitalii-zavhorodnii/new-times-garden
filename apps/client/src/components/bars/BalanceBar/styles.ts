@@ -1,7 +1,7 @@
 import { css } from 'lit';
 
 export const styles = css`
-  .balance-bar {
+  .container {
     z-index: 1;
     position: absolute;
     top: 10px;
@@ -10,31 +10,31 @@ export const styles = css`
     justify-content: center;
     align-items: center;
     height: 32px;
-    transition: top 500ms ease-in-out; /* заменил $start-animation на ease-in-out */
+    transition: top 500ms cubic-bezier(0.42, 0, 0.58, 1);
   }
 
-  .balance-bar__cell {
+  .container.hidden {
+    top: -60px;
+  }
+
+  .item {
     display: flex;
     align-items: center;
     margin-right: 10px;
-
-    &:last-child {
-      margin-right: 0;
-    }
   }
 
-  .balance-bar__icon {
-    width: 24px;
-    margin-right: 6px;
+  .item:last-child {
+    margin-right: 0;
   }
 
-  .balance-bar__value {
+  .value {
     font-size: 20px;
     font-family: 'Bebas Neue', sans-serif;
     color: #fff;
   }
 
-  .balance-bar.hidden {
-    top: -60px;
+  .icon {
+    width: 24px;
+    margin-right: 6px;
   }
 `;

@@ -20,6 +20,7 @@ import Soil from '@entities/Soil';
 
 import { mapFieldRows } from '@mappers/mapFieldRows';
 
+import { elementUpdate } from '@helpers/element-update';
 import { randomNumberHelper } from '@helpers/random-number';
 
 import { CAMERA_BOUNDRIES } from '@constants/camera-bounds';
@@ -65,7 +66,7 @@ export class Game extends Scene {
 
   private pickedPlantBar: PickedPlantBar;
   private bottomBar: BottomBar;
-  private balanceBar: BalanceBar;
+  private balanceBar: Element;
   private shopMenu: ShopMenu;
   private menuPlants: PlantsMenu;
 
@@ -137,8 +138,19 @@ export class Game extends Scene {
      */
     // Tokens and coins menu
     // menu coins menu shop
+    new BalanceBar();
 
-    this.balanceBar = new BalanceBar();
+    this.balanceBar = document.getElementsByTagName('balance-bar')[0];
+
+    // this.balanceBar.setAttribute('coins', String(this.balanceCoins));
+
+    elementUpdate(this.balanceBar, 'coins', this.balanceCoins);
+    elementUpdate(this.balanceBar, 'tokens', this.balanceTokens);
+    elementUpdate(this.balanceBar, 'xp', this.xp);
+
+    // element.setAttribute();
+
+    // this.balanceBar.coins = this.balanceCoins;
     // console.log({ user: this.user });
     // balanceBar.updateValues();
     // this.btnShopOpen = document.getElementById('shop-menu-open');
@@ -559,11 +571,12 @@ export class Game extends Scene {
   // action on end of renders
   private renderCompletion() {
     this.initiateControls();
-    this.balanceBar.changeProperties(
-      this.user.balanceCoins,
-      this.user.balanceTokens,
-      this.xp
-    );
+    elementUpdate(this.balanceBar, 'isshown');
+    // this.balanceBar.changeProperties(
+    //   this.user.balanceCoins,
+    //   this.user.balanceTokens,
+    //   this.xp
+    // );
 
     this.growingInterval = setInterval(() => this.growingChecker(), 2000);
     this.events.on('destroy', () => (this.growingInterval = null));
