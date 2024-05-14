@@ -1,43 +1,41 @@
-export default class BalanceBar {
-  public isShown: boolean;
+import { styles } from './styles';
+import { LitElement, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
-  private coins: HTMLElement;
-  private tokens: HTMLElement;
-  private xp: HTMLElement;
-  private container: HTMLElement;
+@customElement('balance-bar')
+export default class BalanceBar extends LitElement {
+  static styles = styles;
 
-  constructor() {
-    this.container = document.querySelector('.balance-bar');
-    this.coins = document.getElementById('coin-balance');
-    this.tokens = document.getElementById('token-balance');
-    this.xp = document.getElementById('xp-balance');
-  }
+  @property({ type: Boolean }) public isShown = true;
 
-  public show() {
-    if (!this.isShown) {
-      this.container.classList.remove('hidden');
-      this.isShown = true;
-    }
-  }
+  @property({ type: Number }) public coins: 0;
+  @property({ type: Number }) public tokens: 0;
+  @property({ type: Number }) public xp: 0;
 
-  public hide() {
-    if (this.isShown) {
-      this.container.classList.add('hidden');
-      this.isShown = false;
-    }
-  }
-
-  public setCoins(value: number) {
-    this.coins.innerHTML = String(value);
-  }
-
-  public setTokens(value: number) {
-    this.tokens.innerHTML = String(value);
-  }
-
-  public setLevel(value: number) {
-    const level = value;
-    const currentXp = value;
-    this.xp.innerHTML = String(level);
+  render() {
+    return html` <div class="balance-bar ${this.isShown ? '' : 'hidden'}">
+      <div class="balance-bar__cell">
+        <span class="balance-bar__value" id="xp-balance">0</span>
+        <img
+          class="balance-bar__icon"
+          src="./assets/utils/experience.png"
+          alt="xp"
+        />
+      </div>
+      <div class="balance-bar__cell">
+        <img class="balance-bar__icon" src="./assets/utils/coin.png" alt="coin" />
+        <span class="balance-bar__value" id="coin-balance">0</span>
+      </div>
+      <div class="balance-bar__cell">
+        <img class="balance-bar__icon" src="./assets/utils/token.png" alt="coin" />
+        <span class="balance-bar__value" id="token-balance">0</span>
+      </div>
+      <div id="shop-menu-open" class="balance-bar__cell">
+        <img class="balance-bar__icon" src="./assets/utils/plus.svg" alt="add" />
+      </div>
+    </div>`;
   }
 }
+
+const tag = document.createElement('balance-bar');
+document.body.appendChild(tag);

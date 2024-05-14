@@ -62,7 +62,7 @@ export class Game extends Scene {
 
   private pickedPlantBar: PickedPlantBar;
   private bottomBar: BottomBar;
-  private balanceBar: BalanceBar;
+  // private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
   private menuPlants: PlantsMenu;
 
@@ -106,11 +106,11 @@ export class Game extends Scene {
       UI - elements
     */
     // Top right Balance bar
-    this.balanceBar = new BalanceBar();
-    this.balanceBar.setCoins(this.user.balanceCoins);
-    this.balanceBar.setTokens(this.user.balanceTokens);
-    this.balanceBar.setLevel(this.user.xp);
-    this.balanceBar.show();
+    // this.balanceBar = new BalanceBar();
+    // this.balanceBar.setCoins(this.user.balanceCoins);
+    // this.balanceBar.setTokens(this.user.balanceTokens);
+    // this.balanceBar.setLevel(this.user.xp);
+    // this.balanceBar.show();
     // Bottom buttons bar
     this.bottomBar = new BottomBar();
     this.bottomBar.show();
@@ -128,10 +128,12 @@ export class Game extends Scene {
      */
     // Tokens and coins menu
     // menu coins menu shop
-    this.btnShopOpen = document.getElementById('shop-menu-open');
-    this.btnShopOpen.addEventListener('click', () => {
-      this.handleOpenShop();
-    });
+
+    const balanceBar = new BalanceBar();
+    // this.btnShopOpen = document.getElementById('shop-menu-open');
+    // this.btnShopOpen.addEventListener('click', () => {
+    //   this.handleOpenShop();
+    // });
     this.btnShopClose = document.getElementById('shop-menu-close');
     this.btnShopClose.addEventListener('click', () => {
       this.handleCloseShop();
@@ -333,11 +335,11 @@ export class Game extends Scene {
         }
 
         this.user.balanceCoins += soil.plant.coinsIncome;
-        this.balanceBar.setCoins(this.user.balanceCoins);
+        // this.balanceBar.setCoins(this.user.balanceCoins);
         this.user.balanceTokens += soil.plant.tokensIncome;
-        this.balanceBar.setTokens(this.user.balanceTokens);
+        // this.balanceBar.setTokens(this.user.balanceTokens);
         this.user.xp += soil.plant.xpIncome;
-        this.balanceBar.setLevel(this.user.xp);
+        // this.balanceBar.setLevel(this.user.xp);
 
         this.gardenContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
         this.plants[rowIndex][plantIndex].destroy();
@@ -383,8 +385,8 @@ export class Game extends Scene {
 
     this.user.balanceCoins -= plant.gamePrice;
     this.user.balanceTokens -= plant.tokenPrice;
-    this.balanceBar.setCoins(this.user.balanceCoins);
-    this.balanceBar.setTokens(this.user.balanceTokens);
+    // this.balanceBar.setCoins(this.user.balanceCoins);
+    // this.balanceBar.setTokens(this.user.balanceTokens);
 
     const plantedAt = DateTime.now().toMillis();
 
@@ -567,7 +569,7 @@ export class Game extends Scene {
     if (boc) {
       const updatedValue = this.user.balanceTokens + item.value;
       this.user.balanceTokens = updatedValue;
-      this.balanceBar.setTokens(updatedValue);
+      // this.balanceBar.setTokens(updatedValue);
 
       createPayment({
         productId: item._id,

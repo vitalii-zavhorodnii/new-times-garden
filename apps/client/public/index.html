@@ -95,27 +95,7 @@
       <!-- UI elements and containers -->
       <div id="picked-plant-container" class="picked-plant hidden"></div>
 
-      <div class="balance-bar hidden">
-        <div class="balance-bar__cell">
-          <span class="balance-bar__value" id="xp-balance">0</span>
-          <img
-            class="balance-bar__icon"
-            src="./assets/utils/experience.png"
-            alt="xp"
-          />
-        </div>
-        <div class="balance-bar__cell">
-          <img class="balance-bar__icon" src="./assets/utils/coin.png" alt="coin" />
-          <span class="balance-bar__value" id="coin-balance">0</span>
-        </div>
-        <div class="balance-bar__cell">
-          <img class="balance-bar__icon" src="./assets/utils/token.png" alt="coin" />
-          <span class="balance-bar__value" id="token-balance">0</span>
-        </div>
-        <div id="shop-menu-open" class="balance-bar__cell">
-          <img class="balance-bar__icon" src="./assets/utils/plus.svg" alt="add" />
-        </div>
-      </div>
+      <balance-bar></balance-bar>
 
       <div id="utility-bar" class="utility-bar hidden"></div>
 

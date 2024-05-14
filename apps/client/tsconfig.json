@@ -7,6 +7,7 @@
     "skipLibCheck": false,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "experimentalDecorators": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
