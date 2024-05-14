@@ -23,34 +23,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - name: Install ESLint
-      #   run: |
-      #     npm install eslint@latest
-      #     npm install @microsoft/eslint-formatter-sarif@latest
-
-      # - name: Run lint
-      #   run: npx eslint .
-      #     --config .eslintrc.js
-      #     --ext .ts,.js
-      #     --format @microsoft/eslint-formatter-sarif
-      #     --output-file eslint-results.sarif
-      #   continue-on-error: false
-
-      # - name: Install NodeJS 22.x
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 22.x
-      #     cache: 'npm'
-
-      # - name: Install dependencies
-      #   run: npm install
-
-      # - name: Create build API
-      #   run: npm run build:api
-        
-      # - name: Create build Client
-      #   run: npm run build:client
-
       - name: Deploying using SSH
         uses: appleboy/ssh-action@master
         with:
@@ -71,10 +43,15 @@ jobs:
             npm install
 
             pm2 stop api
-            npm run build:api
+            pm2 delete api
+
+            rm -rf apps/api/dist/*
             rm -rf apps/client/dist/*
+            mkdir apps/api/static
+            
+            npm run build:api
             npm run build:client
             
-            rm -rf apps/api/static/*
             mv apps/client/dist/* apps/api/static
-            pm2 restart api --name=api --watch
+
+            pm2 start apps/api/dist/main.js --name=api
