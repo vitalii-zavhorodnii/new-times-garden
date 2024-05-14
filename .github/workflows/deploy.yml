@@ -93,13 +93,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: api-app
-          path: ./build/
+          path: ./build/app/
 
       - name: Download Client artifact
         uses: actions/download-artifact@v4
         with:
           name: client-app
-          path: ./build/static/
+          path: ./build/app/static/
 
       - name: Download Modules artifact
         uses: actions/download-artifact@v4
@@ -120,7 +120,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           source: "./build/*"
-          target: /apps/garden/
+          target: /apps/garden/*
 
   post:
     name: Restart apps
