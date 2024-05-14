@@ -119,7 +119,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          source: "./build*"
+          source: "./build/*"
           target: /apps/garden/
 
   post:
