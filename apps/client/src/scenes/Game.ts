@@ -7,11 +7,11 @@ import { harvestPlant } from '@services/harvestPlant';
 import { sendTonTransaction } from '@services/sendTonTransaction';
 import { startGrowPlant } from '@services/startGrowPlant';
 
-import BalanceBar from '@ui/bars/BalanceBar';
-import BottomBar from '@ui/bars/BottomBar';
-import PickedPlantBar from '@ui/bars/PickedPlantBar';
-import PlantsMenu from '@ui/menus/PlantsMenu';
-import ShopMenu from '@ui/menus/ShopMenu';
+import BalanceBar from '@components/bars/BalanceBar';
+import BottomBar from '@components/bars/BottomBar';
+import PickedPlantBar from '@components/bars/PickedPlantBar';
+import PlantsMenu from '@components/menus/PlantsMenu';
+import ShopMenu from '@components/menus/ShopMenu';
 
 import Decoration from '@entities/Decoration';
 import Dummy from '@entities/Dummy';
