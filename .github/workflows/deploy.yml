@@ -92,19 +92,19 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: api-app
-          path: ./build/app/
+          path: ./app/
 
       - name: Download Client artifact
         uses: actions/download-artifact@v4
         with:
           name: client-app
-          path: ./build/app/static/
+          path: ./app/static/
 
       - name: Download Modules artifact
         uses: actions/download-artifact@v4
         with:
           name: node-modules
-          path: ./build/
+          path: ./
 
       - name: Display structure of downloaded files
         run: |
@@ -118,7 +118,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          source: "./build/*"
+          source: "./*"
           target: /apps/garden/*
 
   post:
