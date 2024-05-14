@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: api-app
-          path: ./apps/api/dist
+          path: ./apps/api/dist/
           if-no-files-found: error
           compression-level: 0
           overwrite: true
@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: client-app
-          path: ./apps/react/dist
+          path: ./apps/react/dist/
           if-no-files-found: error
           compression-level: 0
           overwrite: true
@@ -109,8 +109,9 @@ jobs:
 
       - name: Display structure of downloaded files
         run: |
+            echo "* * * ------"
             ls
-            echo "------"
+            echo "* * * ------"
 
       - name: Mount artifact
         uses: appleboy/scp-action@v0.1.7
