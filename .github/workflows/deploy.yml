@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: api-app
-          path: ./apps/api/dist/
+          path: apps/api/dist/
           if-no-files-found: error
           compression-level: 0
           overwrite: true
@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: client-app
-          path: ./apps/react/dist/
+          path: apps/react/dist/
           if-no-files-found: error
           compression-level: 0
           overwrite: true
@@ -74,9 +74,9 @@ jobs:
         with:
           name: node-modules
           path: |
-            ./apps/api/node_modules
-            ./apps/api/package.json
-            ./apps/api/package-lock.json
+            apps/api/node_modules
+            apps/api/package.json
+            apps/api/package-lock.json
           if-no-files-found: error
           compression-level: 0
           overwrite: true
