@@ -20,8 +20,8 @@ jobs:
         run: |
           npm -v
 
-  build:
-    name: Build
+  build-client:
+    name: Build Client
     needs: lint
     runs-on: ubuntu-latest
 
@@ -45,20 +45,8 @@ jobs:
           touch apps/api/.env
           echo ${{ secrets.ENV_API }} >> apps/api/.env
 
-      - name: Build API
-        run: npm run build:api
-
       - name: Build Client
         run: npm run build:react
-
-      - name: Upload API artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-app
-          path: ./apps/api/dist/*
-          if-no-files-found: error
-          compression-level: 0
-          overwrite: true
 
       - name: Upload Client artifact
         uses: actions/upload-artifact@v4
@@ -69,65 +57,13 @@ jobs:
           compression-level: 0
           overwrite: true
 
-      - name: Upload Modules artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-modules
-          path: |
-            ./apps/api/node_modules
-            ./apps/api/package.json
-          if-no-files-found: error
-          compression-level: 0
-          overwrite: true
-
-  deploy:
-    name: Deploy
-    needs: build
+  deploy-api:
+    name: Deploy backend
+    needs: build-client
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Download API artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: api-app
-          path: ./app/
-
-      - name: Download Client artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: client-app
-          path: ./app/static/
-
-      - name: Download Modules artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: node-modules
-          path: ./
-
-      - name: Display structure of downloaded files
-        run: |
-            echo "Files: ------"
-            cd build && ls
-            echo "* * * ------"
-
-      - name: Mount artifact
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          source: "./*"
-          target: /apps/garden/
-
-  post:
-    name: Restart apps
-    needs: [build, deploy]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: "Restart PM2 app"
+      - name: "Create build"
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -135,6 +71,41 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: 22
           script: |
+            cd /projects/new-times-garden/
+            git stash
+            git pull origin main
+            npm install
+            npm run build:api
+            
             pm2 stop api  
             pm2 delete api
             pm2 start /apps/garden/main.js --name=api
+
+  deploy-client:
+    name: Deploy client
+    needs: deploy-api
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Client artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client-app
+          path: ./client/
+
+      - name: Display structure of downloaded files
+        run: |
+          echo "Files: ------"
+          cd build && ls
+          echo "* * * ------"
+
+      - name: Mount artifact
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          source: "./client/*"
+          target: /projects/new-times-garden/apps/api/static/
