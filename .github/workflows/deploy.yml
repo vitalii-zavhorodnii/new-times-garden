@@ -62,7 +62,7 @@ jobs:
       - name: Upload Client artifact
         uses: actions/upload-artifact@v4
         with:
-          name: garden-app
+          name: client-app
           path: ./apps/react/dist
           if-no-files-found: error
           compression-level: 0
