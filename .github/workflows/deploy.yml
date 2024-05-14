@@ -76,11 +76,15 @@ jobs:
             git stash
             git pull origin main
             npm install
-            npm run build:api
             
+            cd apps/api
+            touch .env
+            echo ${{ secrets.ENV_API }} >> .env
+            npm run build
+
             pm2 stop api  
             pm2 delete api
-            pm2 start apps/garden/main.js --name=api
+            pm2 start dist/main.js --name=api
 
   deploy-client:
     name: Deploy client
