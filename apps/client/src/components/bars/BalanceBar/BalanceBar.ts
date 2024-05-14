@@ -6,16 +6,31 @@ import { customElement, property } from 'lit/decorators.js';
 export default class BalanceBar extends LitElement {
   static styles = styles;
 
-  @property({ type: Boolean }) public isShown = true;
+  @property({ type: Boolean, reflect: true }) public isShown: boolean;
 
-  @property({ type: Number }) public coins: 0;
-  @property({ type: Number }) public tokens: 0;
-  @property({ type: Number }) public xp: 0;
+  @property({ type: Number, reflect: true }) private coins: number;
+  @property({ type: Number, reflect: true }) private tokens: number;
+  @property({ type: Number, reflect: true }) private xp: number;
 
-  render() {
+  constructor() {
+    super();
+
+    this.isShown = true;
+    this.coins = 0;
+    this.tokens = 0;
+    this.xp = 0;
+  }
+
+  private _handleClick(): void {
+    console.log('clicked +');
+  }
+
+  public render() {
+    console.log('render', this.coins);
+
     return html` <div class="balance-bar ${this.isShown ? '' : 'hidden'}">
       <div class="balance-bar__cell">
-        <span class="balance-bar__value" id="xp-balance">0</span>
+        <span class="balance-bar__value">${this.xp}</span>
         <img
           class="balance-bar__icon"
           src="./assets/utils/experience.png"
@@ -24,18 +39,33 @@ export default class BalanceBar extends LitElement {
       </div>
       <div class="balance-bar__cell">
         <img class="balance-bar__icon" src="./assets/utils/coin.png" alt="coin" />
-        <span class="balance-bar__value" id="coin-balance">0</span>
+        <span class="balance-bar__value">${this.coins}</span>
       </div>
       <div class="balance-bar__cell">
         <img class="balance-bar__icon" src="./assets/utils/token.png" alt="coin" />
-        <span class="balance-bar__value" id="token-balance">0</span>
+        <span class="balance-bar__value">${this.tokens}</span>
       </div>
-      <div id="shop-menu-open" class="balance-bar__cell">
+      <div @click="${this._handleClick}" class="balance-bar__cell">
         <img class="balance-bar__icon" src="./assets/utils/plus.svg" alt="add" />
       </div>
     </div>`;
   }
-}
 
-const tag = document.createElement('balance-bar');
-document.body.appendChild(tag);
+  public changeProperties(coins: number, tokens: number, xp: number) {
+    console.log('Change Properties', coins);
+
+    this.coins = coins;
+    this.tokens = tokens;
+    this.xp = xp;
+
+    this.requestUpdate('coins', this.coins);
+  }
+
+  public updated(changedProperties: Map<string, any>) {
+    console.log({ changedProperties });
+
+    changedProperties.forEach((oldValue, propName) => {
+      console.log(`changle properties: ${propName} changed. oldValue: ${oldValue}`);
+    });
+  }
+}

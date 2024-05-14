@@ -50,6 +50,9 @@ export class Game extends Scene {
   private user: IUserData;
   private plantsData: IPlantsList;
   private shopList: IShopItem[];
+  private balanceCoins: number;
+  private balanceTokens: number;
+  private xp: number;
 
   private plants: (Plant | Dummy)[][];
   private soil: Soil[][];
@@ -62,7 +65,7 @@ export class Game extends Scene {
 
   private pickedPlantBar: PickedPlantBar;
   private bottomBar: BottomBar;
-  // private balanceBar: BalanceBar;
+  private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
   private menuPlants: PlantsMenu;
 
@@ -84,6 +87,9 @@ export class Game extends Scene {
     this.plants = [];
     this.soil = [];
     this.isBlocked = false;
+    this.balanceCoins = 0;
+    this.balanceTokens = 0;
+    this.xp = 0;
   }
 
   public init(data: IData) {
@@ -91,6 +97,9 @@ export class Game extends Scene {
     this.plantsData = data.plants;
     this.shopList = data.shopList;
     this.settings = data.settings;
+    this.balanceCoins = data.user.balanceCoins;
+    this.balanceTokens = data.user.balanceTokens;
+    this.xp = data.user.xp;
   }
 
   // Create scene method
@@ -129,7 +138,9 @@ export class Game extends Scene {
     // Tokens and coins menu
     // menu coins menu shop
 
-    const balanceBar = new BalanceBar();
+    this.balanceBar = new BalanceBar();
+    // console.log({ user: this.user });
+    // balanceBar.updateValues();
     // this.btnShopOpen = document.getElementById('shop-menu-open');
     // this.btnShopOpen.addEventListener('click', () => {
     //   this.handleOpenShop();
@@ -548,6 +559,11 @@ export class Game extends Scene {
   // action on end of renders
   private renderCompletion() {
     this.initiateControls();
+    this.balanceBar.changeProperties(
+      this.user.balanceCoins,
+      this.user.balanceTokens,
+      this.xp
+    );
 
     this.growingInterval = setInterval(() => this.growingChecker(), 2000);
     this.events.on('destroy', () => (this.growingInterval = null));
