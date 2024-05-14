@@ -30,41 +30,41 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: 22
           script: |
-            echo 🚀 Installing NVM
+            🚀 Installing NVM
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
             export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             nvm install latest
 
-            echo 🚀 Going to git repo
+            🚀 Going to git repo
             cd /projects/new-times-garden/
 
-            echo 🚀 Pulling from main
+            🚀 Pulling from main
             git pull origin main
 
-            echo 🚀 Installing dependencies
+            🚀 Installing dependencies
             npm install
 
-            echo 🚀 PM2 stopping process
+            🚀 PM2 stopping process
             pm2 stop api
 
-            echo 🚀 Removing api/dist
+            🚀 Removing api/dist
             rm -rf apps/api/dist
-            echo 🚀 Removing client/dist
+            🚀 Removing client/dist
             rm -rf apps/client/dist
-            echo 🚀 Removing api/static
+            🚀 Removing api/static
             rm -rf apps/api/static
-            echo 🚀 Creating clear api/static
+            🚀 Creating clear api/static
             mkdir apps/api/static
 
-            echo 🚀 Run api build
+            🚀 Run api build
             npm run build:api
-            echo 🚀 Run client build
+            🚀 Run client build
             npm run build:client
 
-            echo 🚀 Moving client to api/static
+            🚀 Moving client to api/static
             mv apps/client/dist/* apps/api/static
 
-            echo 🚀 PM2 restarting api process
+            🚀 PM2 restarting api process
             pm2 restart api
             pm2 save
