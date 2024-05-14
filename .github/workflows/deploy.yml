@@ -21,7 +21,7 @@ jobs:
           npm -v
 
   build-client:
-    name: Create react artifact
+    name: Build client
     needs: lint
     runs-on: ubuntu-latest
 
