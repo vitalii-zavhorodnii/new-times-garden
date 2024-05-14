@@ -66,6 +66,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client-app
+
+      - name: Copy React Artifact
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          source: "./*"
+          target: /apps/garden/client/
+
       - name: Deploying using SSH
         uses: appleboy/ssh-action@master
         with:
@@ -94,17 +109,3 @@ jobs:
             rm -rf apps/api/static/*
             mv apps/client/dist/* apps/api/static
             pm2 restart api --name=api --watch
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: client-app
-
-      - name: Copy React Artifact
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          source: "./*"
-          target: /apps/garden/client/
