@@ -58,7 +58,7 @@ jobs:
       - name: Upload API artifact
         uses: actions/upload-artifact@v4
         with:
-          name: client-app
+          name: api-app
           path: ./apps/api/dist/*
           if-no-files-found: error
           compression-level: 0
