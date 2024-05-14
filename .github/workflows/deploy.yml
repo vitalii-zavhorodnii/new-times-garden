@@ -72,7 +72,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-modules
-          path: ./apps/api/node_modules
+          path: |
+              ./apps/api/node_modules
+              ./apps/api/package.json
+              ./apps/api/package-lock.json
           if-no-files-found: error
           compression-level: 0
           overwrite: true
