@@ -44,8 +44,9 @@ jobs:
 
             pm2 stop api
 
-            rm -rf apps/api/dist/*
-            rm -rf apps/client/dist/*
+            rm -rf apps/api/dist
+            rm -rf apps/client/dist
+            rm -rf apps/api/static
             mkdir apps/api/static
             
             npm run build:api
