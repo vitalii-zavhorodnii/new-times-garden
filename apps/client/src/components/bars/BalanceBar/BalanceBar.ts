@@ -1,4 +1,5 @@
 import { styles } from './styles';
+import EventBus from '@emitter/EventBus';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -27,6 +28,7 @@ export default class BalanceBar extends LitElement {
 
   private _handleClick(): void {
     console.log('clicked click handle');
+    EventBus.emit('open-shop');
   }
 
   public updateBalance(key: 'coins' | 'tokens', value: number | string) {

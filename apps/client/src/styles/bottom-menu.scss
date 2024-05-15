@@ -2,12 +2,13 @@
 @import './variables.scss';
 
 $is-open: 0px;
-$is-closed: -120%;
+$is-closed: -172px;
 $bot-position-y: 24px;
 
 $circle-container-size: 172px;
 $circle-ring-size: 128px;
 $circle-btn-box: 128px;
+$animation: 400ms cubic-bezier(.17,.67,1,1.23);
 
 .bottom-menu {
   z-index: 1;
@@ -21,14 +22,14 @@ $circle-btn-box: 128px;
   height: $circle-container-size;
   transform-origin: center;
   transform: rotate(0deg);
-  transition: transform 600ms $start-animation;
-
-  &.rotated {
-    transform: rotate(180deg);
-  }
+  transition: transform 600ms $start-animation, right 600ms $animation;
 
   &.hidden {
     right: $is-closed;
+  }
+
+  &.rotated {
+    transform: rotate(180deg);
   }
 }
 

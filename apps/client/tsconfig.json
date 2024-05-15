@@ -24,6 +24,7 @@
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
       "@services/*": ["./src/services/*"],
+      "@emitter/*": ["./src/emitter/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@mappers/*": ["./src/mappers/*"],
       "@interfaces/*": ["./src/interfaces/*"],

@@ -1,3 +1,4 @@
+import EventBus from '@emitter/EventBus';
 import { DateTime } from 'luxon';
 import { Scene } from 'phaser';
 import { Pinch } from 'phaser3-rex-plugins/plugins/gestures.js';
@@ -134,7 +135,6 @@ export class Game extends Scene {
     this.balanceBar.updateBalance('tokens', this.balanceTokens);
     // Bottom bar init
     this.bottomBar = new BottomBar();
-    this.bottomBar.show();
     /* 
       Menus
     */
@@ -459,6 +459,12 @@ export class Game extends Scene {
   // Handle decoration click
   private handleDecorationClick(decoration: Decoration) {
     if (decoration.decorationName === 'house') {
+      // Hide interface
+      this.bottomBar.hide();
+      this.balanceBar.toggleShown(false);
+      this.pickedPlant = null;
+      this.pickedPlantBar.hide();
+
       this.scene.switch('HouseScene');
     }
   }
@@ -686,7 +692,17 @@ export class Game extends Scene {
   private renderCompletion() {
     this.initiateControls();
     this.balanceBar.toggleShown(true);
-
+    this.bottomBar.show();
+    // Emitters defining
+    EventBus.on('swith-to-game', () => {
+      console.log('on', 'swith-to-game');
+      this.bottomBar.show();
+      this.balanceBar.toggleShown(true);
+    });
+    // Open shop
+    EventBus.on('open-shop', () => {
+      this.handleOpenShop();
+    });
     // Activate interval Grow phaser checker
     this.growingInterval = setInterval(() => this.runCheckGrowPhase(), 2000);
     this.events.on('destroy', () => (this.growingInterval = null));
@@ -700,4 +716,6 @@ export class Game extends Scene {
       this.handleSeedChoose(plant);
     });
   }
+  // Playground
+  // Show interface
 }

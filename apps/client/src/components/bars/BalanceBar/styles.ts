@@ -10,7 +10,7 @@ export const styles = css`
     justify-content: center;
     align-items: center;
     height: 32px;
-    transition: top 500ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: top 400ms cubic-bezier(.17,.67,1,1.23);
   }
 
   .container.hidden {

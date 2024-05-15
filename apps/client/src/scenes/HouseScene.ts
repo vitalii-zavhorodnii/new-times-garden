@@ -1,3 +1,4 @@
+import EventBus from '@emitter/EventBus';
 import { GameObjects, Scene } from 'phaser';
 
 export class HouseScene extends Scene {
@@ -15,7 +16,10 @@ export class HouseScene extends Scene {
     // House assets
     this.load.image('h-background', 'assets/house/background.png');
     this.load.image('h-chairs', 'assets/house/chairs.png');
-    this.load.image('h-book', 'assets/house/book.png');
+    this.load.spritesheet('h-book', 'assets/house/book.png', {
+      frameWidth: 256,
+      frameHeight: 256
+    });
     this.load.spritesheet('fireplace', 'assets/house/fire.png', {
       frameWidth: 256,
       frameHeight: 256
@@ -40,9 +44,18 @@ export class HouseScene extends Scene {
       repeat: -1
     });
 
-    const button = this.add.text(centerX - 100, centerY + 200, 'Back');
+    this.anims.create({
+      key: 'book-idle',
+      frameRate: 24,
+      frames: this.anims.generateFrameNumbers('h-book'),
+      repeat: -1
+    });
+
+    const button = this.add.text(centerX - 100, centerY + 250, 'Back');
     button.setInteractive();
     button.on('pointerdown', () => {
+      console.log('emit', 'swith-to-game');
+      EventBus.emit('swith-to-game');
       this.scene.switch('Game');
     });
 
@@ -53,6 +66,7 @@ export class HouseScene extends Scene {
 
     this.chairsSprite.setInteractive(this.input.makePixelPerfect());
     this.bookSprite.setInteractive(this.input.makePixelPerfect());
+    this.bookSprite.play('book-idle');
 
     this.chairsSprite.on('pointerdown', () => {
       this.handleChairsClick();
