@@ -13,16 +13,33 @@ export default class BalanceBar extends LitElement {
   @property({ type: Number, attribute: true, reflect: true }) public tokens: number;
   @property({ type: Number, attribute: true, reflect: true }) public xp: number;
 
+  private element: Element;
+
   constructor() {
     super();
 
     this.coins = 0;
     this.tokens = 0;
     this.xp = 0;
+
+    this.element = document.getElementsByTagName('balance-bar')[0];
   }
 
   private _handleClick(): void {
     console.log('clicked +');
+  }
+
+  public updateBalance(key: 'coins' | 'tokens', value: number | string) {
+    this.element.setAttribute(key, String(value));
+  }
+
+  public toggleShown(value: boolean) {
+    if (!value) {
+      this.element.removeAttribute('isshown');
+      return;
+    }
+
+    this.element.setAttribute('isshown', '');
   }
 
   public render() {
