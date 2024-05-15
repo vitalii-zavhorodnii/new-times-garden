@@ -202,9 +202,9 @@ export class Game extends Scene {
     });
     this.anims.create({
       key: 'poof',
-      frameRate: 48,
-      frames: this.anims.generateFrameNumbers('poof'),
-      repeat: -1
+      frameRate: 24,
+      frames: this.anims.generateFrameNumbers('dummy', { start: 1, end: 13 }),
+      repeat: 0
     });
     //  Run render methods
     this.renderPlantsMenu();
@@ -371,8 +371,6 @@ export class Game extends Scene {
       const plantedAt = DateTime.now().toMillis();
       const plant = this.pickedPlant;
       // this.placePlantToSoil(soil, this.pickedPlant, rowIndex, plantIndex, plantedAt);
-      // Plant on user garden on Server
-      startGrowPlant(this.userId, plant._id, rowIndex, plantIndex, plantedAt);
       // Create props for Sprite from Soil X and Y
       const props = {
         x: soil.x,
@@ -380,6 +378,7 @@ export class Game extends Scene {
         ...plant
       };
       // Place in Plants 2D array new Plant with props
+      this.plants[rowIndex][plantIndex].destroy();
       this.plants[rowIndex][plantIndex] = new Plant(this, props, plantedAt);
       // Get new plant link from Plants 2D Array
       const newPlant = this.plants[rowIndex][plantIndex] as Plant;
@@ -387,6 +386,8 @@ export class Game extends Scene {
       soil.placePlant(newPlant);
       // Add new Plant to container Field
       this.fieldContainer[rowIndex].addAt(newPlant, plantIndex);
+      // Plant on user garden on Server
+      startGrowPlant(this.userId, plant._id, rowIndex, plantIndex, plantedAt);
       // Play Plant animation Click
       if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
         newPlant.play(`tap-0-${newPlant.title.toLowerCase()}`);
@@ -437,9 +438,10 @@ export class Game extends Scene {
       this.fieldContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
       this.plants[rowIndex][plantIndex].destroy();
       // Set Plant to Dummy in Plants 2D array
-      this.plants[rowIndex][plantIndex] = new Dummy(this) as Plant;
+      this.plants[rowIndex][plantIndex] = new Dummy(this, soil.x, soil.y) as Plant;
       // Get link to new Dummy plant
       const dummy = this.plants[rowIndex][plantIndex] as Plant;
+      dummy.setFrame(0);
       // Place Dummy to Soil
       soil.placePlant(dummy);
       // Update texture to harvested after harvest
@@ -449,6 +451,9 @@ export class Game extends Scene {
       // POST data to harvest on Server
       harvestPlant(this.userId, rowIndex, plantIndex);
       // Poof animation
+      soil.plant.play('poof').once('animationcomplete', () => {
+        soil.plant.setFrame(0);
+      });
       // animate poof one more
       return;
     }
@@ -569,7 +574,9 @@ export class Game extends Scene {
         // If cell has not planted time
         if (!cell.plantedAt) {
           // Plant Dummy
-          return new Dummy(this);
+          const dummy = new Dummy(this, cell.plant.x, cell.plant.y);
+          dummy.setFrame(0);
+          return dummy;
         }
         // Create props DTO
         const props = {

@@ -46,7 +46,7 @@ export class Preloader extends Scene {
       frameWidth: 96,
       frameHeight: 96
     });
-    this.load.spritesheet('poof', 'assets/soil/poof.png', {
+    this.load.spritesheet('dummy', 'assets/soil/dummy.png', {
       frameWidth: 256,
       frameHeight: 256
     });
