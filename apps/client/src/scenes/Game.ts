@@ -47,6 +47,7 @@ export class Game extends Scene {
   // Utilities
   public camera: Phaser.Cameras.Scene2D.Camera;
   public pinchDistance: number;
+  private growingInterval: ReturnType<typeof setInterval>;
   // User data
   private userId: number | string;
   private field: ICellData[][];
@@ -57,32 +58,33 @@ export class Game extends Scene {
   public settings: any;
   // Picked plant
   public pickedPlant: IPlantListItem;
-
-  // private user: IUserData;
-  private plantsData: IPlantsList;
-  private shopList: IShopItem[];
-
+  // Sprites arrays and 2D arrays
   private plants: (Plant | Dummy)[][];
   private soil: Soil[][];
   private decorations: Decoration[];
-  private growingInterval: ReturnType<typeof setInterval>;
-
+  // Phaser Containers
   private decorationContainer: Phaser.GameObjects.Container;
   private fieldContainer: Phaser.GameObjects.Container[];
   private soilContainer: Phaser.GameObjects.Container[];
-
+  // FIX
+  // UI Elements - old fix
   private pickedPlantBar: PickedPlantBar;
   private bottomBar: BottomBar;
-  private balanceBar: BalanceBar;
   private shopMenu: ShopMenu;
   private menuPlants: PlantsMenu;
-
   // UI buttons
   private btnShopOpen: HTMLElement;
   private btnShopClose: HTMLElement;
   private btnPlantsOpen: HTMLElement;
   private btnPlantsClose: HTMLElement;
   private btnEscape: HTMLElement;
+  // private user: IUserData;
+  private plantsData: IPlantsList;
+  private shopList: IShopItem[];
+
+  // UI Elements - bars
+  private balanceBar: BalanceBar;
+
   // Constructor
   constructor() {
     super('Game');
