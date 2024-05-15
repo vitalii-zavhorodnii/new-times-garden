@@ -46,6 +46,10 @@ export class Preloader extends Scene {
       frameWidth: 96,
       frameHeight: 96
     });
+    this.load.spritesheet('poof', 'assets/soil/poof.png', {
+      frameWidth: 256,
+      frameHeight: 256
+    });
     // Sprites for plants
     PLANTS_SPRITES.forEach((sprite: string) => {
       this.load.spritesheet(sprite, `assets/plants/${sprite}.png`, {

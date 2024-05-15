@@ -200,6 +200,12 @@ export class Game extends Scene {
         repeat: 0
       });
     });
+    this.anims.create({
+      key: 'poof',
+      frameRate: 48,
+      frames: this.anims.generateFrameNumbers('poof'),
+      repeat: -1
+    });
     //  Run render methods
     this.renderPlantsMenu();
     this.renderPlants();
@@ -442,6 +448,7 @@ export class Game extends Scene {
       this.fieldContainer[rowIndex].addAt(dummy, plantIndex);
       // POST data to harvest on Server
       harvestPlant(this.userId, rowIndex, plantIndex);
+      // Poof animation
 
       return;
     }

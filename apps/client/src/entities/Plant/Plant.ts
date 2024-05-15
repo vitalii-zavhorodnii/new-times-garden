@@ -22,6 +22,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
     super(scene, props.x, props.y, props.texture, props.title);
 
     this.phase = 0;
+    this.dummy = false;
     this.title = props.title;
     this.gamePrice = props.gamePrice;
     this.tokenPrice = props.tokenPrice;
