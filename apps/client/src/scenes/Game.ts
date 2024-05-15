@@ -303,11 +303,9 @@ export class Game extends Scene {
       }
       if (this.pinchDistance < pinch.distanceBetween) {
         const zoom = pinch.scaleFactor * this.camera.zoom;
-        if (zoom < 1.2) {
+        if (zoom < 1.1) {
           this.camera.setZoom(zoom, zoom);
         }
-
-        // this.camera.setZoom(1, 1);
       }
 
       this.pinchDistance = pinch.distanceBetween;
@@ -331,7 +329,7 @@ export class Game extends Scene {
       const { scrollX } = this.camera;
       const { left, right } = CAMERA_BOUNDRIES;
 
-      this.camera.scrollX -= distance;
+      this.camera.scrollX -= distance * 1.2;
 
       if (scrollX <= left) {
         this.camera.scrollX = left + 5;

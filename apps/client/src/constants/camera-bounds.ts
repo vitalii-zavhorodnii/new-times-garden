@@ -1,4 +1,4 @@
 export const CAMERA_BOUNDRIES = {
-  left: -1050,
-  right: 550
+  left: -850,
+  right: 660
 };

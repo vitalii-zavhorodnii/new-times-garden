@@ -37,8 +37,6 @@ export class Preloader extends Scene {
     // background
     this.load.image('background', 'assets/decorations/background.png');
     this.load.image('house', 'assets/decorations/house.png');
-    // utils
-    this.load.image('dummy', 'assets/utils/dummy.png');
     // field tiles
     this.load.image('planted', 'assets/soil/planted.png');
     this.load.image('harvested', 'assets/soil/harvested.png');
