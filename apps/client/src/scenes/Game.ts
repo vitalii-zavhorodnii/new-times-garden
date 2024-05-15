@@ -449,7 +449,7 @@ export class Game extends Scene {
       // POST data to harvest on Server
       harvestPlant(this.userId, rowIndex, plantIndex);
       // Poof animation
-
+      // animate
       return;
     }
   }
