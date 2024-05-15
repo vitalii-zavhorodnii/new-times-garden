@@ -26,7 +26,7 @@ export default class BalanceBar extends LitElement {
   }
 
   private _handleClick(): void {
-    console.log('clicked +');
+    console.log('clicked click handle');
   }
 
   public updateBalance(key: 'coins' | 'tokens', value: number | string) {
