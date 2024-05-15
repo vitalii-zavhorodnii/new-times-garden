@@ -329,7 +329,7 @@ export class Game extends Scene {
       const { scrollX } = this.camera;
       const { left, right } = CAMERA_BOUNDRIES;
 
-      this.camera.scrollX -= distance * 1.2;
+      this.camera.scrollX -= distance * 2;
 
       if (scrollX <= left) {
         this.camera.scrollX = left + 5;
