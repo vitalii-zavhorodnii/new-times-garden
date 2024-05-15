@@ -2,16 +2,16 @@
   "name": "new-times-garden",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "workspaces": [
     "apps/*"
   ],
   "scripts": {
-    "client": "npm run dev --workspace=client",
-    "sass": "npm run sass --workspace=client",
-    "react": "npm run dev --workspace=react",
-    "api": "npm run dev --workspace=api",
-    "build:api": "npm run build --workspace=api",
-    "build:client": "npm run build --workspace=client"
+    "client": "yarn workspace client dev",
+    "sass": "yarn workspace client sass",
+    "api": "yarn workspace api dev",
+    "build:api": "yarn workspace api build",
+    "build:client": "yarn workspace client build"
   },
   "repository": {
     "type": "git",

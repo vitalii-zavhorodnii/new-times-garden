@@ -44,7 +44,7 @@ jobs:
             git pull origin main
 
             echo Installing dependencies 🚀
-            npm install
+            yarn
 
             echo PM2 stopping process 🚀
             pm2 stop api
@@ -59,9 +59,9 @@ jobs:
             mkdir apps/api/static
 
             echo Run api build 🚀
-            npm run build:api
+            yarn build:api
             echo Run client build 🚀
-            npm run build:client
+            yarn build:client
 
             echo Moving client to api/static 🚀
             mv apps/client/dist/* apps/api/static
