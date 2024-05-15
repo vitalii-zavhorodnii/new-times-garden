@@ -1,8 +1,11 @@
 import { GameObjects, Scene } from 'phaser';
 
 export class HouseScene extends Scene {
-  private fireplace: Phaser.GameObjects.Sprite;
   private background: Phaser.GameObjects.Image;
+
+  private fireSprite: Phaser.GameObjects.Sprite;
+  private chairsSprite: Phaser.GameObjects.Sprite;
+  private bookSprite: Phaser.GameObjects.Sprite;
 
   constructor() {
     super('HouseScene');
@@ -10,8 +13,10 @@ export class HouseScene extends Scene {
 
   preload() {
     // House assets
-    this.load.image('interior-bg', 'assets/interior/background.png');
-    this.load.spritesheet('fireplace', 'assets/interior/fire.png', {
+    this.load.image('h-background', 'assets/house/background.png');
+    this.load.image('h-chairs', 'assets/house/chairs.png');
+    this.load.image('h-book', 'assets/house/book.png');
+    this.load.spritesheet('fireplace', 'assets/house/fire.png', {
       frameWidth: 256,
       frameHeight: 256
     });
@@ -22,11 +27,11 @@ export class HouseScene extends Scene {
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2;
 
-    this.background = this.add.image(centerX, centerY, 'interior-bg');
+    this.background = this.add.image(centerX, centerY, 'h-background');
     this.background.setScale(0.35, 0.35);
 
-    this.fireplace = this.add.sprite(centerX + 10, centerY + 125, 'fireplace');
-    this.fireplace.setScale(0.35, 0.35);
+    this.fireSprite = this.add.sprite(centerX + 10, centerY + 125, 'fireplace');
+    this.fireSprite.setScale(0.35, 0.35);
 
     this.anims.create({
       key: 'fire',
@@ -41,6 +46,28 @@ export class HouseScene extends Scene {
       this.scene.switch('Game');
     });
 
-    this.fireplace.play('fire');
+    this.fireSprite.play('fire');
+
+    this.chairsSprite = this.add.sprite(centerX + 10, centerY + 125, 'h-chairs');
+    this.bookSprite = this.add.sprite(centerX + 10, centerY + 125, 'h-book');
+
+    this.chairsSprite.setInteractive(this.input.makePixelPerfect());
+    this.bookSprite.setInteractive(this.input.makePixelPerfect());
+
+    this.chairsSprite.on('pointerdown', () => {
+      this.handleChairsClick();
+    });
+
+    this.bookSprite.on('pointerdown', () => {
+      this.handleBookClick();
+    });
+  }
+
+  private handleChairsClick() {
+    console.log('Chairs clicked!');
+  }
+
+  private handleBookClick() {
+    console.log('Book clicked!');
   }
 }
