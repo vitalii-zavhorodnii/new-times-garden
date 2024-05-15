@@ -52,7 +52,7 @@ export default class BalanceBar extends LitElement {
         <img class="icon" src="./assets/utils/experience.png" alt="xp" />
       </div>
       <div class="item">
-        <img class="icon" src="./assets/utils/coin.png" alt="coin" />
+        <img class="icon" src="./assets/utils/money.png" alt="coin" />
         <span class="value">${this.coins}</span>
       </div>
       <div class="item">

@@ -23,7 +23,7 @@ export const markup = (
           ? `<p class="plants-menu__value">
               <img 
                 class="plants-menu__stat-icon" 
-                src="./assets/utils/coin.png" 
+                src="./assets/utils/money.png" 
                 alt="coin"
               >
               ${coins}
@@ -47,7 +47,7 @@ export const markup = (
           ? `<p class="plants-menu__value">
               <img 
                 class="plants-menu__stat-icon" 
-                src="./assets/utils/profit-coins.svg" 
+                src="./assets/utils/money-profit.png" 
                 alt="coin"
               >
               ~${coinsIncome}

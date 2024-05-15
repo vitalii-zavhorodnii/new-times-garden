@@ -13,7 +13,7 @@ export const markup = (
       coins > 0
         ? `<p class="picked-plant-bar__value">
             <img class="picked-plant-bar__icon" 
-              src="./assets/utils/coin.png" 
+              src="./assets/utils/money.png" 
               alt="coin"
             >
             ${coins}
