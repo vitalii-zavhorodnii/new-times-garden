@@ -2,6 +2,7 @@
   "name": "client",
   "description": "A Phaser 3 TypeScript using esbuild",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "dev": "node esbuild/dev.server.mjs -w",
