@@ -173,9 +173,7 @@ export class Game extends Scene {
     backgroundImage.y = backgroundImage.y - 118;
     // backgroundImage.setDisplaySize(backgroundImage.width, height);
     this.pickedPlantBar = new PickedPlantBar();
-    /*
-      Create animations
-    */
+    //  Create animations
     PLANTS_ANIMATED.forEach((sprite) => {
       this.anims.create({
         key: `tap-0-${sprite}`,
@@ -202,10 +200,7 @@ export class Game extends Scene {
         repeat: 0
       });
     });
-
-    /*
-     *  Run render methods
-     */
+    //  Run render methods
     this.renderPlantsMenu();
     this.renderPlants();
     this.renderSoil();
@@ -276,72 +271,6 @@ export class Game extends Scene {
       return;
     }
     /* End of grow checker */
-  }
-  /*
-      Bottom menu handlers
-      Handle button click: Shop
-  */
-  // Handle shops items
-  private async handleShopItemClick(item: IShopItem) {
-    const boc = await sendTonTransaction(item.price);
-
-    if (boc) {
-      const updatedValue = this.balanceTokens + item.value;
-      this.balanceTokens = updatedValue;
-      // this.balanceBar.setTokens(updatedValue);
-
-      createPayment({
-        productId: item._id,
-        userId: String(this.userId),
-        boc
-      });
-
-      this.shopMenu.close();
-      this.isBlocked = false;
-    }
-  }
-
-  // Handle button add coins
-  private handleOpenShop() {
-    this.shopMenu.open();
-    this.isBlocked = true;
-  }
-  private handleCloseShop() {
-    this.shopMenu.close();
-    this.isBlocked = false;
-  }
-  // Handle button click: Plants
-  private handleOpenPlantsShop() {
-    this.isBlocked = true;
-    console.log('handleOpenPlantsShop');
-    this.pickedPlant = null;
-    this.pickedPlantBar.hide();
-
-    this.menuPlants.open();
-  }
-  private handleClosePlantsShop() {
-    this.isBlocked = false;
-
-    this.menuPlants.close();
-
-    this.bottomBar.activateCancel();
-  }
-  // Handle close in maneu button
-  private handleCancelPlantsShop() {
-    this.isBlocked = false;
-
-    this.menuPlants.close();
-
-    this.bottomBar.activateMenu();
-  }
-  // Handle escape
-  private handleInGameEscape() {
-    this.isBlocked = false;
-
-    this.pickedPlant = null;
-    this.pickedPlantBar.hide();
-
-    this.bottomBar.activateMenu();
   }
   /* * * * * *  * * * ** * */
   /*
@@ -545,6 +474,72 @@ export class Game extends Scene {
     this.handleClosePlantsShop();
     // Activate Escape
     this.bottomBar.activateCancel();
+  }
+  // OLD FIX
+  /*
+      Bottom menu handlers
+      Handle button click: Shop
+  */
+  // Handle shops items
+  private async handleShopItemClick(item: IShopItem) {
+    const boc = await sendTonTransaction(item.price);
+
+    if (boc) {
+      const updatedValue = this.balanceTokens + item.value;
+      this.balanceTokens = updatedValue;
+      // this.balanceBar.setTokens(updatedValue);
+
+      createPayment({
+        productId: item._id,
+        userId: String(this.userId),
+        boc
+      });
+
+      this.shopMenu.close();
+      this.isBlocked = false;
+    }
+  }
+  // Handle button add coins
+  private handleOpenShop() {
+    this.shopMenu.open();
+    this.isBlocked = true;
+  }
+  private handleCloseShop() {
+    this.shopMenu.close();
+    this.isBlocked = false;
+  }
+  // Handle button click: Plants
+  private handleOpenPlantsShop() {
+    this.isBlocked = true;
+    console.log('handleOpenPlantsShop');
+    this.pickedPlant = null;
+    this.pickedPlantBar.hide();
+
+    this.menuPlants.open();
+  }
+  private handleClosePlantsShop() {
+    this.isBlocked = false;
+
+    this.menuPlants.close();
+
+    this.bottomBar.activateCancel();
+  }
+  // Handle close in maneu button
+  private handleCancelPlantsShop() {
+    this.isBlocked = false;
+
+    this.menuPlants.close();
+
+    this.bottomBar.activateMenu();
+  }
+  // Handle escape
+  private handleInGameEscape() {
+    this.isBlocked = false;
+
+    this.pickedPlant = null;
+    this.pickedPlantBar.hide();
+
+    this.bottomBar.activateMenu();
   }
   /*
    *    Render game methods
