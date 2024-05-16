@@ -1,5 +1,6 @@
-import EventBus from '@emitter/EventBus';
 import { GameObjects, Scene } from 'phaser';
+
+import EventBus from '@emitter/EventBus';
 
 import { _EVENTS } from '@constants/events';
 
@@ -18,6 +19,8 @@ export class HouseScene extends Scene {
     // House assets
     this.load.image('h-background', 'assets/house/background.png');
     this.load.image('h-chairs', 'assets/house/chairs.png');
+    this.load.image('menu-back', 'assets/menu/back.png');
+    // Sprite sheet
     this.load.spritesheet('h-book', 'assets/house/book.png', {
       frameWidth: 256,
       frameHeight: 256
@@ -34,10 +37,10 @@ export class HouseScene extends Scene {
     const centerY = worldView.y + height / 2;
 
     this.background = this.add.image(centerX, centerY, 'h-background');
-    this.background.setScale(0.35, 0.35);
+    this.background.setScale(0.48, 0.48);
 
-    this.fireSprite = this.add.sprite(centerX + 10, centerY + 125, 'fireplace');
-    this.fireSprite.setScale(0.35, 0.35);
+    this.fireSprite = this.add.sprite(centerX + 10, centerY + 107, 'fireplace');
+    this.fireSprite.setScale(0.27, 0.27);
 
     this.anims.create({
       key: 'fire',
@@ -48,13 +51,15 @@ export class HouseScene extends Scene {
 
     this.anims.create({
       key: 'book-idle',
-      frameRate: 24,
+      frameRate: 11,
       frames: this.anims.generateFrameNumbers('h-book'),
       repeat: -1
     });
 
-    const button = this.add.text(centerX - 100, centerY + 250, 'Back');
+    const button = this.add.image(centerX + 130, centerY + 260, 'menu-back');
+    button.setScale(0.45, 0.45);
     button.setInteractive();
+    button.depth = 2;
     button.on('pointerdown', () => {
       EventBus.emit(_EVENTS.switch_to_game_scene);
       this.scene.switch('Game');
@@ -62,8 +67,12 @@ export class HouseScene extends Scene {
 
     this.fireSprite.play('fire');
 
-    this.chairsSprite = this.add.sprite(centerX + 10, centerY + 125, 'h-chairs');
-    this.bookSprite = this.add.sprite(centerX + 10, centerY + 125, 'h-book');
+    this.chairsSprite = this.add.sprite(centerX, centerY + 185, 'h-chairs');
+    this.bookSprite = this.add.sprite(centerX, centerY + 140, 'h-book');
+
+    this.chairsSprite.setScale(0.7, 0.7);
+    this.bookSprite.setScale(0.65, 0.65);
+    this.bookSprite.flipX = true;
 
     this.chairsSprite.setInteractive(this.input.makePixelPerfect());
     this.bookSprite.setInteractive(this.input.makePixelPerfect());

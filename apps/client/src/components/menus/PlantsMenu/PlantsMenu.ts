@@ -22,9 +22,7 @@ export default class PlantsMenu {
   private categories: {
     vegetables: HTMLElement | null;
     fruits: HTMLElement | null;
-    berries: HTMLElement | null;
     flowers: HTMLElement | null;
-    herbs: HTMLElement | null;
   };
 
   constructor(plants: IPlantsList, callback: Function) {
@@ -37,8 +35,6 @@ export default class PlantsMenu {
     this.categories = {
       vegetables: this.createMarkupCategory(plants.vegetables),
       fruits: this.createMarkupCategory(plants.fruits),
-      berries: this.createMarkupCategory(plants.berries),
-      herbs: this.createMarkupCategory(plants.herbs),
       flowers: this.createMarkupCategory(plants.flowers)
     };
 

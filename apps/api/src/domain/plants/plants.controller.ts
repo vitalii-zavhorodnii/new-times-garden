@@ -32,17 +32,13 @@ export class PlantsController {
   public async findAllActive(): Promise<{
     vegetables: Plant[];
     fruits: Plant[];
-    berries: Plant[];
     flowers: Plant[];
-    herbs: Plant[];
   }> {
     const vegetables = await this.plantsService.findByType('vegetable');
     const fruits = await this.plantsService.findByType('fruit');
-    const berries = await this.plantsService.findByType('berry');
     const flowers = await this.plantsService.findByType('flower');
-    const herbs = await this.plantsService.findByType('herbs');
 
-    return { vegetables, fruits, berries, herbs, flowers };
+    return { vegetables, fruits, flowers };
   }
 
   @ApiOperation({ summary: 'create new Plant' })

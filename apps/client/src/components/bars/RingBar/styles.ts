@@ -13,12 +13,13 @@ export const styles = css`
     height: 172px;
     transform-origin: center;
     transform: rotate(0deg);
-    transition: transform 600ms cubic-bezier(0.42, 0, 0.58, 1),
+    transition: transform 600ms cubic-bezier(0.17, 0.67, 1, 1.23),
       right 600ms 400ms cubic-bezier(0.17, 0.67, 1, 1.23);
   }
 
   .container.hidden {
     right: -180px;
+    transform: rotate(80deg);
   }
 
   .container.rotated {
