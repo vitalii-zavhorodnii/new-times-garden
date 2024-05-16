@@ -55,6 +55,10 @@ class Achievement extends Document {
   @Prop({ type: Number })
   readonly xpReward: number;
 
+  @ApiProperty({ example: 90 })
+  @Prop({ type: [Number] })
+  readonly steps: number[];
+
   @Prop({ default: now() })
   readonly createdAt: Date;
 

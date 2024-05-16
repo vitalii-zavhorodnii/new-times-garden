@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IsDefined, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsDefined, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateAchievementDto {
   @ApiProperty({
@@ -22,7 +22,7 @@ export class CreateAchievementDto {
   readonly name: string;
 
   @ApiProperty({
-    example: 'name',
+    example: 'harvest',
     description: 'Product id'
   })
   @IsDefined()
@@ -74,4 +74,13 @@ export class CreateAchievementDto {
   @IsNotEmpty()
   @IsNumber()
   readonly xpReward: number;
+
+  @ApiProperty({
+    example: 1000,
+    description: 'boc transction id'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsArray()
+  readonly steps: number[];
 }

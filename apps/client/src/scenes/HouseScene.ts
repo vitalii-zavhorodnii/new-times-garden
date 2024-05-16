@@ -51,7 +51,7 @@ export class HouseScene extends Scene {
 
     this.anims.create({
       key: 'book-idle',
-      frameRate: 11,
+      frameRate: 9,
       frames: this.anims.generateFrameNumbers('h-book'),
       repeat: -1
     });
@@ -68,11 +68,10 @@ export class HouseScene extends Scene {
     this.fireSprite.play('fire');
 
     this.chairsSprite = this.add.sprite(centerX, centerY + 185, 'h-chairs');
-    this.bookSprite = this.add.sprite(centerX, centerY + 140, 'h-book');
+    this.bookSprite = this.add.sprite(centerX, centerY + 190, 'h-book');
 
     this.chairsSprite.setScale(0.7, 0.7);
-    this.bookSprite.setScale(0.65, 0.65);
-    this.bookSprite.flipX = true;
+    this.bookSprite.setScale(0.37, 0.37);
 
     this.chairsSprite.setInteractive(this.input.makePixelPerfect());
     this.bookSprite.setInteractive(this.input.makePixelPerfect());

@@ -415,6 +415,13 @@ export class Game extends Scene {
       this.scene.switch('HouseScene');
     }
   }
+
+  // OLD FIX
+  /*
+      Bottom menu handlers
+      Handle button click: Shop
+  */
+  // Handle shops items /
   /*    UI handlers   */
   // Handle choose Seed from Plant Shop
   private handleSeedChoose(plant: IPlantListItem) {
@@ -431,16 +438,12 @@ export class Game extends Scene {
     EventBus.emit(_EVENTS.picked_plant_show);
     EventBus.emit(_EVENTS.picked_plant_update, plant);
     // Close Plants Menu
-    this.handleClosePlantsShop();
-    // Activate Escape
+    this.isBlocked = false;
+
+    EventBus.emit(_EVENTS.shop_menu_close);
     EventBus.emit(_EVENTS.ring_set_escape);
   }
-  // OLD FIX
-  /*
-      Bottom menu handlers
-      Handle button click: Shop
-  */
-  // Handle shops items
+  /*  need rework */
   private async handleShopItemClick(item: IShopItem) {
     const boc = await sendTonTransaction(item.price);
 
@@ -459,12 +462,6 @@ export class Game extends Scene {
       // this.shopMenu.close();
       this.isBlocked = false;
     }
-  }
-  private handleClosePlantsShop() {
-    this.isBlocked = false;
-
-    EventBus.emit(_EVENTS.shop_menu_close);
-    EventBus.emit(_EVENTS.ring_set_escape);
   }
   // Init Controls and controls Handlers
   private initiateControls() {

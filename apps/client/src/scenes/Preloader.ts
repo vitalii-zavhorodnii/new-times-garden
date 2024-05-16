@@ -24,20 +24,16 @@ export class Preloader extends Scene {
   }
 
   preload() {
-    /* 
-        Loadingscreen
-    */
+    /*    Loadingscreen   */
     this.load.spritesheet('loader', 'assets/utils/loader.png', {
       frameWidth: 200,
       frameHeight: 200
     });
-    /*
-        Game assets
-    */
-    // background
+    /*    Game assets   */
+    // Background and decorations
     this.load.image('background', 'assets/decorations/background.png');
     this.load.image('house', 'assets/decorations/house.png');
-    // field tiles
+    // Soil sprites
     this.load.image('planted', 'assets/soil/planted.png');
     this.load.image('harvested', 'assets/soil/harvested.png');
     this.load.spritesheet('soil', 'assets/soil/soil-spritesheet.png', {
@@ -48,7 +44,8 @@ export class Preloader extends Scene {
       frameWidth: 256,
       frameHeight: 256
     });
-    // Sprites for plants
+    // Plant sprites
+    // Map constant with sprite names, need rework to back
     PLANTS_SPRITES.forEach((sprite: string) => {
       this.load.spritesheet(sprite, `assets/plants/${sprite}.png`, {
         frameWidth: 96,
@@ -81,7 +78,6 @@ export class Preloader extends Scene {
     });
 
     const loader = this.add.sprite(centerX, centerY, 'loader').play('loading');
-
     loader.setScale(0.4);
 
     if (window?.Telegram) {
@@ -106,6 +102,7 @@ export class Preloader extends Scene {
         this.scene.start('GameOver');
       }
     }
+    /* end create */
   }
 
   private async fetchUserData(userData: IUserData) {
@@ -114,8 +111,6 @@ export class Preloader extends Scene {
     if (!user) {
       user = await createUser(userData);
     }
-
-    user.garden.field = userGardenMapper(user.garden.field);
 
     const settings = await getSettings();
     const plants = await getPlantsList();

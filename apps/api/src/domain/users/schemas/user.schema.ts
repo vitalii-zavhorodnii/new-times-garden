@@ -44,10 +44,6 @@ class UserAchieve {
 
   @ApiProperty({ example: 90 })
   @Prop({ type: Number })
-  readonly goal: number;
-
-  @ApiProperty({ example: 90 })
-  @Prop({ type: Number })
   readonly progress: number;
 }
 
