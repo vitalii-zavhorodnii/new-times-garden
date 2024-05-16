@@ -6,18 +6,17 @@ export const styles = css`
     position: absolute;
     left: 10px;
     bottom: 82px;
-    padding: 3px;
-    width: 100px;
-    height: 100px;
-    border: 2px solid red;
-    border-radius: 10px;
-    background-color: #524c42;
-    border-radius: 10px;
     transition: left 200 cubic-bezier(0.42, 0, 0.58, 1);
   }
-  
+
   .container.hidden {
     left: -100vw;
+  }
+
+  .content {
+    display: flex;
+    background-color: #524c4280;
+    border-radius: 10px;
   }
 
   .preview {
@@ -28,10 +27,14 @@ export const styles = css`
   }
 
   .info {
-    margin-top: 6px;
+    margin-left: 12px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+  }
+
+  .income {
+    display: flex;
+    align-items: center;
   }
 
   .value {
@@ -42,7 +45,7 @@ export const styles = css`
     font-size: 20px;
   }
 
-  .icon {
+  .value-icon {
     width: 16px;
     margin-right: 5px;
   }
