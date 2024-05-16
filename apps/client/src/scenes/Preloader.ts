@@ -1,4 +1,7 @@
 import { Scene } from 'phaser';
+import { _EVENTS } from 'src/constants/events';
+
+import EventBus from '@emitter/EventBus';
 
 import { createUser } from '@services/createUser';
 import { getPlantsList } from '@services/getPlantsList';
@@ -116,7 +119,9 @@ export class Preloader extends Scene {
     const plants = await getPlantsList();
     const shopList = await getShopItems();
 
+    EventBus.emit(_EVENTS.plant_menu_update, plants);
+
     clearInterval(this.timer);
-    this.scene.start('Game', { user, plants, shopList, settings });
+    this.scene.start('Game', { user, shopList, settings });
   }
 }

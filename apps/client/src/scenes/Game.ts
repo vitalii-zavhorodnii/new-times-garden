@@ -37,7 +37,6 @@ import type { ICellData, IUserData } from '@interfaces/IUserData';
 
 interface IData {
   user: IUserData;
-  plants: IPlantsList;
   shopList: IShopItem[];
   settings: any;
 }
@@ -105,7 +104,6 @@ export class Game extends Scene {
 
     this.settings = data.settings;
 
-    this.plantsData = data.plants;
     this.shopList = data.shopList;
   }
 
@@ -119,7 +117,7 @@ export class Game extends Scene {
     /*    Old menus initialization   */
     // Plants menu
     // this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
-      // this.handleSeedChoose(plant);
+    // this.handleSeedChoose(plant);
     // });
     // Shop menu
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) => {

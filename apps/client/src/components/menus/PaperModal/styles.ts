@@ -69,9 +69,6 @@ export const styles = css`
   }
 
   .content {
-    display: flex;
-    margin: 30px;
-    padding: 30px;
     width: 100%;
   }
 `;

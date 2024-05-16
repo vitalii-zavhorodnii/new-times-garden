@@ -69,6 +69,10 @@ export default class PlantInfoBar extends LitElement {
   }
 
   render() {
+    if (!this.plant) {
+      return html``
+    }
+
     return html`<div class="container ${this.isshown ? '' : 'hidden'}">
       <div class="content">
         <img

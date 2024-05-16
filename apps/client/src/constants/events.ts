@@ -5,6 +5,7 @@ export const _EVENTS = {
   shop_menu_close: 'shop_menu_close',
   plant_menu_open: 'plant_menu_open',
   plant_menu_close: 'plant_menu_close',
+  plant_menu_update: 'plant_menu_update',
   picked_plant_show: 'picked_plant_show',
   picked_plant_hide: 'picked_plant_hide',
   picked_plant_update: 'picked_plant_update',
