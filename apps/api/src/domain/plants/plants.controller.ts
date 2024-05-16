@@ -30,15 +30,15 @@ export class PlantsController {
   @Public()
   @Get('')
   public async findAllActive(): Promise<{
-    vegetables: Plant[];
-    fruits: Plant[];
-    flowers: Plant[];
+    simple: Plant[];
+    advanced: Plant[];
+    special: Plant[];
   }> {
-    const vegetables = await this.plantsService.findByType('vegetable');
-    const fruits = await this.plantsService.findByType('fruit');
-    const flowers = await this.plantsService.findByType('flower');
+    const simple = await this.plantsService.findByType('simple');
+    const advanced = await this.plantsService.findByType('advanced');
+    const special = await this.plantsService.findByType('special');
 
-    return { vegetables, fruits, flowers };
+    return { simple, advanced, special };
   }
 
   @ApiOperation({ summary: 'create new Plant' })

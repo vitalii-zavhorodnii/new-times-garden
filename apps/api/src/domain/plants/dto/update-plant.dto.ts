@@ -1,101 +1,123 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { Type } from 'class-transformer';
 import {
-  IsBoolean,
   IsDefined,
   IsNotEmpty,
-  IsNotEmptyObject,
-  IsObject,
+  IsNumber,
   IsOptional,
   IsString,
-  Length,
-  ValidateNested
+  Length
 } from 'class-validator';
 
 export class UpdatePlantDto {
   @ApiProperty({
-    example: 'diagnostic',
-    description: 'Issue URL'
+    example: './assets/plants/icons/salat.png',
+    description: 'Icon for plants shop'
   })
   @IsOptional()
+  @IsString()
+  readonly icon?: string;
+
+  @ApiProperty({
+    example: 'Salat',
+    description: 'Name of plant'
+  })
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  readonly slug?: string;
+  @Length(1, 60)
+  readonly title: string;
 
   @ApiProperty({
-    example: 'Diagnostic',
-    description: 'Issue title'
+    example: 'Salat',
+    description: 'Name of plant'
   })
-  @IsOptional()
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  @Length(1, 60, {
-    message: 'title required to be 1-60 symbols length'
-  })
-  readonly title?: string;
+  @Length(1, 60)
+  readonly type: string;
 
   @ApiProperty({
-    example: 'Diagnostic...',
-    description: 'Issue description'
+    example: 'Salat is green',
+    description: 'Description of plant'
   })
-  @IsOptional()
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  readonly description?: string;
+  @Length(1, 200)
+  readonly description: string;
 
   @ApiProperty({
-    example: false,
-    description: 'If false, will not appear on client side lists'
+    example: 'Salat is green',
+    description: 'Description of plant'
   })
-  @IsOptional()
-  @IsBoolean({ message: 'field must be a boolean' })
-  readonly isActive?: boolean;
-
-  @ApiProperty({
-    example: 'від 200 грн',
-    description: 'Issue fix price'
-  })
-  @IsOptional()
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  @Length(1, 30, {
-    message: 'title required to be 1-30 symbols length'
+  @Length(1, 50)
+  readonly texture: string;
+
+  @ApiProperty({
+    example: 90,
+    description: 'Grow time'
   })
-  readonly price?: string;
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly growTime: number;
 
-//   @ApiProperty({
-//     example: 'Diagnostic...',
-//     description: 'Issue description'
-//   })
-//   @IsOptional()
-//   @IsDefined()
-//   @IsNotEmpty()
-//   @IsString()
-//   readonly info?: string;
+  @ApiProperty({
+    example: 90,
+    description: 'Price in coins'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly gamePrice: number;
 
-//   @ApiProperty({
-//     type: MetadataDto
-//   })
-//   @IsOptional()
-//   @IsDefined()
-//   @IsObject()
-//   @IsNotEmptyObject()
-//   @ValidateNested()
-//   @Type(() => MetadataDto)
-//   readonly metadata?: MetadataDto;
+  @ApiProperty({
+    example: 90,
+    description: 'level in coins'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly requiredLevel: number;
 
-  @ApiProperty({ example: '64ef4383e46e72721c03090e' })
-  @IsOptional()
-  @IsString()
-  readonly image?: string;
+  @ApiProperty({
+    example: 90,
+    description: 'Price in tokens'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly tokenPrice: number;
 
-  @ApiProperty({ example: ['64ef4383e46e72721c03090e'] })
-  @IsOptional()
-  @IsString({ each: true })
-  readonly benefits?: string[];
+  @ApiProperty({
+    example: 90,
+    description: 'Amount of coins to harvest'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly coinsIncome: number;
+
+  @ApiProperty({
+    example: 30,
+    description: 'Amount of tokens to harvest'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly tokensIncome: number;
+
+  @ApiProperty({
+    example: 30,
+    description: 'Amount of xp to harvest'
+  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly xpIncome: number;
 }

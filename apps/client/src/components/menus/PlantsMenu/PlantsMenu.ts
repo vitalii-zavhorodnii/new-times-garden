@@ -20,9 +20,9 @@ export default class PlantsMenu {
 
   private swiper: Swiper;
   private categories: {
-    vegetables: HTMLElement | null;
-    fruits: HTMLElement | null;
-    flowers: HTMLElement | null;
+    simple: HTMLElement | null;
+    advanced: HTMLElement | null;
+    special: HTMLElement | null;
   };
 
   constructor(plants: IPlantsList, callback: Function) {
@@ -33,9 +33,9 @@ export default class PlantsMenu {
     this.content = document.getElementById('plants-menu-content');
 
     this.categories = {
-      vegetables: this.createMarkupCategory(plants.vegetables),
-      fruits: this.createMarkupCategory(plants.fruits),
-      flowers: this.createMarkupCategory(plants.flowers)
+      simple: this.createMarkupCategory(plants.simple),
+      advanced: this.createMarkupCategory(plants.advanced),
+      special: this.createMarkupCategory(plants.special)
     };
 
     this.createMarkup();
@@ -82,6 +82,7 @@ export default class PlantsMenu {
 
     const listHTML = document.createElement('ul');
     listHTML.classList.add('swiper-slide');
+    listHTML.classList.add('swiper-extra');
 
     itemsHTML.forEach((item) => {
       listHTML.appendChild(item);

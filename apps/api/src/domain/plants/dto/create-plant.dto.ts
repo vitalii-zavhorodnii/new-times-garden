@@ -1,17 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { Type } from 'class-transformer';
 import {
-  IsBoolean,
   IsDefined,
   IsNotEmpty,
-  IsNotEmptyObject,
   IsNumber,
-  IsObject,
   IsOptional,
   IsString,
-  Length,
-  ValidateNested
+  Length
 } from 'class-validator';
 
 export class CreatePlantDto {
@@ -32,7 +27,6 @@ export class CreatePlantDto {
   @IsString()
   @Length(1, 60)
   readonly title: string;
-
 
   @ApiProperty({
     example: 'Salat',

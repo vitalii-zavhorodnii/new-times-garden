@@ -1,9 +1,7 @@
 export interface IPlantsList {
-  vegetables: IPlantListItem[];
-  fruits: IPlantListItem[];
-  berries: IPlantListItem[];
-  flowers: IPlantListItem[];
-  herbs: IPlantListItem[];
+  simple: IPlantListItem[];
+  advanced: IPlantListItem[];
+  special: IPlantListItem[];
 }
 
 export interface IPlantListItem {
