@@ -15,6 +15,7 @@ export const styles = css`
     border-radius: 10px;
     transition: left 200 cubic-bezier(0.42, 0, 0.58, 1);
   }
+  
   .container.hidden {
     left: -100vw;
   }

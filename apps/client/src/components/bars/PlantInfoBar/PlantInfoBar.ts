@@ -25,7 +25,7 @@ export default class PlantInfoBar extends LitElement {
   @property({ type: Number, attribute: true, reflect: true })
   timer: number;
 
-  // private data: IPlantListItem;
+  private data: IPlantListItem;
 
   constructor() {
     super();
@@ -33,40 +33,57 @@ export default class PlantInfoBar extends LitElement {
     this.isshown = false;
 
     EventBus.on(_EVENTS.picked_plant_update, (plant: IPlantListItem) => {
-      console.log({ plant });
-      // this.data = data;
       this.icon = plant.icon;
       this.coinPrice = plant.gamePrice;
       this.tokenPrice = plant.tokenPrice;
       this.timer = plant.growTime;
+      this.data = plant;
       this.isshown = true;
+      this.requestUpdate();
+    });
+
+    EventBus.on(_EVENTS.picked_plant_clear, () => {
+      this.isshown = false;
       this.requestUpdate();
     });
   }
 
-  retnder() {
+  _renderPrice() {
+    if (this.coinPrice > 0) {
+      return html`<p class="value">
+        <img class="icon" src="./assets/utils/money.png" alt="coin" />
+        ${this.coinPrice}
+      </p>`;
+    }
+
+    if (this.tokenPrice > 0) {
+      return html`<p class="value">
+        <img class="icon" src="./assets/utils/token.png" alt="token" />
+        ${this.tokenPrice}
+      </p>`;
+    }
+  }
+
+  _renderIncome() {
+    if (this.data.coinsIncome > 0) {
+      return html`<p class="value">
+        <img class="icon" src="./assets/utils/money-profit.png" alt="coin" />
+        ${this.data.coinsIncome}
+      </p>`;
+    }
+
+    if (this.data.tokensIncome > 0) {
+      return html`<p class="value">
+        <img class="icon" src="./assets/utils/profit-tokens.svg" alt="token" />
+        ${this.data.tokensIncome}
+      </p>`;
+    }
+  }
+
+  render() {
     return html`<div class="container ${this.isshown ? '' : 'hidden'}">
       <img class="preview" src="${this.icon}" alt="icon" />
-      <div class="info">
-        ${this.coinPrice > 0
-          ? `<p class="value">
-            <img class="icon" 
-              src="./assets/utils/money.png" 
-              alt="coin"
-            >
-            ${this.coinPrice}
-          </p>`
-          : ''}
-        ${this.tokenPrice > 0
-          ? `<p class="value">
-            <img class="icon" 
-              src="./assets/utils/token.png" 
-              alt="token"
-            >
-            ${this.tokenPrice}
-          </p>`
-          : ''}
-      </div>
+      <div class="info">${this._renderPrice()}${this._renderIncome()}</div>
     </div> `;
   }
 }

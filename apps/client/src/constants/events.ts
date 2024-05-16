@@ -8,6 +8,7 @@ export const _EVENTS = {
   picked_plant_show: 'picked_plant_show',
   picked_plant_hide: 'picked_plant_hide',
   picked_plant_update: 'picked_plant_update',
+  picked_plant_clear: 'picked_plant_clear',
   balance_update_coins: 'balance_update_coins',
   balance_update_tokens: 'balance_update_tokens',
   balance_update_xp: 'balance_update_xp',

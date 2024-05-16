@@ -4,8 +4,8 @@ export const styles = css`
   .container {
     z-index: 1;
     position: absolute;
-    right: calc(0px - (172px / 2));
-    bottom: calc(24px - (72px / 2));
+    right: -86px;
+    bottom: -64px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,7 +18,7 @@ export const styles = css`
   }
 
   .container.hidden {
-    right: -172px;
+    right: -180px;
   }
 
   .container.rotated {

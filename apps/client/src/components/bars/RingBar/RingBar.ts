@@ -47,6 +47,7 @@ export default class RingBar extends LitElement {
 
   _handleEscClick(): void {
     EventBus.emit(_EVENTS.esc_click);
+    EventBus.emit(_EVENTS.picked_plant_clear)
     this.active_escape = false;
     this.requestUpdate();
   }
