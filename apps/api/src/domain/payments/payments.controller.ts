@@ -33,7 +33,6 @@ export class PaymentsController {
     @Body()
     dto: CreatePaymentDto
   ): Promise<Payment> {
-    console.log({ dto });
     const product = await this.productsService.findById(dto.productId);
     const user = await this.usersService.findOneByTelegramId(dto.userId);
 

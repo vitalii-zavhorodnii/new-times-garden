@@ -1,7 +1,8 @@
 import { markup } from './markup';
-import EventBus from '@emitter/EventBus';
 import Swiper from 'swiper';
 import { Navigation } from 'swiper/modules';
+
+import EventBus from '@emitter/EventBus';
 
 import { timeReadableConverter } from '@helpers/time-coverter';
 
@@ -75,7 +76,7 @@ export default class PlantsMenu {
       itemHTML.innerHTML = markupHTML;
 
       itemHTML.addEventListener('click', () => {
-        // this.callback(plant);
+        EventBus.emit(_EVENTS.ring_set_escape);
         EventBus.emit(_EVENTS.picked_plant_update, plant);
         EventBus.emit(_EVENTS.plant_menu_close);
       });

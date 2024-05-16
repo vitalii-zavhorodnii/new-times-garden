@@ -1,17 +1,14 @@
-import EventBus from '@emitter/EventBus';
 import { DateTime } from 'luxon';
 import { Scene } from 'phaser';
 import { Pinch } from 'phaser3-rex-plugins/plugins/gestures.js';
+
+import EventBus from '@emitter/EventBus';
 
 import { createPayment } from '@services/createPayment';
 import { harvestPlant } from '@services/harvestPlant';
 import { sendTonTransaction } from '@services/sendTonTransaction';
 import { startGrowPlant } from '@services/startGrowPlant';
 
-import BalanceBar from '@components/bars/BalanceBar';
-import BottomBar from '@components/bars/BottomBar';
-import PickedPlantBar from '@components/bars/PickedPlantBar';
-import PlantInfoBar from '@components/bars/PlantInfoBar';
 import PlantsMenu from '@components/menus/PlantsMenu';
 import ShopMenu from '@components/menus/ShopMenu';
 
@@ -72,22 +69,14 @@ export class Game extends Scene {
   // Interface elements UI
 
   // UI Elements - old fix
-  private pickedPlantBar: PickedPlantBar;
-  private bottomBar: BottomBar;
   private shopMenu: ShopMenu;
   private menuPlants: PlantsMenu;
   // UI buttons
-  private btnShopOpen: HTMLElement;
   private btnShopClose: HTMLElement;
-  private btnPlantsOpen: HTMLElement;
   private btnPlantsClose: HTMLElement;
-  private btnEscape: HTMLElement;
   // private user: IUserData;
   private plantsData: IPlantsList;
   private shopList: IShopItem[];
-
-  // UI Elements - bars
-  private balanceBar: BalanceBar;
 
   // Constructor
   constructor() {
@@ -122,58 +111,43 @@ export class Game extends Scene {
 
   // Create scene method
   public create() {
+    /*    Camera settings   */
     this.camera = this.cameras.main;
     const zoom = parseFloat(JSON.parse(window.localStorage.getItem('zoom'))) || 1;
     this.camera.setZoom(zoom, zoom);
-    // center canvas variables
-    const { height, width, worldView } = this.cameras.main;
-    const centerX = worldView.x + width / 2;
-    const centerY = worldView.y + height / 2 - 13;
-    
-    EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
-    EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
-    // Bottom bar init
-    this.bottomBar = new BottomBar();
-    /* 
-      Menus
-    */
-    // Shop tokens menu
+
+    /*    Old menus initialization   */
+    // Plants menu
+    this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
+      this.handleSeedChoose(plant);
+    });
+    // Shop menu
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) => {
       this.handleShopItemClick(item);
     });
-    /*
-     *    Buttons
-     */
+    /*    Buttons   */
     // Shop menu buttons
     this.btnShopClose = document.getElementById('shop-menu-close');
     this.btnShopClose.addEventListener('click', () => {
       this.isBlocked = false;
       EventBus.emit(_EVENTS.shop_menu_close);
     });
-    // Plants menu
-    this.btnPlantsOpen = document.getElementById('plants-menu-open');
-    this.btnPlantsOpen.addEventListener('click', () => {
-      this.isBlocked = true;
-      EventBus.emit(_EVENTS.plant_menu_open);
-    });
+    // Plants menu buttons
     this.btnPlantsClose = document.getElementById('plants-menu-close');
     this.btnPlantsClose.addEventListener('click', () => {
       this.isBlocked = false;
       EventBus.emit(_EVENTS.plant_menu_close);
     });
-    // escape
-    this.btnEscape = document.getElementById('escape');
-    this.btnEscape.addEventListener('click', () => {
-      this.handleInGameEscape();
-    });
-    /*
-     * Render background and decors
-     * bg
-     */
+    /*    Background Image    */
+    const { height, width, worldView } = this.cameras.main;
+    const centerX = worldView.x + width / 2;
+    const centerY = worldView.y + height / 2 - 13;
+
     const backgroundImage = this.add.image(centerX, centerY, 'background');
     backgroundImage.x = backgroundImage.x - 280;
     backgroundImage.y = backgroundImage.y - 118;
-    //  Create animations
+    /*    Create animations   */
+    // Map array of animated textures {Variables}
     PLANTS_ANIMATED.forEach((sprite) => {
       this.anims.create({
         key: `tap-0-${sprite}`,
@@ -200,49 +174,48 @@ export class Game extends Scene {
         repeat: 0
       });
     });
+    // Create POOF animation
     this.anims.create({
       key: 'poof',
       frameRate: 24,
       frames: this.anims.generateFrameNumbers('dummy', { start: 1, end: 13 }),
       repeat: 0
     });
-    //  Run render methods
-    this.renderPlantsMenu();
-    this.renderPlants();
-    this.renderSoil();
-    this.renderDecorations();
-    //
-    this.initiateControls();
-    EventBus.emit(_EVENTS.balance_show);
-    this.bottomBar.show();
-    /*
-     *
-     *     Define Emitting events
-     *
-     */
-    // handle return to Game scene
+    /*    Render Game Objects   */
+    this.renderPlants(); // user plants
+    this.renderSoil(); // soil under plants
+    this.renderDecorations(); // all decorations
+    /*    EventBus subscribe    */
     EventBus.on(_EVENTS.switch_to_game_scene, () => {
-      this.bottomBar.show();
+      EventBus.emit(_EVENTS.ring_show);
       EventBus.emit(_EVENTS.balance_show);
-    });
-    // Handling block input if opened menu
+    }); // Handle return to Game scene
+    EventBus.on(_EVENTS.esc_click, () => {
+      this.isBlocked = false;
+      this.pickedPlant = null;
+    }); // Escape trigger
     EventBus.on(_EVENTS.shop_menu_open, () => {
       this.isBlocked = true;
-    });
+    }); // Shop Coins Open
     EventBus.on(_EVENTS.shop_menu_close, () => {
       this.isBlocked = false;
-    });
+    }); // Shop Coins close
     EventBus.on(_EVENTS.plant_menu_open, () => {
       this.isBlocked = true;
-    });
+    }); // Plant Menu open
     EventBus.on(_EVENTS.plant_menu_close, () => {
       this.isBlocked = false;
-    });
-    // Update data on picked plant
+    }); // Plant Menu close
     EventBus.on(_EVENTS.picked_plant_update, (plant: IPlantListItem) => {
       this.pickedPlant = plant;
-    });
-    // Post prepraing events
+    }); // Update data on picked plant
+    /*    EventBus emit    */
+    EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
+    EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
+    EventBus.emit(_EVENTS.balance_show);
+    EventBus.emit(_EVENTS.ring_show);
+    /*    Post prepraing events   */
+    this.initiateControls();
     // Activate interval Grow phaser checker
     this.growingInterval = setInterval(() => this.runCheckGrowPhase(), 2000);
     this.events.on('destroy', () => (this.growingInterval = null));
@@ -250,9 +223,7 @@ export class Game extends Scene {
   }
   /*    Methods   */
   /*
-   *
    *    Game mechanics methods
-   *
    */
   // Growing checker
   // Map 2D array field and run checkGrowPhase()
@@ -312,68 +283,7 @@ export class Game extends Scene {
     }
     /* End of grow checker */
   }
-  /* * * * * *  * * * ** * */
-  /*
-   *
-   *    Ingame Handlers
-   *
-   */
-  // Init Controls and controls Handlers
-  private initiateControls() {
-    const pinch = new Pinch(this);
-    pinch.setEnable(true);
-
-    pinch.on('pinch', () => {
-      if (!this.pinchDistance) {
-        this.pinchDistance = pinch.distanceBetween;
-        return;
-      }
-
-      if (this.pinchDistance > pinch.distanceBetween) {
-        const zoom = pinch.scaleFactor * this.camera.zoom;
-        if (zoom > 0.65) {
-          this.camera.setZoom(zoom, zoom);
-        }
-      }
-      if (this.pinchDistance < pinch.distanceBetween) {
-        const zoom = pinch.scaleFactor * this.camera.zoom;
-        if (zoom < 1.1) {
-          this.camera.setZoom(zoom, zoom);
-        }
-      }
-
-      this.pinchDistance = pinch.distanceBetween;
-    });
-
-    pinch.on('pinchend', () => {
-      const zoom = pinch.scaleFactor * this.camera.zoom;
-      window.localStorage.setItem('zoom', JSON.stringify(zoom));
-      this.pinchDistance = null;
-    });
-
-    this.input.on('pointermove', (p) => {
-      if (!p.isDown) return;
-
-      const distance = p.x - p.prevPosition.x;
-
-      if (distance >= -1 && distance <= 1) return;
-
-      if (this.pinchDistance) return;
-
-      const { scrollX } = this.camera;
-      const { left, right } = CAMERA_BOUNDRIES;
-
-      this.camera.scrollX -= distance * 2;
-
-      if (scrollX <= left) {
-        this.camera.scrollX = left + 5;
-      }
-
-      if (scrollX >= right) {
-        this.camera.scrollX = right - 5;
-      }
-    });
-  }
+  /*    Ingame Handlers   */
   // Handle user click on Soil sprite
   private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number) {
     console.log({
@@ -437,7 +347,7 @@ export class Game extends Scene {
         // Hide bar
         this.pickedPlant = null;
         EventBus.emit(_EVENTS.picked_plant_hide);
-        this.bottomBar.activateMenu();
+        EventBus.emit(_EVENTS.ring_set_menu);
       }
       // stop continue
       return;
@@ -498,18 +408,14 @@ export class Game extends Scene {
   private handleDecorationClick(decoration: Decoration) {
     if (decoration.decorationName === 'house') {
       // Hide interface
-      this.bottomBar.hide();
-      EventBus.emit(_EVENTS.balance_hide);
       this.pickedPlant = null;
+      EventBus.emit(_EVENTS.ring_hide);
+      EventBus.emit(_EVENTS.balance_hide);
 
       this.scene.switch('HouseScene');
     }
   }
-  /*
-   *
-   *    UI handlers
-   *
-   */
+  /*    UI handlers   */
   // Handle choose Seed from Plant Shop
   private handleSeedChoose(plant: IPlantListItem) {
     // Check user balance
@@ -527,7 +433,7 @@ export class Game extends Scene {
     // Close Plants Menu
     this.handleClosePlantsShop();
     // Activate Escape
-    this.bottomBar.activateCancel();
+    EventBus.emit(_EVENTS.ring_set_escape);
   }
   // OLD FIX
   /*
@@ -558,17 +464,63 @@ export class Game extends Scene {
     this.isBlocked = false;
 
     EventBus.emit(_EVENTS.shop_menu_close);
-
-    this.bottomBar.activateCancel();
+    EventBus.emit(_EVENTS.ring_set_escape);
   }
-  // Handle escape
-  private handleInGameEscape() {
-    this.isBlocked = false;
+  // Init Controls and controls Handlers
+  private initiateControls() {
+    const pinch = new Pinch(this);
+    pinch.setEnable(true);
 
-    this.pickedPlant = null;
-    EventBus.emit(_EVENTS.picked_plant_hide);
+    pinch.on('pinch', () => {
+      if (!this.pinchDistance) {
+        this.pinchDistance = pinch.distanceBetween;
+        return;
+      }
 
-    this.bottomBar.activateMenu();
+      if (this.pinchDistance > pinch.distanceBetween) {
+        const zoom = pinch.scaleFactor * this.camera.zoom;
+        if (zoom > 0.65) {
+          this.camera.setZoom(zoom, zoom);
+        }
+      }
+      if (this.pinchDistance < pinch.distanceBetween) {
+        const zoom = pinch.scaleFactor * this.camera.zoom;
+        if (zoom < 1.1) {
+          this.camera.setZoom(zoom, zoom);
+        }
+      }
+
+      this.pinchDistance = pinch.distanceBetween;
+    });
+
+    pinch.on('pinchend', () => {
+      const zoom = pinch.scaleFactor * this.camera.zoom;
+      window.localStorage.setItem('zoom', JSON.stringify(zoom));
+      this.pinchDistance = null;
+    });
+
+    this.input.on('pointermove', (p) => {
+      if (!p.isDown) return;
+
+      const distance = p.x - p.prevPosition.x;
+
+      if (distance >= -1 && distance <= 1) return;
+
+      if (this.pinchDistance) return;
+
+      const { scrollX } = this.camera;
+      const { left, right } = CAMERA_BOUNDRIES;
+
+      this.camera.scrollX -= distance * 2;
+
+      if (scrollX <= left) {
+        this.camera.scrollX = left + 5;
+      }
+
+      if (scrollX >= right) {
+        this.camera.scrollX = right - 5;
+      }
+    });
   }
   /*
    *    Render game methods
@@ -700,15 +652,6 @@ export class Game extends Scene {
 
     this.decorationContainer.depth = CONTAINERS_DEPTH.plant;
     this.decorationContainer.add(this.decorations);
-  }
-  /*
-   *     Render UI elements
-   */
-  // Render plants list
-  private renderPlantsMenu() {
-    this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
-      this.handleSeedChoose(plant);
-    });
   }
   // Playground
   // Show interface

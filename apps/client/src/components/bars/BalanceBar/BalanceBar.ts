@@ -1,7 +1,9 @@
-import { styles } from './styles';
-import EventBus from '@emitter/EventBus';
-import { LitElement, PropertyValues, html } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+
+import EventBus from '@emitter/EventBus';
+
+import { styles } from './styles';
 
 import { _EVENTS } from '@constants/events';
 
@@ -37,20 +39,15 @@ export default class BalanceBar extends LitElement {
     EventBus.on(_EVENTS.balance_update_xp, (value: number) => {
       this.xp = value;
       this.requestUpdate();
-      // this.update();
     });
     EventBus.on(_EVENTS.balance_show, () => {
       this.isshown = true;
       this.requestUpdate();
-      // this.update();
     });
     EventBus.on(_EVENTS.balance_hide, () => {
       this.isshown = false;
       this.requestUpdate();
-      // this.update();
     });
-
-    // this.element = document.getElementsByTagName('balance-bar')[0];
   }
 
   private _handleClick(): void {

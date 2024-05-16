@@ -34,7 +34,6 @@ export class ProductsController {
     @Body()
     dto: CreateProductDto
   ): Promise<Product> {
-    console.log('products', { dto });
     return await this.productsService.create(dto);
   }
 

@@ -1,10 +1,13 @@
-import { styles } from './styles';
-import EventBus from '@emitter/EventBus';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IPlantListItem } from 'src/interfaces/IPlantListItem';
+
+import EventBus from '@emitter/EventBus';
+
+import { styles } from './styles';
 
 import { _EVENTS } from '@constants/events';
+
+import type { IPlantListItem } from '@interfaces/IPlantListItem';
 
 @customElement('picked-plant')
 export default class PlantInfoBar extends LitElement {

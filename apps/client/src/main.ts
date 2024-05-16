@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Game, Types } from 'phaser';
 import 'swiper/css';
 
+import EventBus from '@emitter/EventBus';
+
 import { Boot } from '@scenes/Boot';
 import { Game as MainGame } from '@scenes/Game';
 import { GameOver } from '@scenes/GameOver';
@@ -26,6 +28,9 @@ if (!WebApp) {
 WebApp.expand();
 WebApp.disableClosingConfirmation();
 WebApp.ready();
+
+EventBus.on('bus_init', () => console.log('EventBus activated!'));
+EventBus.emit('bus_init');
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),

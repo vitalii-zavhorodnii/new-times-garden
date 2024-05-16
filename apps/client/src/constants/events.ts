@@ -1,4 +1,5 @@
 export const _EVENTS = {
+  esc_click: 'esc_click',
   switch_to_game_scene: 'switch_to_game_scene',
   shop_menu_open: 'shop_menu_open',
   shop_menu_close: 'shop_menu_close',
@@ -11,5 +12,9 @@ export const _EVENTS = {
   balance_update_tokens: 'balance_update_tokens',
   balance_update_xp: 'balance_update_xp',
   balance_show: 'balance_show',
-  balance_hide: 'balance_hide'
+  balance_hide: 'balance_hide',
+  ring_show: 'ring_show',
+  ring_hide: 'ring_hide',
+  ring_set_menu: 'ring_set_menu',
+  ring_set_escape: 'ring_set_escape'
 };

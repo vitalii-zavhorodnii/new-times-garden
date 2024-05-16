@@ -44,14 +44,11 @@ export default class AchieveMenu {
   }
 
   private createMarkup() {
-    console.log(this.achieveLog);
     // const list = this.achieveLog.map((plant, index) => {
     //   const itemHTML = document.createElement('li');
     //   itemHTML.classList.add('plants-menu__item');
     //   itemHTML.setAttribute('index', String(index));
-
     //   const growingString = timeReadableConverter(plant.growTime);
-
     //   const markupHTML: string = markup(
     //     plant.title,
     //     plant.gamePrice,
@@ -61,22 +58,16 @@ export default class AchieveMenu {
     //     plant.xpIncome,
     //     growingString
     //   );
-
     //   itemHTML.innerHTML = markupHTML;
-
     //   itemHTML.addEventListener('click', () => {
     //     this.callback(plant);
     //   });
-
     //   return itemHTML;
     // });
-
     // const listHTML = document.createElement('ul');
-
     // list.forEach((item) => {
     //   listHTML.appendChild(item);
     // });
-
     // this.content.appendChild(listHTML);
   }
 }

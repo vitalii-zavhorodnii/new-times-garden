@@ -102,8 +102,6 @@ export class UsersService {
       progress: 0
     };
 
-    console.log({ userId, achieveId, achieve });
-
     const user = await this.userModel.findByIdAndUpdate(
       userId,
       {

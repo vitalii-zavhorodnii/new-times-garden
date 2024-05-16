@@ -209,7 +209,6 @@ export class UsersController {
     @Param('id') id: string,
     @Query('achieve') achieve: string
   ): Promise<any> {
-    console.log('testAchieve,', { id, achieve });
     const user = await this.usersService.findOneByTelegramId(id);
 
     if (!user) {
