@@ -12,41 +12,43 @@ import { _EVENTS } from '@constants/events';
 export default class PlantsShopMenu extends LitElement {
   static styles = styles;
 
-  // @property({ type: Boolean, attribute: true, reflect: true })
-  // isshown: boolean;
+  @property({ type: Boolean })
+  isshown: boolean;
 
-  // @property({ type: Boolean, attribute: true, reflect: true })
-  // active_escape: boolean;
+  @property({ type: String })
+  title = 'Seeds Shop';
+
+  @property({ type: String })
+  description =
+    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis, cupiditate cum minus';
 
   constructor() {
     super();
 
-    // this.isshown = false;
-    // this.active_escape = false;
+    this.isshown = true;
 
-    // EventBus.on(_EVENTS.ring_show, () => {
-    //   this.isshown = true;
-    //   this.requestUpdate();
-    // });
-    // EventBus.on(_EVENTS.ring_hide, () => {
-    //   this.isshown = false;
-    //   this.requestUpdate();
-    // });
-    // EventBus.on(_EVENTS.ring_set_menu, () => {
-    //   this.active_escape = false;
-    //   this.requestUpdate();
-    // });
-    // EventBus.on(_EVENTS.ring_set_escape, () => {
-    //   this.active_escape = true;
-    //   this.requestUpdate();
-    // });
+    EventBus.on(_EVENTS.plant_menu_open, () => {
+      this.isshown = true;
+      this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.plant_menu_close, () => {
+      this.isshown = false;
+      this.requestUpdate();
+    });
+  }
+
+  _handleClick(e: Event) {
+    console.log('handle', e);
+    // EventBus.emit(_EVENTS.plant_menu_close);
   }
 
   render() {
-    return html`<paper-modal>
-      <div class="container">
-        Hello shop
-      </div>
+    return html`<paper-modal
+      title=${this.title}
+      description=${this.description}
+      ?isshown=${this.isshown}
+    >
+      <div class="container">Hello shop</div>
     </paper-modal> `;
   }
 }

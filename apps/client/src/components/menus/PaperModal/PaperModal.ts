@@ -11,42 +11,43 @@ import { _EVENTS } from '@constants/events';
 export default class PaperModal extends LitElement {
   static styles = styles;
 
-  // @property({ type: Boolean, attribute: true, reflect: true })
-  // isshown: boolean;
+  @property({ type: Boolean, attribute: true })
+  isshown: boolean;
 
-  // @property({ type: Boolean, attribute: true, reflect: true })
-  // active_escape: boolean;
+  @property({ type: String, attribute: true })
+  title: string;
+
+  @property({ type: String, attribute: true })
+  description: string;
 
   constructor() {
     super();
+  }
 
-    // this.isshown = false;
-    // this.active_escape = false;
-
-    // EventBus.on(_EVENTS.ring_show, () => {
-    //   this.isshown = true;
-    //   this.requestUpdate();
-    // });
-    // EventBus.on(_EVENTS.ring_hide, () => {
-    //   this.isshown = false;
-    //   this.requestUpdate();
-    // });
-    // EventBus.on(_EVENTS.ring_set_menu, () => {
-    //   this.active_escape = false;
-    //   this.requestUpdate();
-    // });
-    // EventBus.on(_EVENTS.ring_set_escape, () => {
-    //   this.active_escape = true;
-    //   this.requestUpdate();
-    // });
+  handleClose() {
+    EventBus.emit(_EVENTS.plant_menu_close);
+    EventBus.emit(_EVENTS.shop_menu_close);
   }
 
   render() {
-    return html`
-      <div class="container">
-        <div class="title">Shop menu:</div>
-        <slot></slot>
+    return html`<div class="container ${this.isshown ? '' : 'hidden'}">
+      <div class="foreground">
+        <img
+          @click=${this.handleClose}
+          class="btn-close"
+          src="./assets/utils/cross.png"
+          alt="close"
+        />
+        <img class="frame" src="./assets/utils/frame.png" alt="frame" />
       </div>
-    `;
+
+      <div class="information">
+        <h4 class="header">${this.title}</h4>
+        <p class="description">${this.description}</p>
+        <div class="content">
+          <slot></slot>
+        </div>
+      </div>
+    </div>`;
   }
 }

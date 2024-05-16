@@ -70,7 +70,7 @@ export class Game extends Scene {
 
   // UI Elements - old fix
   private shopMenu: ShopMenu;
-  private menuPlants: PlantsMenu;
+  // private menuPlants: PlantsMenu;
   // UI buttons
   private btnShopClose: HTMLElement;
   private btnPlantsClose: HTMLElement;
@@ -118,9 +118,9 @@ export class Game extends Scene {
 
     /*    Old menus initialization   */
     // Plants menu
-    this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
-      this.handleSeedChoose(plant);
-    });
+    // this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
+      // this.handleSeedChoose(plant);
+    // });
     // Shop menu
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) => {
       this.handleShopItemClick(item);
