@@ -1,20 +1,23 @@
 import { styles } from './styles';
 import EventBus from '@emitter/EventBus';
-import { LitElement, html } from 'lit';
+import { LitElement, PropertyValues, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+
+import { _EVENTS } from '@constants/events';
 
 @customElement('balance-bar')
 export default class BalanceBar extends LitElement {
   static styles = styles;
 
   @property({ type: Boolean, attribute: true, reflect: true })
-  public isshown: boolean;
+  isshown: boolean;
 
-  @property({ type: Number, attribute: true, reflect: true }) public coins: number;
-  @property({ type: Number, attribute: true, reflect: true }) public tokens: number;
-  @property({ type: Number, attribute: true, reflect: true }) public xp: number;
-
-  private element: Element;
+  @property({ type: Number, attribute: true, reflect: true })
+  coins: number;
+  @property({ type: Number, attribute: true, reflect: true })
+  tokens: number;
+  @property({ type: Number, attribute: true, reflect: true })
+  xp: number;
 
   constructor() {
     super();
@@ -23,32 +26,39 @@ export default class BalanceBar extends LitElement {
     this.tokens = 0;
     this.xp = 0;
 
-    this.element = document.getElementsByTagName('balance-bar')[0];
+    EventBus.on(_EVENTS.balance_update_coins, (value: number) => {
+      this.coins = value;
+      this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.balance_update_tokens, (value: number) => {
+      this.tokens = value;
+      this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.balance_update_xp, (value: number) => {
+      this.xp = value;
+      this.requestUpdate();
+      // this.update();
+    });
+    EventBus.on(_EVENTS.balance_show, () => {
+      this.isshown = true;
+      this.requestUpdate();
+      // this.update();
+    });
+    EventBus.on(_EVENTS.balance_hide, () => {
+      this.isshown = false;
+      this.requestUpdate();
+      // this.update();
+    });
+
+    // this.element = document.getElementsByTagName('balance-bar')[0];
   }
 
   private _handleClick(): void {
-    console.log('clicked click handle');
-    EventBus.emit('open-shop');
-  }
-
-  public updateBalance(key: 'coins' | 'tokens', value: number | string) {
-    this.element.setAttribute(key, String(value));
-  }
-
-  public toggleShown(value: boolean) {
-    if (!value) {
-      this.element.removeAttribute('isshown');
-      return;
-    }
-
-    this.element.setAttribute('isshown', '');
+    EventBus.emit(_EVENTS.shop_menu_open);
   }
 
   public render() {
-    return html` <div
-      id="balance-bar"
-      class="container ${this.isshown ? '' : 'hidden'}"
-    >
+    return html` <div class="container ${this.isshown ? '' : 'hidden'}">
       <div class="item">
         <span class="value">${this.xp}</span>
         <img class="icon" src="./assets/utils/experience.png" alt="xp" />

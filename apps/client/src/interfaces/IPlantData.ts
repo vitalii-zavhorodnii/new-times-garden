@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 
-import { IGardenFetchedCell } from '@interfaces/IGardenFetched';
+import { ICellData } from '@interfaces/IUserData';
 
-export interface IPlantData extends IGardenFetchedCell {
+export interface IPlantData extends ICellData {
   scene?: Scene;
   x: number;
   y: number;

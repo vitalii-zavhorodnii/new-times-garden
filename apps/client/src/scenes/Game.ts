@@ -11,6 +11,7 @@ import { startGrowPlant } from '@services/startGrowPlant';
 import BalanceBar from '@components/bars/BalanceBar';
 import BottomBar from '@components/bars/BottomBar';
 import PickedPlantBar from '@components/bars/PickedPlantBar';
+import PlantInfoBar from '@components/bars/PlantInfoBar';
 import PlantsMenu from '@components/menus/PlantsMenu';
 import ShopMenu from '@components/menus/ShopMenu';
 
@@ -28,6 +29,7 @@ import { randomNumberHelper } from '@helpers/random-number';
 import { CAMERA_BOUNDRIES } from '@constants/camera-bounds';
 import { CONTAINERS_DEPTH } from '@constants/containers-depth';
 import { DECORATION_LIST } from '@constants/decorations';
+import { _EVENTS } from '@constants/events';
 // import { PLANTS_SPRITES } from '@constants/plants-sprites';
 import { PLANTS_ANIMATED } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
@@ -67,7 +69,8 @@ export class Game extends Scene {
   private decorationContainer: Phaser.GameObjects.Container;
   private fieldContainer: Phaser.GameObjects.Container[];
   private soilContainer: Phaser.GameObjects.Container[];
-  // FIX
+  // Interface elements UI
+
   // UI Elements - old fix
   private pickedPlantBar: PickedPlantBar;
   private bottomBar: BottomBar;
@@ -126,13 +129,9 @@ export class Game extends Scene {
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2 - 13;
-    /*
-      UI - elements
-    */
-    // Balance bar initiate
-    this.balanceBar = new BalanceBar();
-    this.balanceBar.updateBalance('coins', this.balanceCoins);
-    this.balanceBar.updateBalance('tokens', this.balanceTokens);
+    
+    EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
+    EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
     // Bottom bar init
     this.bottomBar = new BottomBar();
     /* 
@@ -148,16 +147,19 @@ export class Game extends Scene {
     // Shop menu buttons
     this.btnShopClose = document.getElementById('shop-menu-close');
     this.btnShopClose.addEventListener('click', () => {
-      this.handleCloseShop();
+      this.isBlocked = false;
+      EventBus.emit(_EVENTS.shop_menu_close);
     });
     // Plants menu
     this.btnPlantsOpen = document.getElementById('plants-menu-open');
     this.btnPlantsOpen.addEventListener('click', () => {
-      this.handleOpenPlantsShop();
+      this.isBlocked = true;
+      EventBus.emit(_EVENTS.plant_menu_open);
     });
     this.btnPlantsClose = document.getElementById('plants-menu-close');
     this.btnPlantsClose.addEventListener('click', () => {
-      this.handleCancelPlantsShop();
+      this.isBlocked = false;
+      EventBus.emit(_EVENTS.plant_menu_close);
     });
     // escape
     this.btnEscape = document.getElementById('escape');
@@ -171,8 +173,6 @@ export class Game extends Scene {
     const backgroundImage = this.add.image(centerX, centerY, 'background');
     backgroundImage.x = backgroundImage.x - 280;
     backgroundImage.y = backgroundImage.y - 118;
-    // backgroundImage.setDisplaySize(backgroundImage.width, height);
-    this.pickedPlantBar = new PickedPlantBar();
     //  Create animations
     PLANTS_ANIMATED.forEach((sprite) => {
       this.anims.create({
@@ -211,7 +211,41 @@ export class Game extends Scene {
     this.renderPlants();
     this.renderSoil();
     this.renderDecorations();
-    this.renderCompletion();
+    //
+    this.initiateControls();
+    EventBus.emit(_EVENTS.balance_show);
+    this.bottomBar.show();
+    /*
+     *
+     *     Define Emitting events
+     *
+     */
+    // handle return to Game scene
+    EventBus.on(_EVENTS.switch_to_game_scene, () => {
+      this.bottomBar.show();
+      EventBus.emit(_EVENTS.balance_show);
+    });
+    // Handling block input if opened menu
+    EventBus.on(_EVENTS.shop_menu_open, () => {
+      this.isBlocked = true;
+    });
+    EventBus.on(_EVENTS.shop_menu_close, () => {
+      this.isBlocked = false;
+    });
+    EventBus.on(_EVENTS.plant_menu_open, () => {
+      this.isBlocked = true;
+    });
+    EventBus.on(_EVENTS.plant_menu_close, () => {
+      this.isBlocked = false;
+    });
+    // Update data on picked plant
+    EventBus.on(_EVENTS.picked_plant_update, (plant: IPlantListItem) => {
+      this.pickedPlant = plant;
+    });
+    // Post prepraing events
+    // Activate interval Grow phaser checker
+    this.growingInterval = setInterval(() => this.runCheckGrowPhase(), 2000);
+    this.events.on('destroy', () => (this.growingInterval = null));
     /* End of create */
   }
   /*    Methods   */
@@ -342,6 +376,10 @@ export class Game extends Scene {
   }
   // Handle user click on Soil sprite
   private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number) {
+    console.log({
+      blocked: this.isBlocked,
+      soil: this.pickedPlant
+    });
     // If interface is blocked Return
     if (this.isBlocked) return;
     // If not occupied and no picked plant - stop
@@ -356,15 +394,15 @@ export class Game extends Scene {
       ) {
         // Update interface fix
         this.pickedPlant = null;
-        this.pickedPlantBar.hide();
+        EventBus.emit(_EVENTS.picked_plant_hide);
         return;
       }
       // Update user balance
       this.balanceCoins -= this.pickedPlant.gamePrice;
       this.balanceTokens -= this.pickedPlant.tokenPrice;
       // Update Balance bar UI
-      this.balanceBar.updateBalance('coins', this.balanceCoins);
-      this.balanceBar.updateBalance('tokens', this.balanceTokens);
+      EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
+      EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
       // Place Plant in Soil from Plants Menu data
       const plantedAt = DateTime.now().toMillis();
       const plant = this.pickedPlant;
@@ -398,7 +436,7 @@ export class Game extends Scene {
         // Clear Picked plant
         // Hide bar
         this.pickedPlant = null;
-        this.pickedPlantBar.hide();
+        EventBus.emit(_EVENTS.picked_plant_hide);
         this.bottomBar.activateMenu();
       }
       // stop continue
@@ -426,8 +464,8 @@ export class Game extends Scene {
       this.balanceCoins += coinsIncome;
       this.balanceTokens += tokensIncome;
       // Update Balance bar info
-      this.balanceBar.updateBalance('coins', this.balanceCoins);
-      this.balanceBar.updateBalance('tokens', this.balanceTokens);
+      EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
+      EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
       // this.balanceBar.updateBalance('tokens', this.balanceTokens);
       // xp rework
       this.xp += xpIncome;
@@ -461,9 +499,8 @@ export class Game extends Scene {
     if (decoration.decorationName === 'house') {
       // Hide interface
       this.bottomBar.hide();
-      this.balanceBar.toggleShown(false);
+      EventBus.emit(_EVENTS.balance_hide);
       this.pickedPlant = null;
-      this.pickedPlantBar.hide();
 
       this.scene.switch('HouseScene');
     }
@@ -485,7 +522,8 @@ export class Game extends Scene {
     }
     // Set picked Plant and show() Bar
     this.pickedPlant = plant;
-    this.pickedPlantBar.show(this.pickedPlant);
+    EventBus.emit(_EVENTS.picked_plant_show);
+    EventBus.emit(_EVENTS.picked_plant_update, plant);
     // Close Plants Menu
     this.handleClosePlantsShop();
     // Activate Escape
@@ -511,49 +549,24 @@ export class Game extends Scene {
         boc
       });
 
-      this.shopMenu.close();
+      EventBus.emit(_EVENTS.shop_menu_close);
+      // this.shopMenu.close();
       this.isBlocked = false;
     }
-  }
-  // Handle button add coins
-  private handleOpenShop() {
-    this.shopMenu.open();
-    this.isBlocked = true;
-  }
-  private handleCloseShop() {
-    this.shopMenu.close();
-    this.isBlocked = false;
-  }
-  // Handle button click: Plants
-  private handleOpenPlantsShop() {
-    this.isBlocked = true;
-    console.log('handleOpenPlantsShop');
-    this.pickedPlant = null;
-    this.pickedPlantBar.hide();
-
-    this.menuPlants.open();
   }
   private handleClosePlantsShop() {
     this.isBlocked = false;
 
-    this.menuPlants.close();
+    EventBus.emit(_EVENTS.shop_menu_close);
 
     this.bottomBar.activateCancel();
-  }
-  // Handle close in maneu button
-  private handleCancelPlantsShop() {
-    this.isBlocked = false;
-
-    this.menuPlants.close();
-
-    this.bottomBar.activateMenu();
   }
   // Handle escape
   private handleInGameEscape() {
     this.isBlocked = false;
 
     this.pickedPlant = null;
-    this.pickedPlantBar.hide();
+    EventBus.emit(_EVENTS.picked_plant_hide);
 
     this.bottomBar.activateMenu();
   }
@@ -687,25 +700,6 @@ export class Game extends Scene {
 
     this.decorationContainer.depth = CONTAINERS_DEPTH.plant;
     this.decorationContainer.add(this.decorations);
-  }
-  // Run after rendering methods
-  private renderCompletion() {
-    this.initiateControls();
-    this.balanceBar.toggleShown(true);
-    this.bottomBar.show();
-    // Emitters defining
-    EventBus.on('swith-to-game', () => {
-      console.log('on', 'swith-to-game');
-      this.bottomBar.show();
-      this.balanceBar.toggleShown(true);
-    });
-    // Open shop
-    EventBus.on('open-shop', () => {
-      this.handleOpenShop();
-    });
-    // Activate interval Grow phaser checker
-    this.growingInterval = setInterval(() => this.runCheckGrowPhase(), 2000);
-    this.events.on('destroy', () => (this.growingInterval = null));
   }
   /*
    *     Render UI elements

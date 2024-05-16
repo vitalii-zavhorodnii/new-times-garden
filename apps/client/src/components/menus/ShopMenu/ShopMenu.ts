@@ -1,4 +1,7 @@
 import { markup } from './markup';
+import EventBus from '@emitter/EventBus';
+
+import { _EVENTS } from '@constants/events';
 
 import type { IShopItem } from '@interfaces/IShopItem';
 
@@ -20,16 +23,15 @@ export default class ShopMenu {
     this.callbackItemClick = callback;
 
     this.createMarkup();
-  }
 
-  public open() {
-    this.isOpen = true;
-    this.container.classList.remove('hidden');
-  }
-
-  public close() {
-    this.isOpen = false;
-    this.container.classList.add('hidden');
+    EventBus.on(_EVENTS.shop_menu_open, () => {
+      this.isOpen = true;
+      this.container.classList.remove('hidden');
+    });
+    EventBus.on(_EVENTS.shop_menu_close, () => {
+      this.isOpen = false;
+      this.container.classList.add('hidden');
+    });
   }
 
   private createMarkup() {

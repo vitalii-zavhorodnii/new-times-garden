@@ -10,6 +10,8 @@ import { HouseScene } from '@scenes/HouseScene';
 import { MainMenu } from '@scenes/MainMenu';
 import { Preloader } from '@scenes/Preloader';
 
+import GameInterface from '@components/GameInterface';
+
 import '@helpers/ton-connect-ui';
 
 // axios.defaults.baseURL = 'http://192.168.2.49:4000/api';
@@ -57,4 +59,5 @@ const config: Types.Core.GameConfig = {
   scene: [Boot, Preloader, MainGame, HouseScene, MainMenu, , GameOver]
 };
 
+new GameInterface();
 export default new Game(config);

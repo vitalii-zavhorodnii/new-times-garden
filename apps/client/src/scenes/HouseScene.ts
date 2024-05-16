@@ -1,6 +1,8 @@
 import EventBus from '@emitter/EventBus';
 import { GameObjects, Scene } from 'phaser';
 
+import { _EVENTS } from '@constants/events';
+
 export class HouseScene extends Scene {
   private background: Phaser.GameObjects.Image;
 
@@ -54,8 +56,7 @@ export class HouseScene extends Scene {
     const button = this.add.text(centerX - 100, centerY + 250, 'Back');
     button.setInteractive();
     button.on('pointerdown', () => {
-      console.log('emit', 'swith-to-game');
-      EventBus.emit('swith-to-game');
+      EventBus.emit(_EVENTS.switch_to_game_scene);
       this.scene.switch('Game');
     });
 

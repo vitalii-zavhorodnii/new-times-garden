@@ -1,8 +1,11 @@
 import { markup } from './markup';
+import EventBus from '@emitter/EventBus';
 import Swiper from 'swiper';
 import { Navigation } from 'swiper/modules';
 
 import { timeReadableConverter } from '@helpers/time-coverter';
+
+import { _EVENTS } from '@constants/events';
 
 import type { IPlantListItem, IPlantsList } from '@interfaces/IPlantListItem';
 
@@ -39,6 +42,16 @@ export default class PlantsMenu {
     };
 
     this.createMarkup();
+
+    EventBus.on(_EVENTS.plant_menu_open, () => {
+      this.isOpen = true;
+      this.container.classList.remove('hidden');
+    });
+
+    EventBus.on(_EVENTS.plant_menu_close, () => {
+      this.isOpen = false;
+      this.container.classList.add('hidden');
+    });
   }
 
   private createMarkupCategory(plants: IPlantListItem[]) {
@@ -62,7 +75,9 @@ export default class PlantsMenu {
       itemHTML.innerHTML = markupHTML;
 
       itemHTML.addEventListener('click', () => {
-        this.callback(plant);
+        // this.callback(plant);
+        EventBus.emit(_EVENTS.picked_plant_update, plant);
+        EventBus.emit(_EVENTS.plant_menu_close);
       });
 
       return itemHTML;
@@ -136,23 +151,5 @@ export default class PlantsMenu {
 
   public handleSlideChange(slide: number) {
     this.swiper.slideTo(slide);
-  }
-
-  public open() {
-    this.isOpen = true;
-    this.container.classList.remove('hidden');
-  }
-
-  public close() {
-    this.isOpen = false;
-    this.container.classList.add('hidden');
-  }
-
-  public toggle() {
-    if (!this.isOpen) {
-      this.open();
-    } else if (this.isOpen) {
-      this.close();
-    }
   }
 }
