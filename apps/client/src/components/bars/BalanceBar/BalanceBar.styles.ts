@@ -30,9 +30,9 @@ export const styles = css`
   .value {
     display: flex;
     align-items: center;
-    font-size: 18px;
+    font-size: 24px;
     font-family: 'Press', sans-serif;
-    color: #fff;
+    color: #f8f6e3;
   }
 
   .icon {

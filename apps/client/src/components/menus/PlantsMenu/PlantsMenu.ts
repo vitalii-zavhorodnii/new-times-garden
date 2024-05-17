@@ -1,3 +1,4 @@
+import { styles } from './PlantsMenu.styles';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
@@ -5,7 +6,6 @@ import { Swiper } from 'swiper';
 
 import EventBus from '@emitter/EventBus';
 
-import { styles } from './PlantsMenu.styles';
 import '@components/menus/PlantsMenu/PlantItem';
 
 import { _EVENTS } from '@constants/events';
@@ -68,12 +68,7 @@ export default class PlantsMenu extends LitElement {
   }
 
   _handlePage(page: number) {
-    this.page = page;
     this.slider.slideTo(page);
-  }
-
-  handleChangeSlide() {
-    console.log('handleChangeSlide');
   }
 
   protected updated(): void {
@@ -81,8 +76,12 @@ export default class PlantsMenu extends LitElement {
 
     if (!slider) return;
     if (this.slider) return;
-
+    // Find slider and define to this
+    // Chnage current page depends on Slide
     this.slider = slider.swiper;
+    this.slider.on('slideChange', (swiper) => {
+      this.page = swiper.activeIndex;
+    });
   }
 
   render() {

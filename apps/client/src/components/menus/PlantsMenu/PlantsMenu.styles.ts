@@ -28,10 +28,10 @@ export const styles = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 68px;
-    margin-right: 8px;
-    font-family: 'Paper', sans-serif;
-    font-size: 16px;
+    margin: 0 8px;
+    color: #272829;
+    font-family: 'Press', sans-serif;
+    font-size: 24px;
   }
 
   .balance-icon {
@@ -43,25 +43,25 @@ export const styles = css`
     display: flex;
     justify-content: center;
     width: 100%;
-    // margin: 8px 0;
+    padding: 6px 0;
   }
 
   .page {
-    padding: 4px 8px;
-    margin-right: 8px;
+    padding-bottom: 0;
+    margin-right: 16px;
     color: #272829;
-    font-family: 'Press', sans-serif;
-    font-size: 24px;
-    font-weight: 200;
-    border-radius: 8px;
-    text-decoration: underline;
-  }
-
-  .page:last-child() {
-    margin-right: 0;
+    font-family: 'America', sans-serif;
+    font-size: 28px;
+    transition: color 200ms ease-in-out;
   }
 
   .page.active {
-    color: #1679AB;
+    color: #0089dd;
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+  }
+
+  .page:last-child {
+    margin-right: 0;
   }
 `;
