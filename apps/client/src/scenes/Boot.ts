@@ -9,6 +9,7 @@ export class Boot extends Scene {
 
   create() {
     window.scrollTo(0, 200);
+
     this.scene.start('Preloader');
   }
 }

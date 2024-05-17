@@ -404,6 +404,8 @@ export class Game extends Scene {
   }
   // Handle decoration click
   private handleDecorationClick(decoration: Decoration) {
+    if (this.isBlocked) return;
+
     if (decoration.decorationName === 'house') {
       // Hide interface
       this.pickedPlant = null;
