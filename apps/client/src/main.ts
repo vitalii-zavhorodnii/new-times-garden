@@ -64,12 +64,14 @@ const config: Types.Core.GameConfig = {
   scene: [Boot, Preloader, MainGame, HouseScene, MainMenu, , GameOver]
 };
 
-const overflow = 200;
-document.body.style.overflowY = 'hidden';
+const overflow = 50;
+
 document.body.style.marginTop = `${overflow}px`;
 document.body.style.height = window.innerHeight + overflow + 'px';
 document.body.style.paddingBottom = `${overflow}px`;
-addEventListener('resize', () => window.scrollTo(0, 200));
+
+// addEventListener('resize', () => window.scrollTo(0, 50));
+
 let ts: number | undefined;
 const onTouchStart = (e: TouchEvent) => {
   ts = e.touches[0].clientY;
@@ -81,8 +83,10 @@ const onTouchMove = (e: TouchEvent) => {
     const te = e.changedTouches[0].clientY;
     if (scroll <= 0 && ts! < te) {
       // e.preventDefault();
+      window.scrollTo(0, 200);
     }
   } else {
+    window.scrollTo(0, 200);
     // e.preventDefault();
   }
 };

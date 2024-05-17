@@ -1,9 +1,7 @@
 @import './styles/fonts.scss';
 @import './styles/variables.scss';
 @import './styles/papper-menu.scss';
-@import './styles/plants-menu';
 @import './styles/shop-menu.scss';
-@import './styles/picked-plant.scss';
 @import './styles/swiper-extra.scss';
 
 * {
@@ -12,7 +10,7 @@
 
 body {
   pointer-events: none;
-  // overflow: hidden;
+  overflow-y: hidden;
   background-color: $bg-color;
 }
 
