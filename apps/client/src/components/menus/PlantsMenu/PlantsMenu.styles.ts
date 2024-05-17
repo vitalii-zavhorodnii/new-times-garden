@@ -20,7 +20,7 @@ export const styles = css`
     top: 15px;
     width: 100%;
     z-index: 10;
-    padding: 14px 0 6px;
+    padding: 14px 0 9px;
     background: #e2dfd0;
   }
 
@@ -43,7 +43,7 @@ export const styles = css`
     display: flex;
     justify-content: center;
     width: 100%;
-    padding-bottom: 6px;
+    padding-bottom: 12px;
   }
 
   .page {
