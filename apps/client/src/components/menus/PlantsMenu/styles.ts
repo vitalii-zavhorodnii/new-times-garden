@@ -19,6 +19,7 @@ export const styles = css`
     position: sticky;
     top: 15px;
     width: 100%;
+    z-index: 10;
     padding: 14px 0 6px;
     background: #e2dfd0;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,

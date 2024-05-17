@@ -321,7 +321,7 @@ export class Game extends Scene {
         // Clear Picked plant
         // Hide bar
         this.pickedPlant = null;
-        EventBus.emit(_EVENTS.picked_plant_hide);
+        EventBus.emit(_EVENTS.picked_plant_clear);
         EventBus.emit(_EVENTS.ring_set_menu);
       }
       // stop continue

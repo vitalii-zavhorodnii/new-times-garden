@@ -88,27 +88,29 @@ export default class PlantsMenu extends LitElement {
       balanceTokens=${this.balanceTokens}
     >
       <div class="balance">
-          <div class="balance-value">
-            <img class="balance-icon" src="./assets/utils/money.png" alt="coin" />
-            ${this.balanceCoins}
-          </div>
+        <div class="balance-value">
+          <img class="balance-icon" src="./assets/utils/money.png" alt="coin" />
+          ${this.balanceCoins}
+        </div>
 
-          <div class="balance-value">
-            <img class="balance-icon" src="./assets/utils/token.png" alt="token" />
-            ${this.balanceTokens}
-          </div>
+        <div class="balance-value">
+          <img class="balance-icon" src="./assets/utils/token.png" alt="token" />
+          ${this.balanceTokens}
+        </div>
       </div>
       <swiper-container slides-per-view="1" loop="false">
-      <swiper-slide><div class="list">
-      ${repeat(this.list.simple, (item) => {
-        const growingString = timeReadableConverter(item.growTime);
-        const isDisabled =
-          this.balanceCoins < item.gamePrice || this.balanceTokens < item.tokenPrice;
+        <swiper-slide>
+          <div class="list">
+            ${repeat(this.list.simple, (item) => {
+              const growingString = timeReadableConverter(item.growTime);
+              const isDisabled =
+                this.balanceCoins < item.gamePrice ||
+                this.balanceTokens < item.tokenPrice;
 
-        return html`
+              return html`
           <div @click=${() => this.handleSeedPick(item)} class="plant-item ${
-          isDisabled ? 'disabled' : ''
-        }">
+                isDisabled ? 'disabled' : ''
+              }">
             <img
               class="image"
               src="./assets/plants/icons/${item.texture.toLowerCase()}.png"
@@ -124,95 +126,23 @@ export default class PlantsMenu extends LitElement {
               <div class="stats">
                 <div
                   class="value ${item.gamePrice ? '' : 'none'} ${
-          this.balanceCoins < item.gamePrice ? 'red' : ''
-        }"
+                this.balanceCoins < item.gamePrice ? 'red' : ''
+              }"
                 >
                   <img class="icon" src="./assets/utils/money.png" alt="coin" />
                   ${item.gamePrice}
                 </div>
 
                 <div class="value ${item.tokenPrice ? '' : 'none'} ${
-          this.balanceTokens < item.tokenPrice ? 'red' : ''
-        }"">
+                this.balanceTokens < item.tokenPrice ? 'red' : ''
+              }"">
                   <img class="icon" src="./assets/utils/token.png" alt="token" />
                   ${item.tokenPrice}
                 </div>
 
                 <div class="value ${item.coinsIncome ? '' : 'none'} ${
-          isDisabled ? 'disabled' : ''
-        }">
-                  <img
-                    class="icon"
-                    src="./assets/utils/money-profit.png"
-                    alt="money-income"
-                  />
-                  ${item.coinsIncome}
-                </div>
-
-                <div class="value ${item.tokensIncome ? '' : 'none'} ${
-          isDisabled ? 'disabled' : ''
-        }">
-                  <img
-                    class="icon"
-                    src="./assets/utils/profit-tokens.svg"
-                    alt="token-income"
-                  />
-                  ${item.tokensIncome}
-                </div>
-
-                <div class="value ${item.xpIncome ? '' : 'none'} ${
-          isDisabled ? 'disabled' : ''
-        }">
-                  <img class="icon" src="./assets/utils/experience.png" alt="xp" />
-                  ${item.xpIncome}
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      })}</swiper-slide>
-        <swiper-slide><div class="list">
-      ${repeat(this.list.simple, (item) => {
-        const growingString = timeReadableConverter(item.growTime);
-        const isDisabled =
-          this.balanceCoins < item.gamePrice || this.balanceTokens < item.tokenPrice;
-
-        return html`
-          <div @click=${() => this.handleSeedPick(item)} class="plant-item ${
-          isDisabled ? 'disabled' : ''
-        }">
-            <img
-              class="image"
-              src="./assets/plants/icons/${item.texture.toLowerCase()}.png"
-              alt="icon"
-            />
-
-            <div class="about">
-              <div class="title ${isDisabled ? 'disabled' : ''}">${item.title}</div>
-              <div class="grow-time ${
                 isDisabled ? 'disabled' : ''
-              }">Growing time: ${growingString}</div>
-
-              <div class="stats">
-                <div
-                  class="value ${item.gamePrice ? '' : 'none'} ${
-          this.balanceCoins < item.gamePrice ? 'red' : ''
-        }"
-                >
-                  <img class="icon" src="./assets/utils/money.png" alt="coin" />
-                  ${item.gamePrice}
-                </div>
-
-                <div class="value ${item.tokenPrice ? '' : 'none'} ${
-          this.balanceTokens < item.tokenPrice ? 'red' : ''
-        }"">
-                  <img class="icon" src="./assets/utils/token.png" alt="token" />
-                  ${item.tokenPrice}
-                </div>
-
-                <div class="value ${item.coinsIncome ? '' : 'none'} ${
-          isDisabled ? 'disabled' : ''
-        }">
+              }">
                   <img
                     class="icon"
                     src="./assets/utils/money-profit.png"
@@ -222,8 +152,8 @@ export default class PlantsMenu extends LitElement {
                 </div>
 
                 <div class="value ${item.tokensIncome ? '' : 'none'} ${
-          isDisabled ? 'disabled' : ''
-        }">
+                isDisabled ? 'disabled' : ''
+              }">
                   <img
                     class="icon"
                     src="./assets/utils/profit-tokens.svg"
@@ -233,8 +163,8 @@ export default class PlantsMenu extends LitElement {
                 </div>
 
                 <div class="value ${item.xpIncome ? '' : 'none'} ${
-          isDisabled ? 'disabled' : ''
-        }">
+                isDisabled ? 'disabled' : ''
+              }">
                   <img class="icon" src="./assets/utils/experience.png" alt="xp" />
                   ${item.xpIncome}
                 </div>
@@ -242,9 +172,88 @@ export default class PlantsMenu extends LitElement {
             </div>
           </div>
         `;
-      })}</swiper-slide>
+            })}
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="list">
+            ${repeat(this.list.special, (item) => {
+              const growingString = timeReadableConverter(item.growTime);
+              const isDisabled =
+                this.balanceCoins < item.gamePrice ||
+                this.balanceTokens < item.tokenPrice;
+
+              return html`
+            <div @click=${() => this.handleSeedPick(item)} class="plant-item ${
+                isDisabled ? 'disabled' : ''
+              }">
+              <img
+                class="image"
+                src="./assets/plants/icons/${item.texture.toLowerCase()}.png"
+                alt="icon"
+              />
+
+              <div class="about">
+                <div class="title ${isDisabled ? 'disabled' : ''}">${
+                item.title
+              }</div>
+                <div class="grow-time ${
+                  isDisabled ? 'disabled' : ''
+                }">Growing time: ${growingString}</div>
+
+                <div class="stats">
+                  <div
+                    class="value ${item.gamePrice ? '' : 'none'} ${
+                this.balanceCoins < item.gamePrice ? 'red' : ''
+              }"
+                  >
+                    <img class="icon" src="./assets/utils/money.png" alt="coin" />
+                    ${item.gamePrice}
+                  </div>
+
+                  <div class="value ${item.tokenPrice ? '' : 'none'} ${
+                this.balanceTokens < item.tokenPrice ? 'red' : ''
+              }"">
+                    <img class="icon" src="./assets/utils/token.png" alt="token" />
+                    ${item.tokenPrice}
+                  </div>
+
+                  <div class="value ${item.coinsIncome ? '' : 'none'} ${
+                isDisabled ? 'disabled' : ''
+              }">
+                    <img
+                      class="icon"
+                      src="./assets/utils/money-profit.png"
+                      alt="money-income"
+                    />
+                    ${item.coinsIncome}
+                  </div>
+
+                  <div class="value ${item.tokensIncome ? '' : 'none'} ${
+                isDisabled ? 'disabled' : ''
+              }">
+                    <img
+                      class="icon"
+                      src="./assets/utils/profit-tokens.svg"
+                      alt="token-income"
+                    />
+                    ${item.tokensIncome}
+                  </div>
+
+                  <div class="value ${item.xpIncome ? '' : 'none'} ${
+                isDisabled ? 'disabled' : ''
+              }">
+                    <img class="icon" src="./assets/utils/experience.png" alt="xp" />
+                    ${item.xpIncome}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+            })}
+          </div>
+        </swiper-slide>
       </swiper-container>
-      
     </paper-modal> `;
   }
 
