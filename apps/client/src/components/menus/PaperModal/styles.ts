@@ -1,6 +1,10 @@
 import { css } from 'lit';
 
 export const styles = css`
+  * {
+    box-sizing: border-box;
+  }
+
   .container {
     z-index: 10;
     position: absolute;
@@ -47,20 +51,19 @@ export const styles = css`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding-top: 48px;
     overflow-y: scroll;
     overflow-x: hidden;
   }
 
   .header {
-    margin: 0;
+    margin-top: 44px;
     color: #272829;
     font-size: 48px;
     font-family: 'Newspapper', sans-serif;
   }
 
   .description {
-    margin-top: 16px;
+    margin-top: 8px;
     padding: 0 32px;
     text-align: center;
     color: #272829;

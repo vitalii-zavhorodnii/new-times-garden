@@ -20,6 +20,12 @@ export default class PaperModal extends LitElement {
   @property({ type: String, attribute: true })
   description: string;
 
+  @property({ type: String })
+  balanceCoins: number;
+
+  @property({ type: String })
+  balanceTokens: number;
+
   constructor() {
     super();
   }
@@ -42,8 +48,8 @@ export default class PaperModal extends LitElement {
       </div>
 
       <div class="information">
-        <h4 class="header">${this.title}</h4>
-        <p class="description">${this.description}</p>
+        <div class="header">${this.title}</div>
+        <div class="description">${this.description}</div>
         <div class="content">
           <slot></slot>
         </div>

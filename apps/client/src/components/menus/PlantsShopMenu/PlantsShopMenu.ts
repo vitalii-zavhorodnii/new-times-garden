@@ -27,12 +27,18 @@ export default class PlantsShopMenu extends LitElement {
   description =
     'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis, cupiditate cum minus';
 
+  @property({ type: String })
+  balanceCoins: number;
+
+  @property({ type: String })
+  balanceTokens: number;
+
   private list: IPlantsList;
 
   constructor() {
     super();
 
-    this.isshown = true;
+    this.isshown = false;
     this.list = null;
 
     EventBus.on(_EVENTS.plant_menu_open, () => {
@@ -47,10 +53,20 @@ export default class PlantsShopMenu extends LitElement {
       this.list = plantsList;
       this.requestUpdate();
     });
+    EventBus.on(_EVENTS.balance_update_coins, (value: number) => {
+      this.balanceCoins = value;
+      this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.balance_update_tokens, (value: number) => {
+      this.balanceTokens = value;
+      this.requestUpdate();
+    });
   }
 
   handleSeedPick(item: IPlantListItem) {
     EventBus.emit(_EVENTS.picked_plant_update, item);
+    EventBus.emit(_EVENTS.plant_menu_close);
+    EventBus.emit(_EVENTS.ring_set_escape);
   }
 
   _handleClick() {
@@ -65,43 +81,90 @@ export default class PlantsShopMenu extends LitElement {
       title=${this.title}
       description=${this.description}
       ?isshown=${this.isshown}
+      balanceCoins=${this.balanceCoins}
+      balanceTokens=${this.balanceTokens}
     >
-      <ul class="list">
+      <div class="balance">
+          <div class="balance-value">
+            <img class="balance-icon" src="./assets/utils/money.png" alt="coin" />
+            ${this.balanceCoins}
+          </div>
+
+          <div class="balance-value">
+            <img class="balance-icon" src="./assets/utils/token.png" alt="token" />
+            ${this.balanceTokens}
+          </div>
+      </div>
+      <div class="list">
       ${repeat(this.list.simple, (item) => {
         const growingString = timeReadableConverter(item.growTime);
+        const isDisabled =
+          this.balanceCoins < item.gamePrice || this.balanceTokens < item.tokenPrice;
 
         return html`
-          <li @click=${() => this.handleSeedPick(item)} class="item">
+          <div @click=${() => this.handleSeedPick(item)} class="plant-item ${
+          isDisabled ? 'disabled' : ''
+        }">
             <img
               class="image"
               src="./assets/plants/icons/${item.texture.toLowerCase()}.png"
               alt="icon"
             />
-            <div class="content">
-              <h2 class="title">${item.title}</h2>
-              <p class="grow-time">Growing time: ${growingString}</p>
+
+            <div class="about">
+              <div class="title ${isDisabled ? 'disabled' : ''}">${item.title}</div>
+              <div class="grow-time ${
+                isDisabled ? 'disabled' : ''
+              }">Growing time: ${growingString}</div>
 
               <div class="stats">
-                <p class="stats-value">
-                  <img
-                    class="stats-icon"
-                    src="./assets/utils/money.png"
-                    alt="coin"
-                  />
+                <div
+                  class="value ${item.gamePrice ? '' : 'none'} ${
+          this.balanceCoins < item.gamePrice ? 'red' : ''
+        }"
+                >
+                  <img class="icon" src="./assets/utils/money.png" alt="coin" />
                   ${item.gamePrice}
-                </p>
+                </div>
 
-                <p class="stats-value">
-                  <img
-                    class="stats-icon"
-                    src="./assets/utils/token.png"
-                    alt="token"
-                  />
+                <div class="value ${item.tokenPrice ? '' : 'none'} ${
+          this.balanceTokens < item.tokenPrice ? 'red' : ''
+        }"">
+                  <img class="icon" src="./assets/utils/token.png" alt="token" />
                   ${item.tokenPrice}
-                </p>
+                </div>
+
+                <div class="value ${item.coinsIncome ? '' : 'none'} ${
+          isDisabled ? 'disabled' : ''
+        }">
+                  <img
+                    class="icon"
+                    src="./assets/utils/money-profit.png"
+                    alt="money-income"
+                  />
+                  ${item.coinsIncome}
+                </div>
+
+                <div class="value ${item.tokensIncome ? '' : 'none'} ${
+          isDisabled ? 'disabled' : ''
+        }">
+                  <img
+                    class="icon"
+                    src="./assets/utils/profit-tokens.svg"
+                    alt="token-income"
+                  />
+                  ${item.tokensIncome}
+                </div>
+
+                <div class="value ${item.xpIncome ? '' : 'none'} ${
+          isDisabled ? 'disabled' : ''
+        }">
+                  <img class="icon" src="./assets/utils/experience.png" alt="xp" />
+                  ${item.xpIncome}
+                </div>
               </div>
             </div>
-          </li>
+          </div>
         `;
       })}
     </paper-modal> `;
