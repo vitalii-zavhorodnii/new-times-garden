@@ -1,8 +1,11 @@
-import { markup } from './markup';
-import Swiper from 'swiper';
-import { Navigation } from 'swiper/modules';
+import { LitElement, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { repeat } from 'lit/directives/repeat.js';
 
 import EventBus from '@emitter/EventBus';
+
+import { styles } from './styles';
+import 'src/components/menus/PlantsMenu';
 
 import { timeReadableConverter } from '@helpers/time-coverter';
 
@@ -10,144 +13,204 @@ import { _EVENTS } from '@constants/events';
 
 import type { IPlantListItem, IPlantsList } from '@interfaces/IPlantListItem';
 
-export default class PlantsMenu {
-  public isOpen: boolean;
-  public list: IPlantsList;
-  public callback: Function;
+@customElement('plants-menu')
+export default class PlantsMenu extends LitElement {
+  static styles = styles;
 
-  private container: HTMLElement;
-  private content: HTMLElement;
+  @property({ type: Boolean })
+  isshown: boolean;
 
-  private swiper: Swiper;
-  private categories: {
-    simple: HTMLElement | null;
-    advanced: HTMLElement | null;
-    special: HTMLElement | null;
-  };
+  @property({ type: String })
+  title = 'Seeds Shop';
 
-  constructor(plants: IPlantsList, callback: Function) {
-    this.isOpen = false;
-    this.callback = callback;
+  @property({ type: String })
+  description =
+    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis, cupiditate cum minus';
 
-    this.container = document.getElementById('plants-menu');
-    this.content = document.getElementById('plants-menu-content');
+  @property({ type: String })
+  balanceCoins: number;
 
-    this.categories = {
-      simple: this.createMarkupCategory(plants.simple),
-      advanced: this.createMarkupCategory(plants.advanced),
-      special: this.createMarkupCategory(plants.special)
-    };
+  @property({ type: String })
+  balanceTokens: number;
 
-    this.createMarkup();
+  private list: IPlantsList;
+
+  constructor() {
+    super();
+
+    this.isshown = false;
+    this.list = null;
 
     EventBus.on(_EVENTS.plant_menu_open, () => {
-      this.isOpen = true;
-      this.container.classList.remove('hidden');
+      this.isshown = true;
+      this.requestUpdate();
     });
-
     EventBus.on(_EVENTS.plant_menu_close, () => {
-      this.isOpen = false;
-      this.container.classList.add('hidden');
+      this.isshown = false;
+      this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.plant_menu_update, (plantsList: IPlantsList) => {
+      this.list = plantsList;
+      this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.balance_update_coins, (value: number) => {
+      this.balanceCoins = value;
+      this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.balance_update_tokens, (value: number) => {
+      this.balanceTokens = value;
+      this.requestUpdate();
     });
   }
 
-  private createMarkupCategory(plants: IPlantListItem[]) {
-    const itemsHTML = plants.map((plant, index) => {
-      const itemHTML = document.createElement('li');
-      itemHTML.classList.add('plants-menu__item');
-      itemHTML.setAttribute('index', String(index));
+  handleSeedPick(item: IPlantListItem) {
+    if (this.balanceCoins < item.gamePrice) return;
+    if (this.balanceTokens < item.tokenPrice) return;
 
-      const growingString = timeReadableConverter(plant.growTime);
-
-      const markupHTML: string = markup(
-        plant.title,
-        plant.gamePrice,
-        plant.tokenPrice,
-        plant.coinsIncome,
-        plant.tokensIncome,
-        plant.xpIncome,
-        growingString
-      );
-
-      itemHTML.innerHTML = markupHTML;
-
-      itemHTML.addEventListener('click', () => {
-        EventBus.emit(_EVENTS.ring_set_escape);
-        EventBus.emit(_EVENTS.picked_plant_update, plant);
-        EventBus.emit(_EVENTS.plant_menu_close);
-      });
-
-      return itemHTML;
-    });
-
-    const listHTML = document.createElement('ul');
-    listHTML.classList.add('swiper-slide');
-    listHTML.classList.add('swiper-extra');
-
-    itemsHTML.forEach((item) => {
-      listHTML.appendChild(item);
-    });
-
-    if (!itemsHTML.length) {
-      return null;
-    }
-
-    return listHTML;
+    EventBus.emit(_EVENTS.picked_plant_update, item);
+    EventBus.emit(_EVENTS.plant_menu_close);
+    EventBus.emit(_EVENTS.ring_set_escape);
   }
 
-  private createMarkup() {
-    const swiperHTML = document.createElement('div');
-    swiperHTML.classList.add('swiper');
-    swiperHTML.setAttribute('id', 'swiper');
-
-    const wrapperHTML = document.createElement('div');
-    wrapperHTML.classList.add('swiper-wrapper');
-
-    const paginationHTML = document.createElement('ul');
-    paginationHTML.classList.add('swiper-extra-pagination');
-    paginationHTML.setAttribute('id', 'swiper-pagination');
-
-    let index = 0;
-    for (const category in this.categories) {
-      if (this.categories[category] !== null) {
-        const paginationBtnHTML = document.createElement('li');
-        paginationBtnHTML.classList.add('swiper-extra-pagination__item');
-        paginationBtnHTML.innerHTML = category;
-
-        const goTo = index;
-        paginationBtnHTML.addEventListener('click', () => {
-          this.handleSlideChange(goTo);
-        });
-
-        paginationHTML.appendChild(paginationBtnHTML);
-        wrapperHTML.appendChild(this.categories[category]);
-
-        index++;
-      }
-    }
-
-    swiperHTML.appendChild(paginationHTML);
-    swiperHTML.appendChild(wrapperHTML);
-
-    this.content.appendChild(swiperHTML);
-
-    const container = document.getElementById('swiper');
-    this.swiper = new Swiper(container, {
-      direction: 'horizontal',
-      loop: false,
-      slidesPerView: 1,
-      modules: [Navigation],
-      pagination: {
-        el: '#swiper-pagination'
-      },
-      navigation: {
-        nextEl: '#swiper-button-next',
-        prevEl: '#swiper-button-prev'
-      }
-    });
+  _handleClick() {
+    console.log('handle');
+    // EventBus.emit(_EVENTS.plant_menu_close);
   }
 
-  public handleSlideChange(slide: number) {
-    this.swiper.slideTo(slide);
+  render() {
+    if (!this.list) return html``;
+
+    return html`<paper-modal
+      title=${this.title}
+      description=${this.description}
+      ?isshown=${this.isshown}
+      balanceCoins=${this.balanceCoins}
+      balanceTokens=${this.balanceTokens}
+    >
+      <div class="balance">
+          <div class="balance-value">
+            <img class="balance-icon" src="./assets/utils/money.png" alt="coin" />
+            ${this.balanceCoins}
+          </div>
+
+          <div class="balance-value">
+            <img class="balance-icon" src="./assets/utils/token.png" alt="token" />
+            ${this.balanceTokens}
+          </div>
+      </div>
+      <div class="list">
+      ${repeat(this.list.simple, (item) => {
+        const growingString = timeReadableConverter(item.growTime);
+        const isDisabled =
+          this.balanceCoins < item.gamePrice || this.balanceTokens < item.tokenPrice;
+
+        return html`
+          <div @click=${() => this.handleSeedPick(item)} class="plant-item ${
+          isDisabled ? 'disabled' : ''
+        }">
+            <img
+              class="image"
+              src="./assets/plants/icons/${item.texture.toLowerCase()}.png"
+              alt="icon"
+            />
+
+            <div class="about">
+              <div class="title ${isDisabled ? 'disabled' : ''}">${item.title}</div>
+              <div class="grow-time ${
+                isDisabled ? 'disabled' : ''
+              }">Growing time: ${growingString}</div>
+
+              <div class="stats">
+                <div
+                  class="value ${item.gamePrice ? '' : 'none'} ${
+          this.balanceCoins < item.gamePrice ? 'red' : ''
+        }"
+                >
+                  <img class="icon" src="./assets/utils/money.png" alt="coin" />
+                  ${item.gamePrice}
+                </div>
+
+                <div class="value ${item.tokenPrice ? '' : 'none'} ${
+          this.balanceTokens < item.tokenPrice ? 'red' : ''
+        }"">
+                  <img class="icon" src="./assets/utils/token.png" alt="token" />
+                  ${item.tokenPrice}
+                </div>
+
+                <div class="value ${item.coinsIncome ? '' : 'none'} ${
+          isDisabled ? 'disabled' : ''
+        }">
+                  <img
+                    class="icon"
+                    src="./assets/utils/money-profit.png"
+                    alt="money-income"
+                  />
+                  ${item.coinsIncome}
+                </div>
+
+                <div class="value ${item.tokensIncome ? '' : 'none'} ${
+          isDisabled ? 'disabled' : ''
+        }">
+                  <img
+                    class="icon"
+                    src="./assets/utils/profit-tokens.svg"
+                    alt="token-income"
+                  />
+                  ${item.tokensIncome}
+                </div>
+
+                <div class="value ${item.xpIncome ? '' : 'none'} ${
+          isDisabled ? 'disabled' : ''
+        }">
+                  <img class="icon" src="./assets/utils/experience.png" alt="xp" />
+                  ${item.xpIncome}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      })}
+    </paper-modal> `;
+  }
+
+  renderStats() {
+    return html``;
   }
 }
+
+// ${coins > 0
+//   ? ``
+//   : ''}
+// ${tokens > 0
+//   ? ``
+//   : ''}
+// ${coinsIncome > 0
+//   ? `<p class="plants-menu__value">
+//   <img
+//     class="plants-menu__stat-icon"
+//     src="./assets/utils/money-profit.png"
+//     alt="coin"
+//   >
+//   ~${coinsIncome}
+// </p>`
+//   : ''}
+// ${tokensIncome > 0
+//   ? `<p class="plants-menu__value">
+//   <img
+//     class="plants-menu__stat-icon"
+//     src="./assets/utils/profit-tokens.svg"
+//     alt="token"
+//   >
+//   ~${tokensIncome}
+// </p>`
+//   : ''}
+// ${xpIncome > 0
+//   ? `<p class="plants-menu__value">
+//   <img
+//     class="plants-menu__stat-icon"
+//     src="./assets/utils/experience.png"
+//     alt="coin"
+//   >
+//   ~${xpIncome}
+// </p>`
+//   : ''}

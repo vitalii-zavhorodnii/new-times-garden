@@ -9,7 +9,6 @@ import { harvestPlant } from '@services/harvestPlant';
 import { sendTonTransaction } from '@services/sendTonTransaction';
 import { startGrowPlant } from '@services/startGrowPlant';
 
-import PlantsMenu from '@components/menus/PlantsMenu';
 import ShopMenu from '@components/menus/ShopMenu';
 
 import Decoration from '@entities/Decoration';
@@ -31,7 +30,7 @@ import { _EVENTS } from '@constants/events';
 import { PLANTS_ANIMATED } from '@constants/plants-sprites';
 import { PLANTS_MARGIN, ROWS_GAP, ROW_MAP } from '@constants/rows.constants';
 
-import type { IPlantListItem, IPlantsList } from '@interfaces/IPlantListItem';
+import type { IPlantListItem } from '@interfaces/IPlantListItem';
 import type { IShopItem } from '@interfaces/IShopItem';
 import type { ICellData, IUserData } from '@interfaces/IUserData';
 
@@ -65,16 +64,8 @@ export class Game extends Scene {
   private decorationContainer: Phaser.GameObjects.Container;
   private fieldContainer: Phaser.GameObjects.Container[];
   private soilContainer: Phaser.GameObjects.Container[];
-  // Interface elements UI
-
   // UI Elements - old fix
   private shopMenu: ShopMenu;
-  // private menuPlants: PlantsMenu;
-  // UI buttons
-  private btnShopClose: HTMLElement;
-  private btnPlantsClose: HTMLElement;
-  // private user: IUserData;
-  private plantsData: IPlantsList;
   private shopList: IShopItem[];
 
   // Constructor
@@ -114,27 +105,13 @@ export class Game extends Scene {
     const zoom = parseFloat(JSON.parse(window.localStorage.getItem('zoom'))) || 1;
     this.camera.setZoom(zoom, zoom);
 
-    /*    Old menus initialization   */
-    // Plants menu
-    // this.menuPlants = new PlantsMenu(this.plantsData, (plant: IPlantListItem) => {
-    // this.handleSeedChoose(plant);
-    // });
     // Shop menu
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) => {
       this.handleShopItemClick(item);
     });
-    /*    Buttons   */
-    // Shop menu buttons
-    this.btnShopClose = document.getElementById('shop-menu-close');
-    this.btnShopClose.addEventListener('click', () => {
-      this.isBlocked = false;
+    const closeShopBtn = document.getElementById('shop-menu-close');
+    closeShopBtn.addEventListener('click', () => {
       EventBus.emit(_EVENTS.shop_menu_close);
-    });
-    // Plants menu buttons
-    this.btnPlantsClose = document.getElementById('plants-menu-close');
-    this.btnPlantsClose.addEventListener('click', () => {
-      this.isBlocked = false;
-      EventBus.emit(_EVENTS.plant_menu_close);
     });
     /*    Background Image    */
     const { height, width, worldView } = this.cameras.main;
@@ -421,28 +398,6 @@ export class Game extends Scene {
       Bottom menu handlers
       Handle button click: Shop
   */
-  // Handle shops items /
-  /*    UI handlers   */
-  // Handle choose Seed from Plant Shop
-  private handleSeedChoose(plant: IPlantListItem) {
-    // Check user balance
-    if (
-      this.balanceCoins < plant.gamePrice ||
-      this.balanceTokens < plant.tokenPrice
-    ) {
-      // return if not enough
-      return;
-    }
-    // Set picked Plant and show() Bar
-    this.pickedPlant = plant;
-    EventBus.emit(_EVENTS.picked_plant_show);
-    EventBus.emit(_EVENTS.picked_plant_update, plant);
-    // Close Plants Menu
-    this.isBlocked = false;
-
-    EventBus.emit(_EVENTS.shop_menu_close);
-    EventBus.emit(_EVENTS.ring_set_escape);
-  }
   /*  need rework */
   private async handleShopItemClick(item: IShopItem) {
     const boc = await sendTonTransaction(item.price);

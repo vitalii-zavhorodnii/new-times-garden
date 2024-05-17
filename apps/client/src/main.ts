@@ -64,38 +64,36 @@ const config: Types.Core.GameConfig = {
   scene: [Boot, Preloader, MainGame, HouseScene, MainMenu, , GameOver]
 };
 
-const overflow = 50;
+{
+  const overflow = 50;
 
-document.body.style.marginTop = `${overflow}px`;
-document.body.style.height = window.innerHeight + overflow + 'px';
-document.body.style.paddingBottom = `${overflow}px`;
+  document.body.style.marginTop = `${overflow}px`;
+  document.body.style.height = window.innerHeight + overflow + 'px';
+  document.body.style.paddingBottom = `${overflow}px`;
 
-// addEventListener('resize', () => window.scrollTo(0, 50));
-
-let ts: number | undefined;
-const onTouchStart = (e: TouchEvent) => {
-  ts = e.touches[0].clientY;
-};
-const scrollableEl = document.getElementById('app');
-const onTouchMove = (e: TouchEvent) => {
-  if (scrollableEl) {
-    const scroll = scrollableEl.scrollTop;
-    const te = e.changedTouches[0].clientY;
-    if (scroll <= 0 && ts! < te) {
-      // e.preventDefault();
+  let ts: number | undefined;
+  const onTouchStart = (e: TouchEvent) => {
+    ts = e.touches[0].clientY;
+  };
+  const scrollableEl = document.getElementById('app');
+  const onTouchMove = (e: TouchEvent) => {
+    if (scrollableEl) {
+      const scroll = scrollableEl.scrollTop;
+      const te = e.changedTouches[0].clientY;
+      if (scroll <= 0 && ts! < te) {
+        window.scrollTo(0, 50);
+      }
+    } else {
       window.scrollTo(0, 50);
     }
-  } else {
-    window.scrollTo(0, 50);
-    // e.preventDefault();
-  }
-};
-document.documentElement.addEventListener('touchstart', onTouchStart, {
-  passive: false
-});
-document.documentElement.addEventListener('touchmove', onTouchMove, {
-  passive: false
-});
+  };
+  document.documentElement.addEventListener('touchstart', onTouchStart, {
+    passive: false
+  });
+  document.documentElement.addEventListener('touchmove', onTouchMove, {
+    passive: false
+  });
+}
 
 new GameInterface();
 export default new Game(config);
