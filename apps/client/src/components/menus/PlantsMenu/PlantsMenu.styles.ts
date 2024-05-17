@@ -59,7 +59,7 @@ export const styles = css`
   }
 
   .page.active {
-    color: #0089dd;
-    border-bottom: 4px solid #0089dd;
+    color: #57a109;
+    border-bottom: 4px solid #57a109;
   }
 `;
