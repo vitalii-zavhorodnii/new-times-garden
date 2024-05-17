@@ -30,8 +30,8 @@ export const styles = css`
     align-items: center;
     margin: 0 8px;
     color: #272829;
-    font-family: 'Press', sans-serif;
-    font-size: 24px;
+    font-family: 'Paper', sans-serif;
+    font-size: 18px;
   }
 
   .balance-icon {
