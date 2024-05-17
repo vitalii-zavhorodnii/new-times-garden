@@ -43,25 +43,23 @@ export const styles = css`
     display: flex;
     justify-content: center;
     width: 100%;
-    padding: 6px 0;
+    padding-bottom: 6px;
   }
 
   .page {
+    height: 34px;
     padding-bottom: 0;
-    margin-right: 16px;
+    margin: 0 8px;
     color: #272829;
     font-family: 'America', sans-serif;
     font-size: 28px;
-    transition: color 200ms ease-in-out;
+    line-height: 42px;
+    transition: border 300ms ease-in;
+    border-bottom: 0px solid transparent;
   }
 
   .page.active {
     color: #0089dd;
-    text-decoration: underline;
-    text-decoration-thickness: 4px;
-  }
-
-  .page:last-child {
-    margin-right: 0;
+    border-bottom: 4px solid #0089dd;
   }
 `;
