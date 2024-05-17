@@ -8,7 +8,7 @@ export class Boot extends Scene {
   preload() {}
 
   create() {
-    window.scrollTo(0, 50);
+    window.scrollTo(0, 1);
 
     this.scene.start('Preloader');
   }

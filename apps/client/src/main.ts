@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { Game, Types } from 'phaser';
 import 'swiper/css';
+import { register } from 'swiper/element/bundle';
 
 import EventBus from '@emitter/EventBus';
 
@@ -15,6 +16,9 @@ import { Preloader } from '@scenes/Preloader';
 import GameInterface from '@components/GameInterface';
 
 import '@helpers/ton-connect-ui';
+
+// register Swiper custom elements
+register();
 
 // axios.defaults.baseURL = 'http://192.168.2.49:4000/api';
 axios.defaults.baseURL = process.env.BACKEND_LINK;
@@ -65,7 +69,7 @@ const config: Types.Core.GameConfig = {
 };
 
 {
-  const overflow = 50;
+  const overflow = 1;
 
   document.body.style.marginTop = `${overflow}px`;
   document.body.style.height = window.innerHeight + overflow + 'px';
@@ -81,10 +85,10 @@ const config: Types.Core.GameConfig = {
       const scroll = scrollableEl.scrollTop;
       const te = e.changedTouches[0].clientY;
       if (scroll <= 0 && ts! < te) {
-        window.scrollTo(0, 50);
+        window.scrollTo(0, overflow);
       }
     } else {
-      window.scrollTo(0, 50);
+      window.scrollTo(0, overflow);
     }
   };
   document.documentElement.addEventListener('touchstart', onTouchStart, {
