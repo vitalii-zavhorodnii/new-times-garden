@@ -5,11 +5,10 @@ export class Boot extends Scene {
     super('Boot');
   }
 
-  preload() {
-
-  }
+  preload() {}
 
   create() {
+    window.scrollTo(0, 400);
     this.scene.start('Preloader');
   }
 }
