@@ -80,10 +80,10 @@ const onTouchMove = (e: TouchEvent) => {
     const scroll = scrollableEl.scrollTop;
     const te = e.changedTouches[0].clientY;
     if (scroll <= 0 && ts! < te) {
-      e.preventDefault();
+      // e.preventDefault();
     }
   } else {
-    e.preventDefault();
+    // e.preventDefault();
   }
 };
 document.documentElement.addEventListener('touchstart', onTouchStart, {
