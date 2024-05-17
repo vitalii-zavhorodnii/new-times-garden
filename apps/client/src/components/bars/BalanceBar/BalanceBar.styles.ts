@@ -10,7 +10,7 @@ export const styles = css`
     justify-content: center;
     align-items: center;
     height: 32px;
-    transition: top 400ms cubic-bezier(.17,.67,1,1.23);
+    transition: top 400ms cubic-bezier(0.17, 0.67, 1, 1.23);
   }
 
   .container.hidden {
@@ -28,8 +28,10 @@ export const styles = css`
   }
 
   .value {
-    font-size: 20px;
-    font-family: 'Bebas Neue', sans-serif;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-family: 'Press', sans-serif;
     color: #fff;
   }
 

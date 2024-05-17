@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 
 import EventBus from '@emitter/EventBus';
 
-import { styles } from './styles';
+import { styles } from './PaperModal.styles';
 
 import { _EVENTS } from '@constants/events';
 

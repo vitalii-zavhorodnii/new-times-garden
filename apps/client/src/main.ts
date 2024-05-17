@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { Game, Types } from 'phaser';
-import 'swiper/css';
 import { register } from 'swiper/element/bundle';
 
 import EventBus from '@emitter/EventBus';
@@ -16,9 +15,6 @@ import { Preloader } from '@scenes/Preloader';
 import GameInterface from '@components/GameInterface';
 
 import '@helpers/ton-connect-ui';
-
-// register Swiper custom elements
-register();
 
 // axios.defaults.baseURL = 'http://192.168.2.49:4000/api';
 axios.defaults.baseURL = process.env.BACKEND_LINK;
@@ -99,5 +95,6 @@ const config: Types.Core.GameConfig = {
   });
 }
 
+register();
 new GameInterface();
 export default new Game(config);

@@ -1,17 +1,16 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
-import 'src/components/menus/PlantsMenu';
+import { Swiper } from 'swiper';
 
 import EventBus from '@emitter/EventBus';
 
-import { styles } from './styles';
-
-import { timeReadableConverter } from '@helpers/time-coverter';
+import { styles } from './PlantsMenu.styles';
+import '@components/menus/PlantsMenu/PlantItem';
 
 import { _EVENTS } from '@constants/events';
 
-import type { IPlantListItem, IPlantsList } from '@interfaces/IPlantListItem';
+import type { IPlantsList } from '@interfaces/IPlantListItem';
 
 @customElement('plants-menu')
 export default class PlantsMenu extends LitElement {
@@ -27,19 +26,24 @@ export default class PlantsMenu extends LitElement {
   description =
     'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis, cupiditate cum minus';
 
-  @property({ type: String })
+  @property({ type: Number })
   balanceCoins: number;
 
-  @property({ type: String })
+  @property({ type: Number })
   balanceTokens: number;
 
+  @property({ type: Number })
+  page: number;
+
   private list: IPlantsList;
+  private slider: Swiper;
 
   constructor() {
     super();
 
     this.isshown = false;
     this.list = null;
+    this.page = 0;
 
     EventBus.on(_EVENTS.plant_menu_open, () => {
       this.isshown = true;
@@ -63,18 +67,22 @@ export default class PlantsMenu extends LitElement {
     });
   }
 
-  handleSeedPick(item: IPlantListItem) {
-    if (this.balanceCoins < item.gamePrice) return;
-    if (this.balanceTokens < item.tokenPrice) return;
-
-    EventBus.emit(_EVENTS.picked_plant_update, item);
-    EventBus.emit(_EVENTS.plant_menu_close);
-    EventBus.emit(_EVENTS.ring_set_escape);
+  _handlePage(page: number) {
+    this.page = page;
+    this.slider.slideTo(page);
   }
 
-  _handleClick() {
-    console.log('handle');
-    // EventBus.emit(_EVENTS.plant_menu_close);
+  handleChangeSlide() {
+    console.log('handleChangeSlide');
+  }
+
+  protected updated(): void {
+    const slider = this.shadowRoot.querySelector('swiper-container');
+
+    if (!slider) return;
+    if (this.slider) return;
+
+    this.slider = slider.swiper;
   }
 
   render() {
@@ -98,203 +106,71 @@ export default class PlantsMenu extends LitElement {
           ${this.balanceTokens}
         </div>
       </div>
-      <swiper-container slides-per-view="1" loop="false">
-        <swiper-slide>
-          <div class="list">
-            ${repeat(this.list.simple, (item) => {
-              const growingString = timeReadableConverter(item.growTime);
-              const isDisabled =
-                this.balanceCoins < item.gamePrice ||
-                this.balanceTokens < item.tokenPrice;
-
-              return html`
-          <div @click=${() => this.handleSeedPick(item)} class="plant-item ${
-                isDisabled ? 'disabled' : ''
-              }">
-            <img
-              class="image"
-              src="./assets/plants/icons/${item.texture.toLowerCase()}.png"
-              alt="icon"
-            />
-
-            <div class="about">
-              <div class="title ${isDisabled ? 'disabled' : ''}">${item.title}</div>
-              <div class="grow-time ${
-                isDisabled ? 'disabled' : ''
-              }">Growing time: ${growingString}</div>
-
-              <div class="stats">
-                <div
-                  class="value ${item.gamePrice ? '' : 'none'} ${
-                this.balanceCoins < item.gamePrice ? 'red' : ''
-              }"
-                >
-                  <img class="icon" src="./assets/utils/money.png" alt="coin" />
-                  ${item.gamePrice}
-                </div>
-
-                <div class="value ${item.tokenPrice ? '' : 'none'} ${
-                this.balanceTokens < item.tokenPrice ? 'red' : ''
-              }"">
-                  <img class="icon" src="./assets/utils/token.png" alt="token" />
-                  ${item.tokenPrice}
-                </div>
-
-                <div class="value ${item.coinsIncome ? '' : 'none'} ${
-                isDisabled ? 'disabled' : ''
-              }">
-                  <img
-                    class="icon"
-                    src="./assets/utils/money-profit.png"
-                    alt="money-income"
-                  />
-                  ${item.coinsIncome}
-                </div>
-
-                <div class="value ${item.tokensIncome ? '' : 'none'} ${
-                isDisabled ? 'disabled' : ''
-              }">
-                  <img
-                    class="icon"
-                    src="./assets/utils/profit-tokens.svg"
-                    alt="token-income"
-                  />
-                  ${item.tokensIncome}
-                </div>
-
-                <div class="value ${item.xpIncome ? '' : 'none'} ${
-                isDisabled ? 'disabled' : ''
-              }">
-                  <img class="icon" src="./assets/utils/experience.png" alt="xp" />
-                  ${item.xpIncome}
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-            })}
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="list">
-            ${repeat(this.list.special, (item) => {
-              const growingString = timeReadableConverter(item.growTime);
-              const isDisabled =
-                this.balanceCoins < item.gamePrice ||
-                this.balanceTokens < item.tokenPrice;
-
-              return html`
-            <div @click=${() => this.handleSeedPick(item)} class="plant-item ${
-                isDisabled ? 'disabled' : ''
-              }">
-              <img
-                class="image"
-                src="./assets/plants/icons/${item.texture.toLowerCase()}.png"
-                alt="icon"
-              />
-
-              <div class="about">
-                <div class="title ${isDisabled ? 'disabled' : ''}">${
-                item.title
-              }</div>
-                <div class="grow-time ${
-                  isDisabled ? 'disabled' : ''
-                }">Growing time: ${growingString}</div>
-
-                <div class="stats">
-                  <div
-                    class="value ${item.gamePrice ? '' : 'none'} ${
-                this.balanceCoins < item.gamePrice ? 'red' : ''
-              }"
-                  >
-                    <img class="icon" src="./assets/utils/money.png" alt="coin" />
-                    ${item.gamePrice}
-                  </div>
-
-                  <div class="value ${item.tokenPrice ? '' : 'none'} ${
-                this.balanceTokens < item.tokenPrice ? 'red' : ''
-              }"">
-                    <img class="icon" src="./assets/utils/token.png" alt="token" />
-                    ${item.tokenPrice}
-                  </div>
-
-                  <div class="value ${item.coinsIncome ? '' : 'none'} ${
-                isDisabled ? 'disabled' : ''
-              }">
-                    <img
-                      class="icon"
-                      src="./assets/utils/money-profit.png"
-                      alt="money-income"
-                    />
-                    ${item.coinsIncome}
-                  </div>
-
-                  <div class="value ${item.tokensIncome ? '' : 'none'} ${
-                isDisabled ? 'disabled' : ''
-              }">
-                    <img
-                      class="icon"
-                      src="./assets/utils/profit-tokens.svg"
-                      alt="token-income"
-                    />
-                    ${item.tokensIncome}
-                  </div>
-
-                  <div class="value ${item.xpIncome ? '' : 'none'} ${
-                isDisabled ? 'disabled' : ''
-              }">
-                    <img class="icon" src="./assets/utils/experience.png" alt="xp" />
-                    ${item.xpIncome}
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-            })}
-          </div>
-        </swiper-slide>
-      </swiper-container>
+      <div class="pagination">
+        <div
+          @click=${() => this._handlePage(0)}
+          class="page ${this.page === 0 ? 'active' : ''}"
+        >
+          Simple
+        </div>
+        <div
+          @click=${() => this._handlePage(1)}
+          class="page ${this.page === 1 ? 'active' : ''}"
+        >
+          Advanced
+        </div>
+        <div
+          @click=${() => this._handlePage(2)}
+          class="page ${this.page === 2 ? 'active' : ''}"
+        >
+          Special
+        </div>
+      </div>
+      ${this.renderSlider()}
     </paper-modal> `;
   }
 
-  renderStats() {
-    return html``;
+  renderSlider() {
+    return html`<swiper-container
+      id="slider"
+      active=${this.page}
+      slides-per-view="1"
+      loop="false"
+      lazy="true"
+    >
+      <swiper-slide>
+        <div class="list">
+          ${repeat(this.list.simple, (plant) => {
+            return html`<plant-item
+              .plant=${plant}
+              balanceCoins=${this.balanceCoins}
+              balanceTokens=${this.balanceTokens}
+            ></plant-item>`;
+          })}
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="list">
+          ${repeat(this.list.advanced, (plant) => {
+            return html`<plant-item
+              .plant=${plant}
+              balanceCoins=${this.balanceCoins}
+              balanceTokens=${this.balanceTokens}
+            ></plant-item>`;
+          })}
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="list">
+          ${repeat(this.list.special, (plant) => {
+            return html`<plant-item
+              .plant=${plant}
+              balanceCoins=${this.balanceCoins}
+              balanceTokens=${this.balanceTokens}
+            ></plant-item>`;
+          })}
+        </div>
+      </swiper-slide>
+    </swiper-container>`;
   }
 }
-
-// ${coins > 0
-//   ? ``
-//   : ''}
-// ${tokens > 0
-//   ? ``
-//   : ''}
-// ${coinsIncome > 0
-//   ? `<p class="plants-menu__value">
-//   <img
-//     class="plants-menu__stat-icon"
-//     src="./assets/utils/money-profit.png"
-//     alt="coin"
-//   >
-//   ~${coinsIncome}
-// </p>`
-//   : ''}
-// ${tokensIncome > 0
-//   ? `<p class="plants-menu__value">
-//   <img
-//     class="plants-menu__stat-icon"
-//     src="./assets/utils/profit-tokens.svg"
-//     alt="token"
-//   >
-//   ~${tokensIncome}
-// </p>`
-//   : ''}
-// ${xpIncome > 0
-//   ? `<p class="plants-menu__value">
-//   <img
-//     class="plants-menu__stat-icon"
-//     src="./assets/utils/experience.png"
-//     alt="coin"
-//   >
-//   ~${xpIncome}
-// </p>`
-//   : ''}

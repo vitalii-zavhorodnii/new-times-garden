@@ -57,10 +57,10 @@ export const styles = css`
   }
 
   .header {
-    margin-top: 44px;
+    margin-top: 38px;
     color: #272829;
     font-size: 48px;
-    font-family: 'Newspapper', sans-serif;
+    font-family: 'Paper', sans-serif;
   }
 
   .description {
@@ -69,7 +69,7 @@ export const styles = css`
     text-align: center;
     color: #272829;
     font-size: 14px;
-    font-family: 'Newspapper', sans-serif;
+    font-family: 'Paper', sans-serif;
   }
 
   .content {

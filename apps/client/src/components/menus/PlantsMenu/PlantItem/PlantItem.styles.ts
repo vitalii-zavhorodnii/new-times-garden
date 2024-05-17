@@ -5,42 +5,6 @@ export const styles = css`
     box-sizing: border-box;
   }
 
-  .list {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: 100%;
-  }
-
-  .balance {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 15px;
-    width: 100%;
-    z-index: 10;
-    padding: 14px 0 6px;
-    background: #e2dfd0;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
-      rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  }
-
-  .balance-value {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 68px;
-    margin-right: 8px;
-    font-family: 'Newspapper', sans-serif;
-    font-size: 16px;
-  }
-
-  .balance-icon {
-    margin-right: 3px;
-    width: 28px;
-  }
-
   .plant-item {
     display: grid;
     grid-template-columns: 64px 1fr;
@@ -55,10 +19,6 @@ export const styles = css`
     color: #7d7c7c;
   }
 
-  .plant-item:last-child() {
-    margin-bottom: 0;
-  }
-
   .image {
     width: 64px;
   }
@@ -71,7 +31,7 @@ export const styles = css`
 
   .title {
     font-size: 20px;
-    font-family: 'Newspapper', sans-serif;
+    font-family: 'Paper', sans-serif;
     color: #272829;
     letter-spacing: 1px;
   }
@@ -81,7 +41,7 @@ export const styles = css`
   }
 
   .grow-time {
-    font-family: 'Newspapper', sans-serif;
+    font-family: 'Paper', sans-serif;
     font-size: 14px;
     color: #272829;
   }
@@ -101,7 +61,7 @@ export const styles = css`
     align-items: center;
     width: 72px;
     margin-right: 8px;
-    font-family: 'Newspapper', sans-serif;
+    font-family: 'Paper', sans-serif;
     font-size: 16px;
   }
 
