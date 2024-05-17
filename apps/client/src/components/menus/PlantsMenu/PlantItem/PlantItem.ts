@@ -1,9 +1,8 @@
+import { styles } from './PlantItem.styles';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import EventBus from '@emitter/EventBus';
-
-import { styles } from './PlantItem.styles';
 
 import { timeReadableConverter } from '@helpers/time-coverter';
 
@@ -64,7 +63,7 @@ export default class PlantsMenu extends LitElement {
             ${this.plant.title}
           </div>
           <div class="grow-time ${isDisabled ? 'disabled' : ''}">
-            Growing time: ${growingString}
+            Growing: ${growingString}
           </div>
 
           <div class="stats">

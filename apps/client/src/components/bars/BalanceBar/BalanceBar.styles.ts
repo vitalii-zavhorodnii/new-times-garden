@@ -30,8 +30,8 @@ export const styles = css`
   .value {
     display: flex;
     align-items: center;
-    font-size: 24px;
-    font-family: 'Press', sans-serif;
+    font-size: 16px;
+    font-family: 'Paper', sans-serif;
     color: #f8f6e3;
   }
 

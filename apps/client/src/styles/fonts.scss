@@ -5,24 +5,14 @@
 
 @font-face {
   font-family: 'America';
-  src: url('../fonts/America.ttf');
+  src: url('../fonts/America-regular.ttf');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: 'Press';
-  src: url('../fonts/Press.ttf');
+  font-family: 'America';
+  src: url('../fonts/America-bold.ttf');
+  font-weight: bold;
+  font-style: normal;
 }
-
-// @font-face {
-//   font-family: "DroidSerif";
-//   src: url("DroidSerif-Regular-webfont.ttf") format("truetype");
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// @font-face {
-//   font-family: "DroidSerif";
-//   src: url("DroidSerif-Italic-webfont.ttf") format("truetype");
-//   font-weight: normal;
-//   font-style: italic;
-// }

@@ -12,7 +12,7 @@ export const styles = css`
     width: 100%;
     padding: 8px 16px 8px 24px;
     color: #272829;
-    border-top: 1px dashed #61677a;
+    border-bottom: 1px dashed #61677a;
   }
 
   .plant-item.disabled {
