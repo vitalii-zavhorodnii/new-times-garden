@@ -24,7 +24,7 @@ export default class PlantsMenu extends LitElement {
 
   @property({ type: String })
   description =
-    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis, cupiditate cum minus';
+    'Buy seeds and grow your garden. Harvest bucks and experience when plant is ready';
 
   @property({ type: Number })
   balanceCoins: number;
