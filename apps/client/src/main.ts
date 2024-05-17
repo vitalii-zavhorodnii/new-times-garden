@@ -28,8 +28,7 @@ if (!WebApp) {
 WebApp.expand();
 WebApp.disableClosingConfirmation();
 WebApp.ready();
-window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
-        
+
 EventBus.on('bus_init', () => console.log('EventBus activated!'));
 EventBus.emit('bus_init');
 

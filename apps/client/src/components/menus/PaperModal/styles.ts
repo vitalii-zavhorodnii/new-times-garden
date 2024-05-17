@@ -51,8 +51,8 @@ export const styles = css`
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding-bottom: 64px;
     overflow-y: scroll;
-    overflow-x: hidden;
   }
 
   .header {
