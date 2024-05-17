@@ -83,10 +83,10 @@ const onTouchMove = (e: TouchEvent) => {
     const te = e.changedTouches[0].clientY;
     if (scroll <= 0 && ts! < te) {
       // e.preventDefault();
-      window.scrollTo(0, 200);
+      window.scrollTo(0, 50);
     }
   } else {
-    window.scrollTo(0, 200);
+    window.scrollTo(0, 50);
     // e.preventDefault();
   }
 };
