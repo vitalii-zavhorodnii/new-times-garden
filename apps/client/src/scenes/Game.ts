@@ -362,6 +362,9 @@ export class Game extends Scene {
       this.balanceCoins += coinsIncome;
       this.balanceTokens += tokensIncome;
       // Update Balance bar info
+      // EventBus.emit(_EVENTS.picked_plant_clear);
+      EventBus.emit(_EVENTS.growing_plant_clear);
+      EventBus.emit(_EVENTS.ring_set_menu);
       EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
       EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
       // this.balanceBar.updateBalance('tokens', this.balanceTokens);
