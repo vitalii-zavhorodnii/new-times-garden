@@ -33,7 +33,6 @@ export default class GrowingBar extends LitElement {
     this.isshown = false;
 
     EventBus.on(_EVENTS.growing_plant_update, (plant: Plant) => {
-      console.log('emit grow', plant.title);
       this.plant = plant;
 
       clearInterval(this.intervalChecker);
@@ -57,7 +56,6 @@ export default class GrowingBar extends LitElement {
 
   checkGrowingTime() {
     if (!this.plant) return;
-    console.log('checking timer');
     // Destructuring Plant data in Soil
     const { plantedAt, growTime } = this.plant;
     // Calculate procent Left to complete
@@ -65,7 +63,17 @@ export default class GrowingBar extends LitElement {
     const endTime = DateTime.fromMillis(plantedAt + growTime);
     const difference = endTime.diff(currentTime).toMillis();
 
-    this.textLeft = timeReadableConverter(difference);
+    if (difference <= 0) {
+      clearInterval(this.intervalChecker);
+
+      this.textLeft = 'Ready to harvest';
+      this.requestUpdate();
+
+      return;
+    }
+
+    const str = `Harvest in ${timeReadableConverter(difference)}`;
+    this.textLeft = str;
   }
 
   _renderIncome() {
@@ -98,7 +106,7 @@ export default class GrowingBar extends LitElement {
 
       <div class="content">
         <div class="title">${this.plant.title}</div>
-        <div class="info">Left ${this.textLeft}</div>
+        <div class="info">${this.textLeft}</div>
 
         <ul class="income">
           ${this._renderIncome()}

@@ -196,7 +196,7 @@ export class Game extends Scene {
     /*    Post prepraing events   */
     this.initiateControls();
     // Activate interval Grow phaser checker
-    this.growingInterval = setInterval(() => this.runCheckGrowPhase(), 2000);
+    this.growingInterval = setInterval(() => this.runCheckGrowPhase(), 1000);
     this.events.on('destroy', () => (this.growingInterval = null));
     /* End of create */
   }
@@ -348,7 +348,6 @@ export class Game extends Scene {
       const percentLeft = Math.floor((difference / growTime) * 100);
       // Check if completed growing, if more 0 left - show plant data
       if (percentLeft > 0 && !this.pickedPlant) {
-        console.log('trigger');
         EventBus.emit(_EVENTS.ring_set_escape);
         EventBus.emit(_EVENTS.picked_plant_clear);
         EventBus.emit(_EVENTS.growing_plant_update, soil.plant);

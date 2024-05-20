@@ -1,9 +1,8 @@
+import { styles } from './PlantInfoBar.styles';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import EventBus from '@emitter/EventBus';
-
-import { styles } from './PlantInfoBar.styles';
 
 import { _EVENTS } from '@constants/events';
 
@@ -26,6 +25,7 @@ export default class PlantInfoBar extends LitElement {
 
     EventBus.on(_EVENTS.picked_plant_update, (plant: IPlantListItem) => {
       this.plant = plant;
+
       this.isshown = true;
       this.requestUpdate();
     });
@@ -35,6 +35,8 @@ export default class PlantInfoBar extends LitElement {
       this.requestUpdate();
     });
   }
+
+  // connectedCallback() {}
 
   _renderPrice() {
     if (this.plant.gamePrice > 0) {
@@ -70,7 +72,7 @@ export default class PlantInfoBar extends LitElement {
 
   render() {
     if (!this.plant) {
-      return html``
+      return html``;
     }
 
     return html`<div class="container ${this.isshown ? '' : 'hidden'}">
