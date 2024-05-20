@@ -31,6 +31,10 @@ export default class GrowingBar extends LitElement {
     super();
 
     this.isshown = false;
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
 
     EventBus.on(_EVENTS.growing_plant_update, (plant: Plant) => {
       this.plant = plant;
@@ -56,6 +60,7 @@ export default class GrowingBar extends LitElement {
 
   checkGrowingTime() {
     if (!this.plant) return;
+
     // Destructuring Plant data in Soil
     const { plantedAt, growTime } = this.plant;
     // Calculate procent Left to complete

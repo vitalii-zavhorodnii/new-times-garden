@@ -22,6 +22,10 @@ export default class PlantInfoBar extends LitElement {
     super();
 
     this.isshown = false;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
 
     EventBus.on(_EVENTS.picked_plant_update, (plant: IPlantListItem) => {
       this.plant = plant;
@@ -35,8 +39,6 @@ export default class PlantInfoBar extends LitElement {
       this.requestUpdate();
     });
   }
-
-  // connectedCallback() {}
 
   _renderPrice() {
     if (this.plant.gamePrice > 0) {
