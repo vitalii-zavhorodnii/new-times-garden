@@ -9,7 +9,7 @@ export const styles = css`
     display: flex;
     padding: 4px;
     border-radius: 8px;
-    background-color: #00000070;
+    background-color: #00000040;
     transform-origin: left bottom;
   }
 
@@ -36,38 +36,40 @@ export const styles = css`
   .title {
     color: #272829;
     font-family: 'Paper';
-    font-size: 16px;
-    margin-bottom: 4px;
+    font-size: 18px;
   }
 
-  .info {
-    display: flex;
-    flex-direction: column;
+  .growing {
+    margin-top: 4px;
+    color: #272829;
+    font-family: 'Latin';
+    font-size: 24px;
   }
 
-  .progress {
-    width: 100%;
-    height: 6px;
-    border-radius: 5px;
-    background-color: 
+  .growing.ready {
+    color: green;
   }
 
   .income {
     display: flex;
     align-items: center;
-    margin: 5px 0 0 0;
+    margin: 0;
     padding: 0;
+    margin-top: 2px;
   }
 
   .value {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    font-family: sans-serif;
-    font-size: 20px;
+    margin-right: 4px;
+    color: #272829;
+    font-family: 'Paper';
+    font-size: 14px;
+    font-weight: bold;
   }
 
   .value-icon {
-    width: 16px;
+    width: 18px;
+    margin-right: 2px;
   }
 `;

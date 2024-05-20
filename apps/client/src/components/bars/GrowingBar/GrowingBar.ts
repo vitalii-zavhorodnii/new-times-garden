@@ -18,19 +18,23 @@ export default class GrowingBar extends LitElement {
   @property({ type: Boolean, attribute: true, reflect: true })
   isshown: boolean;
 
+  @property()
+  private plant: Plant;
+
   @property({ type: String })
   private textLeft: string;
 
   @property()
   private intervalChecker: ReturnType<typeof setInterval>;
 
-  @property()
-  private plant: Plant;
+  @property({ type: Boolean })
+  private isready: boolean;
 
   constructor() {
     super();
 
     this.isshown = false;
+    this.isready = false;
   }
 
   connectedCallback(): void {
@@ -71,28 +75,39 @@ export default class GrowingBar extends LitElement {
     if (difference <= 0) {
       clearInterval(this.intervalChecker);
 
+      this.isready = true;
       this.textLeft = 'Ready to harvest';
-      this.requestUpdate();
 
       return;
     }
 
-    const str = `Harvest in ${timeReadableConverter(difference)}`;
-    this.textLeft = str;
+    this.isready = false;
+    this.textLeft = `Harvest in ${timeReadableConverter(difference)}`;
   }
 
-  _renderIncome() {
+  _renderСoinsIncome() {
     if (this.plant.coinsIncome > 0) {
       return html`<li class="value">
         <img class="value-icon" src="./assets/utils/money-profit.png" alt="coin" />
         ${this.plant.coinsIncome}
       </li>`;
     }
+  }
 
+  _renderTokensIncome() {
     if (this.plant.tokensIncome > 0) {
       return html`<li class="value">
         <img class="value-icon" src="./assets/utils/profit-tokens.svg" alt="token" />
         ${this.plant.tokensIncome}
+      </li>`;
+    }
+  }
+
+  _renderXpIncome() {
+    if (this.plant.xpIncome > 0) {
+      return html`<li class="value">
+        <img class="value-icon" src="./assets/utils/experience.png" alt="token" />
+        ${this.plant.xpIncome}
       </li>`;
     }
   }
@@ -111,10 +126,11 @@ export default class GrowingBar extends LitElement {
 
       <div class="content">
         <div class="title">${this.plant.title}</div>
-        <div class="info">${this.textLeft}</div>
+        <div class="growing ${this.isready ? 'ready' : ''}">${this.textLeft}</div>
 
         <ul class="income">
-          ${this._renderIncome()}
+          ${this._renderСoinsIncome()} ${this._renderTokensIncome()}
+          ${this._renderXpIncome()}
         </ul>
       </div>
     </div> `;

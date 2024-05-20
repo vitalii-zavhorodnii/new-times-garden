@@ -47,7 +47,8 @@ export default class PlantInfoBar extends LitElement {
         ${this.plant.gamePrice}
       </li>`;
     }
-
+  }
+  _renderTokens() {
     if (this.plant.tokenPrice > 0) {
       return html`<li class="value">
         <img class="value-icon" src="./assets/utils/token.png" alt="token" />
@@ -56,18 +57,29 @@ export default class PlantInfoBar extends LitElement {
     }
   }
 
-  _renderIncome() {
+  _renderCoinsIncome() {
     if (this.plant.coinsIncome > 0) {
       return html`<li class="value">
         <img class="value-icon" src="./assets/utils/money-profit.png" alt="coin" />
         ${this.plant.coinsIncome}
       </li>`;
     }
+  }
 
+  _renderTokensIncome() {
     if (this.plant.tokensIncome > 0) {
       return html`<li class="value">
         <img class="value-icon" src="./assets/utils/profit-tokens.svg" alt="token" />
         ${this.plant.tokensIncome}
+      </li>`;
+    }
+  }
+
+  _renderXpIncome() {
+    if (this.plant.xpIncome > 0) {
+      return html`<li class="value">
+        <img class="value-icon" src="./assets/utils/experience.png" alt="token" />
+        ${this.plant.xpIncome}
       </li>`;
     }
   }
@@ -86,7 +98,9 @@ export default class PlantInfoBar extends LitElement {
         />
         <div class="info">
           <ul class="income">
-            ${this._renderPrice()} ${this._renderIncome()}
+            ${this._renderPrice()} ${this._renderTokens()}
+            ${this._renderCoinsIncome()} ${this._renderTokensIncome()}
+            ${this._renderXpIncome()}
           </ul>
         </div>
       </div>

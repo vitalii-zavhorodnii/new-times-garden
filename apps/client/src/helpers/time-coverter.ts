@@ -6,7 +6,7 @@ export const timeReadableConverter = (milliseconds: number): string => {
 
   const strTime = `${days ? days + 'd' : ''} ${hours ? hours + 'hr' : ''} ${
     minutes ? minutes + 'min' : ''
-  } ${seconds ? seconds + ' s' : ''}`;
+  } ${seconds ? seconds + 's' : ''}`;
 
   return strTime;
 };
