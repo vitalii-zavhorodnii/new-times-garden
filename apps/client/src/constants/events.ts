@@ -6,8 +6,6 @@ export const _EVENTS = {
   plant_menu_open: 'plant_menu_open',
   plant_menu_close: 'plant_menu_close',
   plant_menu_update: 'plant_menu_update',
-  picked_plant_show: 'picked_plant_show',
-  picked_plant_hide: 'picked_plant_hide',
   picked_plant_update: 'picked_plant_update',
   picked_plant_clear: 'picked_plant_clear',
   balance_update_coins: 'balance_update_coins',
@@ -18,5 +16,7 @@ export const _EVENTS = {
   ring_show: 'ring_show',
   ring_hide: 'ring_hide',
   ring_set_menu: 'ring_set_menu',
-  ring_set_escape: 'ring_set_escape'
+  ring_set_escape: 'ring_set_escape',
+  growing_plant_update: 'growing_plant_update',
+  growing_plant_clear: 'growing_plant_clear'
 };

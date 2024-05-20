@@ -1,8 +1,9 @@
 import BalanceBar from '@components/bars/BalanceBar';
+import GrowingBar from '@components/bars/GrowingBar';
 import PlantInfoBar from '@components/bars/PlantInfoBar';
 import RingBar from '@components/bars/RingBar';
 import PaperModal from '@components/menus/PaperModal';
-import PlantsMenu from 'src/components/menus/PlantsMenu';
+import PlantsMenu from '@components/menus/PlantsMenu';
 
 export default class GameInterface {
   public balanceBar: BalanceBar;
@@ -10,6 +11,7 @@ export default class GameInterface {
   public ringBar: RingBar;
   public plantsMenu: PlantsMenu;
   public paperModal: PaperModal;
+  public growingBar: GrowingBar;
 
   constructor() {
     this.ringBar = new RingBar();
@@ -17,5 +19,6 @@ export default class GameInterface {
     this.balanceBar = new BalanceBar();
     this.plantsMenu = new PlantsMenu();
     this.paperModal = new PaperModal();
+    this.growingBar = new GrowingBar();
   }
 }

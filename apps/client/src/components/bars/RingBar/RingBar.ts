@@ -1,9 +1,8 @@
+import { styles } from './RingBar.styles';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import EventBus from '@emitter/EventBus';
-
-import { styles } from './RingBar.styles';
 
 import { _EVENTS } from '@constants/events';
 
@@ -47,7 +46,8 @@ export default class RingBar extends LitElement {
 
   _handleEscClick(): void {
     EventBus.emit(_EVENTS.esc_click);
-    EventBus.emit(_EVENTS.picked_plant_clear)
+    EventBus.emit(_EVENTS.picked_plant_clear);
+    EventBus.emit(_EVENTS.growing_plant_clear);
     this.active_escape = false;
     this.requestUpdate();
   }

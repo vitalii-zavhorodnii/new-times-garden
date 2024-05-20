@@ -56,6 +56,7 @@ export class Game extends Scene {
   public settings: any;
   // Picked plant
   public pickedPlant: IPlantListItem;
+  public growingPlant: Plant;
   // Sprites arrays and 2D arrays
   private plants: (Plant | Dummy)[][];
   private soil: Soil[][];
@@ -153,7 +154,7 @@ export class Game extends Scene {
     this.anims.create({
       key: 'poof',
       frameRate: 24,
-      frames: this.anims.generateFrameNumbers('dummy', { start: 1, end: 13 }),
+      frames: this.anims.generateFrameNumbers('dummy', { start: 1, end: 12 }),
       repeat: 0
     });
     /*    Render Game Objects   */
@@ -184,6 +185,9 @@ export class Game extends Scene {
     EventBus.on(_EVENTS.picked_plant_update, (plant: IPlantListItem) => {
       this.pickedPlant = plant;
     }); // Update data on picked plant
+    EventBus.on(_EVENTS.growing_plant_clear, () => {
+      this.growingPlant = null;
+    });
     /*    EventBus emit    */
     EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
     EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
@@ -261,14 +265,15 @@ export class Game extends Scene {
   /*    Ingame Handlers   */
   // Handle user click on Soil sprite
   private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number) {
-    console.log({
-      blocked: this.isBlocked,
-      soil: this.pickedPlant
-    });
     // If interface is blocked Return
     if (this.isBlocked) return;
     // If not occupied and no picked plant - stop
-    if (!soil.isOccupied && !this.pickedPlant) return;
+    if (!soil.isOccupied && !this.pickedPlant) {
+      EventBus.emit(_EVENTS.growing_plant_clear);
+      EventBus.emit(_EVENTS.ring_set_menu);
+
+      return;
+    }
     // Check if NOT occupied by real Plant
     // Picked Plant data from Plant menu
     if (!soil.isOccupied && this.pickedPlant) {
@@ -277,9 +282,8 @@ export class Game extends Scene {
         this.pickedPlant.gamePrice > this.balanceCoins ||
         this.pickedPlant.tokenPrice > this.balanceTokens
       ) {
-        // Update interface fix
         this.pickedPlant = null;
-        EventBus.emit(_EVENTS.picked_plant_hide);
+        EventBus.emit(_EVENTS.picked_plant_clear);
         return;
       }
       // Update user balance
@@ -327,6 +331,7 @@ export class Game extends Scene {
       // stop continue
       return;
     }
+
     // Check if soil contains Plant
     if (soil.isOccupied) {
       // Animate sprite click
@@ -341,10 +346,18 @@ export class Game extends Scene {
       const endTime = DateTime.fromMillis(plantedAt + growTime);
       const difference = endTime.diff(currentTime).toMillis();
       const percentLeft = Math.floor((difference / growTime) * 100);
-      // Check if completed growing
-      // if left more then 0
-      // need more time to grow
-      if (percentLeft > 0) return;
+      // Check if completed growing, if more 0 left - show plant data
+      if (percentLeft > 0 && !this.pickedPlant) {
+        EventBus.emit(_EVENTS.ring_set_escape);
+        EventBus.emit(_EVENTS.picked_plant_clear);
+        EventBus.emit(_EVENTS.growing_plant_update, soil.plant);
+
+        return;
+      }
+
+      if (percentLeft > 0) {
+        return;
+      }
       // Update user balance in Game
       this.balanceCoins += coinsIncome;
       this.balanceTokens += tokensIncome;
@@ -386,6 +399,8 @@ export class Game extends Scene {
     if (decoration.decorationName === 'house') {
       // Hide interface
       this.pickedPlant = null;
+      EventBus.emit(_EVENTS.picked_plant_clear);
+      EventBus.emit(_EVENTS.growing_plant_clear);
       EventBus.emit(_EVENTS.ring_hide);
       EventBus.emit(_EVENTS.balance_hide);
 
