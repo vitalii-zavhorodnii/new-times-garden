@@ -6,7 +6,6 @@ export const styles = css`
     position: absolute;
     left: 10px;
     bottom: 82px;
-    transition: left 200 cubic-bezier(0.42, 0, 0.58, 1);
   }
 
   .container.hidden {

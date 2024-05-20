@@ -348,14 +348,19 @@ export class Game extends Scene {
       const percentLeft = Math.floor((difference / growTime) * 100);
       // Check if completed growing, if more 0 left - show plant data
       if (percentLeft > 0 && !this.pickedPlant) {
+        console.log('trigger');
         EventBus.emit(_EVENTS.ring_set_escape);
         EventBus.emit(_EVENTS.picked_plant_clear);
         EventBus.emit(_EVENTS.growing_plant_update, soil.plant);
 
         return;
       }
-
+      // Not ready - return
       if (percentLeft > 0) {
+        return;
+      }
+      // Return if picked plant and ready
+      if (percentLeft < 0 && this.pickedPlant) {
         return;
       }
       // Update user balance in Game

@@ -5,8 +5,12 @@ export const styles = css`
     z-index: 1;
     position: absolute;
     left: 10px;
-    bottom: 82px;
-    transition: left 200 cubic-bezier(0.42, 0, 0.58, 1);
+    bottom: 39px;
+    display: flex;
+    padding: 4px;
+    border-radius: 8px;
+    background-color: #00000070;
+    transform-origin: left bottom;
   }
 
   .container.hidden {
@@ -16,25 +20,43 @@ export const styles = css`
   .preview {
     height: 64px;
     width: 64px;
-    border-radius: 8px;
+    border-radius: 6px;
+    margin-right: 6px;
     background-color: #a3d8ff;
   }
 
   .content {
     display: flex;
-    background-color: #524c4280;
-    border-radius: 10px;
+    flex-direction: column;
+    padding: 0 4px 4px 4px;
+    border-radius: 6px;
+    background-color: #e2dfd0;
+  }
+
+  .title {
+    color: #272829;
+    font-family: 'Paper';
+    font-size: 16px;
+    margin-bottom: 4px;
   }
 
   .info {
-    margin-left: 12px;
     display: flex;
     flex-direction: column;
+  }
+
+  .progress {
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    background-color: 
   }
 
   .income {
     display: flex;
     align-items: center;
+    margin: 5px 0 0 0;
+    padding: 0;
   }
 
   .value {
@@ -47,6 +69,5 @@ export const styles = css`
 
   .value-icon {
     width: 16px;
-    margin-right: 5px;
   }
 `;

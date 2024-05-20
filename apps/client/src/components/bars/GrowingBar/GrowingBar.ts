@@ -1,10 +1,13 @@
 import { styles } from './GrowingBar.styles';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { DateTime } from 'luxon';
 
 import EventBus from '@emitter/EventBus';
 
 import type Plant from '@entities/Plant';
+
+import { timeReadableConverter } from '@helpers/time-coverter';
 
 import { _EVENTS } from '@constants/events';
 
@@ -15,6 +18,12 @@ export default class GrowingBar extends LitElement {
   @property({ type: Boolean, attribute: true, reflect: true })
   isshown: boolean;
 
+  @property({ type: String })
+  private textLeft: string;
+
+  @property()
+  private intervalChecker: ReturnType<typeof setInterval>;
+
   @property()
   private plant: Plant;
 
@@ -24,16 +33,39 @@ export default class GrowingBar extends LitElement {
     this.isshown = false;
 
     EventBus.on(_EVENTS.growing_plant_update, (plant: Plant) => {
-      console.log('growing plant', plant);
+      console.log('emit grow', plant.title);
       this.plant = plant;
+
+      clearInterval(this.intervalChecker);
+
+      this.checkGrowingTime();
+      this.intervalChecker = setInterval(() => {
+        this.checkGrowingTime();
+      }, 1000);
+
       this.isshown = true;
       this.requestUpdate();
     });
 
     EventBus.on(_EVENTS.growing_plant_clear, () => {
+      clearInterval(this.intervalChecker);
+
       this.isshown = false;
       this.requestUpdate();
     });
+  }
+
+  checkGrowingTime() {
+    if (!this.plant) return;
+    console.log('checking timer');
+    // Destructuring Plant data in Soil
+    const { plantedAt, growTime } = this.plant;
+    // Calculate procent Left to complete
+    const currentTime = DateTime.now();
+    const endTime = DateTime.fromMillis(plantedAt + growTime);
+    const difference = endTime.diff(currentTime).toMillis();
+
+    this.textLeft = timeReadableConverter(difference);
   }
 
   _renderIncome() {
@@ -63,13 +95,14 @@ export default class GrowingBar extends LitElement {
         src="./assets/plants/icons/${this.plant.title.toLowerCase()}.png"
         alt="icon"
       />
-      
+
       <div class="content">
-        <div class="info">
-          <ul class="income">
-            ${this._renderIncome()}
-          </ul>
-        </div>
+        <div class="title">${this.plant.title}</div>
+        <div class="info">Left ${this.textLeft}</div>
+
+        <ul class="income">
+          ${this._renderIncome()}
+        </ul>
       </div>
     </div> `;
   }
