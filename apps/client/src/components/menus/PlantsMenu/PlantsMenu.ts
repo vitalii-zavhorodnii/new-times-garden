@@ -36,7 +36,7 @@ export default class PlantsMenu extends LitElement {
   page: number;
 
   private list: IPlantsList;
-  private slider: Swiper;
+  private swiper: Swiper;
 
   constructor() {
     super();
@@ -44,6 +44,10 @@ export default class PlantsMenu extends LitElement {
     this.isshown = false;
     this.list = null;
     this.page = 0;
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
 
     EventBus.on(_EVENTS.plant_menu_open, () => {
       this.isshown = true;
@@ -68,20 +72,7 @@ export default class PlantsMenu extends LitElement {
   }
 
   _handlePage(page: number) {
-    this.slider.slideTo(page);
-  }
-
-  protected updated(): void {
-    const slider = this.shadowRoot.querySelector('swiper-container');
-
-    if (!slider) return;
-    if (this.slider) return;
-    // Find slider and define to this
-    // Chnage current page depends on Slide
-    this.slider = slider.swiper;
-    this.slider.on('slideChange', (swiper) => {
-      this.page = swiper.activeIndex;
-    });
+    this.swiper.slideTo(page);
   }
 
   render() {
@@ -125,13 +116,12 @@ export default class PlantsMenu extends LitElement {
           Special
         </div>
       </div>
-      ${this.renderSlider()}
+      ${this.renderSwiper()}
     </paper-modal> `;
   }
 
-  renderSlider() {
+  renderSwiper() {
     return html`<swiper-container
-      id="slider"
       active=${this.page}
       slides-per-view="1"
       loop="false"
@@ -171,5 +161,18 @@ export default class PlantsMenu extends LitElement {
         </div>
       </swiper-slide>
     </swiper-container>`;
+  }
+
+  protected updated(): void {
+    const swiper = this.shadowRoot.querySelector('swiper-container');
+
+    if (!swiper) return;
+    if (this.swiper) return;
+    // Find slider and define to this
+    // Chnage current page depends on Slide
+    this.swiper = swiper.swiper;
+    this.swiper.on('slideChange', (swiper) => {
+      this.page = swiper.activeIndex;
+    });
   }
 }

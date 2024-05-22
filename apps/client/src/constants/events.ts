@@ -18,5 +18,7 @@ export const _EVENTS = {
   ring_set_menu: 'ring_set_menu',
   ring_set_escape: 'ring_set_escape',
   growing_plant_update: 'growing_plant_update',
-  growing_plant_clear: 'growing_plant_clear'
+  growing_plant_clear: 'growing_plant_clear',
+  book_menu_open: 'book_menu_open',
+  book_menu_close: 'book_menu_close'
 };
