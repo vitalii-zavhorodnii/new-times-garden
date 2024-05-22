@@ -22,50 +22,18 @@ class UserQuest {
 }
 
 @Schema({ versionKey: false, _id: false })
-class QuestLog {
-  @ApiProperty({ example: [UserQuest] })
-  @Prop({ type: [{ type: UserQuest }] })
-  readonly todo: UserQuest[];
-
-  @ApiProperty({ example: [UserQuest] })
-  @Prop({ type: [{ type: UserQuest }] })
-  readonly completed: UserQuest[];
-
-  @ApiProperty({ example: 90 })
-  @Prop({ type: Number })
-  readonly completeCount: number;
-}
-
-@Schema({ versionKey: false, _id: false })
 class UserAchieve {
-  @ApiProperty({ example: [Achievement] })
+  @ApiProperty({ example: Achievement })
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Achievement.name })
   readonly achievement: Achievement;
 
   @ApiProperty({ example: 90 })
-  @Prop({ type: Number })
+  @Prop({ type: Number, default: 0 })
   readonly progress: number;
-}
-
-@Schema({ versionKey: false, _id: false })
-class AcvieveLog {
-  @ApiProperty({ example: [UserAchieve] })
-  @Prop({
-    type: [{ type: UserAchieve }],
-    default: []
-  })
-  readonly todo: UserAchieve[];
-
-  @ApiProperty({ example: [UserAchieve] })
-  @Prop({
-    type: [{ type: UserAchieve }],
-    default: []
-  })
-  readonly completed: UserAchieve[];
 
   @ApiProperty({ example: 90 })
   @Prop({ type: Number, default: 0 })
-  readonly completeCount: number;
+  readonly isCompleted: boolean;
 }
 
 export type UserDocument = HydratedDocument<User>;
@@ -116,21 +84,16 @@ class User extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Garden.name })
   readonly garden: Garden;
 
-  @ApiProperty({ type: QuestLog })
-  @Prop({
-    type: QuestLog,
-    required: false,
-    default: { todo: [], completed: [], completeCount: 0 }
-  })
-  readonly quests: QuestLog;
+  @ApiProperty({ example: [UserQuest] })
+  @Prop({ type: [{ type: UserQuest }] })
+  readonly quests: UserQuest[];
 
-  @ApiProperty({ type: AcvieveLog })
+  @ApiProperty({ example: [UserAchieve] })
   @Prop({
-    type: AcvieveLog,
-    required: false,
-    default: { todo: [], completed: [], completeCount: 0 }
+    type: [{ type: UserAchieve }],
+    default: []
   })
-  readonly achievements: AcvieveLog;
+  readonly achievements: UserAchieve[];
 }
 
 const UserSchema = SchemaFactory.createForClass(User);

@@ -120,6 +120,7 @@ export class Preloader extends Scene {
     const shopList = await getShopItems();
 
     EventBus.emit(_EVENTS.plant_menu_update, plants);
+    EventBus.emit(_EVENTS.achieve_menu_update, user.achievements);
 
     clearInterval(this.timer);
     this.scene.start('Game', { user, shopList, settings });

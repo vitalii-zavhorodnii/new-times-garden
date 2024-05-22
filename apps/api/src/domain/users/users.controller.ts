@@ -95,13 +95,8 @@ export class UsersController {
     const user = await this.usersService.findOneByTelegramId(id);
     const plant = await this.plantsService.findOneById(dto.plantId);
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    if (!plant) {
-      throw new NotFoundException('Plant not found');
-    }
+    if (!user) throw new NotFoundException('User not found');
+    if (!plant) throw new NotFoundException('Plant not found');
 
     if (
       plant.gamePrice > user.balanceCoins ||
@@ -139,26 +134,20 @@ export class UsersController {
   ): Promise<boolean> {
     const user = await this.usersService.findOneByTelegramId(id);
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    if (!user) throw new NotFoundException('User not found');
 
     const gardenData = await this.gardendsService.findOneById(user.garden._id);
 
     const cell = gardenData.field[dto.rowIndex][dto.plantIndex];
 
-    if (!cell?.plantedAt) {
-      return false;
-    }
+    if (!cell?.plantedAt) return false;
 
     const plantId = gardenData.field[dto.rowIndex][dto.plantIndex].plant._id;
     const plant = await this.plantsService.findOneById(plantId);
 
     const isReady = calculateReadyHelper(cell.plantedAt, plant.growTime);
 
-    if (!isReady) {
-      return false;
-    }
+    if (!isReady) return false;
 
     if (plant.coinsIncome) {
       const balance = user.balanceCoins + plant.coinsIncome;
@@ -173,6 +162,8 @@ export class UsersController {
       await this.usersService.updateUserXp(user._id, balance);
     }
 
+    await this.usersService.updateStatistics(id, plant._id.toString());
+
     await this.gardendsService.removePlant(
       user.garden._id,
       dto.rowIndex,
@@ -182,24 +173,12 @@ export class UsersController {
     return true;
   }
 
-  @ApiOperation({ summary: 'Start harvesting' })
-  @ApiResponse({ status: 200, type: User })
-  @Post('/:id/complete-achievement/:achieve-id')
-  public async completeAchieve(
-    @Param('id') id: string,
-    @Param('achieve-id') achId: string
-  ): Promise<boolean> {
-    const user = await this.usersService.findOneByTelegramId(id);
+  @Post('/:id/update-achieve')
+  public async updAch(@Param('id') id: string, @Query('achieve') achieve: string) {
+    console.log({ id, achieve });
+    const result = await this.usersService.updateStatistics(id, achieve);
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    if (!achId) {
-      return null;
-    }
-
-    return true;
+    return result;
   }
 
   @ApiOperation({ summary: 'Start harvesting' })
@@ -211,12 +190,26 @@ export class UsersController {
   ): Promise<any> {
     const user = await this.usersService.findOneByTelegramId(id);
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    if (!user) throw new NotFoundException('User not found');
 
-    const upd = await this.usersService.todoAchievement(user._id, achieve);
+    const upd = await this.usersService.addAchievement(user._id, achieve);
 
     return upd;
+  }
+
+  @ApiOperation({ summary: 'Start harvesting' })
+  @ApiResponse({ status: 200, type: User })
+  @Post('/:id/complete-achievement/:achieve-id')
+  public async completeAchieve(
+    @Param('id') id: string,
+    @Param('achieve-id') achId: string
+  ): Promise<boolean> {
+    if (!achId) return null;
+
+    const user = await this.usersService.findOneByTelegramId(id);
+
+    if (!user) throw new NotFoundException('User not found');
+
+    return true;
   }
 }

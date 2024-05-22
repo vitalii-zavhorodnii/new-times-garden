@@ -38,6 +38,11 @@ export const styles = css`
     display: flex;
   }
 
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+
   .decor {
     z-index: 5;
     position: absolute;

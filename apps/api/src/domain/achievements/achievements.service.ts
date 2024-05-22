@@ -14,8 +14,14 @@ export class AchievementsService {
   ) {}
 
   public async create(dto: CreateAchievementDto): Promise<Achievement> {
-    const payment = await new this.paymentModel(dto).save();
+    const achievement = await new this.paymentModel(dto).save();
 
-    return payment;
+    return achievement;
+  }
+
+  public async findActive(): Promise<Achievement[]> {
+    const achievements = await this.paymentModel.find({ isActive: true });
+
+    return achievements;
   }
 }

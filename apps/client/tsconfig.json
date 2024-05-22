@@ -31,5 +31,5 @@
       "@ui/*": ["./src/ui/*"]
     }
   },
-  "include": ["environment.d.ts", "src"]
+  "include": ["environment.d.ts", "src", "**/*.d.ts"]
 }

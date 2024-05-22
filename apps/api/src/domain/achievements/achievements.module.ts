@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AchievementsController } from './achievements.controller';
 import { AchievementsService } from './achievements.service';
+import { PlantsModule } from '@domain/plants/plants.module';
 
 import { Achievement, AchievementSchema } from './schemas/achievement.schema';
 
@@ -10,7 +11,8 @@ import { Achievement, AchievementSchema } from './schemas/achievement.schema';
   imports: [
     MongooseModule.forFeature([
       { name: Achievement.name, schema: AchievementSchema }
-    ])
+    ]),
+    PlantsModule
   ],
   controllers: [AchievementsController],
   providers: [AchievementsService],

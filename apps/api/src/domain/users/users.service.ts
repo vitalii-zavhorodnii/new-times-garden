@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 import { User } from './schemas/user.schema';
 import { Achievement } from '@domain/achievements/schemas/achievement.schema';
@@ -31,10 +31,9 @@ export class UsersService {
     const user = await this.userModel
       .findOne({ telegramId })
       .populate('garden')
-      .populate('achievements.todo.achievement')
-      .populate('achievements.completed.achievement')
-      .populate('quests.todo.quest')
-      .populate('quests.completed.quest')
+      .populate('achievements.achievement')
+      .populate('achievements.achievement.plant')
+      .populate('quests')
       .exec();
 
     if (!user) {
@@ -95,21 +94,53 @@ export class UsersService {
     return user;
   }
 
-  public async todoAchievement(userId: string, achieveId: string) {
-    const achieve = {
+  public async addAchievement(userId: string, achieveId: string) {
+    const userAchieve = {
       achievement: achieveId,
-      goal: 300,
+      isCompleted: false,
       progress: 0
     };
 
     const user = await this.userModel.findByIdAndUpdate(
       userId,
       {
-        $push: { 'achievements.todo': achieve }
+        $push: { achievements: userAchieve }
       },
       { new: true }
     );
 
     return user;
+  }
+
+  public async updateStatistics(userId: string, plantId: string) {
+    const user = await this.userModel
+      .findOne({ telegramId: userId })
+      .populate('achievements.achievement')
+      .populate('achievements.achievement.plant');
+
+    if (!user) return null;
+
+    const achievement = user.achievements.find(
+      (item) => item.achievement.plant._id.toString() === plantId
+    );
+
+    if (!achievement) return null;
+
+    const updatedUser = await this.userModel
+      .findOneAndUpdate(
+        {
+          telegramId: userId,
+          achievements: {
+            $elemMatch: {
+              achievement: achievement.achievement._id
+            }
+          }
+        },
+        { $inc: { 'achievements.$.progress': 1 } },
+        { new: true }
+      )
+      .exec();
+
+    return updatedUser;
   }
 }

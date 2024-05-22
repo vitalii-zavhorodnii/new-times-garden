@@ -15,49 +15,41 @@ class Achievement extends Document {
   @Prop({ type: Boolean, default: true })
   readonly isActive: boolean;
 
-  @ApiProperty({ example: 90 })
-  @Prop({ type: Plant, ref: Plant.name })
-  readonly plant: Plant;
-
-  @ApiProperty({ example: 'harvest' })
+  @ApiProperty({ example: 'Sunflower mastery' })
   @Prop({ type: String, isRequired: true })
-  readonly name: string;
-
-  @ApiProperty({ example: 'harvest' })
-  @Prop({ type: String, isRequired: true })
-  readonly type: 'harvest' | 'badge';
-
-  @ApiProperty({ example: 'Harvest-o-matic' })
-  @Prop({ type: String })
   readonly title: string;
+
+  @ApiProperty({ example: 'Harvest sunflowers' })
+  @Prop({ type: String, isRequired: true })
+  readonly description: string;
 
   @ApiProperty({ example: './assets/achieve.png' })
   @Prop({ type: String })
   readonly icon: string;
 
-  @ApiProperty({ example: 'achievement-texture' })
-  @Prop({ type: String })
-  readonly texture: string;
+  @ApiProperty({ example: 'harvest' })
+  @Prop({ type: String, isRequired: true, enum: ['harvest'] })
+  readonly type: 'harvest';
 
-  @ApiProperty({ example: 'Harvest 6 crops' })
-  @Prop({ type: String })
-  readonly description: string;
+  @ApiProperty({ example: [50, 200, 1000] })
+  @Prop({ type: [Number], required: true })
+  readonly steps: number[];
 
-  @ApiProperty({ example: 90 })
-  @Prop({ type: Number })
-  readonly tokenReward: number;
-
-  @ApiProperty({ example: 90 })
-  @Prop({ type: Number })
+  @ApiProperty({ example: 25 })
+  @Prop({ type: Number, default: 0 })
   readonly coinReward: number;
 
-  @ApiProperty({ example: 90 })
-  @Prop({ type: Number })
+  @ApiProperty({ example: 30 })
+  @Prop({ type: Number, default: 0 })
+  readonly tokenReward: number;
+
+  @ApiProperty({ example: 10 })
+  @Prop({ type: Number, default: 0 })
   readonly xpReward: number;
 
-  @ApiProperty({ example: 90 })
-  @Prop({ type: [Number] })
-  readonly steps: number[];
+  @ApiProperty({ example: '64ef4383e46e72721c03090e' })
+  @Prop({ type: Plant, ref: Plant.name })
+  readonly plant: Plant;
 
   @Prop({ default: now() })
   readonly createdAt: Date;

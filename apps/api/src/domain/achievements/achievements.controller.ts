@@ -3,6 +3,7 @@ import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { AchievementsService } from './achievements.service';
+import { PlantsService } from '@domain/plants/plants.service';
 
 import { Achievement } from './schemas/achievement.schema';
 
@@ -13,9 +14,26 @@ import { ROUTES } from '@constants/routes.constants';
 @ApiTags(ROUTES.achievements)
 @Controller(ROUTES.achievements)
 export class AchievementsController {
-  constructor(private readonly achievementsService: AchievementsService) {}
+  constructor(
+    private readonly achievementsService: AchievementsService,
+    private readonly plantsService: PlantsService
+  ) {}
 
-  @ApiOperation({ summary: 'create new Payment' })
+  @ApiOperation({ summary: 'Find all achievements' })
+  @ApiResponse({ status: 200, type: Achievement })
+  @ApiResponse({
+    status: 400,
+    description: 'Incorrect content data'
+  })
+  @Public()
+  @Get('')
+  public async findActiveAchievements(): Promise<Achievement[]> {
+    const achievements = await this.achievementsService.findActive();
+
+    return achievements;
+  }
+
+  @ApiOperation({ summary: 'create new Achievement' })
   @ApiResponse({ status: 200, type: Achievement })
   @ApiResponse({
     status: 400,
@@ -23,11 +41,15 @@ export class AchievementsController {
   })
   @Public()
   @Post('')
-  public async createPayment(
+  public async createAchievement(
     @Body()
     dto: CreateAchievementDto
   ): Promise<Achievement> {
-    const achievement = await this.achievementsService.create(dto);
+    const plant = await this.plantsService.findOneById(dto.plantId);
+
+    if (!plant) throw new NotFoundException();
+
+    const achievement = await this.achievementsService.create({ ...dto, plant });
 
     return achievement;
   }

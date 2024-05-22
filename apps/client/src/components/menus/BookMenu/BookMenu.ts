@@ -6,7 +6,11 @@ import { Swiper } from 'swiper';
 
 import EventBus from '@emitter/EventBus';
 
+import '@components/menus/BookMenu/AchieveItem';
+
 import { _EVENTS } from '@constants/events';
+
+import type { IUserAchievement } from '@interfaces/IUserData';
 
 @customElement('book-menu')
 export default class BookMenu extends LitElement {
@@ -19,7 +23,7 @@ export default class BookMenu extends LitElement {
   page: number;
 
   private swiper: Swiper;
-  private achievements: string[];
+  private achievements: IUserAchievement[];
   private quests: string[];
 
   constructor() {
@@ -42,18 +46,11 @@ export default class BookMenu extends LitElement {
       this.isshown = false;
       this.requestUpdate();
     });
-    // EventBus.on(_EVENTS.plant_menu_update, (plantsList: IPlantsList) => {
-    //   this.list = plantsList;
-    //   this.requestUpdate();
-    // });
-    // EventBus.on(_EVENTS.balance_update_coins, (value: number) => {
-    //   this.balanceCoins = value;
-    //   this.requestUpdate();
-    // });
-    // EventBus.on(_EVENTS.balance_update_tokens, (value: number) => {
-    //   this.balanceTokens = value;
-    //   this.requestUpdate();
-    // });
+    EventBus.on(_EVENTS.achieve_menu_update, (list: IUserAchievement[]) => {
+      console.log({ list });
+      this.achievements = list;
+      this.requestUpdate();
+    });
   }
 
   handleClose() {
@@ -78,10 +75,7 @@ export default class BookMenu extends LitElement {
                 <img class="decor left" src="./assets/book/book-decor-left.png" alt="decor" />
                 <img class="decor center" src="./assets/book/book-decor-center.png" alt="decor" />
                 <div class="content">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Consectetur vel numquam veritatis aperiam assumenda eaque illum
-                  minima natus dignissimos voluptates asperiores sed, sequi id
-                  officia unde possimus delectus doloribus dicta?
+                  ${this.renderAchievements()}
                 </div>
               </div>
             </swiper-slide>
@@ -101,6 +95,19 @@ export default class BookMenu extends LitElement {
             </swiper-slide>
             <swiper-slide>
           </swiper-container>
+      </div>
+    `;
+  }
+
+  renderAchievements() {
+    if (!this.achievements.length) return html` <div>No achievements</div> `;
+
+    return html`
+      <div class="list">
+        ${repeat(this.achievements, (achieve) => {
+          console.log('achieve', achieve);
+          return html`<achievement-item .item=${achieve}></achievement-item>`;
+        })}
       </div>
     `;
   }

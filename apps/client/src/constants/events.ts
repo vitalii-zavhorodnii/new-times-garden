@@ -20,5 +20,6 @@ export const _EVENTS = {
   growing_plant_update: 'growing_plant_update',
   growing_plant_clear: 'growing_plant_clear',
   book_menu_open: 'book_menu_open',
-  book_menu_close: 'book_menu_close'
+  book_menu_close: 'book_menu_close',
+  achieve_menu_update: 'achieve_menu_update'
 };

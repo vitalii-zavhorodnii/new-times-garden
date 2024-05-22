@@ -1,3 +1,5 @@
+import type { IAchievement } from './IAchievement';
+
 export interface IUserData {
   _id: string;
   telegramId: number;
@@ -10,8 +12,8 @@ export interface IUserData {
     _id: string;
     field: ICellData[][];
   };
-  quests: IQuestLog;
-  achievements: IAchievementLog;
+  // quests: IQuestLog;
+  achievements: IUserAchievement[];
 }
 
 export interface ICellData {
@@ -35,33 +37,8 @@ export interface IPlantData {
   y: number;
 }
 
-export interface IAchievementLog {
-  completeCount: number;
-  completed: IQuest[];
-  todo: IQuest[];
-}
-
-export interface IQuestLog {
-  completeCount: number;
-  completed: IAchievement[];
-  todo: IAchievement[];
-}
-
-export interface IQuest {}
-
-export interface IAchievement {
-  achievement: {
-    plant: string;
-    name: string;
-    type: string;
-    title: string;
-    icon: string;
-    texture: string;
-    description: string;
-    tokenReward: number;
-    coinReward: number;
-    xpReward: number;
-  };
-  goal: number;
+export interface IUserAchievement {
+  achievement: IAchievement;
   progress: number;
+  isCompleted: boolean;
 }
