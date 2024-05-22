@@ -35,6 +35,7 @@ export default class PlantsMenu extends LitElement {
   @property({ type: Number })
   page: number;
 
+  private paginationInView: boolean;
   private list: IPlantsList;
   private swiper: Swiper;
 
@@ -85,7 +86,8 @@ export default class PlantsMenu extends LitElement {
       balanceCoins=${this.balanceCoins}
       balanceTokens=${this.balanceTokens}
     >
-      <div class="balance">
+      <div id="top"></div>
+      <div class="balance" id="balance">
         <div class="balance-value">
           <img class="balance-icon" src="./assets/utils/money.png" alt="coin" />
           ${this.balanceCoins}
@@ -96,7 +98,8 @@ export default class PlantsMenu extends LitElement {
           ${this.balanceTokens}
         </div>
       </div>
-      <div class="pagination">
+
+      <div class="pagination" id="pagination">
         <div
           @click=${() => this._handlePage(0)}
           class="page ${this.page === 0 ? 'active' : ''}"
@@ -164,8 +167,36 @@ export default class PlantsMenu extends LitElement {
   }
 
   protected updated(): void {
-    const swiper = this.shadowRoot.querySelector('swiper-container');
+    this.defineObserver();
+    this.defineSwiper();
+  }
 
+  protected defineObserver() {
+    // Define target to observe
+    const target = this.shadowRoot.getElementById('pagination');
+    // Stop if no target found
+    if (!target) return;
+    // Create IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.paginationInView = true;
+          } else {
+            this.paginationInView = false;
+          }
+        });
+      },
+      { threshold: 0.01 }
+    );
+
+    observer.observe(target);
+  }
+
+  protected defineSwiper() {
+    // Defining swiper slide chabger
+    const swiper = this.shadowRoot.querySelector('swiper-container');
+    // stop if no swiper defined
     if (!swiper) return;
     if (this.swiper) return;
     // Find slider and define to this
@@ -173,6 +204,11 @@ export default class PlantsMenu extends LitElement {
     this.swiper = swiper.swiper;
     this.swiper.on('slideChange', (swiper) => {
       this.page = swiper.activeIndex;
+
+      if (!this.paginationInView) {
+        const scrollElement = this.shadowRoot.getElementById('top');
+        scrollElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   }
 }

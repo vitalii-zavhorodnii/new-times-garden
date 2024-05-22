@@ -5,6 +5,10 @@ export const styles = css`
     box-sizing: border-box;
   }
 
+  #top {
+    height: 1px;
+  }
+
   .list {
     display: grid;
     grid-template-columns: 1fr;
@@ -64,7 +68,7 @@ export const styles = css`
     z-index: -1;
     position: absolute;
     width: 0;
-    height: 4px;    
+    height: 4px;
     background-color: #c40c0c;
     border-radius: 8px;
     bottom: 4px;

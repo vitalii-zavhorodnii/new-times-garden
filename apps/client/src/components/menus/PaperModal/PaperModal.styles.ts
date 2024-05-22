@@ -54,6 +54,7 @@ export const styles = css`
     height: 100%;
     padding-bottom: 64px;
     overflow-y: scroll;
+    scroll-behaviour: smooth;
   }
 
   .header {

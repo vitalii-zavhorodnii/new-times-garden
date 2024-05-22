@@ -1,9 +1,9 @@
 import { css } from 'lit';
 
 export const styles = css`
-  // * {
-  //   box-sizing: border-box;
-  // }
+  * {
+    box-sizing: border-box;
+  }
 
   .container {
     z-index: 10;
