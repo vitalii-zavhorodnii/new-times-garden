@@ -17,7 +17,7 @@ export const styles = css`
   .wrapper {
     position: relative;
     display: flex;
-    padding: 20px 10px 0 10px;
+    padding: 24px 10px 0 14px;
   }
 
   .shield {
@@ -39,7 +39,6 @@ export const styles = css`
     flex-direction: column;
     padding: 0 4px 4px 4px;
     border-radius: 6px;
-    // background-color: #e2dfd0;
   }
 
   .title {
@@ -52,7 +51,7 @@ export const styles = css`
     margin-top: 4px;
     color: #272829;
     font-family: 'Latin';
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .growing.ready {
