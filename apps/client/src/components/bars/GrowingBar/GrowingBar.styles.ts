@@ -17,7 +17,7 @@ export const styles = css`
   .wrapper {
     position: relative;
     display: flex;
-    padding: 24px 10px 0 14px;
+    padding: 30px 10px 0 30px;
   }
 
   .shield {
@@ -31,7 +31,8 @@ export const styles = css`
   .preview {
     height: 64px;
     width: 64px;
-    margin-right: 6px;
+    margin-top: 10px;
+    margin-right: 18px;
   }
 
   .content {
@@ -63,6 +64,8 @@ export const styles = css`
     align-items: center;
     margin: 0;
     padding: 0;
+    border-top: 1px dashed #61677a;
+    padding-top: 3px;
     margin-top: 2px;
   }
 

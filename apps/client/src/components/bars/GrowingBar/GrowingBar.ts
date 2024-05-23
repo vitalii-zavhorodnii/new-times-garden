@@ -82,7 +82,7 @@ export default class GrowingBar extends LitElement {
     }
 
     this.isready = false;
-    this.textLeft = `Harvest in ${timeReadableConverter(difference)}`;
+    this.textLeft = `${timeReadableConverter(difference)}`;
   }
 
   _renderСoinsIncome() {
