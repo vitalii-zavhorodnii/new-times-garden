@@ -27,7 +27,7 @@ export const styles = css`
   }
 
   .page.left {
-    padding: 72px 8px 0 36px;
+    padding: 58px 28px 0 36px;
   }
 
   .page.right {
@@ -36,6 +36,21 @@ export const styles = css`
 
   .content {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title {
+    color: #272829;
+    font-size: 36px;
+    font-family: 'Paper', sans-serif;
+  }
+
+  .description {
+    margin-top: 18px;
+    color: #272829;
+    font-size: 14px;
+    font-family: 'Paper', sans-serif;
   }
 
   .list {

@@ -75,6 +75,12 @@ export default class BookMenu extends LitElement {
                 <img class="decor left" src="./assets/book/book-decor-left.png" alt="decor" />
                 <img class="decor center" src="./assets/book/book-decor-center.png" alt="decor" />
                 <div class="content">
+                  <div class="title">
+                    Achievements
+                  </div> 
+                  <div class="description">
+                    Complete challanges, achieve goals. Earn extra bucks, tokens and experience
+                  </div>
                   ${this.renderAchievements()}
                 </div>
               </div>

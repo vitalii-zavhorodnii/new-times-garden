@@ -118,20 +118,23 @@ export default class GrowingBar extends LitElement {
     }
 
     return html`<div class="container ${this.isshown ? '' : 'hidden'}">
-      <img
-        class="preview"
-        src="./assets/plants/icons/${this.plant.title.toLowerCase()}.png"
-        alt="icon"
-      />
+      <div class="wrapper">
+        <img class="shield" src="./assets/utils/shield.png" alt="shield" />
+        <img
+          class="preview"
+          src="./assets/plants/icons/${this.plant.title.toLowerCase()}.png"
+          alt="icon"
+        />
 
-      <div class="content">
-        <div class="title">${this.plant.title}</div>
-        <div class="growing ${this.isready ? 'ready' : ''}">${this.textLeft}</div>
+        <div class="content">
+          <div class="title">${this.plant.title}</div>
+          <div class="growing ${this.isready ? 'ready' : ''}">${this.textLeft}</div>
 
-        <ul class="income">
-          ${this._renderСoinsIncome()} ${this._renderTokensIncome()}
-          ${this._renderXpIncome()}
-        </ul>
+          <ul class="income">
+            ${this._renderСoinsIncome()} ${this._renderTokensIncome()}
+            ${this._renderXpIncome()}
+          </ul>
+        </div>
       </div>
     </div> `;
   }

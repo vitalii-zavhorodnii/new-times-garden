@@ -6,10 +6,7 @@ export const styles = css`
     position: absolute;
     left: 10px;
     bottom: 39px;
-    display: flex;
-    padding: 4px;
-    border-radius: 8px;
-    background-color: #00000040;
+    width: 245px;
     transform-origin: left bottom;
   }
 
@@ -17,12 +14,24 @@ export const styles = css`
     left: -100vw;
   }
 
+  .wrapper {
+    position: relative;
+    display: flex;
+    padding: 20px 10px 0 10px;
+  }
+
+  .shield {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
   .preview {
     height: 64px;
     width: 64px;
-    border-radius: 6px;
     margin-right: 6px;
-    background-color: #a3d8ff;
   }
 
   .content {
@@ -30,7 +39,7 @@ export const styles = css`
     flex-direction: column;
     padding: 0 4px 4px 4px;
     border-radius: 6px;
-    background-color: #e2dfd0;
+    // background-color: #e2dfd0;
   }
 
   .title {
