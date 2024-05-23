@@ -15,6 +15,7 @@ import { STATIC_FOLDER } from '@constants/routes.constants';
 import { QuestsModule } from './quests/quests.module';
 import { SettingsModule } from './settings/settings.module';
 import { AchievementsModule } from './achievements/achievements.module';
+import { ActionsModule } from './actions/actions.module';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { AchievementsModule } from './achievements/achievements.module';
     ProductsModule,
     QuestsModule,
     SettingsModule,
-    AchievementsModule
+    AchievementsModule,
+    ActionsModule
   ],
   controllers: [],
   providers: []

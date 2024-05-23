@@ -24,4 +24,10 @@ export class AchievementsService {
 
     return achievements;
   }
+
+  public async findById(id: string): Promise<Achievement> {
+    const achievement = await this.paymentModel.findById(id);
+
+    return achievement;
+  }
 }

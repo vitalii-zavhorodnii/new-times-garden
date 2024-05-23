@@ -1,16 +1,19 @@
 import axios from 'axios';
 
-import type { IUserData } from '@interfaces/IUserData';
-
 export const harvestPlant = async (
-  userId: string | number,
+  telegramId: string | number,
   rowIndex: number,
   plantIndex: number
-): Promise<{ user: IUserData; status: 'updated' | 'unchanged' }> => {
-  const { data } = await axios.post(`/users/${userId}/harvest`, {
-    rowIndex,
-    plantIndex
-  });
+): Promise<boolean> => {
+  try {
+    const { data } = await axios.post(`/actions/harvest`, {
+      telegramId,
+      rowIndex,
+      plantIndex
+    });
 
-  return data;
+    return data;
+  } catch (error) {
+    return false;
+  }
 };

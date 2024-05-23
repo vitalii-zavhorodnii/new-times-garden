@@ -8,6 +8,7 @@ export const ROUTES = {
   payments: 'payments',
   quests: 'quests',
   settings: 'settings',
+  actions: 'actions',
   achievements: 'achievements'
 };
 

@@ -36,6 +36,21 @@ class UserAchieve {
   readonly isCompleted: boolean;
 }
 
+@Schema({ versionKey: false, _id: false })
+class UserStats {
+  @ApiProperty({ example: 90 })
+  @Prop({ type: Number, default: 0 })
+  readonly harvested: number;
+
+  @ApiProperty({ example: 90 })
+  @Prop({ type: Number, default: 0 })
+  readonly achievements: number;
+
+  @ApiProperty({ example: 90 })
+  @Prop({ type: Number, default: 0 })
+  readonly achievePoints: number;
+}
+
 export type UserDocument = HydratedDocument<User>;
 
 @Schema({ versionKey: false })
@@ -60,25 +75,20 @@ class User extends Document {
   readonly avatar: string;
 
   @ApiProperty({ example: 100 })
-  @Prop({
-    type: Number,
-    default: 0
-  })
+  @Prop({ type: Number, default: 0 })
   readonly balanceCoins: number;
 
   @ApiProperty({ example: 100 })
-  @Prop({
-    type: Number,
-    default: 0
-  })
+  @Prop({ type: Number, default: 0 })
   readonly balanceTokens: number;
 
   @ApiProperty({ example: 100 })
-  @Prop({
-    type: Number,
-    default: 0
-  })
+  @Prop({ type: Number, default: 0 })
   readonly xp: number;
+
+  @ApiProperty({ type: UserStats })
+  @Prop({ type: UserStats })
+  readonly stats: UserStats;
 
   @ApiProperty({ type: Garden })
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Garden.name })

@@ -47,7 +47,7 @@ export class Game extends Scene {
   public pinchDistance: number;
   private growingInterval: ReturnType<typeof setInterval>;
   // User data
-  private userId: number | string;
+  private telegramId: number | string;
   private field: ICellData[][];
   private balanceCoins: number;
   private balanceTokens: number;
@@ -84,11 +84,11 @@ export class Game extends Scene {
     this.balanceCoins = 0;
     this.balanceTokens = 0;
     this.xp = 0;
-    this.userId = null;
+    this.telegramId = null;
   }
 
   public init(data: IData) {
-    this.userId = data.user.telegramId;
+    this.telegramId = data.user.telegramId;
     this.field = data.user.garden.field;
     this.balanceCoins = data.user.balanceCoins;
     this.balanceTokens = data.user.balanceTokens;
@@ -312,7 +312,7 @@ export class Game extends Scene {
       // Add new Plant to container Field
       this.fieldContainer[rowIndex].addAt(newPlant, plantIndex);
       // Plant on user garden on Server
-      startGrowPlant(this.userId, plant._id, rowIndex, plantIndex, plantedAt);
+      startGrowPlant(this.telegramId, plant._id, rowIndex, plantIndex, plantedAt);
       // Play Plant animation Click
       if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
         newPlant.play(`tap-0-${newPlant.title.toLowerCase()}`);
@@ -390,7 +390,7 @@ export class Game extends Scene {
       // Add Dummy plant to container Field
       this.fieldContainer[rowIndex].addAt(dummy, plantIndex);
       // POST data to harvest on Server
-      harvestPlant(this.userId, rowIndex, plantIndex);
+      harvestPlant(this.telegramId, rowIndex, plantIndex);
       // Poof animation
       soil.plant.play('poof').once('animationcomplete', () => {
         soil.plant.setFrame(0);
@@ -431,7 +431,7 @@ export class Game extends Scene {
 
       createPayment({
         productId: item._id,
-        userId: String(this.userId),
+        userId: String(this.telegramId),
         boc
       });
 

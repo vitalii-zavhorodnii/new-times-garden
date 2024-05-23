@@ -7,6 +7,8 @@ import { Achievement } from '@domain/achievements/schemas/achievement.schema';
 import { Garden } from '@domain/gardens/schemas/garden.schema';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateAchieveDto } from './dto/update-achieve.dto';
+import { UpdateStatsDto } from './dto/update-stats.dto';
 
 import { INIT_CURRENCY } from '@constants/users.constants';
 
@@ -79,21 +81,6 @@ export class UsersService {
     return user;
   }
 
-  public async startGrow(userId: string, plantId: string): Promise<User> {
-    const user = await this.userModel.findById(userId);
-
-    return user;
-  }
-
-  public async completeAchievement(userId: string, usrAchId: string) {
-    const user = await this.userModel.findByIdAndUpdate(
-      userId
-      // {$push: {'acviements.completed': }}
-    );
-
-    return user;
-  }
-
   public async addAchievement(userId: string, achieveId: string) {
     const userAchieve = {
       achievement: achieveId,
@@ -112,13 +99,73 @@ export class UsersService {
     return user;
   }
 
-  public async updateStatistics(userId: string, plantId: string) {
+  public async updateUserStatistic(
+    telegramId: string,
+    dto: UpdateStatsDto
+  ): Promise<User> {
+    let user = null;
+    if (dto.action === 'inc-harvests') {
+      user = await this.userModel.findOneAndUpdate(
+        {
+          telegramId
+        },
+        {
+          $inc: {
+            'stats.harvested': 1
+          }
+        },
+        {
+          new: true
+        }
+      );
+    }
+
+    if (dto.action == 'claim-achieve') {
+      user = await this.userModel.findOneAndUpdate(
+        {
+          telegramId
+        },
+        {
+          $inc: {
+            'stats.achievement': 1,
+            'stats.achievePoints': 5
+          }
+        },
+        {
+          new: true
+        }
+      );
+    }
+
+    return user;
+  }
+
+  public async updateAchieve(telegramId: string, dto: UpdateAchieveDto) {
+    let user = null;
+    if (dto.action === 'mastery') {
+      user = await this.userModel.findOneAndUpdate(
+        {
+          telegramId
+        },
+        {
+          $inc: {
+            'stats.harvested': 1
+          }
+        },
+        {
+          new: true
+        }
+      );
+    }
+
+    return user;
+  }
+
+  public async claimPlantAchievement(userId: string, plantId: string) {
     const user = await this.userModel
       .findOne({ telegramId: userId })
       .populate('achievements.achievement')
       .populate('achievements.achievement.plant');
-
-    if (!user) return null;
 
     const achievement = user.achievements.find(
       (item) => item.achievement.plant._id.toString() === plantId

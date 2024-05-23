@@ -1,18 +1,24 @@
 import axios from 'axios';
 
 export const startGrowPlant = async (
-  userId: string | number,
+  telegramId: string | number,
   plantId: string,
   rowIndex: number,
   plantIndex: number,
   plantedAtClient: number
 ): Promise<boolean> => {
-  const { data } = await axios.post(`/users/${userId}/start-grow`, {
-    plantId,
-    rowIndex,
-    plantIndex,
-    plantedAtClient
-  });
+  try {
+    const { data } = await axios.post(`/actions/grow`, {
+      telegramId,
+      plantId,
+      rowIndex,
+      plantIndex,
+      plantedAtClient
+    });
 
-  return data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 };
