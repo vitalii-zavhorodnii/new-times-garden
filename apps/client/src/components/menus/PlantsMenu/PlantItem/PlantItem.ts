@@ -47,7 +47,6 @@ export default class PlantsMenu extends LitElement {
     if (!this.plant) return html``;
 
     const isAllowed = this.playerLevel >= this.plant.requiredLevel;
-    console.log(isAllowed, this.playerLevel, this.plant.requiredLevel);
     const isInsufficient =
       this.balanceCoins < this.plant.gamePrice ||
       this.balanceTokens < this.plant.tokenPrice;
@@ -70,7 +69,7 @@ export default class PlantsMenu extends LitElement {
 
         <div class="about">
           <div
-            class="title ${this.plant.title ? '' : 'none'} ${isInsufficient
+            class="title ${this.plant.title ? '' : 'hidden'} ${isInsufficient
               ? 'insufficient'
               : ''} ${isAllowed ? '' : 'locked'}"
           >
@@ -85,7 +84,7 @@ export default class PlantsMenu extends LitElement {
 
           <div class="stats">
             <div
-              class="value ${this.plant.gamePrice ? '' : 'none'} ${isInsufficient
+              class="value ${this.plant.gamePrice ? '' : 'hidden'} ${isInsufficient
                 ? 'insufficient'
                 : ''} ${isAllowed ? '' : 'locked'}"
             >
@@ -94,7 +93,7 @@ export default class PlantsMenu extends LitElement {
             </div>
 
             <div
-              class="value ${this.plant.tokenPrice ? '' : 'none'} ${isInsufficient
+              class="value ${this.plant.tokenPrice ? '' : 'hidden'} ${isInsufficient
                 ? 'insufficient'
                 : ''} ${isAllowed ? '' : 'locked'}"
             >
@@ -103,7 +102,7 @@ export default class PlantsMenu extends LitElement {
             </div>
 
             <div
-              class="value ${this.plant.coinsIncome ? '' : 'none'} ${isInsufficient
+              class="value ${this.plant.coinsIncome ? '' : 'hidden'} ${isInsufficient
                 ? 'insufficient'
                 : ''} ${isAllowed ? '' : 'locked'}"
             >
@@ -116,9 +115,11 @@ export default class PlantsMenu extends LitElement {
             </div>
 
             <div
-              class="value ${this.plant.tokensIncome ? '' : 'none'} ${isInsufficient
-                ? 'insufficient'
-                : ''} ${isAllowed ? '' : 'locked'}"
+              class="value ${this.plant.tokensIncome
+                ? ''
+                : 'hidden'} ${isInsufficient ? 'insufficient' : ''} ${isAllowed
+                ? ''
+                : 'locked'}"
             >
               <img
                 class="icon"

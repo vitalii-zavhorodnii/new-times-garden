@@ -47,7 +47,6 @@ export default class BookMenu extends LitElement {
       this.requestUpdate();
     });
     EventBus.on(_EVENTS.achieve_menu_update, (list: IUserAchievement[]) => {
-      console.log({ list });
       this.achievements = list;
       this.requestUpdate();
     });

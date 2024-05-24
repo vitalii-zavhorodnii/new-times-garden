@@ -91,7 +91,6 @@ export class HouseScene extends Scene {
   }
 
   private handleBookClick() {
-    console.log('Book clicked!');
     EventBus.emit(_EVENTS.book_menu_open);
   }
 }

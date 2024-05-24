@@ -22,8 +22,6 @@ export default class BookMenu extends LitElement {
   }
 
   render() {
-    console.log('render', this.item);
-
     return html`
       <div @click=${() => this.handleAchievementClick(this.item)} class="plant-item">
         <img
