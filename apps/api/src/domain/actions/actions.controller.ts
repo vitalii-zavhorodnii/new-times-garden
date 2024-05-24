@@ -69,9 +69,11 @@ export class ActionsController {
     this.usersService.updateUserStatistic(dto.telegramId, {
       action: 'inc-harvests'
     });
-    // this.usersService.updateAchieve(dto.telegramId, {
-    //   plantId: plant._id
-    // });
+    // Update user achievement
+    this.usersService.updateUserAchieve(dto.telegramId, {
+      action: 'mastery',
+      plantId: plant._id
+    });
 
     await this.gardendsService.removePlant(
       user.garden._id,

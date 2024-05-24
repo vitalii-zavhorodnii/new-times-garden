@@ -140,28 +140,21 @@ export class UsersService {
     return user;
   }
 
-  public async updateAchieve(telegramId: string, dto: UpdateAchieveDto) {
-    let user = null;
+  public async updateUserAchieve(
+    telegramId: string,
+    dto: UpdateAchieveDto
+  ): Promise<boolean> {
     if (dto.action === 'mastery') {
-      user = await this.userModel.findOneAndUpdate(
-        {
-          telegramId
-        },
-        {
-          $inc: {
-            'stats.harvested': 1
-          }
-        },
-        {
-          new: true
-        }
-      );
+      return await this.handleAchieveMastery(telegramId, dto.plantId);
     }
 
-    return user;
+    return false;
   }
 
-  public async claimPlantAchievement(userId: string, plantId: string) {
+  public async handleAchieveMastery(
+    userId: string,
+    plantId: string
+  ): Promise<boolean> {
     const user = await this.userModel
       .findOne({ telegramId: userId })
       .populate('achievements.achievement')
@@ -171,7 +164,7 @@ export class UsersService {
       (item) => item.achievement.plant._id.toString() === plantId
     );
 
-    if (!achievement) return null;
+    if (!achievement) return false;
 
     const updatedUser = await this.userModel
       .findOneAndUpdate(
@@ -188,6 +181,8 @@ export class UsersService {
       )
       .exec();
 
-    return updatedUser;
+    console.log(updatedUser.stats);
+
+    return true;
   }
 }
