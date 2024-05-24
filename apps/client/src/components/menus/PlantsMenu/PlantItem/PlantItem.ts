@@ -103,9 +103,9 @@ export default class PlantsMenu extends LitElement {
             </div>
 
             <div
-              class="value ${this.plant.coinsIncome ? '' : 'hidden'} ${isInsufficient
-                ? 'locked'
-                : ''} ${isAllowed ? '' : 'locked'}"
+              class="value ${this.plant.coinsIncome ? '' : 'hidden'} ${isAllowed
+                ? ''
+                : 'locked'}"
             >
               <img
                 class="icon"
@@ -116,9 +116,7 @@ export default class PlantsMenu extends LitElement {
             </div>
 
             <div
-              class="value ${this.plant.tokensIncome
-                ? ''
-                : 'hidden'} ${isInsufficient ? 'locked' : ''} ${isAllowed
+              class="value ${this.plant.tokensIncome ? '' : 'hidden'} ${isAllowed
                 ? ''
                 : 'locked'}"
             >
@@ -131,9 +129,9 @@ export default class PlantsMenu extends LitElement {
             </div>
 
             <div
-              class="value ${this.plant.xpIncome ? '' : 'none'} ${isInsufficient
-                ? 'locked'
-                : ''} ${isAllowed ? '' : 'locked'}"
+              class="value ${this.plant.xpIncome ? '' : 'hidden'} ${isAllowed
+                ? ''
+                : 'locked'}"
             >
               <img class="icon" src="./assets/utils/experience.png" alt="xp" />
               ${this.plant.xpIncome}
