@@ -49,7 +49,7 @@ export default class GrowingBar extends LitElement {
       this.intervalChecker = setInterval(() => {
         this.checkGrowingTime();
       }, 1000);
-      this.requestUpdate();
+
       this.isshown = true;
       this.requestUpdate();
     });
@@ -113,9 +113,7 @@ export default class GrowingBar extends LitElement {
   }
 
   render() {
-    if (!this.plant) {
-      return html``;
-    }
+    if (!this.plant) return html``;
 
     return html`<div class="container ${this.isshown ? '' : 'closed'}">
       <div class="wrapper">

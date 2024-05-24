@@ -7,7 +7,7 @@ export const styles = css`
     left: 10px;
     bottom: 39px;
     width: 245px;
-    
+
     transform-origin: left bottom;
     transition: bottom 300ms ease-in-out;
   }
@@ -84,5 +84,9 @@ export const styles = css`
   .value-icon {
     width: 18px;
     margin-right: 2px;
+  }
+
+  .hidden {
+    display: none;
   }
 `;
