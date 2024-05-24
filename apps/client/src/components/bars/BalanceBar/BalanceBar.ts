@@ -10,16 +10,16 @@ import { _EVENTS } from '@constants/events';
 export default class BalanceBar extends LitElement {
   static styles = styles;
 
-  @property({ type: Boolean, attribute: true, reflect: true })
+  @property({ type: Boolean, attribute: true })
   isshown: boolean;
 
-  @property({ type: Number, attribute: true, reflect: true })
+  @property({ type: Number, attribute: true })
   coins: number;
-  @property({ type: Number, attribute: true, reflect: true })
+  @property({ type: Number, attribute: true })
   tokens: number;
-  @property({ type: Number, attribute: true, reflect: true })
+  @property({ type: Number, attribute: true })
   xp: number;
-  @property({ type: Number, attribute: true, reflect: true })
+  @property({ type: Number, attribute: true })
   playerLevel: number;
 
   constructor() {

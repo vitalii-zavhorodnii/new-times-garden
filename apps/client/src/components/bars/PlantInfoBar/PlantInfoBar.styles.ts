@@ -5,47 +5,84 @@ export const styles = css`
     z-index: 1;
     position: absolute;
     left: 10px;
-    bottom: 82px;
+    bottom: 39px;
+    width: 245px;
+
+    transform-origin: left bottom;
+    transition: bottom 300ms ease-in-out;
   }
 
-  .container.hidden {
-    left: -100vw;
+  .container.closed {
+    bottom: -260px;
   }
 
-  .content {
+  .wrapper {
+    position: relative;
     display: flex;
-    background-color: #524c4280;
-    border-radius: 10px;
+    padding: 30px 10px 0 30px;
+  }
+
+  .shield {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
 
   .preview {
     height: 64px;
     width: 64px;
-    border-radius: 8px;
-    background-color: #a3d8ff;
+    margin-top: 10px;
+    margin-right: 18px;
   }
 
-  .info {
-    margin-left: 12px;
+  .content {
     display: flex;
     flex-direction: column;
+    padding: 0 4px 4px 4px;
+    border-radius: 6px;
+  }
+
+  .title {
+    color: #272829;
+    font-family: 'Paper';
+    font-size: 18px;
+  }
+
+  .growing {
+    margin-top: 4px;
+    color: #272829;
+    font-family: 'Latin';
+    font-size: 20px;
   }
 
   .income {
     display: flex;
     align-items: center;
+    margin: 0;
+    padding: 0;
+    border-top: 1px dashed #61677a;
+    padding-top: 3px;
+    margin-top: 2px;
   }
 
   .value {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    font-family: sans-serif;
-    font-size: 20px;
+    margin-right: 4px;
+    color: #272829;
+    font-family: 'Paper';
+    font-size: 14px;
+    font-weight: bold;
   }
 
   .value-icon {
-    width: 16px;
-    margin-right: 5px;
+    width: 18px;
+    margin-right: 2px;
+  }
+
+  .hidden {
+    display: none;
   }
 `;

@@ -1,6 +1,7 @@
 import { styles } from './PlantInfoBar.styles';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { timeReadableConverter } from 'src/helpers/time-coverter';
 
 import EventBus from '@emitter/EventBus';
 
@@ -12,8 +13,8 @@ import type { IPlantListItem } from '@interfaces/IPlantListItem';
 export default class PlantInfoBar extends LitElement {
   static styles = styles;
 
-  @property({ type: Boolean, attribute: true, reflect: true })
-  isshown: boolean;
+  @property({ type: Boolean })
+  private isshown: boolean;
 
   @property()
   private plant: IPlantListItem;
@@ -24,7 +25,7 @@ export default class PlantInfoBar extends LitElement {
     this.isshown = false;
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
 
     EventBus.on(_EVENTS.picked_plant_update, (plant: IPlantListItem) => {
@@ -89,14 +90,21 @@ export default class PlantInfoBar extends LitElement {
       return html``;
     }
 
-    return html`<div class="container ${this.isshown ? '' : 'hidden'}">
-      <div class="content">
+    const growingText = timeReadableConverter(this.plant.growTime);
+
+    return html`<div class="container ${this.isshown ? '' : 'closed'}">
+      <div class="wrapper">
+        <img class="shield" src="./assets/utils/shield.png" alt="shield" />
         <img
           class="preview"
-          src="./assets/plants/icons/${this.plant.texture}.png"
+          src="./assets/plants/icons/${this.plant.title.toLowerCase()}.png"
           alt="icon"
         />
-        <div class="info">
+
+        <div class="content">
+          <div class="title">${this.plant.title}</div>
+          <div class="growing">${growingText}</div>
+
           <ul class="income">
             ${this._renderPrice()} ${this._renderTokens()}
             ${this._renderCoinsIncome()} ${this._renderTokensIncome()}
