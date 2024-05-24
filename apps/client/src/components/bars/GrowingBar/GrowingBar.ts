@@ -117,7 +117,7 @@ export default class GrowingBar extends LitElement {
       return html``;
     }
 
-    return html`<div class="container ${this.isshown ? '' : 'hidden'}">
+    return html`<div class="container ${this.isshown ? '' : 'closed'}">
       <div class="wrapper">
         <img class="shield" src="./assets/utils/shield.png" alt="shield" />
         <img

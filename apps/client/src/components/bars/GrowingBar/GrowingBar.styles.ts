@@ -8,10 +8,11 @@ export const styles = css`
     bottom: 39px;
     width: 245px;
     transform-origin: left bottom;
+    transition: bottom 300ms ease-in-out;
   }
 
-  .container.hidden {
-    left: -100vw;
+  .container.closed {
+    bottom: -260px;
   }
 
   .wrapper {

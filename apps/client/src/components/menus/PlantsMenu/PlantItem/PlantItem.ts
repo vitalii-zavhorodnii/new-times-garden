@@ -34,7 +34,7 @@ export default class PlantsMenu extends LitElement {
   }
 
   handleSeedPick(item: IPlantListItem) {
-    if (this.playerLevel > item.requiredLevel) return;
+    if (this.playerLevel < item.requiredLevel) return;
     if (this.balanceCoins < this.plant.gamePrice) return;
     if (this.balanceTokens < this.plant.tokenPrice) return;
 
