@@ -33,6 +33,9 @@ export default class PlantsMenu extends LitElement {
   balanceTokens: number;
 
   @property({ type: Number })
+  playerLevel: number;
+
+  @property({ type: Number })
   page: number;
 
   private paginationInView: boolean;
@@ -70,6 +73,10 @@ export default class PlantsMenu extends LitElement {
       this.balanceTokens = value;
       this.requestUpdate();
     });
+    EventBus.on(_EVENTS.player_level_update, (value: number) => {
+      this.playerLevel = value;
+      this.requestUpdate();
+    });
   }
 
   _handlePage(page: number) {
@@ -85,6 +92,7 @@ export default class PlantsMenu extends LitElement {
       ?isshown=${this.isshown}
       balanceCoins=${this.balanceCoins}
       balanceTokens=${this.balanceTokens}
+      playerLevel=${this.playerLevel}
     >
       <div id="top"></div>
       <div class="balance" id="balance">
@@ -137,6 +145,7 @@ export default class PlantsMenu extends LitElement {
               .plant=${plant}
               balanceCoins=${this.balanceCoins}
               balanceTokens=${this.balanceTokens}
+              playerLevel=${this.playerLevel}
             ></plant-item>`;
           })}
         </div>
@@ -148,6 +157,7 @@ export default class PlantsMenu extends LitElement {
               .plant=${plant}
               balanceCoins=${this.balanceCoins}
               balanceTokens=${this.balanceTokens}
+              playerLevel=${this.playerLevel}
             ></plant-item>`;
           })}
         </div>
@@ -159,6 +169,7 @@ export default class PlantsMenu extends LitElement {
               .plant=${plant}
               balanceCoins=${this.balanceCoins}
               balanceTokens=${this.balanceTokens}
+              playerLevel=${this.playerLevel}
             ></plant-item>`;
           })}
         </div>

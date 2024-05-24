@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import { Scene } from 'phaser';
 import { Pinch } from 'phaser3-rex-plugins/plugins/gestures.js';
+import { levelCalculator } from 'src/helpers/level-calculator';
 
 import EventBus from '@emitter/EventBus';
 
@@ -52,6 +53,7 @@ export class Game extends Scene {
   private balanceCoins: number;
   private balanceTokens: number;
   private xp: number;
+  private playerLevel: number;
   // Settins
   public settings: any;
   // Picked plant
@@ -84,6 +86,7 @@ export class Game extends Scene {
     this.balanceCoins = 0;
     this.balanceTokens = 0;
     this.xp = 0;
+    this.playerLevel = 0;
     this.telegramId = null;
   }
 
@@ -93,6 +96,7 @@ export class Game extends Scene {
     this.balanceCoins = data.user.balanceCoins;
     this.balanceTokens = data.user.balanceTokens;
     this.xp = data.user.xp;
+    this.playerLevel = data.user.playerLevel;
 
     this.settings = data.settings;
 
@@ -166,6 +170,9 @@ export class Game extends Scene {
       EventBus.emit(_EVENTS.ring_show);
       EventBus.emit(_EVENTS.balance_show);
     }); // Handle return to Game scene
+    EventBus.on(_EVENTS.player_xp_add, (value: number) => {
+      this.levelHandler(value);
+    }); // Handle player level
     EventBus.on(_EVENTS.esc_click, () => {
       this.isBlocked = false;
       this.pickedPlant = null;
@@ -193,6 +200,7 @@ export class Game extends Scene {
     EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
     EventBus.emit(_EVENTS.balance_show);
     EventBus.emit(_EVENTS.ring_show);
+    this.levelHandler(this.xp);
     /*    Post prepraing events   */
     this.initiateControls();
     // Activate interval Grow phaser checker
@@ -204,6 +212,14 @@ export class Game extends Scene {
   /*
    *    Game mechanics methods
    */
+  // Player level handler
+  private levelHandler(value: number) {
+    this.xp += value;
+    EventBus.emit(_EVENTS.player_xp_update, this.xp);
+
+    this.playerLevel = levelCalculator(this.xp, this.settings.levelSteps);
+    EventBus.emit(_EVENTS.player_level_update, this.playerLevel);
+  }
   // Growing checker
   // Map 2D array field and run checkGrowPhase()
   private runCheckGrowPhase() {
@@ -371,6 +387,7 @@ export class Game extends Scene {
       EventBus.emit(_EVENTS.ring_set_menu);
       EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
       EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
+      this.levelHandler(xpIncome);
       // this.balanceBar.updateBalance('tokens', this.balanceTokens);
       // xp rework
       this.xp += xpIncome;

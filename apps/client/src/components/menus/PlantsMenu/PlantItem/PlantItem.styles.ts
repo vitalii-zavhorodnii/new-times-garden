@@ -6,6 +6,7 @@ export const styles = css`
   }
 
   .plant-item {
+    position: relative;
     display: grid;
     grid-template-columns: 64px 1fr;
     grid-gap: 14px;
@@ -15,8 +16,10 @@ export const styles = css`
     border-bottom: 1px dashed #272829;
   }
 
-  .plant-item.disabled {
-    color: #7d7c7c;
+  .locker {
+    position: absolute;
+    top: 26px;
+    right: 26px;
   }
 
   .image {
@@ -36,18 +39,16 @@ export const styles = css`
     letter-spacing: 1px;
   }
 
-  .title.disabled {
-    color: #c40c0c;
-  }
-
   .grow-time {
     font-family: 'Paper', sans-serif;
     font-size: 14px;
     color: #272829;
   }
 
-  .grow-time.disabled {
-    color: #525252;
+  .required {
+    font-family: 'Paper', sans-serif;
+    font-size: 14px;
+    color: #c40c0c;
   }
 
   .stats {
@@ -69,14 +70,6 @@ export const styles = css`
     margin-right: 0;
   }
 
-  .value.red {
-    color: #c40c0c;
-  }
-
-  .value.disabled {
-    color: #525252;
-  }
-
   .value.none {
     display: none;
   }
@@ -84,5 +77,17 @@ export const styles = css`
   .icon {
     margin-right: 3px;
     width: 24px;
+  }
+
+  .insufficient {
+    color: #c40c0c;
+  }
+
+  .locked {
+    color: #61677a;
+  }
+
+  .hidden {
+    display: none;
   }
 `;

@@ -1,9 +1,8 @@
+import { styles } from './BalanceBar.styles';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import EventBus from '@emitter/EventBus';
-
-import { styles } from './BalanceBar.styles';
 
 import { _EVENTS } from '@constants/events';
 
@@ -20,6 +19,8 @@ export default class BalanceBar extends LitElement {
   tokens: number;
   @property({ type: Number, attribute: true, reflect: true })
   xp: number;
+  @property({ type: Number, attribute: true, reflect: true })
+  playerLevel: number;
 
   constructor() {
     super();
@@ -27,6 +28,7 @@ export default class BalanceBar extends LitElement {
     this.coins = 0;
     this.tokens = 0;
     this.xp = 0;
+    this.playerLevel = 0;
 
     EventBus.on(_EVENTS.balance_update_coins, (value: number) => {
       this.coins = value;
@@ -36,8 +38,12 @@ export default class BalanceBar extends LitElement {
       this.tokens = value;
       this.requestUpdate();
     });
-    EventBus.on(_EVENTS.balance_update_xp, (value: number) => {
+    EventBus.on(_EVENTS.player_xp_update, (value: number) => {
       this.xp = value;
+      this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.player_level_update, (value: number) => {
+      this.playerLevel = value;
       this.requestUpdate();
     });
     EventBus.on(_EVENTS.balance_show, () => {
@@ -57,7 +63,7 @@ export default class BalanceBar extends LitElement {
   public render() {
     return html` <div class="container ${this.isshown ? '' : 'hidden'}">
       <div class="item">
-        <span class="value">${this.xp}</span>
+        <span class="value">${this.playerLevel}</span>
         <img class="icon" src="./assets/utils/experience.png" alt="xp" />
       </div>
       <div class="item">

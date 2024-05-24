@@ -14,23 +14,27 @@ import type { IPlantListItem } from '@interfaces/IPlantListItem';
 export default class PlantsMenu extends LitElement {
   static styles = styles;
 
-  @property({ type: Number })
+  @property({ type: Number, attribute: true })
   balanceCoins: number;
 
-  @property({ type: Number })
+  @property({ type: Number, attribute: true })
   balanceTokens: number;
 
-  @property({ attribute: true })
-  plant: IPlantListItem;
+  @property({ type: Number, attribute: true })
+  playerLevel: number;
+
+  private plant: IPlantListItem;
 
   constructor() {
     super();
 
     this.balanceCoins = 0;
     this.balanceTokens = 0;
+    this.playerLevel = 0;
   }
 
   handleSeedPick(item: IPlantListItem) {
+    if (this.playerLevel > item.requiredLevel) return;
     if (this.balanceCoins < this.plant.gamePrice) return;
     if (this.balanceTokens < this.plant.tokenPrice) return;
 
@@ -42,53 +46,66 @@ export default class PlantsMenu extends LitElement {
   render() {
     if (!this.plant) return html``;
 
-    const growingString = timeReadableConverter(this.plant.growTime);
-    const isDisabled =
+    const isAllowed = this.playerLevel >= this.plant.requiredLevel;
+    console.log(isAllowed, this.playerLevel, this.plant.requiredLevel);
+    const isInsufficient =
       this.balanceCoins < this.plant.gamePrice ||
       this.balanceTokens < this.plant.tokenPrice;
 
+    const growingString = timeReadableConverter(this.plant.growTime);
+
     return html`
-      <div
-        @click=${() => this.handleSeedPick(this.plant)}
-        class="plant-item ${isDisabled ? 'disabled' : ''}"
-      >
+      <div @click=${() => this.handleSeedPick(this.plant)} class="plant-item">
+        <img
+          class="locker ${isAllowed ? 'hidden' : ''}"
+          src="./assets/utils/lock.png"
+          alt="lock"
+        />
         <img
           class="image"
-          src="./assets/plants/icons/${this.plant.texture.toLowerCase()}.png"
+          src="./assets/plants/icons/${isAllowed ? '' : 'disabled/'}${this.plant
+            .texture}.png"
           alt="icon"
         />
 
         <div class="about">
-          <div class="title ${isDisabled ? 'disabled' : ''}">
+          <div
+            class="title ${this.plant.title ? '' : 'none'} ${isInsufficient
+              ? 'insufficient'
+              : ''} ${isAllowed ? '' : 'locked'}"
+          >
             ${this.plant.title}
           </div>
-          <div class="grow-time ${isDisabled ? 'disabled' : ''}">
+          <div class="required ${isAllowed ? 'hidden' : ''}">
+            Required level: ${this.plant.requiredLevel}
+          </div>
+          <div class="grow-time ${!isAllowed ? 'hidden' : ''}">
             Growing: ${growingString}
           </div>
 
           <div class="stats">
             <div
-              class="value 
-                    ${this.plant.gamePrice ? '' : 'none'} 
-                    ${this.balanceCoins < this.plant.gamePrice ? 'red' : ''}"
+              class="value ${this.plant.gamePrice ? '' : 'none'} ${isInsufficient
+                ? 'insufficient'
+                : ''} ${isAllowed ? '' : 'locked'}"
             >
               <img class="icon" src="./assets/utils/money.png" alt="coin" />
               ${this.plant.gamePrice}
             </div>
 
             <div
-              class="value 
-                  ${this.plant.tokenPrice ? '' : 'none'} 
-                  ${this.balanceTokens < this.plant.tokenPrice ? 'red' : ''}"
+              class="value ${this.plant.tokenPrice ? '' : 'none'} ${isInsufficient
+                ? 'insufficient'
+                : ''} ${isAllowed ? '' : 'locked'}"
             >
               <img class="icon" src="./assets/utils/token.png" alt="token" />
               ${this.plant.tokenPrice}
             </div>
 
             <div
-              class="value ${this.plant.coinsIncome ? '' : 'none'} ${isDisabled
-                ? 'disabled'
-                : ''}"
+              class="value ${this.plant.coinsIncome ? '' : 'none'} ${isInsufficient
+                ? 'insufficient'
+                : ''} ${isAllowed ? '' : 'locked'}"
             >
               <img
                 class="icon"
@@ -99,9 +116,9 @@ export default class PlantsMenu extends LitElement {
             </div>
 
             <div
-              class="value ${this.plant.tokensIncome ? '' : 'none'} ${isDisabled
-                ? 'disabled'
-                : ''}"
+              class="value ${this.plant.tokensIncome ? '' : 'none'} ${isInsufficient
+                ? 'insufficient'
+                : ''} ${isAllowed ? '' : 'locked'}"
             >
               <img
                 class="icon"
@@ -112,9 +129,9 @@ export default class PlantsMenu extends LitElement {
             </div>
 
             <div
-              class="value ${this.plant.xpIncome ? '' : 'none'} ${isDisabled
-                ? 'disabled'
-                : ''}"
+              class="value ${this.plant.xpIncome ? '' : 'none'} ${isInsufficient
+                ? 'insufficient'
+                : ''} ${isAllowed ? '' : 'locked'}"
             >
               <img class="icon" src="./assets/utils/experience.png" alt="xp" />
               ${this.plant.xpIncome}

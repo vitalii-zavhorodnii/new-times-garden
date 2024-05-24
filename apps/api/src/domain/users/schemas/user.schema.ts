@@ -86,6 +86,10 @@ class User extends Document {
   @Prop({ type: Number, default: 0 })
   readonly xp: number;
 
+  @ApiProperty({ example: 100 })
+  @Prop({ type: Number, default: 0 })
+  readonly playerLevel: number;
+
   @ApiProperty({ type: UserStats })
   @Prop({ type: UserStats })
   readonly stats: UserStats;

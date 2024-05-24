@@ -16,4 +16,5 @@ export interface IPlantListItem {
   coinsIncome: number;
   tokensIncome: number;
   xpIncome: number;
+  requiredLevel: number;
 }

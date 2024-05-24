@@ -25,7 +25,7 @@ export class PlantsService {
         isActive: true,
         type: type
       })
-      .sort({ gamePrice: 1, tokenPrice: 1 });
+      .sort({ requiredLevel: 1, gamePrice: 1, tokenPrice: 1 });
 
     return plants;
   }
@@ -76,5 +76,10 @@ export class PlantsService {
     }
 
     return plant;
+  }
+
+  public async updateUtil() {
+    console.log('update plants');
+    const updated = this.plantModel.updateMany({}, { $set: { requiredLevel: 10 } });
   }
 }

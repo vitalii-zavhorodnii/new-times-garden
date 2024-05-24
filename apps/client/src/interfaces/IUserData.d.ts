@@ -8,6 +8,7 @@ export interface IUserData {
   balanceCoins: number;
   balanceTokens: number;
   xp: number;
+  playerLevel: number;
   garden: {
     _id: string;
     field: ICellData[][];

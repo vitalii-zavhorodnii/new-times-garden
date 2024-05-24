@@ -19,7 +19,7 @@ export const PLANTS_SPRITES = [
   'gladiolus',
   'orchid',
   'rose',
-  'chrysanthemum',
+  'buttercup',
   'corn',
   'sugarcane'
 ];

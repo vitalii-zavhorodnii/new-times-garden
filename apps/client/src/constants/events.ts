@@ -1,4 +1,7 @@
 export const _EVENTS = {
+  player_xp_add: 'player_xp_add',
+  player_xp_update: 'player_xp_update',
+  player_level_update: 'player_level_update',
   esc_click: 'esc_click',
   switch_to_game_scene: 'switch_to_game_scene',
   shop_menu_open: 'shop_menu_open',
@@ -10,7 +13,6 @@ export const _EVENTS = {
   picked_plant_clear: 'picked_plant_clear',
   balance_update_coins: 'balance_update_coins',
   balance_update_tokens: 'balance_update_tokens',
-  balance_update_xp: 'balance_update_xp',
   balance_show: 'balance_show',
   balance_hide: 'balance_hide',
   ring_show: 'ring_show',
