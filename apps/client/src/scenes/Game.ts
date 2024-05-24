@@ -107,8 +107,11 @@ export class Game extends Scene {
   public create() {
     /*    Camera settings   */
     this.camera = this.cameras.main;
-    const zoom = parseFloat(JSON.parse(window.localStorage.getItem('zoom'))) || 1;
-    this.camera.setZoom(zoom, zoom);
+    const zoom = parseFloat(JSON.parse(window.localStorage.getItem('zoom')));
+
+    if (!Number.isNaN(zoom)) {
+      this.camera.setZoom(zoom, zoom);
+    }
 
     // Shop menu
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) => {
