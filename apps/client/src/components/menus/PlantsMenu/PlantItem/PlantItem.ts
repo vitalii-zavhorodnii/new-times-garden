@@ -47,6 +47,7 @@ export default class PlantsMenu extends LitElement {
     if (!this.plant) return html``;
 
     const isAllowed = this.playerLevel >= this.plant.requiredLevel;
+
     const isInsufficient =
       this.balanceCoins < this.plant.gamePrice ||
       this.balanceTokens < this.plant.tokenPrice;
@@ -103,7 +104,7 @@ export default class PlantsMenu extends LitElement {
 
             <div
               class="value ${this.plant.coinsIncome ? '' : 'hidden'} ${isInsufficient
-                ? 'insufficient'
+                ? 'locked'
                 : ''} ${isAllowed ? '' : 'locked'}"
             >
               <img
@@ -117,7 +118,7 @@ export default class PlantsMenu extends LitElement {
             <div
               class="value ${this.plant.tokensIncome
                 ? ''
-                : 'hidden'} ${isInsufficient ? 'insufficient' : ''} ${isAllowed
+                : 'hidden'} ${isInsufficient ? 'locked' : ''} ${isAllowed
                 ? ''
                 : 'locked'}"
             >
@@ -131,7 +132,7 @@ export default class PlantsMenu extends LitElement {
 
             <div
               class="value ${this.plant.xpIncome ? '' : 'none'} ${isInsufficient
-                ? 'insufficient'
+                ? 'locked'
                 : ''} ${isAllowed ? '' : 'locked'}"
             >
               <img class="icon" src="./assets/utils/experience.png" alt="xp" />
