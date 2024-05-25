@@ -41,7 +41,10 @@ export class UsersController {
     const achievementsList = await this.achievementsService.findActive();
 
     const achievements = achievementsList.map((achieve) => ({
-      achievement: achieve._id
+      achievement: achieve._id,
+      progress: 0,
+      completedStep: null,
+      isCompleted: false
     }));
 
     if (!garden) {
