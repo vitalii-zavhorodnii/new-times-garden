@@ -16,15 +16,20 @@ import { INIT_CURRENCY } from '@constants/users.constants';
 export class UsersService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
 
-  public async create(dto: CreateUserDto, garden: Garden): Promise<User> {
+  public async create(
+    dto: CreateUserDto,
+    garden: Garden,
+    achievements: any[]
+  ): Promise<User> {
     const newUser = await new this.userModel({
       ...dto,
       balanceCoins: INIT_CURRENCY.coins,
       balanceTokens: INIT_CURRENCY.tokens,
-      garden: garden._id
+      garden: garden._id,
+      achievements
     }).save();
 
-    const user = await this.userModel.findById(newUser._id).populate('garden');
+    const user = await this.findOneByTelegramId(newUser.telegramId);
 
     return user;
   }
@@ -43,6 +48,11 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  public async findAll(): Promise<User[]> {
+    const users = await this.userModel.find();
+    return users;
   }
 
   public async updateUserTokens(userId: string, amount: number): Promise<User> {
@@ -83,9 +93,7 @@ export class UsersService {
 
   public async addAchievement(userId: string, achieveId: string) {
     const userAchieve = {
-      achievement: achieveId,
-      isCompleted: false,
-      progress: 0
+      achievement: achieveId
     };
 
     const user = await this.userModel.findByIdAndUpdate(
@@ -161,7 +169,7 @@ export class UsersService {
       .populate('achievements.achievement.plant');
 
     const achievement = user.achievements.find(
-      (item) => item.achievement.plant._id.toString() === plantId
+      (item) => item.achievement.plant._id.toString() === plantId.toString()
     );
 
     if (!achievement) return false;

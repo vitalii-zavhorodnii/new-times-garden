@@ -43,8 +43,6 @@ export class CreateUserDto {
   @IsString()
   readonly avatar?: string;
 
-  @ApiProperty({ example: '64ef4383e46e72721c03090e' })
   @IsOptional()
-  @IsString()
   readonly garden?: string;
 }

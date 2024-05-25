@@ -31,25 +31,25 @@ class Achievement extends Document {
   @Prop({ type: String, isRequired: true, enum: ['harvest'] })
   readonly type: 'harvest';
 
-  @ApiProperty({ example: [50, 200, 1000] })
+  @ApiProperty({ example: [50, 250, 500, 1000] })
   @Prop({ type: [Number], required: true })
   readonly steps: number[];
 
-  @ApiProperty({ example: 25 })
-  @Prop({ type: Number, default: 0 })
-  readonly coinReward: number;
+  @ApiProperty({ example: [50, 250, 500, 1000] })
+  @Prop({ type: [Number], default: null })
+  readonly coinReward: number[];
 
-  @ApiProperty({ example: 30 })
-  @Prop({ type: Number, default: 0 })
-  readonly tokenReward: number;
+  @ApiProperty({ example: [50, 250, 500, 1000] })
+  @Prop({ type: [Number], default: null })
+  readonly tokenReward: number[];
 
-  @ApiProperty({ example: 10 })
-  @Prop({ type: Number, default: 0 })
-  readonly xpReward: number;
+  @ApiProperty({ example: [50, 250, 500, 1000] })
+  @Prop({ type: [Number], default: null })
+  readonly xpReward: number[];
 
   @ApiProperty({ example: '64ef4383e46e72721c03090e' })
   @Prop({ type: Plant, ref: Plant.name })
-  readonly plant: Plant;
+  readonly plant?: Plant;
 
   @Prop({ default: now() })
   readonly createdAt: Date;

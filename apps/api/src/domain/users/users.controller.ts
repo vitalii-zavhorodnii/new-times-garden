@@ -1,3 +1,4 @@
+import { Public } from '@decorators/public.decorator';
 import {
   BadRequestException,
   Body,
@@ -11,6 +12,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
+import { AchievementsService } from '@domain/achievements/achievements.service';
 import { GardensService } from '@domain/gardens/gardens.service';
 import { PlantsService } from '@domain/plants/plants.service';
 import { QuestsService } from '@domain/quests/quests.service';
@@ -27,7 +29,8 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly gardendsService: GardensService,
-    private readonly plantsService: PlantsService
+    private readonly plantsService: PlantsService,
+    private readonly achievementsService: AchievementsService
   ) {}
 
   @ApiOperation({ summary: 'Create new User' })
@@ -35,12 +38,17 @@ export class UsersController {
   @Post('')
   public async createUser(@Body() dto: CreateUserDto): Promise<User> {
     const garden = await this.gardendsService.create();
+    const achievementsList = await this.achievementsService.findActive();
+
+    const achievements = achievementsList.map((achieve) => ({
+      achievement: achieve._id
+    }));
 
     if (!garden) {
       throw new BadRequestException('Garden creation error');
     }
 
-    const result = await this.usersService.create({ ...dto }, garden);
+    const result = await this.usersService.create({ ...dto }, garden, achievements);
 
     return result;
   }
@@ -79,5 +87,24 @@ export class UsersController {
     result.garden.field = field;
 
     return result as User;
+  }
+
+  @ApiOperation({ summary: 'create new Achievement' })
+  @ApiResponse({ status: 200 })
+  @ApiResponse({
+    status: 400,
+    description: 'Incorrect content data'
+  })
+  @Public()
+  @Post('/bind-bulk')
+  public async bindToUserBulkAchievements(): Promise<void> {
+    const achievements = await this.achievementsService.findActive();
+    const users = await this.usersService.findAll();
+
+    users.forEach((user) => {
+      achievements.forEach((achieve) => {
+        this.usersService.addAchievement(user._id, achieve._id);
+      });
+    });
   }
 }

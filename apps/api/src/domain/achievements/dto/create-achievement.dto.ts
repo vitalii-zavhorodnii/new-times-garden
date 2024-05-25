@@ -44,20 +44,23 @@ export class CreateAchievementDto {
   @IsArray()
   readonly steps: number[];
 
-  @ApiProperty({ example: 20 })
+  @ApiProperty({ example: [50, 200, 1000] })
   @Optional()
   @IsNumber()
-  readonly coinReward?: number;
+  @IsArray()
+  readonly coinReward?: number[];
 
-  @ApiProperty({ example: 30 })
+  @ApiProperty({ example: [50, 200, 1000] })
   @Optional()
   @IsNumber()
-  readonly tokenReward?: number;
+  @IsArray()
+  readonly tokenReward?: number[];
 
-  @ApiProperty({ example: 10 })
+  @ApiProperty({ example: [50, 200, 1000] })
   @Optional()
   @IsNumber()
-  readonly xpReward?: number;
+  @IsArray()
+  readonly xpReward?: number[];
 
   @ApiProperty({ example: '64ef4383e46e72721c03090e' })
   @Optional()

@@ -53,4 +53,28 @@ export class AchievementsController {
 
     return achievement;
   }
+
+  @ApiOperation({ summary: 'create new Achievement' })
+  @ApiResponse({ status: 200, type: Achievement })
+  @ApiResponse({
+    status: 400,
+    description: 'Incorrect content data'
+  })
+  @Public()
+  @Post('/create-bulk')
+  public async addBulkAchievements(): Promise<void> {
+    const plants = await this.plantsService.findAll();
+
+    const achievements = plants.map((plant) => {
+      this.achievementsService.create({
+        title: `${plant.title} mastery`,
+        description: `Harvest ${plant.title.toLowerCase()} plants`,
+        icon: `${plant.texture}.png`,
+        type: 'harvest',
+        steps: [50, 250, 500, 1000],
+        xpReward: [100, 100, 100, 100],
+        plant: plant
+      });
+    });
+  }
 }

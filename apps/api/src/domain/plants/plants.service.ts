@@ -79,7 +79,6 @@ export class PlantsService {
   }
 
   public async updateUtil() {
-    console.log('update plants');
     const updated = this.plantModel.updateMany({}, { $set: { requiredLevel: 10 } });
   }
 }
