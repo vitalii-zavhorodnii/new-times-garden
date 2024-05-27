@@ -90,24 +90,24 @@ export class UsersService {
     );
 
     console.log({ xp: user.xp });
+    return user;
+    // let level = 0;
 
-    let level = 0;
+    // for (let i = 0; i < LEVEL_STEPS.length; i++) {
+    //   if (user.xp >= LEVEL_STEPS[i]) {
+    //     level = i;
+    //   }
+    // }
 
-    for (let i = 0; i < LEVEL_STEPS.length; i++) {
-      if (user.xp >= LEVEL_STEPS[i]) {
-        level = i;
-      }
-    }
+    // const updatedUser = await this.userModel.findByIdAndUpdate(
+    //   userId,
+    //   {
+    //     playerLevel: level
+    //   },
+    //   { new: true }
+    // );
 
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      userId,
-      {
-        playerLevel: level
-      },
-      { new: true }
-    );
-
-    return updatedUser;
+    // return updatedUser;
   }
 
   public async addAchievement(userId: string, achieveId: string) {
