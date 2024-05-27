@@ -1,3 +1,4 @@
+import Tutorial from '@components/Tutorial';
 import BalanceBar from '@components/bars/BalanceBar';
 import GrowingBar from '@components/bars/GrowingBar';
 import PlantInfoBar from '@components/bars/PlantInfoBar';
@@ -14,6 +15,7 @@ export default class GameInterface {
   public paperModal: PaperModal;
   public growingBar: GrowingBar;
   public bookMenu: BookMenu;
+  public tutorial: Tutorial;
 
   constructor() {
     this.ringBar = new RingBar();
@@ -23,5 +25,6 @@ export default class GameInterface {
     this.paperModal = new PaperModal();
     this.growingBar = new GrowingBar();
     this.bookMenu = new BookMenu();
+    this.tutorial = new Tutorial();
   }
 }

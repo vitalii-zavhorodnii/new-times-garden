@@ -1,4 +1,6 @@
 export const _EVENTS = {
+  tutorial_modal_close: 'tutorial_modal_close',
+  tutorial_modal_open: 'tutorial_modal_open',
   player_xp_add: 'player_xp_add',
   player_xp_update: 'player_xp_update',
   player_level_update: 'player_level_update',

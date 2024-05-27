@@ -127,6 +127,10 @@ export class Game extends Scene {
     const backgroundImage = this.add.image(centerX, centerY, 'background');
     backgroundImage.x = backgroundImage.x - 280;
     backgroundImage.y = backgroundImage.y - 118;
+    /*
+     * Show tutorial
+     */
+    EventBus.emit(_EVENTS.tutorial_modal_open);
     /*    Create animations   */
     // Map array of animated textures {Variables}
     PLANTS_ANIMATED.forEach((sprite) => {
