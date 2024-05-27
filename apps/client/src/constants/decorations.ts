@@ -1,7 +1,7 @@
 export const DECORATION_LIST = [
   {
-    decorationName: 'barn',
-    texture: 'barn',
+    decorationName: 'depot',
+    texture: 'depot',
     scale: 0.45,
     x: 330,
     y: -185
