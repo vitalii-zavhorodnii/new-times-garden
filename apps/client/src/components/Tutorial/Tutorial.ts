@@ -25,12 +25,10 @@ export default class PaperModal extends LitElement {
     EventBus.on(_EVENTS.tutorial_modal_open, () => {
       this.isshown = true;
     });
-    EventBus.on(_EVENTS.tutorial_modal_close, () => {
-      this.isshown = false;
-    });
   }
 
   handleClose() {
+    window.localStorage.setItem('skip-tutorial', JSON.stringify(true));
     this.isshown = false;
     this.requestUpdate();
   }

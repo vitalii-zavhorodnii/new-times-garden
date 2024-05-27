@@ -110,7 +110,17 @@ export class Game extends Scene {
     if (!Number.isNaN(zoom)) {
       this.camera.setZoom(zoom, zoom);
     }
+    /*
+     *    Show tutorial
+     */
+    const skipTutorial: boolean = JSON.parse(
+      window.localStorage.getItem('skip-tutorial')
+    );
 
+    console.log({ skipTutorial });
+    if (!skipTutorial) {
+      EventBus.emit(_EVENTS.tutorial_modal_open);
+    }
     // Shop menu
     this.shopMenu = new ShopMenu(this.shopList, (item: IShopItem) => {
       this.handleShopItemClick(item);
@@ -127,10 +137,6 @@ export class Game extends Scene {
     const backgroundImage = this.add.image(centerX, centerY, 'background');
     backgroundImage.x = backgroundImage.x - 280;
     backgroundImage.y = backgroundImage.y - 118;
-    /*
-     * Show tutorial
-     */
-    EventBus.emit(_EVENTS.tutorial_modal_open);
     /*    Create animations   */
     // Map array of animated textures {Variables}
     PLANTS_ANIMATED.forEach((sprite) => {
