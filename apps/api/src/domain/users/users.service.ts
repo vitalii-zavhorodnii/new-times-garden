@@ -56,11 +56,17 @@ export class UsersService {
     return users;
   }
 
-  public async updateUserTokens(userId: string, amount: number): Promise<User> {
+  public async updateBucks(
+    type: 'increment' | 'decriment',
+    userId: string,
+    amount: number
+  ): Promise<User> {
+    const value = type === 'decriment' ? -amount : amount;
+
     const user = await this.userModel.findByIdAndUpdate(
       userId,
       {
-        balanceTokens: amount
+        $inc: { balanceCoins: value }
       },
       { new: true }
     );
@@ -68,11 +74,17 @@ export class UsersService {
     return user;
   }
 
-  public async updateUserCoins(userId: string, amount: number): Promise<User> {
+  public async updateTokens(
+    type: 'increment' | 'decriment',
+    userId: string,
+    amount: number
+  ): Promise<User> {
+    const value = type === 'decriment' ? -amount : amount;
+
     const user = await this.userModel.findByIdAndUpdate(
       userId,
       {
-        balanceCoins: amount
+        $inc: { balanceTokens: value }
       },
       { new: true }
     );
@@ -80,11 +92,17 @@ export class UsersService {
     return user;
   }
 
-  public async updateUserXp(userId: string, amount: number): Promise<User> {
+  public async updateXp(
+    type: 'increment' | 'decriment',
+    userId: string,
+    amount: number
+  ): Promise<User> {
+    const value = type === 'decriment' ? -amount : amount;
+
     const user = await this.userModel.findByIdAndUpdate(
       userId,
       {
-        $inc: { xp: amount }
+        $inc: { xp: value }
       },
       { new: true }
     );
