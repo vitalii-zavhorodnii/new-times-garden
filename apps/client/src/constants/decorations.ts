@@ -11,7 +11,7 @@ export const DECORATION_LIST = [
     texture: 'fence',
     scale: 0.65,
     x: -130,
-    y: -85
+    y: -84
   },
   {
     decorationName: 'house',
