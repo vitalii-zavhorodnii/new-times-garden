@@ -118,7 +118,7 @@ export class UsersService {
     const updatedUser = await this.userModel.findByIdAndUpdate(
       userId,
       {
-        playerLevel: level
+        $set: { playerLevel: level }
       },
       { new: true }
     );
