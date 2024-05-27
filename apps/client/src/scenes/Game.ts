@@ -163,9 +163,9 @@ export class Game extends Scene {
       repeat: 0
     });
     /*    Render Game Objects   */
+    this.renderDecorations(); // all decorations
     this.renderPlants(); // user plants
     this.renderSoil(); // soil under plants
-    this.renderDecorations(); // all decorations
     /*    EventBus subscribe    */
     EventBus.on(_EVENTS.switch_to_game_scene, () => {
       EventBus.emit(_EVENTS.ring_show);
