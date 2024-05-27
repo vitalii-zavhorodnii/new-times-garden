@@ -62,8 +62,7 @@ export class ActionsController {
       await this.usersService.updateUserTokens(user._id, balance);
     }
     if (plant.xpIncome) {
-      const balance = user.xp + plant.xpIncome;
-      await this.usersService.updateUserXp(user._id, balance);
+      await this.usersService.updateUserXp(user._id, plant.xpIncome);
     }
     // Update user statistics
     this.usersService.updateUserStatistic(dto.telegramId, {
