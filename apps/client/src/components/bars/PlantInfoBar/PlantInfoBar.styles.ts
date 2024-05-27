@@ -51,6 +51,9 @@ export const styles = css`
   }
 
   .growing {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 4px;
     color: #272829;
     font-family: 'Latin';

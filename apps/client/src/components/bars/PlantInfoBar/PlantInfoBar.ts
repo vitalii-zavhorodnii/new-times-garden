@@ -103,12 +103,11 @@ export default class PlantInfoBar extends LitElement {
 
         <div class="content">
           <div class="title">${this.plant.title}</div>
-          <div class="growing">${growingText}</div>
+          <div class="growing">${growingText} ${this._renderXpIncome()}</div>
 
           <ul class="income">
             ${this._renderPrice()} ${this._renderTokens()}
             ${this._renderCoinsIncome()} ${this._renderTokensIncome()}
-            ${this._renderXpIncome()}
           </ul>
         </div>
       </div>

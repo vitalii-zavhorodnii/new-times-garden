@@ -37,7 +37,7 @@ export const styles = css`
   }
 
   .xp {
-    margin-left: 8px;
+    padding-left: 8px;
     color: #f8f6e3;
     font-size: 18px;
     font-family: 'Paper', sans-serif;
