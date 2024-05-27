@@ -1,5 +1,7 @@
 import { Scene } from 'phaser';
 
+import { PLANTS_ANIMATED } from '@constants/plants-sprites';
+
 import type { IPlantData } from '@interfaces/IUserData';
 
 export default class Plant extends Phaser.GameObjects.Sprite {
@@ -7,6 +9,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
   public icon: string;
   public description: string;
   public phase: number;
+  public isAnimated: boolean;
 
   public growTime: number;
   public plantedAt: number;
@@ -31,6 +34,7 @@ export default class Plant extends Phaser.GameObjects.Sprite {
     this.xpIncome = props.xpIncome;
     this.growTime = props.growTime;
     this.plantedAt = plantedAt;
+    this.isAnimated = PLANTS_ANIMATED.includes(props.texture);
   }
 
   public preDestroy() {

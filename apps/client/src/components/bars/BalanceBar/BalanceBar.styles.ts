@@ -12,14 +12,14 @@ export const styles = css`
     left: 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     padding: 4px 6px 0;
     transition: top 400ms cubic-bezier(0.17, 0.67, 1, 1.23);
   }
 
   .container.hidden {
-    top: -60px;
+    top: -72px;
   }
 
   .user {

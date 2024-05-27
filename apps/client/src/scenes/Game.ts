@@ -141,25 +141,25 @@ export class Game extends Scene {
     // Map array of animated textures {Variables}
     PLANTS_ANIMATED.forEach((sprite) => {
       this.anims.create({
-        key: `tap-0-${sprite}`,
+        key: `tap-${sprite}-0`,
         frameRate: 20,
         frames: this.anims.generateFrameNumbers(sprite, { start: 4, end: 15 }),
         repeat: 0
       });
       this.anims.create({
-        key: `tap-1-${sprite}`,
+        key: `tap-${sprite}-1`,
         frameRate: 20,
         frames: this.anims.generateFrameNumbers(sprite, { start: 16, end: 27 }),
         repeat: 0
       });
       this.anims.create({
-        key: `tap-2-${sprite}`,
+        key: `tap-${sprite}-2`,
         frameRate: 20,
         frames: this.anims.generateFrameNumbers(sprite, { start: 28, end: 39 }),
         repeat: 0
       });
       this.anims.create({
-        key: `tap-3-${sprite}`,
+        key: `tap-${sprite}-3`,
         frameRate: 20,
         frames: this.anims.generateFrameNumbers(sprite, { start: 40, end: 51 }),
         repeat: 0
@@ -254,178 +254,64 @@ export class Game extends Scene {
     const endTime = DateTime.fromMillis(plant.plantedAt + plant.growTime);
     const difference = endTime.diff(currentTime).toMillis();
     const percentLeft = Math.floor((difference / plant.growTime) * 100);
-    // Run change pahses, animations
+    // - Run change phases, animations
+    let newPhase: number;
+    let frame: number;
+    let animationPrefix = `tap-${plant.title.toLowerCase()}`;
+    // - Check percentage grow and update phase
     if (percentLeft < 0) {
-      if (plant.phase !== 3) {
-        plant.setFrame(3);
-        plant.phase = 3;
-
-        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
-          plant.play(`tap-3-${plant.title.toLowerCase()}`);
-        }
-      }
+      newPhase = 3;
+      frame = 3;
+    } else if (percentLeft < 30) {
+      newPhase = 2;
+      frame = 2;
+    } else if (percentLeft < 80) {
+      newPhase = 1;
+      frame = 1;
+    } else {
+      // - No change needed if percentLeft >= 80
       return;
     }
+    // - If plant phase is not equil to newPhase
+    if (plant.phase !== newPhase) {
+      plant.setFrame(frame);
+      plant.phase = newPhase;
 
-    if (percentLeft < 30) {
-      if (plant.phase !== 2) {
-        plant.setFrame(2);
-        plant.phase = 2;
-
-        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
-          plant.play(`tap-2-${plant.title.toLowerCase()}`);
-        }
+      if (plant.isAnimated) {
+        plant.play(`${animationPrefix}-${newPhase}`);
       }
-      return;
     }
-
-    if (percentLeft < 80) {
-      if (plant.phase !== 1) {
-        plant.setFrame(1);
-        plant.phase = 1;
-        if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
-          plant.play(`tap-1-${plant.title.toLowerCase()}`);
-        }
-      }
-      return;
-    }
-    /* End of grow checker */
   }
-  /*    Ingame Handlers   */
-  // Handle user click on Soil sprite
-  private handleSoilClick(soil: Soil, rowIndex: number, plantIndex: number) {
-    // If interface is blocked Return
+  // # Ingame entities click handlers
+  // - Handle user clicked on Soil sprite
+  private handleSoilClick(soil: Soil) {
+    // - Check if blocked canvas, stop if true
     if (this.isBlocked) return;
-    // If not occupied and no picked plant - stop
+    // - If not occupied and no picked plant - Escape
     if (!soil.isOccupied && !this.pickedPlant) {
+      // - Clear growing plant info bar
       EventBus.emit(_EVENTS.growing_plant_clear);
       EventBus.emit(_EVENTS.ring_set_menu);
 
       return;
     }
-    // Check if NOT occupied by real Plant
-    // Picked Plant data from Plant menu
+    // - Check if Soil is free and user picked Seed
+    // - Picked seed from Seed Menu
     if (!soil.isOccupied && this.pickedPlant) {
-      // Check user balance is more then prices
-      if (
-        this.pickedPlant.gamePrice > this.balanceCoins ||
-        this.pickedPlant.tokenPrice > this.balanceTokens
-      ) {
-        this.pickedPlant = null;
-        EventBus.emit(_EVENTS.picked_plant_clear);
-        return;
-      }
-      // Update user balance
-      this.balanceCoins -= this.pickedPlant.gamePrice;
-      this.balanceTokens -= this.pickedPlant.tokenPrice;
-      // Update Balance bar UI
-      EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
-      EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
-      // Place Plant in Soil from Plants Menu data
-      const plantedAt = DateTime.now().toMillis();
-      const plant = this.pickedPlant;
-      // this.placePlantToSoil(soil, this.pickedPlant, rowIndex, plantIndex, plantedAt);
-      // Create props for Sprite from Soil X and Y
-      const props = {
-        x: soil.x,
-        y: soil.y,
-        ...plant
-      };
-      // Place in Plants 2D array new Plant with props
-      this.plants[rowIndex][plantIndex].destroy();
-      this.plants[rowIndex][plantIndex] = new Plant(this, props, plantedAt);
-      // Get new plant link from Plants 2D Array
-      const newPlant = this.plants[rowIndex][plantIndex] as Plant;
-      // Bind new Plant to this Soil
-      soil.placePlant(newPlant);
-      // Add new Plant to container Field
-      this.fieldContainer[rowIndex].addAt(newPlant, plantIndex);
-      // Plant on user garden on Server
-      startGrowPlant(this.telegramId, plant._id, rowIndex, plantIndex, plantedAt);
-      // Play Plant animation Click
-      if (PLANTS_ANIMATED.includes(plant.title.toLowerCase())) {
-        newPlant.play(`tap-0-${newPlant.title.toLowerCase()}`);
-      }
-      // Check balance and disable Picked Plant
-      if (
-        plant.gamePrice > this.balanceCoins ||
-        plant.tokenPrice > this.balanceTokens
-      ) {
-        // Clear Picked plant
-        // Hide bar
-        this.pickedPlant = null;
-        EventBus.emit(_EVENTS.picked_plant_clear);
-        EventBus.emit(_EVENTS.ring_set_menu);
-      }
-      // stop continue
+      // - Run place plant Trigger
+      this.triggerPlacePlant(soil);
+
       return;
     }
-
-    // Check if soil contains Plant
+    // - Check if Soil is occupied by Plant
     if (soil.isOccupied) {
-      // Animate sprite click
-      if (PLANTS_ANIMATED.includes(soil.plant.title.toLowerCase())) {
-        soil.plant.play(`tap-${soil.plant.phase}-${soil.plant.title.toLowerCase()}`);
-      }
-      // Destructuring Plant data in Soil
-      const { plantedAt, growTime, coinsIncome, xpIncome, tokensIncome } =
-        soil.plant;
-      // Calculate procent Left to complete
-      const currentTime = DateTime.now();
-      const endTime = DateTime.fromMillis(plantedAt + growTime);
-      const difference = endTime.diff(currentTime).toMillis();
-      const percentLeft = Math.floor((difference / growTime) * 100);
-      // Check if completed growing, if more 0 left - show plant data
-      if (percentLeft > 0 && !this.pickedPlant) {
-        EventBus.emit(_EVENTS.ring_set_escape);
-        EventBus.emit(_EVENTS.picked_plant_clear);
-        EventBus.emit(_EVENTS.growing_plant_update, soil.plant);
+      // - Run trigger try to harvest crops
+      this.triggerTryHarvestPlant(soil);
 
-        return;
-      }
-      // Not ready - return
-      if (percentLeft > 0) {
-        return;
-      }
-      // Return if picked plant and ready
-      if (percentLeft < 0 && this.pickedPlant) {
-        return;
-      }
-      // Update user balance in Game
-      this.balanceCoins += coinsIncome;
-      this.balanceTokens += tokensIncome;
-      // Update Balance bar info
-      EventBus.emit(_EVENTS.growing_plant_clear);
-      EventBus.emit(_EVENTS.ring_set_menu);
-      EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
-      EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
-      EventBus.emit(_EVENTS.player_xp_add, xpIncome);
-      // Remove Plant from container Field
-      // Destroy plant
-      this.fieldContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
-      this.plants[rowIndex][plantIndex].destroy();
-      // Set Plant to Dummy in Plants 2D array
-      this.plants[rowIndex][plantIndex] = new Dummy(this, soil.x, soil.y) as Plant;
-      // Get link to new Dummy plant
-      const dummy = this.plants[rowIndex][plantIndex] as Plant;
-      dummy.setFrame(0);
-      // Place Dummy to Soil
-      soil.placePlant(dummy);
-      // Update texture to harvested after harvest
-      soil.setTexture('harvested');
-      // Add Dummy plant to container Field
-      this.fieldContainer[rowIndex].addAt(dummy, plantIndex);
-      // POST data to harvest on Server
-      harvestPlant(this.telegramId, rowIndex, plantIndex);
-      // Poof animation
-      soil.plant.play('poof').once('animationcomplete', () => {
-        soil.plant.setFrame(0);
-      });
-      // animate poof one more
       return;
     }
   }
-  // Handle decoration click
+  // - Handle user clicked on Decoration sprites
   private handleDecorationClick(decoration: Decoration) {
     if (this.isBlocked) return;
 
@@ -439,34 +325,164 @@ export class Game extends Scene {
 
       this.scene.switch('HouseScene');
     }
-  }
 
-  // OLD FIX
-  /*
-      Bottom menu handlers
-      Handle button click: Shop
-  */
-  /*  need rework */
-  private async handleShopItemClick(item: IShopItem) {
-    const boc = await sendTonTransaction(item.price);
+    if (decoration.decorationName === 'barn') {
+      // this.isBlocked = true;
+      let delay = 0;
 
-    if (boc) {
-      const updatedValue = this.balanceTokens + item.value;
-      this.balanceTokens = updatedValue;
-      // this.balanceBar.setTokens(updatedValue);
+      this.soil.forEach((row) => {
+        row.forEach((soil) => {
+          if (!soil.plant) return;
+          if (soil?.plant?.dummy) return;
 
-      createPayment({
-        productId: item._id,
-        userId: String(this.telegramId),
-        boc
+          setTimeout(() => {
+            this.triggerTryHarvestPlant(soil, true);
+          }, delay);
+
+          delay += 50;
+        });
       });
-
-      EventBus.emit(_EVENTS.shop_menu_close);
-      // this.shopMenu.close();
-      this.isBlocked = false;
     }
   }
-  // Init Controls and controls Handlers
+  // # Ingame triggers
+  // - Try to grow Plant in Soil
+  private triggerPlacePlant(soil: Soil): void {
+    // - Check if any currency price is higher then balance
+    if (
+      this.pickedPlant.gamePrice > this.balanceCoins ||
+      this.pickedPlant.tokenPrice > this.balanceTokens
+    ) {
+      // - Clear Picked Plant
+      this.pickedPlant = null;
+      EventBus.emit(_EVENTS.picked_plant_clear);
+
+      return;
+    }
+    // - Define plantedAt timer from luxon in ms
+    const plantedAt = DateTime.now().toMillis();
+    // - Defince plant from Picked Plant
+    const plant = this.pickedPlant;
+    const { rowIndex, plantIndex } = soil;
+    // ? Update backend data
+    // - POST start growing new Plant
+    startGrowPlant(this.telegramId, plant._id, rowIndex, plantIndex, plantedAt);
+    // ? Update in-game data
+    // - Withdrow price from user balance
+    this.balanceCoins -= this.pickedPlant.gamePrice;
+    this.balanceTokens -= this.pickedPlant.tokenPrice;
+    // - Emit Event update balance
+    EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
+    EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
+    // - Create props for Sprite from Soil data X and Y
+    // - Pass Plant data from Store to Soil Plant Sprite
+    const props = {
+      x: soil.x,
+      y: soil.y,
+      ...plant
+    };
+    // - Destroy old plant by ref
+    this.plants[rowIndex][plantIndex].destroy();
+    // - Create new plant in Plant sprites array
+    this.plants[rowIndex][plantIndex] = new Plant(this, props, plantedAt);
+    // - Define new Plant from updated array
+    const newPlant = this.plants[rowIndex][plantIndex] as Plant;
+    // - Bind new Plant to Soil
+    soil.placePlant(newPlant);
+    // - Add new Plant to container Field
+    this.fieldContainer[rowIndex].addAt(newPlant, plantIndex);
+    // - Play Plant's animation
+    if (newPlant.isAnimated) {
+      newPlant.play(`tap-${newPlant.title.toLowerCase()}-0`);
+    }
+    // - Post planting checks
+    // - Clear Picked plant if inssuficient balance
+    if (
+      plant.gamePrice > this.balanceCoins ||
+      plant.tokenPrice > this.balanceTokens
+    ) {
+      this.pickedPlant = null;
+      EventBus.emit(_EVENTS.picked_plant_clear);
+      EventBus.emit(_EVENTS.ring_set_menu);
+    }
+  }
+  // - Try to harvest Plant from Soil
+  private triggerTryHarvestPlant(soil: Soil, skipGrowData?: boolean): void {
+    // - Define data from Plant in Soil
+    const { coinsIncome, xpIncome, tokensIncome, plantedAt, growTime } = soil.plant;
+    const { rowIndex, plantIndex } = soil;
+    // - Calculate time difference current and plantedAt time
+    const currentTime = DateTime.now();
+    const endTime = DateTime.fromMillis(plantedAt + growTime);
+    const difference = endTime.diff(currentTime).toMillis();
+    const percentLeft = Math.floor((difference / growTime) * 100);
+    // - Check if completed Plant growing,
+    // - If percent growing left - show Plant growing data
+    if (percentLeft > 0 && !this.pickedPlant && !skipGrowData) {
+      // - Emit Event clear picked and upate growing plant data
+      EventBus.emit(_EVENTS.ring_set_escape);
+      EventBus.emit(_EVENTS.picked_plant_clear);
+      EventBus.emit(_EVENTS.growing_plant_update, soil.plant);
+      // - Play animation
+      if (soil.plant.isAnimated) {
+        soil.plant.play(`tap-${soil.plant.title.toLowerCase()}-${soil.plant.phase}`);
+      }
+
+      return;
+    }
+    // - Check if growing, plany animation if not ready
+    if (percentLeft > 0) {
+      // - Play animation
+      if (soil.plant.isAnimated) {
+        soil.plant.play(`tap-${soil.plant.title.toLowerCase()}-${soil.plant.phase}`);
+      }
+
+      return;
+    }
+    // - Check if not percent left
+    // - Return if picked plant but ready
+    if (percentLeft < 0 && this.pickedPlant) {
+      // - Play animation
+      if (soil.plant.isAnimated) {
+        soil.plant.play(`tap-${soil.plant.title.toLowerCase()}-${soil.plant.phase}`);
+      }
+
+      return;
+    }
+    // ? Update backend data
+    // -  POST data to harvest on Server
+    harvestPlant(this.telegramId, rowIndex, plantIndex);
+    // ? Update in-game data
+    // - Update user balance in Game
+    this.balanceCoins += coinsIncome;
+    this.balanceTokens += tokensIncome;
+    // - Emit Events
+    EventBus.emit(_EVENTS.growing_plant_clear);
+    EventBus.emit(_EVENTS.ring_set_menu);
+    EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
+    EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
+    EventBus.emit(_EVENTS.player_xp_add, xpIncome);
+    // - Remove Plant from container Field
+    this.fieldContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);
+    // - Destroy old sprite Plant
+    this.plants[rowIndex][plantIndex].destroy();
+    // - Set Plant to Dummy in Plants 2D array
+    this.plants[rowIndex][plantIndex] = new Dummy(this, soil.x, soil.y) as Plant;
+    const dummy = this.plants[rowIndex][plantIndex] as Plant;
+    // - Set first frame to display
+    dummy.setFrame(0);
+    // - Bind dummy to Soil
+    soil.placePlant(dummy);
+    // - Update texture to harvested after harvest
+    soil.setTexture('harvested');
+    // - Add Dummy plant to container Field
+    this.fieldContainer[rowIndex].addAt(dummy, plantIndex);
+    // - Play poof animation of Dummy
+    soil.plant.play('poof').once('animationcomplete', () => {
+      soil.plant.setFrame(0);
+    });
+  }
+  // # Input and controls
+  // - Initiate controls
   private initiateControls() {
     const pinch = new Pinch(this);
     pinch.setEnable(true);
@@ -522,12 +538,8 @@ export class Game extends Scene {
       }
     });
   }
-  /*
-   *    Render game methods
-   *    sprites from 2D arrays
-   *    decorations
-   */
-  // Render plants container
+  // # Render methods
+  // - Render Plants sprites from field data
   private renderPlants(): void {
     // Define center for canvas with {PLANTS_MARGIN}
     const { height, width, worldView } = this.cameras.main;
@@ -574,9 +586,9 @@ export class Game extends Scene {
     // Update animations
     this.runCheckGrowPhase();
   }
-  // Render Soil 2D Array and put Plants
+  // - Render Soils sprites from user data
   private renderSoil(): void {
-    // Define center of canvas
+    // - Define center of canvas
     const { height, width, worldView } = this.cameras.main;
     const centerX = worldView.x + width / 2;
     const centerY = worldView.y + height / 2;
@@ -590,7 +602,7 @@ export class Game extends Scene {
         const i = randomNumberHelper(0, 5);
         // Create new Soil sprite
         // Set random frame and enable interactive
-        const soil = new Soil(this, x, y);
+        const soil = new Soil(this, x, y, rowIndex, soilIndex);
         soil.setFrame(i);
         soil.setInteractive(this.input.makePixelPerfect());
         // Get plant equil to Soil indexes
@@ -601,7 +613,7 @@ export class Game extends Scene {
         }
         // Add event handler to Soil sprite
         soil.on('pointerdown', () => {
-          this.handleSoilClick(soil, rowIndex, soilIndex);
+          this.handleSoilClick(soil);
         });
         // Return
         return soil;
@@ -621,9 +633,9 @@ export class Game extends Scene {
       this.soilContainer[index].add(row);
     });
   }
-  // Render decorations @need work
-  // !need rework
-  private renderDecorations() {
+  // - Render Decorations sprites from constatns list
+  // ! Need refactor
+  private renderDecorations(): void {
     this.decorations = DECORATION_LIST.map(
       ({ texture, decorationName, x, y, scale }) => {
         const decoration = new Decoration(
@@ -654,6 +666,26 @@ export class Game extends Scene {
     this.decorationContainer.setDepth(CONTAINERS_DEPTH.backgDecor);
     this.decorationContainer.add(this.decorations);
   }
-  // Playground
-  // Show interface
+  // # Utils
+  // ! Refactoring or rework functions
+  // ! Need rework on web components
+  private async handleShopItemClick(item: IShopItem) {
+    const boc = await sendTonTransaction(item.price);
+
+    if (boc) {
+      const updatedValue = this.balanceTokens + item.value;
+      this.balanceTokens = updatedValue;
+      // this.balanceBar.setTokens(updatedValue);
+
+      createPayment({
+        productId: item._id,
+        userId: String(this.telegramId),
+        boc
+      });
+
+      EventBus.emit(_EVENTS.shop_menu_close);
+      // this.shopMenu.close();
+      this.isBlocked = false;
+    }
+  }
 }
