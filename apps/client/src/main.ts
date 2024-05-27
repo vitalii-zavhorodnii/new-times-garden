@@ -3,8 +3,6 @@ import axios from 'axios';
 import { Game, Types } from 'phaser';
 import { register } from 'swiper/element/bundle';
 
-import EventBus from '@emitter/EventBus';
-
 import { Boot } from '@scenes/Boot';
 import { Game as MainGame } from '@scenes/Game';
 import { GameOver } from '@scenes/GameOver';
@@ -16,7 +14,6 @@ import GameInterface from '@components/GameInterface';
 
 import '@helpers/ton-connect-ui';
 
-// axios.defaults.baseURL = 'http://192.168.2.49:4000/api';
 axios.defaults.baseURL = process.env.BACKEND_LINK;
 
 const WebApp = window?.Telegram?.WebApp;
@@ -28,9 +25,6 @@ if (!WebApp) {
 WebApp.expand();
 WebApp.disableClosingConfirmation();
 WebApp.ready();
-
-EventBus.on('bus_init', () => console.log('EventBus activated!'));
-EventBus.emit('bus_init');
 
 const screenSize = {
   x: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),

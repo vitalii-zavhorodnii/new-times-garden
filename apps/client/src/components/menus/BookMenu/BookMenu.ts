@@ -73,7 +73,7 @@ export default class BookMenu extends LitElement {
                 } class="close-btn left" src="./assets/utils/cross.png" alt="close"/>
                 <img class="decor left" src="./assets/book/book-decor-left.png" alt="decor" />
                 <img class="decor center" src="./assets/book/book-decor-center.png" alt="decor" />
-                <div class="content">
+                <div class="content left">
                   <div class="title">
                     Achievements
                   </div> 
@@ -90,7 +90,7 @@ export default class BookMenu extends LitElement {
                   this.handleClose
                 } class="close-btn right" src="./assets/utils/cross.png" alt="close"/>
                 <img class="decor right" src="./assets/book/book-decor-right.png" alt="decor" />
-                <div class="content">
+                <div class="content right">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Consectetur vel numquam veritatis aperiam assumenda eaque illum
                   minima natus dignissimos voluptates asperiores sed, sequi id
@@ -98,7 +98,6 @@ export default class BookMenu extends LitElement {
                 </div>
               </div>
             </swiper-slide>
-            <swiper-slide>
           </swiper-container>
       </div>
     `;
@@ -110,7 +109,7 @@ export default class BookMenu extends LitElement {
     return html`
       <div class="list">
         ${repeat(this.achievements, (achieve) => {
-          console.log('achieve', achieve);
+          // console.log('achieve', achieve);
           return html`<achievement-item .item=${achieve}></achievement-item>`;
         })}
       </div>
@@ -126,7 +125,7 @@ export default class BookMenu extends LitElement {
     // Chnage current page depends on Slide
     this.swiper = swiper.swiper;
     this.swiper.on('slideChange', (swiper) => {
-      console.log('change');
+      // console.log('change');
       this.page = swiper.activeIndex;
     });
   }

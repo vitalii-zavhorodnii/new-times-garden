@@ -23,7 +23,10 @@ export default class BookMenu extends LitElement {
 
   render() {
     return html`
-      <div @click=${() => this.handleAchievementClick(this.item)} class="plant-item">
+      <div
+        @click=${() => this.handleAchievementClick(this.item)}
+        class="achievement"
+      >
         <img
           class="image"
           src="./assets/plants/icons/${this.item.achievement.icon}"
@@ -33,32 +36,40 @@ export default class BookMenu extends LitElement {
         <div class="about">
           <div class="title">${this.item.achievement.title}</div>
           <div class="description">${this.item.achievement.description}</div>
-          <div class="progress">${this.item.progress}</div>
-          <div class="stats">
-            <div
-              class="value 
-                    ${this.item.achievement.coinReward ? '' : 'none'}"
-            >
-              <img class="icon" src="./assets/utils/money.png" alt="coin" />
-              ${this.item.achievement.coinReward}
-            </div>
+          ${this.renderProgress()} ${this.renderRewards()}
+        </div>
+      </div>
+    `;
+  }
 
-            <div
-              class="value 
-                    ${this.item.achievement.tokenReward ? '' : 'none'}"
-            >
-              <img class="icon" src="./assets/utils/token.png" alt="token" />
-              ${this.item.achievement.tokenReward}
-            </div>
+  renderProgress() {
+    const currentGoal = this.item.achievement.steps[this.item.onStep];
 
-            <div
-              class="value 
-                    ${this.item.achievement.xpReward ? '' : 'none'}"
-            >
-              <img class="icon" src="./assets/utils/experience.png" alt="token" />
-              ${this.item.achievement.xpReward}
-            </div>
-          </div>
+    return html`
+      <div class="progress">${this.item.progress} / ${currentGoal}</div>
+    `;
+  }
+
+  renderRewards() {
+    const rewardCoins = this.item.achievement.coinReward[this.item.onStep];
+    const rewardTokens = this.item.achievement.tokenReward[this.item.onStep];
+    const rewardXp = this.item.achievement.xpReward[this.item.onStep];
+
+    return html`
+      <div class="rewards">
+        <div class="value ${rewardCoins ? '' : 'hidden'}">
+          <img class="icon" src="./assets/utils/money.png" alt="coin" />
+          ${rewardCoins}
+        </div>
+
+        <div class="value ${rewardTokens ? '' : 'hidden'}">
+          <img class="icon" src="./assets/utils/token.png" alt="token" />
+          ${rewardTokens}
+        </div>
+
+        <div class="value ${rewardXp ? '' : 'hidden'}">
+          <img class="icon" src="./assets/utils/experience.png" alt="token" />
+          ${rewardXp}
         </div>
       </div>
     `;

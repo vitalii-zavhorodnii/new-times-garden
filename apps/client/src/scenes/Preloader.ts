@@ -121,6 +121,7 @@ export class Preloader extends Scene {
 
     EventBus.emit(_EVENTS.plant_menu_update, plants);
     EventBus.emit(_EVENTS.achieve_menu_update, user.achievements);
+    EventBus.emit(_EVENTS.balance_lvl_steps_update, settings.levelSteps);
 
     clearInterval(this.timer);
     this.scene.start('Game', { user, shopList, settings });

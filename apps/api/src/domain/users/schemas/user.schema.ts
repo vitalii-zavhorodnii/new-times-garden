@@ -32,8 +32,8 @@ class UserAchieve {
   readonly progress: number;
 
   @ApiProperty({ example: 90 })
-  @Prop({ type: Number, default: null })
-  readonly completedStep: number;
+  @Prop({ type: Number, default: 0 })
+  readonly onStep: number;
 
   @ApiProperty({ example: 90 })
   @Prop({ type: Number, default: 0 })

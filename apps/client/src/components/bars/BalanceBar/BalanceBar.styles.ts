@@ -28,10 +28,11 @@ export const styles = css`
   }
 
   .level {
+    padding-top: 5px;
     color: #f8f6e3;
     font-size: 24px;
     font-weight: bold;
-    font-family: 'Paper', sans-serif;
+    font-family: 'America', sans-serif;
   }
 
   .currency {

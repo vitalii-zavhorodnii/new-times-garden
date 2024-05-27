@@ -97,9 +97,7 @@ export class Game extends Scene {
     this.balanceTokens = data.user.balanceTokens;
     this.xp = data.user.xp;
     this.playerLevel = data.user.playerLevel;
-
     this.settings = data.settings;
-
     this.shopList = data.shopList;
   }
 
@@ -201,9 +199,11 @@ export class Game extends Scene {
     /*    EventBus emit    */
     EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
     EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
+    EventBus.emit(_EVENTS.player_xp_update, this.xp);
+    EventBus.emit(_EVENTS.player_level_update, this.playerLevel);
     EventBus.emit(_EVENTS.balance_show);
     EventBus.emit(_EVENTS.ring_show);
-    this.levelHandler(this.xp);
+    // this.levelHandler(this.xp);
     /*    Post prepraing events   */
     this.initiateControls();
     // Activate interval Grow phaser checker
@@ -213,14 +213,14 @@ export class Game extends Scene {
   }
   /*    Methods   */
   /*
-   *    Game mechanics methods
+   ? Game mechanics methods
    */
   // Player level handler
   private levelHandler(value: number) {
     this.xp += value;
-    EventBus.emit(_EVENTS.player_xp_update, this.xp);
-
     this.playerLevel = levelCalculator(this.xp, this.settings.levelSteps);
+
+    EventBus.emit(_EVENTS.player_xp_update, this.xp);
     EventBus.emit(_EVENTS.player_level_update, this.playerLevel);
   }
   // Growing checker
@@ -385,15 +385,11 @@ export class Game extends Scene {
       this.balanceCoins += coinsIncome;
       this.balanceTokens += tokensIncome;
       // Update Balance bar info
-      // EventBus.emit(_EVENTS.picked_plant_clear);
       EventBus.emit(_EVENTS.growing_plant_clear);
       EventBus.emit(_EVENTS.ring_set_menu);
       EventBus.emit(_EVENTS.balance_update_coins, this.balanceCoins);
       EventBus.emit(_EVENTS.balance_update_tokens, this.balanceTokens);
-      this.levelHandler(xpIncome);
-      // this.balanceBar.updateBalance('tokens', this.balanceTokens);
-      // xp rework
-      this.xp += xpIncome;
+      EventBus.emit(_EVENTS.player_xp_add, xpIncome);
       // Remove Plant from container Field
       // Destroy plant
       this.fieldContainer[rowIndex].remove(this.plants[rowIndex][plantIndex]);

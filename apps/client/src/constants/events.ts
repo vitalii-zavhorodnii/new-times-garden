@@ -11,6 +11,7 @@ export const _EVENTS = {
   plant_menu_update: 'plant_menu_update',
   picked_plant_update: 'picked_plant_update',
   picked_plant_clear: 'picked_plant_clear',
+  balance_lvl_steps_update: 'balance_lvl_steps_update',
   balance_update_coins: 'balance_update_coins',
   balance_update_tokens: 'balance_update_tokens',
   balance_show: 'balance_show',

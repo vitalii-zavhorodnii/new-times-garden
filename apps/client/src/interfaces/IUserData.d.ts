@@ -1,5 +1,3 @@
-import type { IAchievement } from './IAchievement';
-
 export interface IUserData {
   _id: string;
   telegramId: number;
@@ -41,5 +39,6 @@ export interface IPlantData {
 export interface IUserAchievement {
   achievement: IAchievement;
   progress: number;
+  onStep: number;
   isCompleted: boolean;
 }

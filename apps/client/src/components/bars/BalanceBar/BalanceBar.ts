@@ -22,6 +22,9 @@ export default class BalanceBar extends LitElement {
   @property({ type: Number, attribute: true })
   playerLevel: number;
 
+  @property()
+  levelSteps: number[];
+
   constructor() {
     super();
 
@@ -29,6 +32,7 @@ export default class BalanceBar extends LitElement {
     this.tokens = 0;
     this.xp = 0;
     this.playerLevel = 0;
+    this.levelSteps = [];
 
     EventBus.on(_EVENTS.balance_update_coins, (value: number) => {
       this.coins = value;
@@ -37,6 +41,9 @@ export default class BalanceBar extends LitElement {
     EventBus.on(_EVENTS.balance_update_tokens, (value: number) => {
       this.tokens = value;
       this.requestUpdate();
+    });
+    EventBus.on(_EVENTS.balance_lvl_steps_update, (value: number[]) => {
+      this.levelSteps = value;
     });
     EventBus.on(_EVENTS.player_xp_update, (value: number) => {
       this.xp = value;
@@ -61,10 +68,15 @@ export default class BalanceBar extends LitElement {
   }
 
   public render() {
+    if (!this.levelSteps.length) return html``;
+
     return html` <div class="container ${this.isshown ? '' : 'hidden'}">
       <div class="user">
-        <img class="icon" src="./assets/utils/experience.png" alt="xp" />
         <span class="level">${this.playerLevel}</span>
+        <img class="icon" src="./assets/utils/experience.png" alt="xp" />
+        <span class="level"
+          >${this.xp} / ${this.levelSteps[this.playerLevel + 1]}
+        </span>
       </div>
 
       <div class="currency">

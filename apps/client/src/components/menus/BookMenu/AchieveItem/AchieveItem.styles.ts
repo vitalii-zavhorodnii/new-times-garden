@@ -5,22 +5,24 @@ export const styles = css`
     box-sizing: border-box;
   }
 
-  .plant-item {
+  .achievement {
     display: grid;
     grid-template-columns: 64px 1fr;
-    grid-gap: 14px;
+    grid-gap: 10px;
     width: 100%;
-    padding: 8px 16px 8px 24px;
+    padding: 6px;
     color: #272829;
     border-bottom: 1px dashed #61677a;
   }
 
-  .plant-item.disabled {
+  .achievement.disabled {
     color: #7d7c7c;
   }
 
   .image {
     width: 64px;
+    border: 1px dashed #61677a;
+    border-radius: 8px;
   }
 
   .about {
@@ -50,7 +52,7 @@ export const styles = css`
     color: #525252;
   }
 
-  .stats {
+  .rewards {
     display: flex;
     align-items: center;
     max-width: 100%;
@@ -77,7 +79,7 @@ export const styles = css`
     color: #525252;
   }
 
-  .value.none {
+  .value.hidden {
     display: none;
   }
 

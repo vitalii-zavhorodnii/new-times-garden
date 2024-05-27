@@ -11,7 +11,6 @@ export const styles = css`
     left: 0;
     top: 0;
     width: 100vw;
-    height: 100vh;
     background-color: #e2dfd0;
     transition: top 300ms ease-in-out;
   }
@@ -22,26 +21,28 @@ export const styles = css`
 
   .page {
     position: relative;
-    min-height: 100vh;
     padding: 0;
-  }
-
-  .page.left {
-    padding: 58px 28px 0 36px;
-  }
-
-  .page.right {
-    padding: 72px 36px 0 8px;
   }
 
   .content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
+    height: 100vh;
+  }
+
+  .content.left {
+    padding: 72px 28px 0 24px;
+  }
+
+  .content.right {
+    padding: 72px 36px 0 8px;
   }
 
   .title {
     color: #272829;
+    text-align: center;
     font-size: 36px;
     font-family: 'Paper', sans-serif;
   }
@@ -49,6 +50,7 @@ export const styles = css`
   .description {
     margin-top: 18px;
     color: #272829;
+    text-align: center;
     font-size: 14px;
     font-family: 'Paper', sans-serif;
   }
@@ -56,6 +58,8 @@ export const styles = css`
   .list {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    margin-top: 12px;
   }
 
   .decor {
@@ -63,6 +67,7 @@ export const styles = css`
     position: absolute;
     top: 0;
     width: 100%;
+    pointer-events: none;
   }
 
   .decor.left {

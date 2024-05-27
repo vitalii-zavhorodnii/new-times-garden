@@ -10,6 +10,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateAchieveDto } from './dto/update-achieve.dto';
 import { UpdateStatsDto } from './dto/update-stats.dto';
 
+import { LEVEL_STEPS } from '@constants/levels.constants';
 import { INIT_CURRENCY } from '@constants/users.constants';
 
 @Injectable()
@@ -88,7 +89,23 @@ export class UsersService {
       { new: true }
     );
 
-    return user;
+    let level = 0;
+
+    for (let i = 0; i < LEVEL_STEPS.length; i++) {
+      if (user.xp >= LEVEL_STEPS[i]) {
+        level = i;
+      }
+    }
+
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      userId,
+      {
+        playerLevel: level
+      },
+      { new: true }
+    );
+
+    return updatedUser;
   }
 
   public async addAchievement(userId: string, achieveId: string) {

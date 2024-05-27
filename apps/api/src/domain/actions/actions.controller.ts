@@ -65,6 +65,8 @@ export class ActionsController {
       const balance = user.xp + plant.xpIncome;
       await this.usersService.updateUserXp(user._id, balance);
     }
+    console.log({ balace: user.xp });
+    console.log({ xp: plant.xpIncome });
     // Update user statistics
     this.usersService.updateUserStatistic(dto.telegramId, {
       action: 'inc-harvests'
