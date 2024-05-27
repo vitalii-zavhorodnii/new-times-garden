@@ -163,9 +163,9 @@ export class Game extends Scene {
       repeat: 0
     });
     /*    Render Game Objects   */
-    this.renderDecorations(); // all decorations
     this.renderPlants(); // user plants
     this.renderSoil(); // soil under plants
+    this.renderDecorations(); // all decorations
     /*    EventBus subscribe    */
     EventBus.on(_EVENTS.switch_to_game_scene, () => {
       EventBus.emit(_EVENTS.ring_show);
@@ -555,7 +555,7 @@ export class Game extends Scene {
         centerY + (index - 2) * ROWS_GAP.y
       );
       // Set Depth from {CONTAINERS_DEPTH}
-      container.depth = CONTAINERS_DEPTH.plant;
+      container.setDepth(CONTAINERS_DEPTH.plant);
       // Push container to Field container
       this.fieldContainer.push(container);
       this.fieldContainer[index].add(row);
@@ -605,7 +605,7 @@ export class Game extends Scene {
         centerY + (index - 2) * ROWS_GAP.y
       );
       // Set Depth to soil from {CONTAINERS_DEPTH}
-      container.depth = CONTAINERS_DEPTH.soil;
+      container.setDepth(CONTAINERS_DEPTH.soil);
       // Push Sprites to Soil Container
       this.soilContainer.push(container);
       this.soilContainer[index].add(row);
@@ -641,7 +641,7 @@ export class Game extends Scene {
 
     this.decorationContainer = this.add.container(positionX, positionY);
 
-    this.decorationContainer.depth = CONTAINERS_DEPTH.plant;
+    this.decorationContainer.setDepth(CONTAINERS_DEPTH.backgDecor);
     this.decorationContainer.add(this.decorations);
   }
   // Playground
