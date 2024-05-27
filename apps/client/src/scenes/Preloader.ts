@@ -9,8 +9,6 @@ import { getSettings } from '@services/getSettings';
 import { getShopItems } from '@services/getShopItems';
 import { getUserData } from '@services/getUserData';
 
-import { userGardenMapper } from '@mappers/mapUserGarden';
-
 import { randomNumberHelper } from '@helpers/random-number';
 
 import { LOADING_TEXTS } from '@constants/loading-texts';
