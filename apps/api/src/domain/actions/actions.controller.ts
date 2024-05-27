@@ -54,17 +54,13 @@ export class ActionsController {
     if (!isReady) return false;
     // Updating user account
     if (plant.coinsIncome) {
-      await this.usersService.updateBucks('increment', user._id, plant.coinsIncome);
+      await this.usersService.updateBucks('deposit', user._id, plant.coinsIncome);
     }
     if (plant.tokensIncome) {
-      await this.usersService.updateTokens(
-        'increment',
-        user._id,
-        plant.tokensIncome
-      );
+      await this.usersService.updateTokens('deposit', user._id, plant.tokensIncome);
     }
     if (plant.xpIncome) {
-      await this.usersService.updateXp('increment', user._id, plant.xpIncome);
+      await this.usersService.updateXp('deposit', user._id, plant.xpIncome);
     }
     // Update user statistics
     this.usersService.updateUserStatistic(dto.telegramId, {
@@ -103,10 +99,10 @@ export class ActionsController {
     }
 
     if (plant.gamePrice > 0) {
-      await this.usersService.updateBucks('decriment', user._id, plant.gamePrice);
+      await this.usersService.updateBucks('withdraw', user._id, plant.gamePrice);
     }
     if (plant.tokenPrice > 0) {
-      await this.usersService.updateTokens('decriment', user._id, plant.tokenPrice);
+      await this.usersService.updateTokens('withdraw', user._id, plant.tokenPrice);
     }
 
     await this.gardendsService.updatePlant(

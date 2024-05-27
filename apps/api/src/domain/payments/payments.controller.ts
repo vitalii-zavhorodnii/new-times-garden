@@ -44,7 +44,7 @@ export class PaymentsController {
 
     const payment = await this.paymentsService.create(product, user, dto.boc);
 
-    this.usersService.updateTokens('increment', user._id, product.value);
+    this.usersService.updateTokens('deposit', user._id, product.value);
 
     return payment;
   }

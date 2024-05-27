@@ -29,7 +29,7 @@ export default class BookMenu extends LitElement {
   constructor() {
     super();
 
-    this.isshown = false;
+    this.isshown = true;
     this.achievements = [];
     this.quests = [];
     this.page = 0;

@@ -19,10 +19,26 @@ export const styles = css`
     color: #7d7c7c;
   }
 
+  .image-holder {
+    position: relative;
+  }
+
   .image {
     width: 64px;
-    border: 1px dashed #61677a;
-    border-radius: 8px;
+    background: rgb(251, 244, 63);
+    background: radial-gradient(
+      circle,
+      rgba(251, 244, 63, 0.5) 40%,
+      rgba(226, 223, 208, 1) 66%,
+      rgba(226, 223, 208, 1) 100%
+    );
+  }
+
+  .frame {
+    position: absolute;
+    width: 64px;
+    top: 0;
+    left: 0;
   }
 
   .about {
@@ -42,14 +58,10 @@ export const styles = css`
     color: #c40c0c;
   }
 
-  .grow-time {
+  .progress {
     font-family: 'Paper', sans-serif;
     font-size: 14px;
     color: #272829;
-  }
-
-  .grow-time.disabled {
-    color: #525252;
   }
 
   .rewards {

@@ -57,11 +57,14 @@ export class UsersService {
   }
 
   public async updateBucks(
-    type: 'increment' | 'decriment',
+    type: 'deposit' | 'withdraw',
     userId: string,
     amount: number
   ): Promise<User> {
-    const value = type === 'decriment' ? -amount : amount;
+    let value = 0;
+
+    if (type === 'deposit') value = amount;
+    if (type === 'withdraw') value = -amount;
 
     const user = await this.userModel.findByIdAndUpdate(
       userId,
@@ -75,11 +78,14 @@ export class UsersService {
   }
 
   public async updateTokens(
-    type: 'increment' | 'decriment',
+    type: 'deposit' | 'withdraw',
     userId: string,
     amount: number
   ): Promise<User> {
-    const value = type === 'decriment' ? -amount : amount;
+    let value = 0;
+
+    if (type === 'deposit') value = amount;
+    if (type === 'withdraw') value = -amount;
 
     const user = await this.userModel.findByIdAndUpdate(
       userId,
@@ -93,11 +99,14 @@ export class UsersService {
   }
 
   public async updateXp(
-    type: 'increment' | 'decriment',
+    type: 'deposit' | 'withdraw',
     userId: string,
     amount: number
   ): Promise<User> {
-    const value = type === 'decriment' ? -amount : amount;
+    let value = 0;
+
+    if (type === 'deposit') value = amount;
+    if (type === 'withdraw') value = -amount;
 
     const user = await this.userModel.findByIdAndUpdate(
       userId,

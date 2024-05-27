@@ -27,15 +27,19 @@ export default class BookMenu extends LitElement {
         @click=${() => this.handleAchievementClick(this.item)}
         class="achievement"
       >
-        <img
-          class="image"
-          src="./assets/plants/icons/${this.item.achievement.icon}"
-          alt="icon"
-        />
+        <div class="image-holder">
+          <img class="frame" src="./assets/book/frame-2.png" alt="icon" />
+          <img
+            class="image"
+            src="./assets/plants/icons/${this.item.achievement.icon}"
+            alt="icon"
+          />
+        </div>
 
         <div class="about">
           <div class="title">${this.item.achievement.title}</div>
-          <div class="description">${this.item.achievement.description}</div>
+          <!-- <div class="description">${this.item.achievement
+            .description}</div> -->
           ${this.renderProgress()} ${this.renderRewards()}
         </div>
       </div>
@@ -46,7 +50,7 @@ export default class BookMenu extends LitElement {
     const currentGoal = this.item.achievement.steps[this.item.onStep];
 
     return html`
-      <div class="progress">${this.item.progress} / ${currentGoal}</div>
+      <div class="progress">Harvested: ${this.item.progress} / ${currentGoal}</div>
     `;
   }
 
