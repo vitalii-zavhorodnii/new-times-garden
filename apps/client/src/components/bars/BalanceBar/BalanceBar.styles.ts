@@ -46,6 +46,7 @@ export const styles = css`
     font-size: 32px;
     font-weight: bold;
     font-family: 'Paper', sans-serif;
+    transform: translateY(-2px)
   }
 
   .currency {
