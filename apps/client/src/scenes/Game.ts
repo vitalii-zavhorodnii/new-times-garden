@@ -612,6 +612,7 @@ export class Game extends Scene {
     });
   }
   // Render decorations @need work
+  // !need rework
   private renderDecorations() {
     this.decorations = DECORATION_LIST.map(
       ({ texture, decorationName, x, y, scale }) => {
