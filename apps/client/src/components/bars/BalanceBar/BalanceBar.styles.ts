@@ -23,12 +23,31 @@ export const styles = css`
   }
 
   .user {
+    display: flex;
+    align-items: center;
+  }
+
+  .wrapper {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 60px;
     height: 60px;
+  }
+
+  .xp {
+    margin-left: 8px;
+    color: #f8f6e3;
+    font-size: 18px;
+    font-family: 'Paper', sans-serif;
+    transform: scale(0, 1);
+    transform-origin: left;
+    transition: transform 250ms ease-in-out;
+  }
+
+  .xp.expanded {
+    transform: scale(1, 1);
   }
 
   .plate {
@@ -41,12 +60,10 @@ export const styles = css`
   }
 
   .level {
-    padding-top: 5px;
     color: #f8f6e3;
     font-size: 32px;
     font-weight: bold;
     font-family: 'Paper', sans-serif;
-    transform: translateY(-2px)
   }
 
   .currency {

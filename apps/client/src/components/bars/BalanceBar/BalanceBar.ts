@@ -12,6 +12,8 @@ export default class BalanceBar extends LitElement {
 
   @property({ type: Boolean, attribute: true })
   isshown: boolean;
+  @property({ type: Boolean, attribute: true })
+  isExpanded: boolean;
 
   @property({ type: Number, attribute: true })
   coins: number;
@@ -33,6 +35,7 @@ export default class BalanceBar extends LitElement {
     this.xp = 0;
     this.playerLevel = 0;
     this.levelSteps = [];
+    this.isExpanded = false;
 
     EventBus.on(_EVENTS.balance_update_coins, (value: number) => {
       this.coins = value;
@@ -67,30 +70,39 @@ export default class BalanceBar extends LitElement {
     EventBus.emit(_EVENTS.shop_menu_open);
   }
 
+  private _handleExpand() {
+    this.isExpanded = !this.isExpanded;
+  }
+
   public render() {
     if (!this.levelSteps.length) return html``;
 
-    return html` <div class="container ${this.isshown ? '' : 'hidden'}">
+    return html` <div @click="${this._handleExpand}" class="container ${
+      this.isshown ? '' : 'hidden'
+    }">
       <div class="user">
-        <img class="plate" src="./assets/menu/lvl-plate.png" alt="plate" />
-        <span class="level">${this.playerLevel}</span>
-        <!-- <img class="icon" src="./assets/utils/experience.png" alt="xp" /> -->
-        <!-- <span class="level"
-          >${this.xp} / ${this.levelSteps[this.playerLevel + 1]}
-        </span> -->
-      </div>
+        <div class="wrapper">
+          <img class="plate" src="./assets/menu/lvl-plate.png" alt="plate" />
+          <span class="level">${this.playerLevel}</span>
+        </div>
+        
+        <span class="xp ${this.isExpanded ? 'expanded' : ''}">${this.xp} / ${
+      this.levelSteps[this.playerLevel + 1]
+    }</span>
+        </div>
 
-      <div class="currency">
-        <div class="item">
-          <img class="icon" src="./assets/utils/money.png" alt="coin" />
-          <span class="value">${this.coins}</span>
-        </div>
-        <div class="item">
-          <img class="icon" src="./assets/utils/token.png" alt="coin" />
-          <span class="value">${this.tokens}</span>
-        </div>
-        <div @click="${this._handleClick}" class="item">
-          <img class="icon" src="./assets/utils/plus.svg" alt="add" />
+        <div class="currency">
+          <div class="item">
+            <img class="icon" src="./assets/utils/money.png" alt="coin" />
+            <span class="value">${this.coins}</span>
+          </div>
+          <div class="item">
+            <img class="icon" src="./assets/utils/token.png" alt="coin" />
+            <span class="value">${this.tokens}</span>
+          </div>
+          <div @click="${this._handleClick}" class="item">
+            <img class="icon" src="./assets/utils/plus.svg" alt="add" />
+          </div>
         </div>
       </div>
     </div>`;
