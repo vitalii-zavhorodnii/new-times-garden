@@ -72,11 +72,12 @@ export default class BalanceBar extends LitElement {
 
     return html` <div class="container ${this.isshown ? '' : 'hidden'}">
       <div class="user">
+        <img class="plate" src="./assets/menu/lvl-plate.png" alt="plate" />
         <span class="level">${this.playerLevel}</span>
-        <img class="icon" src="./assets/utils/experience.png" alt="xp" />
-        <span class="level"
+        <!-- <img class="icon" src="./assets/utils/experience.png" alt="xp" /> -->
+        <!-- <span class="level"
           >${this.xp} / ${this.levelSteps[this.playerLevel + 1]}
-        </span>
+        </span> -->
       </div>
 
       <div class="currency">
