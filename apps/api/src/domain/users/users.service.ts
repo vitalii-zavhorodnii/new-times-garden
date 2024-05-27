@@ -84,7 +84,7 @@ export class UsersService {
     const user = await this.userModel.findByIdAndUpdate(
       userId,
       {
-        xp: amount
+        $inc: { xp: amount }
       },
       { new: true }
     );
