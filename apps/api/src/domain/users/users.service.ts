@@ -89,6 +89,8 @@ export class UsersService {
       { new: true }
     );
 
+    console.log({ xp: user.xp });
+
     let level = 0;
 
     for (let i = 0; i < LEVEL_STEPS.length; i++) {
@@ -206,7 +208,7 @@ export class UsersService {
       )
       .exec();
 
-    console.log(updatedUser.stats);
+    // console.log(updatedUser.stats);
 
     return true;
   }
