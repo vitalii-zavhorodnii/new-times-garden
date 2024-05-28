@@ -21,12 +21,16 @@ export const PLANTS_SPRITES = [
   'rose',
   'buttercup',
   'corn',
-  'sugarcane'
+  'sugarcane',
+  'chili',
+  'dill',
+  'parsley'
 ];
 
 export const PLANTS_ANIMATED = [
   'salat',
   'sunflower',
+  'potato',
   'pumpkin',
   'anemone',
   'tomato',
