@@ -86,23 +86,22 @@ export default class BalanceBar extends LitElement {
           <span class="level">${this.playerLevel}</span>
         </div>
         
-        <span class="xp ${this.isExpanded ? 'expanded' : ''}">${this.xp} / ${
-      this.levelSteps[this.playerLevel + 1]
-    }</span>
-        </div>
+        <span class="xp ${this.isExpanded ? 'expanded' : ''}">
+          ${this.xp} / ${this.levelSteps[this.playerLevel + 1]}
+        </span>
+      </div>
 
-        <div class="currency">
-          <div class="item">
-            <img class="icon" src="./assets/utils/money.png" alt="coin" />
-            <span class="value">${this.coins}</span>
-          </div>
-          <div class="item">
-            <img class="icon" src="./assets/utils/token.png" alt="coin" />
-            <span class="value">${this.tokens}</span>
-          </div>
-          <div @click="${this._handleClick}" class="item">
-            <img class="icon" src="./assets/utils/plus.svg" alt="add" />
-          </div>
+      <div class="currency">
+        <div class="item">
+          <img class="icon" src="./assets/utils/money.png" alt="coin" />
+          <span class="value">${this.coins}</span>
+        </div>
+        <div class="item">
+          <img class="icon" src="./assets/utils/token.png" alt="coin" />
+          <span class="value">${this.tokens}</span>
+        </div>
+        <div @click="${this._handleClick}" class="item">
+          <img class="icon" src="./assets/utils/plus.svg" alt="add" />          </div>
         </div>
       </div>
     </div>`;
