@@ -1,7 +1,7 @@
 # .env
 .env
-.env.*
-# compiled output
+
+# Compiled output
 /dist
 /node_modules
 /qr-codes/*
