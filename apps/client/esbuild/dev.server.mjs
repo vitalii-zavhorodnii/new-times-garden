@@ -10,7 +10,7 @@ esbuildServe(
     plugins: [inlineImage()],
     define: {
       'process.env.NODE_ENV': '"development"',
-      'process.env.BACKEND_LINK': '"http://192.168.2.130:4000/api"',
+      'process.env.BACKEND_LINK': '"http://192.168.2.110:4000/api"',
       'process.env.TON_ADDRESS':
         '"UQC0hk5rQ9QAr6rFz6c_gIdwJ4izVHYOfLh9Vb8g6QEQcRiG"',
       'process.env.MANIFEST_URL':
