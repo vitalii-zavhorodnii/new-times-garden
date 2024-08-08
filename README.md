@@ -7,7 +7,7 @@ Repo contains workspaces in /apps/
 Set .env file from .env.example template
 
 ```sh
-npm install
+yarn
 ```
 
 ### Development mode
@@ -15,9 +15,9 @@ npm install
 Repo has few commands for each module: sass and client, api for backend
 
 ```sh
-npm run client
-npm run sass
-npm run api
+yarn client
+yarn sass
+yarn api
 ```
 
 ### Build mode
@@ -25,8 +25,8 @@ npm run api
 Build mode runs build api (backend), then creates client, on server it will be moved into api folder 'static' and serves 'index.html'
 
 ```sh
-npm run build:client
-npm run build:api
+yarn build:client
+yarn build:api
 ```
 
 ## Repository settings
